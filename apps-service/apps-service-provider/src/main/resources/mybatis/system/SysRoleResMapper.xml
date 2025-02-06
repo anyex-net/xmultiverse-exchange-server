@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysRoleResMapper">
+    <!-- 基础列 -->
+    <sql id="roleResColumns">
+        a.id as id,
+        a.roleId as roleId,
+        a.resId as resId
+    </sql>
+
+    <resultMap id="roleResResultMap" type="com.anyex.apps.system.entity.SysRoleRes">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.roleId" property="roleId" jdbcType="BIGINT"/>
+        <result column="a.resId" property="resId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysRoleRes">
+        insert into SysRoleRes(
+            id ,
+            roleId ,
+            resId 
+        ) VALUES (
+            #{id} ,
+            #{roleId} ,
+            #{resId} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysRoleRes where id = #{id}
+    </delete>
+
+    <!-- 根据角色编号删除权限 -->
+    <delete id="removeByRoleId">
+         delete from SysRoleRes where roleId = #{roleId}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update SysRoleRes set delFlag = 1 where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysRoleRes">
+        insert into SysRoleRes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="roleId != null">
+                roleId ,
+        </if>
+        <if test="resId != null">
+                resId 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="roleId != null">
+                #{roleId} ,
+        </if>
+        <if test="resId != null">
+                #{resId} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysRoleRes">
+        update SysRoleRes
+           <set>
+            <if test="roleId != null">
+                roleId = #{roleId} ,
+            </if>
+            <if test="resId != null">
+                resId = #{resId} 
+            </if>
+           </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        insert into SysRoleRes(
+            id ,
+            roleId ,
+            resId
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id}  ,
+            #{item.roleId}  ,
+            #{item.resId}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SysRoleRes set
+            roleId = #{item.roleId} ,
+            resId = #{item.resId}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysRoleRes">
+        update SysRoleRes set
+            roleId = #{roleId} ,
+            resId = #{resId} 
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysRoleRes">
+        select <include refid="roleResColumns"/> from SysRoleRes a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysRoleRes">
+        SELECT
+        <include refid="roleResColumns"/>
+        FROM SysRoleRes a WHERE a.delFlag = 0
+        <if test="roleId != null">
+            and a.roleId = #{roleId}
+        </if>
+        <if test="resId != null">
+            and a.resId = #{resId}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysRoleRes">
+        SELECT
+        <include refid="roleResColumns"/>
+        FROM SysRoleRes a WHERE a.delFlag = 0
+    </select>
+
+</mapper>
+

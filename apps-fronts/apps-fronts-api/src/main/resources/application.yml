@@ -1,0 +1,61 @@
+server:
+  port: @port.api@ #8082
+  http2:
+    enabled: true
+  undertow:
+    io-threads: 4 #IO线程数, 它主要执行非阻塞的任务，它们会负责多个连接，默认设置每个CPU核心一个线程，不可设置过大，否则启动项目会报错：打开文件数过多
+    worker-threads: 64 #阻塞任务线程池，当执行类似servlet请求阻塞IO操作，undertow会从这个线程池中取得线程。它的值取决于系统线程执行任务的阻塞系数，默认值是 io-threads*8
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: AppsApiServer
+  redis:
+    cluster:
+      nodes: @cluster.nodes@
+      max-redirects: 3
+    host: @redis.host@
+    port: @redis.port@
+    password: @redis.password@
+    timeout: @redis.timeout@
+    conn-type: @redis.conntype@ # cluster/single
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 2
+        # 连接池中的最大空闲连接
+        max-idle: 500
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 2000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+com:
+  anyex:
+    open-log: true
+    project-name: admin
+    aliyun:
+      app-key: @aliyun.afs.appkey@
+      access-key: @aliyun.access.key@
+      secret-key: @aliyun.access.secret@
+      end-point: @aliyun.oss.endpoint@
+      bucket:
+        release-name: nbeasy-release
+        release-url: https://nbeasy-release.oss-cn-hangzhou.aliyuncs.com/
+        temp-name: nbeasy-temp
+        temp-url: https://nbeasy-temp.oss-cn-hangzhou.aliyuncs.com/
+    weiXin:
+      app-key: @weixin.appkey@
+      secret: @weixin.secret@
+      open:
+        app-key: @weixin.open.appkey@
+        secret: @weixin.open.secret@
+    jPush:
+      app-key: @jpush.appkey@
+      secret: @jpush.secret@
+  alipay:
+    sofa:
+      rpc:
+        registry-address: @zookeeper.address@

@@ -1,0 +1,11 @@
+package com.anyex.openim.api.friend.resp;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class GetPaginationFriendsApplyFromResp {
+    private Integer total;
+    private List<FriendRequest> friendRequests;
+}

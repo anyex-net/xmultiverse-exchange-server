@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysParameterMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="FIFO" readOnly="true" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="parameterColumns">
+        a.id as id,
+        a.systemName as systemName,
+        a.parameterName as parameterName,
+        a.division as division,
+        a.type as type,
+        a.valueBound as valueBound,
+        a.value as value,
+        a.remark as remark,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate
+    </sql>
+
+    <resultMap id="parameterResultMap" type="com.anyex.apps.common.entity.SysParameter">
+        <id column="ID" property="id" />
+        <result column="systemName" property="systemName"/>
+        <result column="parameterName" property="parameterName"/>
+        <result column="division" property="division"/>
+        <result column="type" property="type"/>
+        <result column="valueBound" property="valueBound"/>
+        <result column="value" property="value"/>
+        <result column="remark" property="remark"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createDate" property="createDate"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateDate" property="updateDate"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysParameter">
+        INSERT INTO SysParameter(
+            id ,
+            systemName ,
+            parameterName ,
+            division ,
+            type ,
+            valueBound ,
+            value ,
+            remark ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate
+        ) VALUES (
+            #{id} ,
+            #{systemName} ,
+            #{parameterName} ,
+            #{division} ,
+            #{type} ,
+            #{valueBound} ,
+            #{value} ,
+            #{remark} ,
+            #{createBy} ,
+            #{createDate} ,
+            #{updateBy} ,
+            #{updateDate}
+        )
+    </insert>
+
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysParameter WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysParameter SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysParameter">
+        INSERT INTO SysParameter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="systemName != null">
+                systemName ,
+        </if>
+        <if test="parameterName != null">
+                parameterName ,
+        </if>
+        <if test="division != null">
+                division ,
+        </if>
+        <if test="type != null">
+                type ,
+        </if>
+        <if test="valueBound != null">
+                valueBound ,
+        </if>
+        <if test="value != null">
+                value ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createBy != null">
+                createBy ,
+        </if>
+        <if test="createDate != null">
+                createDate ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateDate != null">
+                updateDate
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="systemName != null">
+                #{systemName} ,
+        </if>
+        <if test="parameterName != null">
+                #{parameterName} ,
+        </if>
+        <if test="division != null">
+                #{division} ,
+        </if>
+        <if test="type != null">
+                #{type} ,
+        </if>
+        <if test="valueBound != null">
+                #{valueBound} ,
+        </if>
+        <if test="value != null">
+                #{value} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createBy != null">
+                #{createBy} ,
+        </if>
+        <if test="createDate != null">
+                #{createDate} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateDate != null">
+                #{updateDate}
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysParameter">
+        UPDATE SysParameter
+           <set>
+            <if test="systemName != null">
+                systemName = #{systemName} ,
+            </if>
+            <if test="parameterName != null">
+                parameterName = #{parameterName} ,
+            </if>
+            <if test="division != null">
+                division = #{division} ,
+            </if>
+            <if test="type != null">
+                type = #{type} ,
+            </if>
+            <if test="valueBound != null">
+                valueBound = #{valueBound} ,
+            </if>
+            <if test="value != null">
+                value = #{value} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                updateDate = #{updateDate}
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysParameter(
+            id ,
+            systemName ,
+            parameterName ,
+            division ,
+            type ,
+            valueBound ,
+            value ,
+            remark ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.systemName} ,
+            #{item.parameterName} ,
+            #{item.division} ,
+            #{item.type} ,
+            #{item.valueBound} ,
+            #{item.value} ,
+            #{item.remark} ,
+            #{item.createBy} ,
+            #{item.createDate} ,
+            #{item.updateBy} ,
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysParameter SET
+            systemName = #{item.systemName} ,
+            parameterName = #{item.parameterName} ,
+            division = #{item.division} ,
+            type = #{item.type} ,
+            valueBound = #{item.valueBound} ,
+            value = #{item.value} ,
+            remark = #{item.remark} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate} ,
+            updateBy = #{item.updateBy} ,
+            updateDate = #{item.updateDate}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysParameter">
+        UPDATE SysParameter SET
+            systemName = #{systemName} ,
+            parameterName = #{parameterName} ,
+            division = #{division} ,
+            type = #{type} ,
+            valueBound = #{valueBound} ,
+            value = #{value} ,
+            remark = #{remark} ,
+            createBy = #{createBy} ,
+            createDate = #{createDate} ,
+            updateBy = #{updateBy} ,
+            updateDate = #{updateDate}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.common.entity.SysParameter">
+        SELECT <include refid="parameterColumns"/> FROM SysParameter a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysParameter">
+        SELECT
+        <include refid="parameterColumns"/>
+        FROM SysParameter a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="systemName != null">
+            AND a.systemName LIKE CONCAT('%',#{systemName}, '%') 
+        </if>
+        <if test="parameterName != null">
+            AND a.parameterName LIKE CONCAT('%',#{parameterName}, '%') 
+        </if>
+        <if test="division != null">
+            AND a.division LIKE CONCAT('%',#{division}, '%') 
+        </if>
+        <if test="type != null">
+            AND a.type LIKE CONCAT('%',#{type}, '%') 
+        </if>
+        <if test="valueBound != null">
+            AND a.valueBound LIKE CONCAT('%',#{valueBound}, '%') 
+        </if>
+        <if test="value != null">
+            AND a.value LIKE CONCAT('%',#{value}, '%') 
+        </if>
+        <if test="remark != null">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%') 
+        </if>
+        <if test="createBy != null">
+            AND a.createBy = #{createBy}
+        </if>
+        <if test="createDate != null">
+            AND a.createDate = #{createDate}
+        </if>
+        <if test="updateBy != null">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateDate != null">
+            AND a.updateDate = #{updateDate}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysParameter">
+        SELECT
+        <include refid="parameterColumns"/>
+        FROM SysParameter a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <select id="getParameterByName" resultType="com.anyex.apps.common.entity.SysParameter">
+        SELECT
+        <include refid="parameterColumns"/>
+        FROM SysParameter a
+        where a.parameterName = #{parameterName}
+        limit 1
+    </select>
+
+</mapper>
+

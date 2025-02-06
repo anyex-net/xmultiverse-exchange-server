@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>apps-parent</artifactId>
+        <groupId>com.anyex.apps</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>apps-commons</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>apps-commons-tools</module>
+        <module>apps-commons-support</module>
+        <module>apps-commons-generator</module>
+        <module>apps-commons-external</module>
+        <module>apps-commons-generator-plus</module>
+    </modules>
+
+</project>

@@ -1,0 +1,85 @@
+server:
+  port: @port.web@ #8081
+  http2:
+    enabled: true
+  undertow:
+    io-threads: 4 #IO线程数, 它主要执行非阻塞的任务，它们会负责多个连接，默认设置每个CPU核心一个线程，不可设置过大，否则启动项目会报错：打开文件数过多
+    worker-threads: 64 #阻塞任务线程池，当执行类似servlet请求阻塞IO操作，undertow会从这个线程池中取得线程。它的值取决于系统线程执行任务的阻塞系数，默认值是 io-threads*8
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: AppsWebServer
+  redis:
+    cluster:
+      nodes: @cluster.nodes@
+      max-redirects: 3
+    host: @redis.host@
+    port: @redis.port@
+    password: @redis.password@
+    timeout: @redis.timeout@
+    conn-type: @redis.conntype@ # cluster/single
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 2
+        # 连接池中的最大空闲连接
+        max-idle: 500
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 2000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+  servlet:
+    multipart:
+      max-file-size: 15MB     #单个文件最大限制
+      max-request-size: 15MB  #多个文件最大限制
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+com:
+  anyex:
+    whitelist:
+      payment:
+        wivpay: 127.0.0.1,192.168.0.1,13.229.112.218,54.254.26.211
+        globalpay: 127.0.0.1,192.168.0.1,147.139.12.5
+    open-log: true
+    project-name: web
+    csrf:
+      csrf-protect-enable: true
+      csrf-white-domains: 112.14.45.72:9080,112.14.45.72:9990,192.168.1.5:5173,192.168.1.22:5173,127.0.0.1:5173,localhost:5173,147.139.12.5
+      csrf-white-paths: csrfWhitePaths
+    aliyun:
+      app-key: @aliyun.afs.appkey@
+      access-key: @aliyun.access.key@
+      secret-key: @aliyun.access.secret@
+      end-point: @aliyun.oss.endpoint@
+      bucket:
+        release-name: im-release
+        release-url: https://wivpal.oss-ap-southeast-1.aliyuncs.com/
+        temp-name: im-temp
+        temp-url: https://wivpal.oss-ap-southeast-1.aliyuncs.com/
+    weiXin:
+      app-key: @weixin.appkey@
+      secret: @weixin.secret@
+      open:
+        app-key: @weixin.open.appkey@
+        secret: @weixin.open.secret@
+    jPush:
+      app-key: @jpush.appkey@
+      secret: @jpush.secret@
+  alipay:
+    sofa:
+      rpc:
+        registry-address: @zookeeper.address@
+
+openim:
+  apiRoot: @openim.apiRoot@
+  #  下面可以不配置，默认按以下规则生成 后续开发 请到Openimconfig文件中添加
+  #  apiRoot: http://openim-web.host.fit/api
+  #  chatRoot: http://openim-web.host.fit/chat
+  #  adminRoot: http://openim-web.host.fit/complete_admin
+  secret: @openim.secret@
+  adminAccount: @openim.adminAccount@
+  adminPwd: @openim.adminPwd@
+  #预留功能，支持每个请求，自动带个header authKey参数
+  authKey: @openim.authKey@

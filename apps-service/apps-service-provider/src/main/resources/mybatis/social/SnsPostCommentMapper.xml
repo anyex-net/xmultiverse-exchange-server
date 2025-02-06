@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.social.mapper.SnsPostCommentMapper">
+    <!-- 基础列 -->
+    <sql id="snsPostCommentColumns">
+        a.id as id,
+        a.userId as userId,
+        a.postId as postId,
+        a.commentUserId as commentUserId,
+        a.commentContent as commentContent,
+        a.commentLikeNum as commentLikeNum,
+        a.replyTo as replyTo,
+        a.lng as lng,
+        a.lat as lat,
+        a.remark as remark,
+        a.isRead as isRead,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="snsPostCommentResultMap" type="com.anyex.apps.social.entity.SnsPostComment">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="postId" property="postId"/>
+        <result column="commentUserId" property="commentUserId"/>
+        <result column="commentContent" property="commentContent"/>
+        <result column="commentLikeNum" property="commentLikeNum"/>
+        <result column="replyTo" property="replyTo"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="remark" property="remark"/>
+        <result column="isRead" property="isRead"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.social.entity.SnsPostComment">
+        INSERT INTO SnsPostComment(
+            id ,
+            userId ,
+            postId ,
+            commentUserId ,
+            commentContent ,
+            commentLikeNum ,
+            replyTo ,
+            lng ,
+            lat ,
+            remark ,
+            isRead ,
+            createTime ,
+            updateTime
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{postId} ,
+            #{commentUserId} ,
+            #{commentContent} ,
+            #{commentLikeNum} ,
+            #{replyTo} ,
+            #{lng} ,
+            #{lat} ,
+            #{remark} ,
+            #{isRead},
+            #{createTime} ,
+            #{updateTime}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SnsPostComment WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SnsPostComment SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.social.entity.SnsPostComment">
+        INSERT INTO SnsPostComment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="postId != null">
+                postId ,
+        </if>
+        <if test="commentUserId != null">
+                commentUserId ,
+        </if>
+        <if test="commentContent != null">
+                commentContent ,
+        </if>
+        <if test="commentLikeNum != null">
+                commentLikeNum ,
+        </if>
+        <if test="replyTo != null">
+                replyTo ,
+        </if>
+        <if test="lng != null">
+                lng ,
+        </if>
+        <if test="lat != null">
+                lat ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="isRead != null">
+                isRead ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="postId != null">
+                #{postId} ,
+        </if>
+        <if test="commentUserId != null">
+                #{commentUserId} ,
+        </if>
+        <if test="commentContent != null">
+                #{commentContent} ,
+        </if>
+        <if test="commentLikeNum != null">
+                #{commentLikeNum} ,
+        </if>
+        <if test="replyTo != null">
+                #{replyTo} ,
+        </if>
+        <if test="lng != null">
+                #{lng} ,
+        </if>
+        <if test="lat != null">
+                #{lat} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="isRead != null">
+                #{isRead} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime}
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.social.entity.SnsPostComment">
+        UPDATE SnsPostComment
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="postId != null">
+                postId = #{postId} ,
+            </if>
+            <if test="commentUserId != null">
+                commentUserId = #{commentUserId} ,
+            </if>
+            <if test="commentContent != null">
+                commentContent = #{commentContent} ,
+            </if>
+            <if test="commentLikeNum != null">
+                commentLikeNum = #{commentLikeNum} ,
+            </if>
+            <if test="replyTo != null">
+                replyTo = #{replyTo} ,
+            </if>
+            <if test="lng != null">
+                lng = #{lng} ,
+            </if>
+            <if test="lat != null">
+                lat = #{lat} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="isRead != null">
+                isRead = #{isRead} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SnsPostComment(
+            id ,
+            userId ,
+            postId ,
+            commentUserId ,
+            commentContent ,
+            commentLikeNum ,
+            replyTo ,
+            lng ,
+            lat ,
+            remark ,
+            isRead ,
+            createTime ,
+            updateTime
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.postId} ,
+            #{item.commentUserId} ,
+            #{item.commentContent} ,
+            #{item.commentLikeNum} ,
+            #{item.replyTo} ,
+            #{item.lng} ,
+            #{item.lat} ,
+            #{item.remark} ,
+            #{item.isRead} ,
+            #{item.createTime} ,
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SnsPostComment SET
+            userId = #{item.userId} ,
+            postId = #{item.postId} ,
+            commentUserId = #{item.commentUserId} ,
+            commentContent = #{item.commentContent} ,
+            commentLikeNum = #{item.commentLikeNum} ,
+            replyTo = #{item.replyTo} ,
+            lng = #{item.lng} ,
+            lat = #{item.lat} ,
+            remark = #{item.remark} ,
+            isRead = #{item.isRead},
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.social.entity.SnsPostComment">
+        UPDATE SnsPostComment SET
+            userId = #{userId} ,
+            postId = #{postId} ,
+            commentUserId = #{commentUserId} ,
+            commentContent = #{commentContent} ,
+            commentLikeNum = #{commentLikeNum} ,
+            replyTo = #{replyTo} ,
+            lng = #{lng} ,
+            lat = #{lat} ,
+            remark = #{remark} ,
+            isRead = #{isRead},
+            createTime = #{createTime} ,
+            updateTime = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.social.entity.SnsPostComment">
+        SELECT <include refid="snsPostCommentColumns"/> FROM SnsPostComment a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.social.entity.SnsPostComment">
+        SELECT
+        <include refid="snsPostCommentColumns"/>
+        FROM SnsPostComment a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="postId != null">
+            AND a.postId = #{postId}
+        </if>
+        <if test="commentUserId != null">
+            AND a.commentUserId = #{commentUserId}
+        </if>
+        <if test="commentContent != null and commentContent != ''">
+            AND a.commentContent LIKE CONCAT('%',#{commentContent}, '%')
+        </if>
+        <if test="commentLikeNum != null">
+            AND a.commentLikeNum = #{commentLikeNum}
+        </if>
+        <if test="replyTo != null and replyTo != ''">
+            AND a.replyTo LIKE CONCAT('%',#{replyTo}, '%')
+        </if>
+        <if test="lng != null and lng != ''">
+            AND a.lng LIKE CONCAT('%',#{lng}, '%')
+        </if>
+        <if test="lat != null and lat != ''">
+            AND a.lat LIKE CONCAT('%',#{lat}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="isRead != null">
+            AND a.isRead = #{isRead}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.social.entity.SnsPostComment">
+        SELECT
+        <include refid="snsPostCommentColumns"/>
+        FROM SnsPostComment a
+    </select>
+
+    <select id="getComments" resultType="com.anyex.apps.social.model.SnsPostCommentModel">
+        select
+            aa.remark as remark,
+            aa.id as id ,
+            aa.postId as postId,
+            aa.postUserId as postUserId,
+            aa.userId,
+            aa.commentUserId,
+            aa.commentLikeNum,
+            aa.commentContent,
+            aa.topCommentContent as topCommentContent,
+            aa.createTime as createTime,
+            aa.isLike,
+            cc.accountName as commentAccountName,
+            cc.headUrl as commentHeadUrl,
+            ifnull(aa.topUserId,bb.userId) as topUserId,
+            aa.cnt > 0 as hasSubComments,
+            aa.cnt as subCommentsCnt,
+            ifnull(dd.accountName,bb.accountName) as topUserAccountName,
+            ifnull(dd.headUrl,bb.headUrl) as topUserHeadUrl
+        from
+            Account bb,Account cc,
+            (
+                select
+                    a.remark,
+                    a.id,
+                    a.postId,
+                    a.userId as userId,
+                    b.userId as postUserId,
+                    a.commentUserId as commentUserId,
+                    a.commentLikeNum as commentLikeNum,
+                    a.commentContent as commentContent,
+                    a.createTime as createTime,
+                    b.commentUserId as topUserId ,
+                    b.commentContent as topCommentContent,
+                    (select count(*) from SnsPostComment b where b.replyTo = a.id) as cnt,
+                    case when #{viewerUserId} is null then 0 else (select count(*) from SnsPostCommentLike l where l.postId = a.postId and l.postCommentId=a.id and l.likeUserId = #{viewerUserId} )>0 end as isLike
+                from SnsPostComment a left join SnsPostComment b on a.replyTo = b.id
+                where a.postId = #{postId}
+
+                <choose>
+                    <when test="commentId != null">
+                        and a.replyTo = #{commentId}
+                    </when>
+                    <otherwise>
+                        and (a.replyTo is null or a.replyTo = '')
+                    </otherwise>
+                </choose>
+            ) aa left join Account dd on aa.topUserId = dd.userId
+        where aa.userId = bb.userId and aa.commentUserId = cc.userId
+    </select>
+
+    <select id="getAccountComments" resultType="com.anyex.apps.social.model.SnsPostCommentModel">
+        select
+        aa.id as id ,
+        aa.remark as remark,
+        aa.postId as postId,
+        aa.postUserId as postUserId,
+        aa.postUserHeadUrl as postUserHeadUrl,
+        aa.postUserAccountName as postUserAccountName,
+        aa.userId,
+        aa.commentUserId,
+        aa.commentLikeNum,
+        aa.topCommentContent as topCommentContent,
+        aa.commentContent,
+        aa.createTime as createTime,
+        aa.isLike,
+        aa.isRead as isRead,
+        aa.openness as openness,
+        aa.postTextContent as postTextContent,
+        aa.postImageUrl as postImageUrl,
+        aa.viewer as viewer,
+        (case when aa.openness=0 then '' else cc.accountName end) as commentAccountName,
+        (case when aa.openness=0 then '' else cc.headUrl end) as commentHeadUrl,
+        ifnull(aa.topUserId,bb.userId) as topUserId,
+        aa.cnt > 0 as hasSubComments,
+        aa.cnt as subCommentsCnt,
+        (case when aa.openness=0 then '' else ifnull(dd.accountName,bb.accountName) end) as topUserAccountName,
+        (case when aa.openness=0 then '' else ifnull(dd.headUrl,bb.headUrl) end) as topUserHeadUrl
+        from
+        Account bb,Account cc,
+        (
+            select
+                p.openness as openness,
+                p.postTextContent as postTextContent,
+                p.postImageUrl as postImageUrl,
+                p.viewer as viewer,
+                a.id,
+                a.remark,
+                a.postId,
+                a.userId as userId,
+                b.userId as postUserId,
+                pa.accountName as postUserAccountName,
+                pa.headUrl as postUserHeadUrl,
+                a.commentUserId as commentUserId,
+                a.commentLikeNum as commentLikeNum,
+                a.commentContent as commentContent,
+                a.createTime as createTime,
+                b.commentUserId as topUserId ,
+                b.commentContent as topCommentContent,
+                a.isRead as isRead,
+                (select count(*) from SnsPostComment b where b.replyTo = a.id) as cnt,
+                0 as isLike
+            from SnsPost p,Account pa,SnsPostComment a left join SnsPostComment b on a.replyTo = b.id
+            where
+                p.userId = #{userId} and p.userId = pa.userId and p.id = a.postId and p.openness != 0
+                <if test="isRead != null">
+                    and a.isRead = #{isRead}
+                </if>
+        ) aa left join Account dd on aa.topUserId = dd.userId
+        where aa.userId = bb.userId and aa.commentUserId = cc.userId
+    </select>
+</mapper>
+

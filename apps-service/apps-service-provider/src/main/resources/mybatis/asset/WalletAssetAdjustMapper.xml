@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.asset.mapper.WalletAssetAdjustMapper">
+    <!-- 基础列 -->
+    <sql id="walletAssetAdjustColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.currency as currency,
+        a.adjustTrxNo as adjustTrxNo,
+        a.adjustType as adjustType,
+        a.adjustBalance as adjustBalance,
+        a.attachment as attachment,
+        a.status as status,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        a.remark as remark
+    </sql>
+
+    <resultMap id="walletAssetAdjustResultMap" type="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        <id column="ID" property="id" />
+        <result column="accountId" property="accountId"/>
+        <result column="currency" property="currency"/>
+        <result column="adjustTrxNo" property="adjustTrxNo"/>
+        <result column="adjustType" property="adjustType"/>
+        <result column="adjustBalance" property="adjustBalance"/>
+        <result column="attachment" property="attachment"/>
+        <result column="status" property="status"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        INSERT INTO WalletAssetAdjust(
+            id ,
+            accountId ,
+            currency ,
+            adjustTrxNo ,
+            adjustType ,
+            adjustBalance ,
+            attachment ,
+            status ,
+            createTime ,
+            updateTime ,
+            remark 
+        ) VALUES (
+            #{id} ,
+            #{accountId} ,
+            #{currency} ,
+            #{adjustTrxNo} ,
+            #{adjustType} ,
+            #{adjustBalance} ,
+            #{attachment} ,
+            #{status} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{remark} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM WalletAssetAdjust WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE WalletAssetAdjust SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        INSERT INTO WalletAssetAdjust
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="currency != null">
+                currency ,
+        </if>
+        <if test="adjustTrxNo != null">
+                adjustTrxNo ,
+        </if>
+        <if test="adjustType != null">
+                adjustType ,
+        </if>
+        <if test="adjustBalance != null">
+                adjustBalance ,
+        </if>
+        <if test="attachment != null">
+                attachment ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime ,
+        </if>
+        <if test="remark != null">
+                remark 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="currency != null">
+                #{currency} ,
+        </if>
+        <if test="adjustTrxNo != null">
+                #{adjustTrxNo} ,
+        </if>
+        <if test="adjustType != null">
+                #{adjustType} ,
+        </if>
+        <if test="adjustBalance != null">
+                #{adjustBalance} ,
+        </if>
+        <if test="attachment != null">
+                #{attachment} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="remark != null">
+                #{remark} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        UPDATE WalletAssetAdjust
+           <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="currency != null">
+                currency = #{currency} ,
+            </if>
+            <if test="adjustTrxNo != null">
+                adjustTrxNo = #{adjustTrxNo} ,
+            </if>
+            <if test="adjustType != null">
+                adjustType = #{adjustType} ,
+            </if>
+            <if test="adjustBalance != null">
+                adjustBalance = #{adjustBalance} ,
+            </if>
+            <if test="attachment != null">
+                attachment = #{attachment} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO WalletAssetAdjust(
+            id ,
+            accountId ,
+            currency ,
+            adjustTrxNo ,
+            adjustType ,
+            adjustBalance ,
+            attachment ,
+            status ,
+            createTime ,
+            updateTime ,
+            remark 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.accountId} ,
+            #{item.currency} ,
+            #{item.adjustTrxNo} ,
+            #{item.adjustType} ,
+            #{item.adjustBalance} ,
+            #{item.attachment} ,
+            #{item.status} ,
+            #{item.createTime} ,
+            #{item.updateTime} ,
+            #{item.remark} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE WalletAssetAdjust SET
+            accountId = #{item.accountId} ,
+            currency = #{item.currency} ,
+            adjustTrxNo = #{item.adjustTrxNo} ,
+            adjustType = #{item.adjustType} ,
+            adjustBalance = #{item.adjustBalance} ,
+            attachment = #{item.attachment} ,
+            status = #{item.status} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} ,
+            remark = #{item.remark} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        UPDATE WalletAssetAdjust SET
+            accountId = #{accountId} ,
+            currency = #{currency} ,
+            adjustTrxNo = #{adjustTrxNo} ,
+            adjustType = #{adjustType} ,
+            adjustBalance = #{adjustBalance} ,
+            attachment = #{attachment} ,
+            status = #{status} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} ,
+            remark = #{remark} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        SELECT <include refid="walletAssetAdjustColumns"/> FROM WalletAssetAdjust a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        SELECT
+        <include refid="walletAssetAdjustColumns"/>
+        FROM WalletAssetAdjust a WHERE 1 = 1
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND a.currency = #{currency}
+        </if>
+        <if test="adjustTrxNo != null and adjustTrxNo != ''">
+            AND a.adjustTrxNo LIKE CONCAT('%',#{adjustTrxNo}, '%')
+        </if>
+        <if test="adjustType != null and adjustType != ''">
+            AND a.adjustType = #{adjustType}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.asset.entity.WalletAssetAdjust">
+        SELECT
+        <include refid="walletAssetAdjustColumns"/>
+        FROM WalletAssetAdjust a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+</mapper>
+

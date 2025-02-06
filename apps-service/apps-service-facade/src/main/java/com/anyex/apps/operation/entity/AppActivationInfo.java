@@ -1,0 +1,67 @@
+/*
+ * Copyright 2024 Apps, Inc. All rights reserved. com.anyex
+ * PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
+package com.anyex.apps.operation.entity;
+
+import com.anyex.apps.bean.GenericEntity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+/**
+ * APP激活信息表 实体对象
+ * <p>File：AppActivationInfo.java</p>
+ * <p>Title: AppActivationInfo</p>
+ * <p>Description:AppActivationInfo</p>
+ * <p>Copyright: Copyright (c) May 26, 2015</p>
+ * <p>Company: AnyEx</p>
+ * @author Playguy
+ * @version 1.0
+ */
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "APP激活信息表")
+public class AppActivationInfo extends GenericEntity
+{
+	private static final long serialVersionUID = 1L;
+	
+	/**IP地址*/
+	@NotEmpty(message = "IP地址不可为空")
+	@ApiModelProperty(value = "IP地址", required = true)
+	private java.lang.String ip;
+
+	/**设备编号*/
+	@NotEmpty(message = "设备编号不可为空")
+	@ApiModelProperty(value = "设备编号", required = true)
+	private java.lang.String deviceId;
+
+	/**app版本*/
+	@NotEmpty(message = "app版本不可为空")
+	@ApiModelProperty(value = "app版本", required = true)
+	private java.lang.String appVersion;
+
+	/**来源*/
+	@ApiModelProperty(value = "来源")
+	private java.lang.String source;
+
+	/**备注*/
+	@ApiModelProperty(value = "备注")
+	private java.lang.String remark;
+
+	/**创建时间*/
+	@NotNull(message = "创建时间不可为空")
+	@ApiModelProperty(value = "创建时间", required = true)
+	private java.lang.Long createTime;
+
+	/**更新时间*/
+	@ApiModelProperty(value = "更新时间")
+	private java.lang.Long updateTime;
+}
+

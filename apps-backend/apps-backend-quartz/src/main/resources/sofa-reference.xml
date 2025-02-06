@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sofa="http://sofastack.io/schema/sofaboot"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://sofastack.io/schema/sofaboot http://sofastack.io/schema/sofaboot.xsd">
+    <!--项目业务消费者-->
+    <sofa:reference id="accountInviteRewardsDetailService" interface="com.anyex.apps.account.service.AccountInviteRewardsDetailService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--签到-->
+    <sofa:reference id="accountSignInInfoService" interface="com.anyex.apps.account.service.AccountSignInInfoService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="accountSignInDetailService" interface="com.anyex.apps.account.service.AccountSignInDetailService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!-- 充提记录 -->
+    <sofa:reference id="walletAssetTransactionsService" interface="com.anyex.apps.asset.service.WalletAssetTransactionsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="60000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="walletAssetTipGiftService" interface="com.anyex.apps.asset.service.WalletAssetTipGiftService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="60000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--商品SKU -->
+    <sofa:reference id="goodsSkuService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsSkuService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--订单管理-->
+    <sofa:reference id="order4ActivityService" interface="com.anyex.apps.business.luckybox.order.service.Order4ActivityService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--资金流水监控-->
+    <sofa:reference id="monitorWalletAssetFlowsService" interface="com.anyex.apps.operation.service.MonitorWalletAssetFlowsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 账户浮动盈亏监控 -->
+    <sofa:reference id="monitorAccountProfitLossService" interface="com.anyex.apps.operation.service.MonitorAccountProfitLossService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+</beans>

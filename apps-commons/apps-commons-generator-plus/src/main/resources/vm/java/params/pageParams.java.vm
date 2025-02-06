@@ -1,0 +1,49 @@
+package ${moduleName}${packageName}.domain.params;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import java.util.Date;
+import java.util.Map;
+
+/**
+ * ${functionName} 分页入参
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@ApiModel(description = "${functionName} 分页入参")
+@Data
+public class ${ClassName}PageParams {
+    private static final long serialVersionUID = 1L;
+#foreach ($column in $columns)
+#if($column.query)
+
+    @ApiModelProperty(value = "$column.columnComment")
+    #if($column.javaType == 'Date')
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #end
+    private $column.javaType $column.javaField;
+#end
+#end
+
+    @ApiModelProperty(value = "页码")
+    private Long pageNum;
+
+    @ApiModelProperty(value = "每页数量")
+    private Long pageSize;
+
+    @ApiModelProperty(value = "排序map", example = "(false=顺序，true:倒序){'column':true,'column':false}", hidden = true)
+    private Map<String, Boolean> orderBy;
+
+    @ApiModelProperty(value = "开始时间,用于时间范围搜索")
+    private LocalDateTime beginTime;
+
+    @ApiModelProperty(value = "结束时间,用于时间范围搜索")
+    private LocalDateTime endTime;
+}

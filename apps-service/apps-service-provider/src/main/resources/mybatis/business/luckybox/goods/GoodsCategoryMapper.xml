@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.goods.mapper.GoodsCategoryMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="LRU" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="goodsCategoryColumns">
+        a.id as id,
+        a.name as name,
+        a.parentId as parentId,
+        a.sort as sort,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="goodsCategoryResultMap" type="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        <id column="ID" property="id" />
+        <result column="name" property="name"/>
+        <result column="parentId" property="parentId"/>
+        <result column="sort" property="sort"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        INSERT INTO GoodsCategory(
+            id ,
+            name ,
+            parentId ,
+            sort ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{name} ,
+            #{parentId} ,
+            #{sort} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM GoodsCategory WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE GoodsCategory SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        INSERT INTO GoodsCategory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="name != null">
+                name ,
+        </if>
+        <if test="parentId != null">
+                parentId ,
+        </if>
+        <if test="sort != null">
+                sort ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="name != null">
+                #{name} ,
+        </if>
+        <if test="parentId != null">
+                #{parentId} ,
+        </if>
+        <if test="sort != null">
+                #{sort} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        UPDATE GoodsCategory
+           <set>
+            <if test="name != null">
+                name = #{name} ,
+            </if>
+            <if test="parentId != null">
+                parentId = #{parentId} ,
+            </if>
+            <if test="sort != null">
+                sort = #{sort} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO GoodsCategory(
+            id ,
+            name ,
+            parentId ,
+            sort ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.name} ,
+            #{item.parentId} ,
+            #{item.sort} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE GoodsCategory SET
+            name = #{item.name} ,
+            parentId = #{item.parentId} ,
+            sort = #{item.sort} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        UPDATE GoodsCategory SET
+            name = #{name} ,
+            parentId = #{parentId} ,
+            sort = #{sort} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        SELECT <include refid="goodsCategoryColumns"/> FROM GoodsCategory a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        SELECT
+        <include refid="goodsCategoryColumns"/>
+        FROM GoodsCategory a WHERE 1 = 1
+        <if test="name != null">
+            AND a.name LIKE CONCAT('%',#{name}, '%') 
+        </if>
+        <if test="parentId != null">
+            AND a.parentId = #{parentId}
+        </if>
+        <if test="sort != null">
+            AND a.sort = #{sort}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsCategory">
+        SELECT
+        <include refid="goodsCategoryColumns"/>
+        FROM GoodsCategory a
+    </select>
+
+</mapper>
+

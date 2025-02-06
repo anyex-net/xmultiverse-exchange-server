@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AttributeMapper">
+    <!-- 基础列 -->
+    <sql id="attributeColumns">
+        a.id as id,
+        a.user_id as userId,
+        a.account as account,
+        a.phone_number as phoneNumber,
+        a.area_code as areaCode,
+        a.email as email,
+        a.nickname as nickname,
+        a.face_url as faceUrl,
+        a.gender as gender,
+        a.create_time as createTime,
+        a.change_time as changeTime,
+        a.birth_time as birthTime,
+        a.level as level,
+        a.allow_vibration as allowVibration,
+        a.allow_beep as allowBeep,
+        a.allow_add_friend as allowAddFriend,
+        a.global_recv_msg_opt as globalRecvMsgOpt,
+        a.register_type as registerType
+    </sql>
+
+    <resultMap id="attributeResultMap" type="com.anyex.apps.account.entity.Attribute">
+        <id column="ID" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="account" property="account"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="area_code" property="areaCode"/>
+        <result column="email" property="email"/>
+        <result column="nickname" property="nickname"/>
+        <result column="face_url" property="faceUrl"/>
+        <result column="gender" property="gender"/>
+        <result column="create_time" property="createTime"/>
+        <result column="change_time" property="changeTime"/>
+        <result column="birth_time" property="birthTime"/>
+        <result column="level" property="level"/>
+        <result column="allow_vibration" property="allowVibration"/>
+        <result column="allow_beep" property="allowBeep"/>
+        <result column="allow_add_friend" property="allowAddFriend"/>
+        <result column="global_recv_msg_opt" property="globalRecvMsgOpt"/>
+        <result column="register_type" property="registerType"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.Attribute">
+        INSERT INTO attribute(
+            id ,
+            user_id ,
+            account ,
+            phone_number ,
+            area_code ,
+            email ,
+            nickname ,
+            face_url ,
+            gender ,
+            create_time ,
+            change_time ,
+            birth_time ,
+            level ,
+            allow_vibration ,
+            allow_beep ,
+            allow_add_friend ,
+            global_recv_msg_opt ,
+            register_type 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{account} ,
+            #{phoneNumber} ,
+            #{areaCode} ,
+            #{email} ,
+            #{nickname} ,
+            #{faceUrl} ,
+            #{gender} ,
+            #{createTime} ,
+            #{changeTime} ,
+            #{birthTime} ,
+            #{level} ,
+            #{allowVibration} ,
+            #{allowBeep} ,
+            #{allowAddFriend} ,
+            #{globalRecvMsgOpt} ,
+            #{registerType} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM attribute WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE attribute SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.Attribute">
+        INSERT INTO attribute
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                user_id ,
+        </if>
+        <if test="account != null">
+                account ,
+        </if>
+        <if test="phoneNumber != null">
+                phone_number ,
+        </if>
+        <if test="areaCode != null">
+                area_code ,
+        </if>
+        <if test="email != null">
+                email ,
+        </if>
+        <if test="nickname != null">
+                nickname ,
+        </if>
+        <if test="faceUrl != null">
+                face_url ,
+        </if>
+        <if test="gender != null">
+                gender ,
+        </if>
+        <if test="createTime != null">
+                create_time ,
+        </if>
+        <if test="changeTime != null">
+                change_time ,
+        </if>
+        <if test="birthTime != null">
+                birth_time ,
+        </if>
+        <if test="level != null">
+                level ,
+        </if>
+        <if test="allowVibration != null">
+                allow_vibration ,
+        </if>
+        <if test="allowBeep != null">
+                allow_beep ,
+        </if>
+        <if test="allowAddFriend != null">
+                allow_add_friend ,
+        </if>
+        <if test="globalRecvMsgOpt != null">
+                global_recv_msg_opt ,
+        </if>
+        <if test="registerType != null">
+                register_type 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="account != null">
+                #{account} ,
+        </if>
+        <if test="phoneNumber != null">
+                #{phoneNumber} ,
+        </if>
+        <if test="areaCode != null">
+                #{areaCode} ,
+        </if>
+        <if test="email != null">
+                #{email} ,
+        </if>
+        <if test="nickname != null">
+                #{nickname} ,
+        </if>
+        <if test="faceUrl != null">
+                #{faceUrl} ,
+        </if>
+        <if test="gender != null">
+                #{gender} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="changeTime != null">
+                #{changeTime} ,
+        </if>
+        <if test="birthTime != null">
+                #{birthTime} ,
+        </if>
+        <if test="level != null">
+                #{level} ,
+        </if>
+        <if test="allowVibration != null">
+                #{allowVibration} ,
+        </if>
+        <if test="allowBeep != null">
+                #{allowBeep} ,
+        </if>
+        <if test="allowAddFriend != null">
+                #{allowAddFriend} ,
+        </if>
+        <if test="globalRecvMsgOpt != null">
+                #{globalRecvMsgOpt} ,
+        </if>
+        <if test="registerType != null">
+                #{registerType} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.Attribute">
+        UPDATE attribute
+           <set>
+            <if test="userId != null">
+                user_id = #{userId} ,
+            </if>
+            <if test="account != null">
+                account = #{account} ,
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber} ,
+            </if>
+            <if test="areaCode != null">
+                area_code = #{areaCode} ,
+            </if>
+            <if test="email != null">
+                email = #{email} ,
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname} ,
+            </if>
+            <if test="faceUrl != null">
+                face_url = #{faceUrl} ,
+            </if>
+            <if test="gender != null">
+                gender = #{gender} ,
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime} ,
+            </if>
+            <if test="changeTime != null">
+                change_time = #{changeTime} ,
+            </if>
+            <if test="birthTime != null">
+                birth_time = #{birthTime} ,
+            </if>
+            <if test="level != null">
+                level = #{level} ,
+            </if>
+            <if test="allowVibration != null">
+                allow_vibration = #{allowVibration} ,
+            </if>
+            <if test="allowBeep != null">
+                allow_beep = #{allowBeep} ,
+            </if>
+            <if test="allowAddFriend != null">
+                allow_add_friend = #{allowAddFriend} ,
+            </if>
+            <if test="globalRecvMsgOpt != null">
+                global_recv_msg_opt = #{globalRecvMsgOpt} ,
+            </if>
+            <if test="registerType != null">
+                register_type = #{registerType} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO attribute(
+            id ,
+            user_id ,
+            account ,
+            phone_number ,
+            area_code ,
+            email ,
+            nickname ,
+            face_url ,
+            gender ,
+            create_time ,
+            change_time ,
+            birth_time ,
+            level ,
+            allow_vibration ,
+            allow_beep ,
+            allow_add_friend ,
+            global_recv_msg_opt ,
+            register_type 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.account} ,
+            #{item.phoneNumber} ,
+            #{item.areaCode} ,
+            #{item.email} ,
+            #{item.nickname} ,
+            #{item.faceUrl} ,
+            #{item.gender} ,
+            #{item.createTime} ,
+            #{item.changeTime} ,
+            #{item.birthTime} ,
+            #{item.level} ,
+            #{item.allowVibration} ,
+            #{item.allowBeep} ,
+            #{item.allowAddFriend} ,
+            #{item.globalRecvMsgOpt} ,
+            #{item.registerType} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE attribute SET
+            user_id = #{item.userId} ,
+            account = #{item.account} ,
+            phone_number = #{item.phoneNumber} ,
+            area_code = #{item.areaCode} ,
+            email = #{item.email} ,
+            nickname = #{item.nickname} ,
+            face_url = #{item.faceUrl} ,
+            gender = #{item.gender} ,
+            create_time = #{item.createTime} ,
+            change_time = #{item.changeTime} ,
+            birth_time = #{item.birthTime} ,
+            level = #{item.level} ,
+            allow_vibration = #{item.allowVibration} ,
+            allow_beep = #{item.allowBeep} ,
+            allow_add_friend = #{item.allowAddFriend} ,
+            global_recv_msg_opt = #{item.globalRecvMsgOpt} ,
+            register_type = #{item.registerType} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.Attribute">
+        UPDATE attribute SET
+            user_id = #{userId} ,
+            account = #{account} ,
+            phone_number = #{phoneNumber} ,
+            area_code = #{areaCode} ,
+            email = #{email} ,
+            nickname = #{nickname} ,
+            face_url = #{faceUrl} ,
+            gender = #{gender} ,
+            create_time = #{createTime} ,
+            change_time = #{changeTime} ,
+            birth_time = #{birthTime} ,
+            level = #{level} ,
+            allow_vibration = #{allowVibration} ,
+            allow_beep = #{allowBeep} ,
+            allow_add_friend = #{allowAddFriend} ,
+            global_recv_msg_opt = #{globalRecvMsgOpt} ,
+            register_type = #{registerType} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.account.entity.Attribute">
+        SELECT <include refid="attributeColumns"/> FROM attribute a WHERE a.ID = #{id}
+    </select>
+
+    <select id="findByUserId" resultType="com.anyex.apps.account.entity.Attribute">
+        SELECT <include refid="attributeColumns"/> FROM attribute a WHERE a.user_id = #{userId}
+    </select>
+
+    <select id="findByUserIds"  resultType="com.anyex.apps.account.entity.Attribute">
+        SELECT <include refid="attributeColumns"/> FROM attribute a WHERE a.user_id in
+        <foreach item="id" collection="userIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.Attribute">
+        SELECT
+        <include refid="attributeColumns"/>
+        FROM attribute a WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND a.user_id LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="account != null and account != ''">
+            AND a.account LIKE CONCAT('%',#{account}, '%')
+            /** AND a.account = #{account} */
+        </if>
+        <if test="phoneNumber != null and phoneNumber != ''">
+            AND a.phone_number LIKE CONCAT('%',#{phoneNumber}, '%')
+            /** AND a.phone_number = #{phoneNumber} */
+        </if>
+        <if test="areaCode != null and areaCode != ''">
+            AND a.area_code LIKE CONCAT('%',#{areaCode}, '%')
+            /** AND a.area_code = #{areaCode} */
+        </if>
+        <if test="email != null and email != ''">
+            AND a.email LIKE CONCAT('%',#{email}, '%')
+            /** AND a.email = #{email} */
+        </if>
+        <if test="nickname != null and nickname != ''">
+            AND a.nickname LIKE CONCAT('%',#{nickname}, '%')
+        </if>
+        <if test="gender != null">
+            AND a.gender = #{gender}
+        </if>
+        <if test="createTime != null">
+            AND a.create_time = #{createTime}
+        </if>
+        <if test="changeTime != null">
+            AND a.change_time = #{changeTime}
+        </if>
+        <if test="level != null">
+            AND a.level = #{level}
+        </if>
+        <if test="allowVibration != null">
+            AND a.allow_vibration = #{allowVibration}
+        </if>
+        <if test="allowBeep != null">
+            AND a.allow_beep = #{allowBeep}
+        </if>
+        <if test="allowAddFriend != null">
+            AND a.allow_add_friend = #{allowAddFriend}
+        </if>
+        <if test="globalRecvMsgOpt != null">
+            AND a.global_recv_msg_opt = #{globalRecvMsgOpt}
+        </if>
+        <if test="registerType != null">
+            AND a.register_type = #{registerType}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.Attribute">
+        SELECT
+        <include refid="attributeColumns"/>
+        FROM attribute a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+
+</mapper>
+

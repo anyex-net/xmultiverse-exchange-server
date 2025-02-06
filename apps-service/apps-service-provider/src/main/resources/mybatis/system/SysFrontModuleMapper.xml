@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysFrontModuleMapper">
+    <!-- 基础列 -->
+    <sql id="frontModuleColumns">
+        a.id as id,
+        a.moduleClass as moduleClass,
+        a.moduleCode as moduleCode,
+        a.moduleName as moduleName,
+        a.moduleIconUrl as moduleIconUrl,
+        a.moduleJumpUrl as moduleJumpUrl,
+        a.sortNum as sortNum,
+        a.remark as remark,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate
+    </sql>
+
+    <resultMap id="frontModuleResultMap" type="com.anyex.apps.system.entity.SysFrontModule">
+        <id column="ID" property="id" />
+        <result column="moduleClass" property="moduleClass"/>
+        <result column="moduleCode" property="moduleCode"/>
+        <result column="moduleName" property="moduleName"/>
+        <result column="moduleIconUrl" property="moduleIconUrl"/>
+        <result column="moduleJumpUrl" property="moduleJumpUrl"/>
+        <result column="sortNum" property="sortNum"/>
+        <result column="remark" property="remark"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createDate" property="createDate"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateDate" property="updateDate"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysFrontModule">
+        INSERT INTO SysFrontModule(
+            id ,
+            moduleClass,
+            moduleCode ,
+            moduleName ,
+            moduleIconUrl ,
+            moduleJumpUrl,
+            sortNum ,
+            remark ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate
+        ) VALUES (
+            #{id} ,
+            #{moduleClass},
+            #{moduleCode} ,
+            #{moduleName} ,
+            #{moduleIconUrl} ,
+            #{moduleJumpUrl},
+            #{sortNum} ,
+            #{remark} ,
+            #{createBy} ,
+            #{createDate} ,
+            #{updateBy} ,
+            #{updateDate}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysFrontModule WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysFrontModule SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysFrontModule">
+        INSERT INTO SysFrontModule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="moduleClass != null">
+                moduleClass,
+        </if>
+        <if test="moduleCode != null">
+                moduleCode ,
+        </if>
+        <if test="moduleName != null">
+                moduleName ,
+        </if>
+        <if test="moduleIconUrl != null">
+                moduleIconUrl ,
+        </if>
+        <if test="moduleJumpUrl != null">
+                moduleJumpUrl ,
+        </if>
+        <if test="sortNum != null">
+                sortNum ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createBy != null">
+                createBy ,
+        </if>
+        <if test="createDate != null">
+                createDate ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateDate != null">
+                updateDate
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="moduleClass != null">
+                #{moduleClass},
+        </if>
+        <if test="moduleCode != null">
+                #{moduleCode} ,
+        </if>
+        <if test="moduleName != null">
+                #{moduleName} ,
+        </if>
+        <if test="moduleIconUrl != null">
+                #{moduleIconUrl} ,
+        </if>
+        <if test="moduleJumpUrl != null">
+                #{moduleJumpUrl} ,
+        </if>
+        <if test="sortNum != null">
+                #{sortNum} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createBy != null">
+                #{createBy} ,
+        </if>
+        <if test="createDate != null">
+                #{createDate} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateDate != null">
+                #{updateDate}
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysFrontModule">
+        UPDATE SysFrontModule
+           <set>
+            <if test="moduleClass != null">
+                   moduleClass = #{moduleClass},
+            </if>
+            <if test="moduleCode != null">
+                moduleCode = #{moduleCode} ,
+            </if>
+            <if test="moduleName != null">
+                moduleName = #{moduleName} ,
+            </if>
+            <if test="moduleIconUrl != null">
+                moduleIconUrl = #{moduleIconUrl} ,
+            </if>
+            <if test="moduleJumpUrl != null">
+                   moduleJumpUrl = #{moduleJumpUrl},
+            </if>
+            <if test="sortNum != null">
+                sortNum = #{sortNum} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                updateDate = #{updateDate}
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysFrontModule(
+            id ,
+            moduleClass,
+            moduleCode ,
+            moduleName ,
+            moduleIconUrl ,
+            moduleJumpUrl ,
+            sortNum ,
+            remark ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{moduleClass},
+            #{item.moduleCode} ,
+            #{item.moduleName} ,
+            #{item.moduleIconUrl} ,
+            #{moduleJumpUrl},
+            #{item.sortNum} ,
+            #{item.remark} ,
+            #{item.createBy} ,
+            #{item.createDate} ,
+            #{item.updateBy} ,
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysFrontModule SET
+            moduleClass = #{item.moduleClass},
+            moduleCode = #{item.moduleCode} ,
+            moduleName = #{item.moduleName} ,
+            moduleIconUrl = #{item.moduleIconUrl} ,
+            moduleJumpUrl = #{item.moduleJumpUrl} ,
+            sortNum = #{item.sortNum} ,
+            remark = #{item.remark} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate} ,
+            updateBy = #{item.updateBy} ,
+            updateDate = #{item.updateDate}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysFrontModule">
+        UPDATE SysFrontModule SET
+            moduleClass = #{moduleClass},
+            moduleCode = #{moduleCode} ,
+            moduleName = #{moduleName} ,
+            moduleIconUrl = #{moduleIconUrl} ,
+            moduleJumpUrl = #{moduleJumpUrl} ,
+            sortNum = #{sortNum} ,
+            remark = #{remark} ,
+            createBy = #{createBy} ,
+            createDate = #{createDate} ,
+            updateBy = #{updateBy} ,
+            updateDate = #{updateDate}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysFrontModule">
+        SELECT <include refid="frontModuleColumns"/> FROM SysFrontModule a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysFrontModule">
+        SELECT
+        <include refid="frontModuleColumns"/>
+        FROM SysFrontModule a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="moduleClass != null">
+            AND a.moduleClass = #{moduleClass}
+        </if>
+        <if test="moduleCode != null">
+            AND a.moduleCode LIKE CONCAT('%',#{moduleCode}, '%')
+        </if>
+        <if test="moduleName != null">
+            AND a.moduleName LIKE CONCAT('%',#{moduleName}, '%')
+        </if>
+        <if test="moduleIconUrl != null">
+            AND a.moduleIconUrl LIKE CONCAT('%',#{moduleIconUrl}, '%')
+        </if>
+        <if test="moduleJumpUrl != null">
+            AND a.moduleJumpUrl = #{moduleJumpUrl}
+        </if>
+        <if test="sortNum != null">
+            AND a.sortNum = #{sortNum}
+        </if>
+        <if test="remark != null">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createBy != null">
+            AND a.createBy = #{createBy}
+        </if>
+        <if test="createDate != null">
+            AND a.createDate = #{createDate}
+        </if>
+        <if test="updateBy != null">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateDate != null">
+            AND a.updateDate = #{updateDate}
+        </if>
+        <if test="updateDate != null">
+            AND a.updateDate = #{updateDate}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysFrontModule">
+        SELECT
+        <include refid="frontModuleColumns"/>
+        FROM SysFrontModule a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <!-- 根据角色id获取数据 findByRoleId-->
+    <select id="findByRoleId"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysFrontModule" >
+        SELECT <include refid="frontModuleColumns"/> FROM SysFrontModule a
+        left join FrontRoleRes b on a.id = b.moduleId
+        WHERE b.roleId = #{roleId}
+    </select>
+
+</mapper>
+

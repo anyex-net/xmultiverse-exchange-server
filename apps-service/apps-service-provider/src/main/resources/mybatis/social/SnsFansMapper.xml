@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.social.mapper.SnsFansMapper">
+    <!-- 基础列 -->
+    <sql id="snsFansColumns">
+        a.id as id,
+        a.userId as userId,
+        a.followerUserId as followerUserId,
+        a.remark as remark,
+        a.isRead as isRead,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="snsFansResultMap" type="com.anyex.apps.social.entity.SnsFans">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="followerUserId" property="followerUserId"/>
+        <result column="remark" property="remark"/>
+        <result column="isRead" property="isRead"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.social.entity.SnsFans">
+        INSERT INTO SnsFans(
+            id ,
+            userId ,
+            followerUserId ,
+            remark ,
+            isRead ,
+            createTime ,
+            updateTime
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{followerUserId} ,
+            #{remark} ,
+            #{isRead},
+            #{createTime} ,
+            #{updateTime}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SnsFans WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SnsFans SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.social.entity.SnsFans">
+        INSERT INTO SnsFans
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="followerUserId != null">
+                followerUserId ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="isRead != null">
+                isRead ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="followerUserId != null">
+                #{followerUserId} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="isRead != null">
+                #{isRead},
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime}
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.social.entity.SnsFans">
+        UPDATE SnsFans
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="followerUserId != null">
+                followerUserId = #{followerUserId} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="isRead != null">
+                isRead = #{isRead},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SnsFans(
+            id ,
+            userId ,
+            followerUserId ,
+            remark ,
+            isRead ,
+            createTime ,
+            updateTime
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.followerUserId} ,
+            #{item.remark} ,
+            #{item.isRead},
+            #{item.createTime} ,
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SnsFans SET
+            userId = #{item.userId} ,
+            followerUserId = #{item.followerUserId} ,
+            remark = #{item.remark} ,
+            isRead = #{item.isRead},
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.social.entity.SnsFans">
+        UPDATE SnsFans SET
+            userId = #{userId} ,
+            followerUserId = #{followerUserId} ,
+            remark = #{remark} ,
+            isRead = #{isRead},
+            createTime = #{createTime} ,
+            updateTime = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.social.entity.SnsFans">
+        SELECT <include refid="snsFansColumns"/> FROM SnsFans a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.social.entity.SnsFans">
+        SELECT
+        <include refid="snsFansColumns"/>
+        FROM SnsFans a WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND a.userId LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="followerUserId != null and followerUserId != ''">
+            AND a.followerUserId LIKE CONCAT('%',#{followerUserId}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="isRead != null">
+            AND a.isRead = #{isRead}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.social.entity.SnsFans">
+        SELECT
+        <include refid="snsFansColumns"/>
+        FROM SnsFans a
+    </select>
+
+    <select id="cntFans" resultType="java.lang.Integer">
+        select count(*) from SnsFans a where a.userId = #{userId}
+    </select>
+
+    <select id="listFans" resultType="com.anyex.apps.social.model.AccountInfoModel">
+        SELECT
+            b.id as id, b.accountName as accountName,b.userId as userId,b.headUrl as headUrl,a.isRead as isRead,
+            (select
+                 count(*)
+             from
+                 SnsFriend l
+             where
+                 l.userId = b.userId
+               and l.friendUserId = #{userId} )>0 as isFriend
+        FROM SnsFans a,Account b where b.userId = a.followerUserId and a.userId = #{userId}
+        order by a.createTime desc
+    </select>
+
+
+</mapper>
+

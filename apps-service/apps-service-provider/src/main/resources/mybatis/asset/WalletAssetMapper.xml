@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.asset.mapper.WalletAssetMapper">
+    <!-- 基础列 -->
+    <sql id="walletAssetColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.currency as currency,
+        a.balance as balance,
+        a.frozenBal as frozenBal,
+        a.updateTime as updateTime,
+        a.remark as remark
+    </sql>
+
+    <resultMap id="walletAssetResultMap" type="com.anyex.apps.asset.entity.WalletAsset">
+        <id column="ID" property="id" />
+        <result column="accountId" property="accountId"/>
+        <result column="currency" property="currency"/>
+        <result column="balance" property="balance"/>
+        <result column="frozenBal" property="frozenBal"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.asset.entity.WalletAsset">
+        INSERT INTO WalletAsset(
+            id ,
+            accountId ,
+            currency ,
+            balance ,
+            frozenBal ,
+            updateTime ,
+            remark 
+        ) VALUES (
+            #{id} ,
+            #{accountId} ,
+            #{currency} ,
+            #{balance} ,
+            #{frozenBal} ,
+            #{updateTime} ,
+            #{remark} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM WalletAsset WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE WalletAsset SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.asset.entity.WalletAsset">
+        INSERT INTO WalletAsset
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="currency != null">
+                currency ,
+        </if>
+        <if test="balance != null">
+                balance ,
+        </if>
+        <if test="frozenBal != null">
+                frozenBal ,
+        </if>
+        <if test="updateTime != null">
+                updateTime ,
+        </if>
+        <if test="remark != null">
+                remark 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="currency != null">
+                #{currency} ,
+        </if>
+        <if test="balance != null">
+                #{balance} ,
+        </if>
+        <if test="frozenBal != null">
+                #{frozenBal} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="remark != null">
+                #{remark} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.asset.entity.WalletAsset">
+        UPDATE WalletAsset
+           <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="currency != null">
+                currency = #{currency} ,
+            </if>
+            <if test="balance != null">
+                balance = #{balance} ,
+            </if>
+            <if test="frozenBal != null">
+                frozenBal = #{frozenBal} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO WalletAsset(
+            id ,
+            accountId ,
+            currency ,
+            balance ,
+            frozenBal ,
+            updateTime ,
+            remark 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.accountId} ,
+            #{item.currency} ,
+            #{item.balance} ,
+            #{item.frozenBal} ,
+            #{item.updateTime} ,
+            #{item.remark} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE WalletAsset SET
+            accountId = #{item.accountId} ,
+            currency = #{item.currency} ,
+            balance = #{item.balance} ,
+            frozenBal = #{item.frozenBal} ,
+            updateTime = #{item.updateTime} ,
+            remark = #{item.remark} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.asset.entity.WalletAsset">
+        UPDATE WalletAsset SET
+            accountId = #{accountId} ,
+            currency = #{currency} ,
+            balance = #{balance} ,
+            frozenBal = #{frozenBal} ,
+            updateTime = #{updateTime} ,
+            remark = #{remark} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.asset.entity.WalletAsset">
+        SELECT <include refid="walletAssetColumns"/>
+        FROM WalletAsset a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.asset.entity.WalletAsset">
+        SELECT
+        <include refid="walletAssetColumns"/>
+        FROM WalletAsset a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="currency != null">
+            AND a.currency LIKE CONCAT('%',#{currency}, '%') 
+        </if>
+        <if test="balance != null">
+            AND a.balance = #{balance}
+        </if>
+        <if test="frozenBal != null">
+            AND a.frozenBal = #{frozenBal}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="remark != null">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%') 
+        </if>
+        order by  a.updateTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.asset.entity.WalletAsset">
+        SELECT
+        <include refid="walletAssetColumns"/>
+        FROM WalletAsset a
+    </select>
+
+    <!-- 根据账户ID与币种快速查找一条钱包资产记录 -->
+    <select id="findByAccountIdAndCurrency" resultType="com.anyex.apps.asset.entity.WalletAsset">
+        SELECT
+        <include refid="walletAssetColumns"/>
+        FROM WalletAsset a
+        WHERE a.accountId = #{accountId} AND a.currency = #{currency}
+    </select>
+
+</mapper>
+

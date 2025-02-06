@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.goods.mapper.GoodsSpuMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="LRU" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="goodsSpuColumns">
+        a.id as id,
+        a.title as title,
+        a.subTitle as subTitle,
+        a.categoryId as categoryId,
+        a.brandId as brandId,
+        a.spgId as spgId,
+        a.saleable as saleable,
+        a.valid as valid,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="goodsSpuResultMap" type="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        <id column="ID" property="id" />
+        <result column="title" property="title"/>
+        <result column="subTitle" property="subTitle"/>
+        <result column="categoryId" property="categoryId"/>
+        <result column="brandId" property="brandId"/>
+        <result column="spgId" property="spgId"/>
+        <result column="saleable" property="saleable"/>
+        <result column="valid" property="valid"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        INSERT INTO GoodsSpu(
+            id ,
+            title ,
+            subTitle ,
+            categoryId ,
+            brandId ,
+            spgId ,
+            saleable ,
+            valid ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{title} ,
+            #{subTitle} ,
+            #{categoryId} ,
+            #{brandId} ,
+            #{spgId} ,
+            #{saleable} ,
+            #{valid} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM GoodsSpu WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE GoodsSpu SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        INSERT INTO GoodsSpu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="title != null">
+                title ,
+        </if>
+        <if test="subTitle != null">
+                subTitle ,
+        </if>
+        <if test="categoryId != null">
+                categoryId ,
+        </if>
+        <if test="brandId != null">
+                brandId ,
+        </if>
+        <if test="spgId != null">
+                spgId ,
+        </if>
+        <if test="saleable != null">
+                saleable ,
+        </if>
+        <if test="valid != null">
+                valid ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="title != null">
+                #{title} ,
+        </if>
+        <if test="subTitle != null">
+                #{subTitle} ,
+        </if>
+        <if test="categoryId != null">
+                #{categoryId} ,
+        </if>
+        <if test="brandId != null">
+                #{brandId} ,
+        </if>
+        <if test="spgId != null">
+                #{spgId} ,
+        </if>
+        <if test="saleable != null">
+                #{saleable} ,
+        </if>
+        <if test="valid != null">
+                #{valid} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        UPDATE GoodsSpu
+           <set>
+            <if test="title != null">
+                title = #{title} ,
+            </if>
+            <if test="subTitle != null">
+                subTitle = #{subTitle} ,
+            </if>
+            <if test="categoryId != null">
+                categoryId = #{categoryId} ,
+            </if>
+            <if test="brandId != null">
+                brandId = #{brandId} ,
+            </if>
+            <if test="spgId != null">
+                spgId = #{spgId} ,
+            </if>
+            <if test="saleable != null">
+                saleable = #{saleable} ,
+            </if>
+            <if test="valid != null">
+                valid = #{valid} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO GoodsSpu(
+            id ,
+            title ,
+            subTitle ,
+            categoryId ,
+            brandId ,
+            spgId ,
+            saleable ,
+            valid ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.title} ,
+            #{item.subTitle} ,
+            #{item.categoryId} ,
+            #{item.brandId} ,
+            #{item.spgId} ,
+            #{item.saleable} ,
+            #{item.valid} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE GoodsSpu SET
+            title = #{item.title} ,
+            subTitle = #{item.subTitle} ,
+            categoryId = #{item.categoryId} ,
+            brandId = #{item.brandId} ,
+            spgId = #{item.spgId} ,
+            saleable = #{item.saleable} ,
+            valid = #{item.valid} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        UPDATE GoodsSpu SET
+            title = #{title} ,
+            subTitle = #{subTitle} ,
+            categoryId = #{categoryId} ,
+            brandId = #{brandId} ,
+            spgId = #{spgId} ,
+            saleable = #{saleable} ,
+            valid = #{valid} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        SELECT <include refid="goodsSpuColumns"/> FROM GoodsSpu a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        SELECT
+        <include refid="goodsSpuColumns"/>
+        FROM GoodsSpu a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="title != null">
+            AND a.title LIKE CONCAT('%',#{title}, '%') 
+        </if>
+        <if test="subTitle != null">
+            AND a.subTitle LIKE CONCAT('%',#{subTitle}, '%') 
+        </if>
+        <if test="categoryId != null">
+            AND a.categoryId = #{categoryId}
+        </if>
+        <if test="brandId != null">
+            AND a.brandId = #{brandId}
+        </if>
+        <if test="spgId != null">
+            AND a.spgId = #{spgId}
+        </if>
+        <if test="saleable != null">
+            AND a.saleable = #{saleable}
+        </if>
+        <if test="valid != null">
+            AND a.valid = #{valid}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by  a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpu">
+        SELECT
+        <include refid="goodsSpuColumns"/>
+        FROM GoodsSpu a
+    </select>
+
+</mapper>
+

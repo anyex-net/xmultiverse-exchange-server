@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysUserRoleMapper">
+    <!-- 基础列 -->
+    <sql id="userRoleColumns">
+        a.id as id,
+        a.roleId as roleId,
+        a.userId as userId
+    </sql>
+
+    <resultMap id="userRoleResultMap" type="com.anyex.apps.system.entity.SysUserRole">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.roleId" property="roleId" jdbcType="BIGINT"/>
+        <result column="a.userId" property="userId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysUserRole">
+        insert into SysUserRole(
+            id ,
+            roleId ,
+            userId 
+        ) VALUES (
+            #{id} ,
+            #{roleId} ,
+            #{userId} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysUserRole where id = #{id}
+    </delete>
+
+    <delete id="removeByUser" parameterType="long">
+        delete from SysUserRole where userId = #{userId}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update SysUserRole set delFlag = 1 where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysUserRole">
+        insert into SysUserRole
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="roleId != null">
+                roleId ,
+            </if>
+            <if test="userId != null">
+                userId
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="roleId != null">
+                #{roleId} ,
+            </if>
+            <if test="userId != null">
+                #{userId}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysUserRole">
+        update SysUserRole
+        <set>
+            <if test="roleId != null">
+                roleId = #{roleId} ,
+            </if>
+            <if test="userId != null">
+                userId = #{userId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        insert into SysUserRole(
+            id ,
+            roleId ,
+            userId
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id}  ,
+            #{item.roleId}  ,
+            #{item.userId}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SysUserRole set
+            roleId = #{item.roleId} ,
+            userId = #{item.userId}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysUserRole">
+        update SysUserRole set
+            roleId = #{roleId} ,
+            userId = #{userId} 
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.system.entity.SysUserRole">
+        select
+        <include refid="userRoleColumns"/>
+        from SysUserRole a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysUserRole">
+        SELECT
+        <include refid="userRoleColumns"/>
+        FROM SysUserRole a WHERE a.delFlag = 0
+        <if test="roleId != null">
+            and a.roleId = #{roleId}
+        </if>
+        <if test="userId != null">
+            and a.userId = #{userId}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysUserRole">
+        SELECT
+        <include refid="userRoleColumns"/>
+        FROM SysUserRole a WHERE a.delFlag = 0
+    </select>
+
+<!--    <select id="getUserListByRoleId" resultType="com.anyex.apps.system.entity.SysUserRole">-->
+<!--        SELECT-->
+<!--        <include refid="userRoleColumns"/>-->
+<!--        FROM SysUserRole a WHERE 1 = 1 &lt;!&ndash; find_in_set(a.roleId,#{assignee}) &ndash;&gt;-->
+<!--    </select>-->
+
+</mapper>
+

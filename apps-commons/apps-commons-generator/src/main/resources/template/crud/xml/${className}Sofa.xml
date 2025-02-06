@@ -1,0 +1,22 @@
+<#include "/macro.include"/>
+<#assign className = table.className>
+<#assign classNameLower = className?uncap_first>
+
+<!-- 这里的生产者 -->
+
+<!-- ${table.sqlRemark} -->
+<sofa:service interface="com.anyex.apps.${subpackage}.service.${className}Service" ref="${classNameLower}ServiceImpl">
+    <sofa:binding.bolt>
+        <sofa:global-attrs timeout="600000"/>
+    </sofa:binding.bolt>
+</sofa:service>
+
+
+<!-- 这里的消费者 -->
+
+<!-- ${table.sqlRemark} -->
+<sofa:reference id="${classNameLower}Service" interface="com.anyex.apps.${subpackage}.service.${className}Service" jvm-first="false">
+    <sofa:binding.bolt>
+        <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+    </sofa:binding.bolt>
+</sofa:reference>

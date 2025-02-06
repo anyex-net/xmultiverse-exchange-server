@@ -1,0 +1,29 @@
+package com.anyex.apps.controller.common.req;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+/**
+ * 随机验证码请求对象
+ * <p>File：ReqKaptcha.java</p>
+ * <p>Title: ReqKaptcha</p>
+ * <p>Description: ReqKaptcha</p>
+ * <p>Copyright: Copyright (c) 2017/7/5</p>
+ * <p>Company: AnyEx</p>
+ *
+ * @author Playguy
+ * @version 1.0
+ */
+@Data
+public class ReqKaptcha implements Serializable
+{
+    /**
+     * 场景
+     */
+    @NotNull(message = "场景scene不可为空")
+    @ApiModelProperty(value = "场景scene(场景login)", required = true)
+    private String            scene;
+}

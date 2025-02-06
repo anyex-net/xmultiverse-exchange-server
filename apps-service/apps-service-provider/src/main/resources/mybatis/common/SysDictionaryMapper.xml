@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysDictionaryMapper">
+    <!-- 基础列 -->
+    <sql id="dictionaryColumns">
+        a.id as id,
+        a.parentId as parentId,
+        a.code as code,
+        a.name as name,
+        a.lang as lang,
+        a.dest as dest,
+        a.sortNum as sortNum,
+        a.active as active,
+        a.createBy as createBy,
+        a.createDate as createDate
+    </sql>
+
+    <sql id="dictionaryJoinColumns">
+        a.id as id,
+        a.parentId as parentId,
+        a.code as code,
+        a.name as name,
+        a.lang as lang,
+        a.dest as dest,
+        a.sortNum as sortNum,
+        a.active as active,
+        a.createBy as createBy,
+        b.trueName as createByName,
+        a.createDate as createDate
+    </sql>
+
+    <resultMap id="dictionaryResultMap" type="com.anyex.apps.common.entity.SysDictionary">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.parentId" property="parentId" jdbcType="VARCHAR"/>
+        <result column="a.code" property="code" jdbcType="VARCHAR"/>
+        <result column="a.name" property="name" jdbcType="VARCHAR"/>
+        <result column="a.lang" property="lang" jdbcType="VARCHAR"/>
+        <result column="a.dest" property="dest" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+        <result column="a.sortNum" property="sortNum" jdbcType="INTEGER"/>
+        <result column="a.active" property="active" jdbcType="BIT"/>
+        <result column="a.createBy" property="createBy" jdbcType="BIGINT"/>
+        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysDictionary">
+        insert into SysDictionary(
+        id ,
+        parentId ,
+        code ,
+        name ,
+        lang ,
+        dest ,
+        sortNum ,
+        active ,
+        createBy ,
+        createDate
+        ) VALUES (
+        #{id} ,
+        #{parentId} ,
+        #{code} ,
+        #{name} ,
+        #{lang} ,
+        #{dest} ,
+        #{sortNum} ,
+        #{active} ,
+        #{createBy} ,
+        #{createDate}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysDictionary where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <!--
+    <update id="delete" parameterType="java.lang.Long">
+        update SysDictionary set delFlag = 1 where id = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysDictionary">
+        insert into SysDictionary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="parentId != null">
+                parentId ,
+            </if>
+            <if test="code != null">
+                code ,
+            </if>
+            <if test="name != null">
+                name ,
+            </if>
+            <if test="lang != null">
+                lang ,
+            </if>
+            <if test="dest != null">
+                dest ,
+            </if>
+            <if test="sortNum != null">
+                sortNum ,
+            </if>
+            <if test="active != null">
+                active ,
+            </if>
+            <if test="createBy != null">
+                createBy ,
+            </if>
+            <if test="createDate != null">
+                createDate
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="parentId != null">
+                #{parentId} ,
+            </if>
+            <if test="code != null">
+                #{code} ,
+            </if>
+            <if test="name != null">
+                #{name} ,
+            </if>
+            <if test="lang != null">
+                #{lang} ,
+            </if>
+            <if test="dest != null">
+                #{dest} ,
+            </if>
+            <if test="sortNum != null">
+                #{sortNum} ,
+            </if>
+            <if test="active != null">
+                #{active} ,
+            </if>
+            <if test="createBy != null">
+                #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysDictionary">
+        update SysDictionary
+        <set>
+            <if test="parentId != null">
+                parentId = #{parentId} ,
+            </if>
+            <if test="code != null">
+                code = #{code} ,
+            </if>
+            <if test="name != null">
+                name = #{name} ,
+            </if>
+            <if test="lang != null">
+                lang = #{lang} ,
+            </if>
+            <if test="dest != null">
+                dest = #{dest} ,
+            </if>
+            <if test="sortNum != null">
+                sortNum = #{sortNum} ,
+            </if>
+            <if test="active != null">
+                active = #{active} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysDictionary(
+        id ,
+        parentId ,
+        code ,
+        name ,
+        lang ,
+        dest ,
+        sortNum ,
+        active ,
+        createBy ,
+        createDate
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.parentId} ,
+            #{item.code} ,
+            #{item.name} ,
+            #{item.lang} ,
+            #{item.dest} ,
+            #{item.sortNum} ,
+            #{item.active} ,
+            #{item.createBy} ,
+            #{item.createDate}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysDictionary SET
+            parentId = #{item.parentId} ,
+            code = #{item.code} ,
+            name = #{item.name} ,
+            lang = #{item.lang} ,
+            dest = #{item.dest} ,
+            sortNum = #{item.sortNum} ,
+            active = #{item.active} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysDictionary">
+        update SysDictionary set
+        parentId = #{parentId} ,
+        code = #{code} ,
+        name = #{name} ,
+        lang = #{lang} ,
+        dest = #{dest} ,
+        sortNum = #{sortNum} ,
+        active = #{active} ,
+        createBy = #{createBy} ,
+        createDate = #{createDate}
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.common.entity.SysDictionary">
+        select
+        <include refid="dictionaryColumns"/>
+        from SysDictionary a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysDictionary">
+        SELECT
+        <include refid="dictionaryJoinColumns"/>
+        FROM SysDictionary a LEFT JOIN SysUserInfo b
+        on a.createBy = b.id
+        WHERE 1 = 1
+        <choose>
+            <when test="parentId != null">
+                and a.parentId = #{parentId}
+            </when>
+            <otherwise>
+                and a.parentId is null
+            </otherwise>
+        </choose>
+        <if test="code != null and code != ''">
+            and a.code = #{code}
+        </if>
+        <if test="active != null">
+            and a.active = #{active}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysDictionary">
+        SELECT
+        <include refid="dictionaryColumns"/>
+        <!--
+        a.id as id,
+        a.parentId as parentId,
+        a.code as code,
+        a.name as name
+        -->
+        FROM SysDictionary a WHERE 1 = 1
+    </select>
+
+    <select id="findByCode" resultType="com.anyex.apps.common.entity.SysDictionary">
+        SELECT
+        <include refid="dictionaryColumns"/>
+        FROM SysDictionary a WHERE 1 = 1
+        AND a.parentId = (
+          select id from SysDictionary
+          where 1 = 1
+          and code = #{code} 
+        )
+        AND a.active
+        <if test="lang != null and lang != ''">
+            AND a.lang = #{lang}
+        </if>
+        ORDER BY a.sortNum
+    </select>
+
+    <select id="findByParentId" parameterType="hashmap" resultType="com.anyex.apps.common.entity.SysDictionary">
+        SELECT
+        <include refid="dictionaryColumns"/>
+        FROM SysDictionary a WHERE 1 = 1
+        <if test="parentId != null">
+            AND a.parentId =  #{parentId}
+        </if>
+    </select>
+
+</mapper>

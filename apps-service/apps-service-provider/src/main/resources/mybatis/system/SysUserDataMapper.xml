@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysUserDataMapper">
+    <!-- 基础列 -->
+    <sql id="userDataColumns">
+        a.id as id,
+        a.userId as userId,
+        a.orgId as orgId
+    </sql>
+
+    <resultMap id="userDataResultMap" type="com.anyex.apps.system.entity.SysUserData">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="orgId" property="orgId"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysUserData">
+        INSERT INTO SysUserData(
+            id ,
+            userId ,
+            orgId 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{orgId} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysUserData WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据用户编号删除权限 -->
+    <delete id="removeByUserId">
+         delete from SysUserData where userId = #{userId}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysUserData SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysUserData">
+        INSERT INTO SysUserData
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="orgId != null">
+                orgId 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="orgId != null">
+                #{orgId} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysUserData">
+        UPDATE SysUserData
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="orgId != null">
+                orgId = #{orgId} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysUserData(
+            id ,
+            userId ,
+            orgId 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.orgId} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysUserData SET
+            userId = #{item.userId} ,
+            orgId = #{item.orgId} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysUserData">
+        UPDATE SysUserData SET
+            userId = #{userId} ,
+            orgId = #{orgId} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysUserData">
+        SELECT <include refid="userDataColumns"/> FROM SysUserData a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysUserData">
+        SELECT
+        <include refid="userDataColumns"/>
+        FROM SysUserData a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="orgId != null">
+            AND a.orgId = #{orgId}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysUserData">
+        SELECT
+        <include refid="userDataColumns"/>
+        FROM SysUserData a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+</mapper>

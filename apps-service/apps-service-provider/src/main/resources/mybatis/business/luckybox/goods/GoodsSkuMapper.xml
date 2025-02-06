@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.goods.mapper.GoodsSkuMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="LRU" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="goodsSkuColumns">
+        a.id as id,
+        a.spuId as spuId,
+        a.title as title,
+        a.subTitle as subTitle,
+        a.sellingPoint as sellingPoint,
+        a.iconImage as iconImage,
+        a.mainImages as mainImages,
+        a.detailImages as detailImages,
+        a.price as price,
+        a.stock as stock,
+        a.param as param,
+        a.saleable as saleable,
+        a.valid as valid,
+        a.description as description,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <!-- 基础列 -->
+    <sql id="goodsSkuColumnsJoinGoodsSpu">
+        a.id as id,
+        a.spuId as spuId,
+        a.title as title,
+        a.subTitle as subTitle,
+        a.sellingPoint as sellingPoint,
+        a.iconImage as iconImage,
+        a.mainImages as mainImages,
+        a.detailImages as detailImages,
+        a.price as price,
+        a.stock as stock,
+        a.param as param,
+        a.saleable as saleable,
+        a.valid as valid,
+        a.description as description,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        spu.categoryId as categoryId,
+        spu.brandId as brandId,
+        spu.spgId as spgId
+    </sql>
+
+    <resultMap id="goodsSkuResultMap" type="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        <id column="ID" property="id" />
+        <result column="spuId" property="spuId"/>
+        <result column="title" property="title"/>
+        <result column="subTitle" property="subTitle"/>
+        <result column="sellingPoint" property="sellingPoint"/>
+        <result column="iconImage" property="iconImage"/>
+        <result column="mainImages" property="mainImages"/>
+        <result column="detailImages" property="detailImages"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="param" property="param"/>
+        <result column="saleable" property="saleable"/>
+        <result column="valid" property="valid"/>
+        <result column="description" property="description"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        INSERT INTO GoodsSku(
+            id ,
+            spuId ,
+            title ,
+            subTitle ,
+            sellingPoint ,
+            iconImage ,
+            mainImages ,
+            detailImages ,
+            price ,
+            stock ,
+            param ,
+            saleable ,
+            valid ,
+            description ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{spuId} ,
+            #{title} ,
+            #{subTitle} ,
+            #{sellingPoint} ,
+            #{iconImage} ,
+            #{mainImages} ,
+            #{detailImages} ,
+            #{price} ,
+            #{stock} ,
+            #{param} ,
+            #{saleable} ,
+            #{valid} ,
+            #{description} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM GoodsSku WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE GoodsSku SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        INSERT INTO GoodsSku
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="spuId != null">
+                spuId ,
+        </if>
+        <if test="title != null">
+                title ,
+        </if>
+        <if test="subTitle != null">
+                subTitle ,
+        </if>
+        <if test="sellingPoint != null">
+                sellingPoint ,
+        </if>
+        <if test="iconImage != null">
+                iconImage ,
+        </if>
+        <if test="mainImages != null">
+                mainImages ,
+        </if>
+        <if test="detailImages != null">
+                detailImages ,
+        </if>
+        <if test="price != null">
+                price ,
+        </if>
+        <if test="stock != null">
+                stock ,
+        </if>
+        <if test="param != null">
+                param ,
+        </if>
+        <if test="saleable != null">
+                saleable ,
+        </if>
+        <if test="valid != null">
+                valid ,
+        </if>
+        <if test="description != null">
+                description ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="spuId != null">
+                #{spuId} ,
+        </if>
+        <if test="title != null">
+                #{title} ,
+        </if>
+        <if test="subTitle != null">
+                #{subTitle} ,
+        </if>
+        <if test="sellingPoint != null">
+                #{sellingPoint} ,
+        </if>
+        <if test="iconImage != null">
+                #{iconImage} ,
+        </if>
+        <if test="mainImages != null">
+                #{mainImages} ,
+        </if>
+        <if test="detailImages != null">
+                #{detailImages} ,
+        </if>
+        <if test="price != null">
+                #{price} ,
+        </if>
+        <if test="stock != null">
+                #{stock} ,
+        </if>
+        <if test="param != null">
+                #{param} ,
+        </if>
+        <if test="saleable != null">
+                #{saleable} ,
+        </if>
+        <if test="valid != null">
+                #{valid} ,
+        </if>
+        <if test="description != null">
+                #{description} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        UPDATE GoodsSku
+           <set>
+            <if test="spuId != null">
+                spuId = #{spuId} ,
+            </if>
+            <if test="title != null">
+                title = #{title} ,
+            </if>
+            <if test="subTitle != null">
+                subTitle = #{subTitle} ,
+            </if>
+            <if test="sellingPoint != null">
+                sellingPoint = #{sellingPoint} ,
+            </if>
+            <if test="iconImage != null">
+                iconImage = #{iconImage} ,
+            </if>
+            <if test="mainImages != null">
+                mainImages = #{mainImages} ,
+            </if>
+            <if test="detailImages != null">
+                detailImages = #{detailImages} ,
+            </if>
+            <if test="price != null">
+                price = #{price} ,
+            </if>
+            <if test="stock != null">
+                stock = #{stock} ,
+            </if>
+            <if test="param != null">
+                param = #{param} ,
+            </if>
+            <if test="saleable != null">
+                saleable = #{saleable} ,
+            </if>
+            <if test="valid != null">
+                valid = #{valid} ,
+            </if>
+            <if test="description != null">
+                description = #{description} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO GoodsSku(
+            id ,
+            spuId ,
+            title ,
+            subTitle ,
+            sellingPoint ,
+            iconImage ,
+            mainImages ,
+            detailImages ,
+            price ,
+            stock ,
+            param ,
+            saleable ,
+            valid ,
+            description ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.spuId} ,
+            #{item.title} ,
+            #{item.subTitle} ,
+            #{item.sellingPoint} ,
+            #{item.iconImage} ,
+            #{item.mainImages} ,
+            #{item.detailImages} ,
+            #{item.price} ,
+            #{item.stock} ,
+            #{item.param} ,
+            #{item.saleable} ,
+            #{item.valid} ,
+            #{item.description} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE GoodsSku SET
+            spuId = #{item.spuId} ,
+            title = #{item.title} ,
+            subTitle = #{item.subTitle} ,
+            sellingPoint = #{item.sellingPoint} ,
+            iconImage = #{item.iconImage} ,
+            mainImages = #{item.mainImages} ,
+            detailImages = #{item.detailImages} ,
+            price = #{item.price} ,
+            stock = #{item.stock} ,
+            param = #{item.param} ,
+            saleable = #{item.saleable} ,
+            valid = #{item.valid} ,
+            description = #{item.description} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        UPDATE GoodsSku SET
+            spuId = #{spuId} ,
+            title = #{title} ,
+            subTitle = #{subTitle} ,
+            sellingPoint = #{sellingPoint} ,
+            iconImage = #{iconImage} ,
+            mainImages = #{mainImages} ,
+            detailImages = #{detailImages} ,
+            price = #{price} ,
+            stock = #{stock} ,
+            param = #{param} ,
+            saleable = #{saleable} ,
+            valid = #{valid} ,
+            description = #{description} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        SELECT <include refid="goodsSkuColumnsJoinGoodsSpu"/>
+        FROM GoodsSku a left join GoodsSpu spu on a.spuId = spu.id
+        WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        SELECT
+        <include refid="goodsSkuColumnsJoinGoodsSpu"/>
+        FROM GoodsSku a left join GoodsSpu spu on a.spuId = spu.id
+        WHERE 1 = 1
+        <if test="id != null">
+            AND a.id= #{id}
+        </if>
+        <if test="spuId != null">
+            AND a.spuId = #{spuId}
+        </if>
+        <if test="title != null">
+            AND a.title LIKE CONCAT('%',#{title}, '%') 
+        </if>
+        <if test="subTitle != null">
+            AND a.subTitle LIKE CONCAT('%',#{subTitle}, '%') 
+        </if>
+        <if test="sellingPoint != null">
+            AND a.sellingPoint LIKE CONCAT('%',#{sellingPoint}, '%') 
+        </if>
+        <if test="iconImage != null">
+            AND a.iconImage LIKE CONCAT('%',#{iconImage}, '%')
+        </if>
+        <if test="mainImages != null">
+            AND a.mainImages LIKE CONCAT('%',#{mainImages}, '%') 
+        </if>
+        <if test="detailImages != null">
+            AND a.detailImages LIKE CONCAT('%',#{detailImages}, '%') 
+        </if>
+        <if test="price != null">
+            AND a.price = #{price}
+        </if>
+        <if test="stock != null">
+            AND a.stock = #{stock}
+        </if>
+        <if test="param != null">
+            AND a.param LIKE CONCAT('%',#{param}, '%') 
+        </if>
+        <if test="saleable != null">
+            AND a.saleable = #{saleable}
+        </if>
+        <if test="valid != null">
+            AND a.valid = #{valid}
+        </if>
+        <if test="description != null">
+            AND a.description LIKE CONCAT('%',#{description}, '%') 
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by  a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSku">
+        SELECT
+        <include refid="goodsSkuColumns"/>
+        FROM GoodsSku a
+    </select>
+
+</mapper>
+

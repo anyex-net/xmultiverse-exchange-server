@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountInviteRewardsDetailMapper">
+    <!-- 基础列 -->
+    <sql id="accountinviterewardsdetailColumns">
+                            id as id ,
+                            accountId as accountId ,
+                            inviteActId as inviteActId,
+                            inviteActNick as inviteActNick,
+                            inviteActHead as inviteActHead,
+                            inviteActSeq as inviteActSeq,
+                            inviteCnt as inviteCnt ,
+                            rewardsLevel as rewardsLevel ,
+                            inviteAward as inviteAward ,
+                            status as status ,
+                            remark as remark ,
+                            createTime as createTime ,
+                            updateTime as updateTime
+                </sql>
+
+    <resultMap id="AccountInviteRewardsDetailResultMap" type="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+                    <result column="id" property="id"/>
+                    <result column="accountId" property="accountId"/>
+                    <result column="inviteActId" property="inviteActId"/>
+                    <result column="inviteActNick" property="inviteActNick"/>
+                    <result column="inviteActHead" property="inviteActHead"/>
+                    <result column="inviteActSeq" property="inviteActSeq"/>
+                    <result column="inviteCnt" property="inviteCnt"/>
+                    <result column="rewardsLevel" property="rewardsLevel"/>
+                    <result column="inviteAward" property="inviteAward"/>
+                    <result column="status" property="status"/>
+                    <result column="remark" property="remark"/>
+                    <result column="createTime" property="createTime"/>
+                    <result column="updateTime" property="updateTime"/>
+            </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        INSERT INTO AccountInviteRewardsDetail(
+                            id ,
+                            accountId ,
+                            inviteActId ,
+                            inviteActNick ,
+                            inviteActHead ,
+                            inviteActSeq ,
+                            inviteCnt ,
+                            rewardsLevel ,
+                            inviteAward ,
+                            status ,
+                            remark ,
+                            createTime ,
+                            updateTime
+                    ) VALUES (
+                                #{id} ,
+                                #{accountId} ,
+                                #{inviteActId} ,
+                                #{inviteActNick} ,
+                                #{inviteActHead} ,
+                                #{inviteActSeq} ,
+                                #{inviteCnt} ,
+                                #{rewardsLevel} ,
+                                #{inviteAward} ,
+                                #{status} ,
+                                #{remark} ,
+                                #{createTime} ,
+                                #{updateTime}
+                        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE
+        FROM AccountInviteRewardsDetail WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE AccountInviteRewardsDetail SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        INSERT INTO AccountInviteRewardsDetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    id ,
+                </if>
+
+                <if test="accountId != null">
+                    accountId ,
+                </if>
+                <if test="inviteActId != null">
+                    inviteActId ,
+                </if>
+                <if test="inviteActNick != null">
+                    inviteActNick ,
+                </if>
+                <if test="inviteActHead != null">
+                    inviteActHead ,
+                </if>
+                <if test="inviteActSeq != null">
+                    inviteActSeq ,
+                </if>
+
+                <if test="inviteCnt != null">
+                    inviteCnt ,
+                </if>
+
+                <if test="rewardsLevel != null">
+                    rewardsLevel ,
+                </if>
+
+                <if test="inviteAward != null">
+                    inviteAward ,
+                </if>
+
+                <if test="status != null">
+                    status ,
+                </if>
+
+                <if test="remark != null">
+                    remark ,
+                </if>
+
+                <if test="createTime != null">
+                    createTime ,
+                </if>
+
+                <if test="updateTime != null">
+                    updateTime
+                </if>
+
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    #{id} ,
+                </if>
+
+                <if test="accountId != null">
+                    #{accountId} ,
+                </if>
+                <if test="inviteActId != null">
+                    #{inviteActId} ,
+                </if>
+                <if test="inviteActNick != null">
+                    #{inviteActNick} ,
+                </if>
+                <if test="inviteActHead != null">
+                    #{inviteActHead} ,
+                </if>
+                <if test="inviteActSeq != null">
+                    #{inviteActSeq} ,
+                </if>
+
+                <if test="inviteCnt != null">
+                    #{inviteCnt} ,
+                </if>
+
+                <if test="rewardsLevel != null">
+                    #{rewardsLevel} ,
+                </if>
+
+                <if test="inviteAward != null">
+                    #{inviteAward} ,
+                </if>
+
+                <if test="status != null">
+                    #{status} ,
+                </if>
+
+                <if test="remark != null">
+                    #{remark} ,
+                </if>
+
+                <if test="createTime != null">
+                    #{createTime} ,
+                </if>
+
+                <if test="updateTime != null">
+                    #{updateTime}
+                </if>
+
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        UPDATE AccountInviteRewardsDetail
+        <set>
+                    <if test="accountId != null">
+                        accountId = #{accountId} ,
+                    </if>
+                    <if test="inviteActId != null">
+                        inviteActId = #{inviteActId} ,
+                    </if>
+                    <if test="inviteActNick != null">
+                        inviteActNick = #{inviteActNick} ,
+                    </if>
+                    <if test="inviteActHead != null">
+                        inviteActHead = #{inviteActHead} ,
+                    </if>
+                    <if test="inviteActSeq != null">
+                        inviteActSeq = #{inviteActSeq} ,
+                    </if>
+                    <if test="inviteCnt != null">
+                        inviteCnt = #{inviteCnt} ,
+                    </if>
+                    <if test="rewardsLevel != null">
+                        rewardsLevel = #{rewardsLevel} ,
+                    </if>
+                    <if test="inviteAward != null">
+                        inviteAward = #{inviteAward} ,
+                    </if>
+                    <if test="status != null">
+                        status = #{status} ,
+                    </if>
+                    <if test="remark != null">
+                        remark = #{remark} ,
+                    </if>
+                    <if test="createTime != null">
+                        createTime = #{createTime} ,
+                    </if>
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime}
+                    </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO AccountInviteRewardsDetail(
+                    id ,
+                    accountId ,
+                    inviteActId ,
+                    inviteActNick ,
+                    inviteActHead ,
+                    inviteActSeq ,
+                    inviteCnt ,
+                    rewardsLevel ,
+                    inviteAward ,
+                    status ,
+                    remark ,
+                    createTime ,
+                    updateTime
+                ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.id} ,
+                #{item.accountId} ,
+                #{item.inviteActId} ,
+                #{item.inviteActNick} ,
+                #{item.inviteActHead} ,
+                #{item.inviteActSeq} ,
+                #{item.inviteCnt} ,
+                #{item.rewardsLevel} ,
+                #{item.inviteAward} ,
+                #{item.status} ,
+                #{item.remark} ,
+                #{item.createTime} ,
+                #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE AccountInviteRewardsDetail SET
+
+                    accountId = #{item.accountId} ,
+                    inviteActId = #{item.inviteActId} ,
+                    inviteActNick = #{item.inviteActNick} ,
+                    inviteActHead = #{item.inviteActHead} ,
+                    inviteActSeq = #{item.inviteActSeq} ,
+                    inviteCnt = #{item.inviteCnt} ,
+                    rewardsLevel = #{item.rewardsLevel} ,
+                    inviteAward = #{item.inviteAward} ,
+                    status = #{item.status} ,
+                    remark = #{item.remark} ,
+                    createTime = #{item.createTime} ,
+                    updateTime = #{item.updateTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        UPDATE AccountInviteRewardsDetail SET
+                    accountId = #{accountId} ,
+                    inviteActId = #{inviteActId} ,
+                    inviteActNick = #{inviteActNick} ,
+                    inviteActHead = #{inviteActHead} ,
+                    inviteActSeq = #{inviteActSeq} ,
+                    inviteCnt = #{inviteCnt} ,
+                    rewardsLevel = #{rewardsLevel} ,
+                    inviteAward = #{inviteAward} ,
+                    status = #{status} ,
+                    remark = #{remark} ,
+                    createTime = #{createTime} ,
+                    updateTime = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        SELECT
+        <include refid="accountinviterewardsdetailColumns"/>
+        FROM AccountInviteRewardsDetail a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        SELECT
+        <include refid="accountinviterewardsdetailColumns"/>
+        FROM AccountInviteRewardsDetail a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="inviteActId != null">
+            AND a.inviteActId = #{inviteActId}
+        </if>
+        <if test="inviteActNick != null">
+            AND a.inviteActNick = #{inviteActNick}
+        </if>
+        <if test="inviteActHead != null">
+            AND a.inviteActHead = #{inviteActHead}
+        </if>
+        <if test="inviteActSeq != null">
+            AND a.inviteActSeq = #{inviteActSeq}
+        </if>
+
+        <if test="inviteCnt != null">
+            AND a.inviteCnt = #{inviteCnt}
+        </if>
+
+        <if test="rewardsLevel != null">
+            AND a.rewardsLevel = #{rewardsLevel}
+        </if>
+
+        <if test="inviteAward != null">
+            AND a.inviteAward = #{inviteAward}
+        </if>
+
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+
+        <if test="remark != null">
+            AND a.remark = #{remark}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        SELECT
+        <include refid="accountinviterewardsdetailColumns"/>
+        FROM AccountInviteRewardsDetail a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="inviteActId != null">
+            AND a.inviteActId = #{inviteActId}
+        </if>
+        <if test="inviteActNick != null">
+            AND a.inviteActNick = #{inviteActNick}
+        </if>
+        <if test="inviteActHead != null">
+            AND a.inviteActHead = #{inviteActHead}
+        </if>
+        <if test="inviteActSeq != null">
+            AND a.inviteActSeq = #{inviteActSeq}
+        </if>
+
+        <if test="inviteCnt != null">
+            AND a.inviteCnt = #{inviteCnt}
+        </if>
+
+        <if test="rewardsLevel != null">
+            AND a.rewardsLevel = #{rewardsLevel}
+        </if>
+
+        <if test="inviteAward != null">
+            AND a.inviteAward = #{inviteAward}
+        </if>
+
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+
+        <if test="remark != null">
+            AND a.remark = #{remark}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by a.createTime desc
+
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.AccountInviteRewardsDetail">
+        SELECT
+        <include refid="accountinviterewardsdetailColumns"/>
+        FROM AccountInviteRewardsDetail a
+    </select>
+
+
+</mapper>
+

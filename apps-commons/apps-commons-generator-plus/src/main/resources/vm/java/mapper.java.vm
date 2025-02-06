@@ -1,0 +1,21 @@
+package ${moduleName}${packageName}.mapper;
+
+import com.anyex.apps.bean.GenericMapper;
+import org.apache.ibatis.annotations.Mapper;
+import ${moduleName}${packageName}.entity.${ClassName};
+
+/**
+ * ${functionName} 持久层接口
+ * <p>File：${ClassName}Mapper.java </p>
+ * <p>Title: ${ClassName}Mapper </p>
+ * <p>Description:${ClassName}Mapper </p>
+ * <p>Copyright: Copyright (c) May 26, 2015</p>
+ * <p>Company: AnyEx</p>
+ * @author Playguy
+ * @version 1.0
+ */
+@Mapper
+public interface ${ClassName}Mapper extends GenericMapper<${ClassName}>
+{
+
+}

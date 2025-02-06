@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.asset.mapper.WalletAssetTransactionsMapper">
+    <!-- 基础列 -->
+    <sql id="walletAssetTransactionsColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.currency as currency,
+        a.trxType as trxType,
+        a.trxAmount as trxAmount,
+        a.trxActAmount as trxActAmount,
+        a.trxFee as trxFee,
+        a.trxTime as trxTime,
+        a.trxNo as trxNo,
+        a.platTrxNo as platTrxNo,
+        a.trxStatus as trxStatus,
+        a.trxDesc as trxDesc,
+        a.queryDesc as queryDesc ,
+        a.trxChannel as trxChannel,
+        a.trxAccountType as trxAccountType,
+        a.trxAccountNo as trxAccountNo,
+        a.trxAccountName as trxAccountName,
+        a.trxBankName as trxBankName,
+        a.trxIban as trxIban,
+        a.trxCnic as trxCnic,
+        a.trxEmail as trxEmail,
+        a.trxMobile as trxMobile,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        a.remark as remark
+    </sql>
+
+    <resultMap id="walletAssetTransactionsResultMap" type="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        <id column="ID" property="id" />
+        <result column="accountId" property="accountId"/>
+        <result column="currency" property="currency"/>
+        <result column="trxType" property="trxType"/>
+        <result column="trxAmount" property="trxAmount"/>
+        <result column="trxActAmount" property="trxActAmount"/>
+        <result column="trxFee" property="trxFee"/>
+        <result column="trxTime" property="trxTime"/>
+        <result column="trxNo" property="trxNo"/>
+        <result column="platTrxNo" property="platTrxNo"/>
+        <result column="trxStatus" property="trxStatus"/>
+        <result column="trxDesc" property="trxDesc"/>
+        <result column="queryDesc" property="queryDesc" />
+        <result column="trxChannel" property="trxChannel"/>
+        <result column="trxAccountType" property="trxAccountType"/>
+        <result column="trxAccountNo" property="trxAccountNo"/>
+        <result column="trxAccountName" property="trxAccountName"/>
+        <result column="trxBankName" property="trxBankName"/>
+        <result column="trxIban" property="trxIban"/>
+        <result column="trxCnic" property="trxCnic"/>
+        <result column="trxEmail" property="trxEmail"/>
+        <result column="trxMobile" property="trxMobile"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        INSERT INTO WalletAssetTransactions(
+            id ,
+            accountId ,
+            currency ,
+            trxType ,
+            trxAmount ,
+            trxActAmount ,
+            trxFee ,
+            trxTime ,
+            trxNo ,
+            platTrxNo,
+            trxStatus ,
+            trxDesc ,
+            queryDesc ,
+            trxChannel ,
+            trxAccountType ,
+            trxAccountNo ,
+            trxAccountName ,
+            trxBankName ,
+            trxIban ,
+            trxCnic ,
+            trxEmail ,
+            trxMobile ,
+            createTime ,
+            updateTime ,
+            remark 
+        ) VALUES (
+            #{id} ,
+            #{accountId} ,
+            #{currency} ,
+            #{trxType} ,
+            #{trxAmount} ,
+            #{trxActAmount} ,
+            #{trxFee} ,
+            #{trxTime} ,
+            #{trxNo} ,
+            #{platTrxNo},
+            #{trxStatus} ,
+            #{trxDesc} ,
+            #{queryDesc} ,
+            #{trxChannel} ,
+            #{trxAccountType} ,
+            #{trxAccountNo} ,
+            #{trxAccountName} ,
+            #{trxBankName} ,
+            #{trxIban} ,
+            #{trxCnic} ,
+            #{trxEmail} ,
+            #{trxMobile} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{remark} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM WalletAssetTransactions WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE WalletAssetTransactions SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        INSERT INTO WalletAssetTransactions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="currency != null">
+                currency ,
+        </if>
+        <if test="trxType != null">
+                trxType ,
+        </if>
+        <if test="trxAmount != null">
+                trxAmount ,
+        </if>
+        <if test="trxActAmount != null">
+                trxActAmount ,
+        </if>
+        <if test="trxFee != null">
+                trxFee ,
+        </if>
+        <if test="trxTime != null">
+                trxTime ,
+        </if>
+        <if test="trxNo != null">
+                trxNo ,
+        </if>
+        <if test="platTrxNo != null">
+                platTrxNo,
+        </if>
+        <if test="trxStatus != null">
+                trxStatus ,
+        </if>
+        <if test="trxDesc != null">
+                trxDesc ,
+        </if>
+        <if test="queryDesc != null">
+                queryDesc ,
+        </if>
+        <if test="trxChannel != null">
+                trxChannel ,
+        </if>
+        <if test="trxAccountType != null">
+                trxAccountType ,
+        </if>
+        <if test="trxAccountNo != null">
+                trxAccountNo ,
+        </if>
+        <if test="trxAccountName != null">
+                trxAccountName ,
+        </if>
+        <if test="trxBankName != null">
+                trxBankName ,
+        </if>
+        <if test="trxIban != null">
+                trxIban ,
+        </if>
+        <if test="trxCnic != null">
+                trxCnic ,
+        </if>
+        <if test="trxEmail != null">
+                trxEmail ,
+        </if>
+        <if test="trxMobile != null">
+                trxMobile ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime ,
+        </if>
+        <if test="remark != null">
+                remark 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="currency != null">
+                #{currency} ,
+        </if>
+        <if test="trxType != null">
+                #{trxType} ,
+        </if>
+        <if test="trxAmount != null">
+                #{trxAmount} ,
+        </if>
+        <if test="trxActAmount != null">
+                #{trxActAmount} ,
+        </if>
+        <if test="trxFee != null">
+                #{trxFee} ,
+        </if>
+        <if test="trxTime != null">
+                #{trxTime} ,
+        </if>
+        <if test="trxNo != null">
+                #{trxNo} ,
+        </if>
+        <if test="platTrxNo != null">
+                #{platTrxNo},
+        </if>
+        <if test="trxStatus != null">
+                #{trxStatus} ,
+        </if>
+        <if test="trxDesc != null">
+                #{trxDesc} ,
+        </if>
+        <if test="queryDesc != null">
+                #{queryDesc} ,
+        </if>
+        <if test="trxChannel != null">
+                #{trxChannel} ,
+        </if>
+        <if test="trxAccountType != null">
+                #{trxAccountType} ,
+        </if>
+        <if test="trxAccountNo != null">
+                #{trxAccountNo} ,
+        </if>
+        <if test="trxAccountName != null">
+                #{trxAccountName} ,
+        </if>
+        <if test="trxBankName != null">
+                #{trxBankName} ,
+        </if>
+        <if test="trxIban != null">
+                #{trxIban} ,
+        </if>
+        <if test="trxCnic != null">
+                #{trxCnic} ,
+        </if>
+        <if test="trxEmail != null">
+                #{trxEmail} ,
+        </if>
+        <if test="trxMobile != null">
+                #{trxMobile} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="remark != null">
+                #{remark} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        UPDATE WalletAssetTransactions
+           <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="currency != null">
+                currency = #{currency} ,
+            </if>
+            <if test="trxType != null">
+                trxType = #{trxType} ,
+            </if>
+            <if test="trxAmount != null">
+                trxAmount = #{trxAmount} ,
+            </if>
+            <if test="trxActAmount != null">
+                trxActAmount = #{trxActAmount} ,
+            </if>
+            <if test="trxFee != null">
+                trxFee = #{trxFee} ,
+            </if>
+            <if test="trxTime != null">
+                trxTime = #{trxTime} ,
+            </if>
+            <if test="trxNo != null">
+                trxNo = #{trxNo} ,
+            </if>
+            <if test="platTrxNo != null">
+                platTrxNo = #{platTrxNo},
+            </if>
+            <if test="trxStatus != null">
+                trxStatus = #{trxStatus} ,
+            </if>
+            <if test="trxDesc != null">
+                trxDesc = #{trxDesc} ,
+            </if>
+            <if test="queryDesc != null">
+                queryDesc = #{queryDesc} ,
+            </if>
+            <if test="trxChannel != null">
+                trxChannel = #{trxChannel} ,
+            </if>
+            <if test="trxAccountType != null">
+                trxAccountType = #{trxAccountType} ,
+            </if>
+            <if test="trxAccountNo != null">
+                trxAccountNo = #{trxAccountNo} ,
+            </if>
+            <if test="trxAccountName != null">
+                trxAccountName = #{trxAccountName} ,
+            </if>
+            <if test="trxBankName != null">
+                trxBankName = #{trxBankName} ,
+            </if>
+            <if test="trxIban != null">
+                trxIban = #{trxIban} ,
+            </if>
+            <if test="trxCnic != null">
+                trxCnic = #{trxCnic} ,
+            </if>
+            <if test="trxEmail != null">
+                trxEmail = #{trxEmail} ,
+            </if>
+            <if test="trxMobile != null">
+                trxMobile = #{trxMobile} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO WalletAssetTransactions(
+            id ,
+            accountId ,
+            currency ,
+            trxType ,
+            trxAmount ,
+            trxActAmount ,
+            trxFee ,
+            trxTime ,
+            trxNo ,
+            platTrxNo ,
+            trxStatus ,
+            trxDesc ,
+            queryDesc ,
+            trxChannel ,
+            trxAccountType ,
+            trxAccountNo ,
+            trxAccountName ,
+            trxBankName ,
+            trxIban ,
+            trxCnic ,
+            trxEmail ,
+            trxMobile ,
+            createTime ,
+            updateTime ,
+            remark 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.accountId} ,
+            #{item.currency} ,
+            #{item.trxType} ,
+            #{item.trxAmount} ,
+            #{item.trxActAmount} ,
+            #{item.trxFee} ,
+            #{item.trxTime} ,
+            #{item.trxNo} ,
+            #{item.platTrxNo},
+            #{item.trxStatus} ,
+            #{item.trxDesc} ,
+            #{item.queryDesc} ,
+            #{item.trxChannel} ,
+            #{item.trxAccountType} ,
+            #{item.trxAccountNo} ,
+            #{item.trxAccountName} ,
+            #{item.trxBankName} ,
+            #{item.trxIban} ,
+            #{item.trxCnic} ,
+            #{item.trxEmail} ,
+            #{item.trxMobile} ,
+            #{item.createTime} ,
+            #{item.updateTime} ,
+            #{item.remark} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE WalletAssetTransactions SET
+            accountId = #{item.accountId} ,
+            currency = #{item.currency} ,
+            trxType = #{item.trxType} ,
+            trxAmount = #{item.trxAmount} ,
+            trxActAmount = #{item.trxActAmount} ,
+            trxFee = #{item.trxFee} ,
+            trxTime = #{item.trxTime} ,
+            trxNo = #{item.trxNo} ,
+            platTrxNo = #{item.platTrxNo},
+            trxStatus = #{item.trxStatus} ,
+            trxDesc = #{item.trxDesc} ,
+            queryDesc = #{item.queryDesc} ,
+            trxChannel = #{item.trxChannel} ,
+            trxAccountType = #{item.trxAccountType} ,
+            trxAccountNo = #{item.trxAccountNo} ,
+            trxAccountName = #{item.trxAccountName} ,
+            trxBankName = #{item.trxBankName} ,
+            trxIban = #{item.trxIban} ,
+            trxCnic = #{item.trxCnic} ,
+            trxEmail = #{item.trxEmail} ,
+            trxMobile = #{item.trxMobile} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} ,
+            remark = #{item.remark} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        UPDATE WalletAssetTransactions SET
+            accountId = #{accountId} ,
+            currency = #{currency} ,
+            trxType = #{trxType} ,
+            trxAmount = #{trxAmount} ,
+            trxActAmount = #{trxActAmount} ,
+            trxFee= #{trxFee} ,
+            trxTime = #{trxTime} ,
+            trxNo = #{trxNo} ,
+            platTrxNo = #{platTrxNo},
+            trxStatus = #{trxStatus} ,
+            trxDesc = #{trxDesc} ,
+            queryDesc = #{queryDesc} ,
+            trxChannel = #{trxChannel} ,
+            trxAccountType = #{trxAccountType} ,
+            trxAccountNo = #{trxAccountNo} ,
+            trxAccountName = #{trxAccountName} ,
+            trxBankName = #{trxBankName} ,
+            trxIban = #{trxIban} ,
+            trxCnic = #{trxCnic} ,
+            trxEmail = #{trxEmail} ,
+            trxMobile = #{trxMobile} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} ,
+            remark = #{remark} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        SELECT <include refid="walletAssetTransactionsColumns"/> FROM WalletAssetTransactions a WHERE a.ID = #{id}
+    </select>
+
+    <select id="findByTrxNo"  resultType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        SELECT <include refid="walletAssetTransactionsColumns"/> FROM WalletAssetTransactions a WHERE a.trxNo = #{trxNo}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        SELECT
+        <include refid="walletAssetTransactionsColumns"/>
+        FROM WalletAssetTransactions a
+        WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="currency != null">
+            AND a.currency LIKE CONCAT('%',#{currency}, '%') 
+        </if>
+        <if test="trxType != null">
+            AND a.trxType LIKE CONCAT('%',#{trxType}, '%') 
+        </if>
+        <if test="trxAmount != null">
+            AND a.trxAmount = #{trxAmount}
+        </if>
+        <if test="trxTime != null">
+            AND a.trxTime = #{trxTime}
+        </if>
+        <if test="trxNo != null">
+            AND a.trxNo LIKE CONCAT('%',#{trxNo}, '%') 
+        </if>
+        <if test="platTrxNo != null and platTrxNo !=''">
+            AND a.platTrxNo LIKE CONCAT('%',#{platTrxNo}, '%')
+        </if>
+        <if test="trxStatus != null">
+            AND a.trxStatus = #{trxStatus}
+        </if>
+        <if test="trxDesc != null">
+            AND a.trxDesc LIKE CONCAT('%',#{trxDesc}, '%') 
+        </if>
+        <if test="trxChannel != null">
+            AND a.trxChannel LIKE CONCAT('%',#{trxChannel}, '%') 
+        </if>
+        <if test="trxAccountType != null">
+            AND a.trxAccountType LIKE CONCAT('%',#{trxAccountType}, '%') 
+        </if>
+        <if test="trxAccountNo != null">
+            AND a.trxAccountNo LIKE CONCAT('%',#{trxAccountNo}, '%') 
+        </if>
+        <if test="trxAccountName != null">
+            AND a.trxAccountName LIKE CONCAT('%',#{trxAccountName}, '%') 
+        </if>
+        <if test="trxBankName != null">
+            AND a.trxBankName LIKE CONCAT('%',#{trxBankName}, '%') 
+        </if>
+        <if test="trxIban != null">
+            AND a.trxIban LIKE CONCAT('%',#{trxIban}, '%') 
+        </if>
+        <if test="trxCnic != null">
+            AND a.trxCnic LIKE CONCAT('%',#{trxCnic}, '%') 
+        </if>
+        <if test="trxEmail != null">
+            AND a.trxEmail LIKE CONCAT('%',#{trxEmail}, '%') 
+        </if>
+        <if test="trxMobile != null">
+            AND a.trxMobile LIKE CONCAT('%',#{trxMobile}, '%') 
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="remark != null">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%') 
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.asset.entity.WalletAssetTransactions">
+        SELECT
+        <include refid="walletAssetTransactionsColumns"/>
+        FROM WalletAssetTransactions a
+    </select>
+
+    <select id="getTotalWithDrawCurrDay" resultType="java.math.BigDecimal">
+        select
+            ifnull(sum(a.trxActAmount), 0)
+        from WalletAssetTransactions a
+        where trxType='withDraw'
+                and trxStatus != 'failed'
+                and concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d'), '') = date_format(curdate(), '%Y-%m-%d')
+            <if test="accountId != null">
+                and accountId = #{accountId}
+            </if>
+            <if test="accountNo != null and accountNo !=''">
+                and trxAccountNo = #{accountNo}
+            </if>
+    </select>
+</mapper>
+

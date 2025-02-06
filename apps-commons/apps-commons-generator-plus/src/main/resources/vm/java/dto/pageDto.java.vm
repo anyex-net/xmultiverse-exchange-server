@@ -1,0 +1,64 @@
+package ${moduleName}${packageName}.domain.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+
+/**
+ * ${functionName} 分页出参
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@ApiModel(description = "${functionName} 分页出参")
+@Data
+public class ${ClassName}PageDto {
+    private static final long serialVersionUID = 1L;
+#foreach ($column in $columns)
+    #if($column.list)
+
+    @ApiModelProperty(value = "$column.columnComment")
+#if($column.list)
+    #if($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    #end
+#end
+    private $column.javaType $column.javaField;
+    #end
+#end
+#foreach ($column in $columns)
+    #if($column.list)
+    #set($parentheseIndex=$column.columnComment.indexOf("("))
+    #set($hasConverter=$column.columnComment.indexOf("="))
+    #if($parentheseIndex != -1 && $hasConverter != -1)
+        #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+        #set($converts=$column.readConverterExp().split(","))
+
+        @ApiModelProperty(value = "$comment字符串($column.readConverterExp())")
+        private String ${column.javaField}Str;
+
+        public String get${column.capJavaField}Str() {
+            if(${column.javaField}Str == null && ${column.javaField} != null) {
+                switch(${column.javaField}) {
+                    #foreach ($convert in $converts)
+                        #set($key = $convert.split("=")[0])
+                        #set($value = $convert.split("=")[1])
+                        case $key:
+                                ${column.javaField}Str = "$value";
+                            break;
+                    #end
+                    default:
+                        break;
+                }
+            }
+            return ${column.javaField}Str;
+        }
+    #end
+    #end
+#end
+}

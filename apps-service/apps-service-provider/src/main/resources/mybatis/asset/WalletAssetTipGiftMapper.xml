@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.asset.mapper.WalletAssetTipGiftMapper">
+    <!-- 基础列 -->
+    <sql id="walletAssetTipGiftColumns">
+        a.id as id,
+        a.fromAccountId as fromAccountId,
+        a.toAccountId as toAccountId,
+        a.currency as currency,
+        a.trxNo as trxNo,
+        a.trxBalance as trxBalance,
+        a.trxFee as trxFee,
+        a.status as status,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        a.remark as remark
+    </sql>
+
+    <resultMap id="walletAssetTipGiftResultMap" type="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        <id column="ID" property="id" />
+        <result column="fromAccountId" property="fromAccountId"/>
+        <result column="toAccountId" property="toAccountId"/>
+        <result column="currency" property="currency"/>
+        <result column="trxNo" property="trxNo"/>
+        <result column="trxBalance" property="trxBalance"/>
+        <result column="trxFee" property="trxFee"/>
+        <result column="status" property="status"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        INSERT INTO WalletAssetTipGift(
+            id ,
+            fromAccountId ,
+            toAccountId ,
+            currency ,
+            trxNo ,
+            trxBalance ,
+            trxFee ,
+            status ,
+            createTime ,
+            updateTime ,
+            remark 
+        ) VALUES (
+            #{id} ,
+            #{fromAccountId} ,
+            #{toAccountId} ,
+            #{currency} ,
+            #{trxNo} ,
+            #{trxBalance} ,
+            #{trxFee} ,
+            #{status} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{remark} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM WalletAssetTipGift WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE WalletAssetTipGift SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        INSERT INTO WalletAssetTipGift
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="fromAccountId != null">
+                fromAccountId ,
+        </if>
+        <if test="toAccountId != null">
+                toAccountId ,
+        </if>
+        <if test="currency != null">
+                currency ,
+        </if>
+        <if test="trxNo != null">
+                trxNo ,
+        </if>
+        <if test="trxBalance != null">
+                trxBalance ,
+        </if>
+        <if test="trxFee != null">
+                trxFee ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime ,
+        </if>
+        <if test="remark != null">
+                remark 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="fromAccountId != null">
+                #{fromAccountId} ,
+        </if>
+        <if test="toAccountId != null">
+                #{toAccountId} ,
+        </if>
+        <if test="currency != null">
+                #{currency} ,
+        </if>
+        <if test="trxNo != null">
+                #{trxNo} ,
+        </if>
+        <if test="trxBalance != null">
+                #{trxBalance} ,
+        </if>
+        <if test="trxFee != null">
+                #{trxFee} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="remark != null">
+                #{remark} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        UPDATE WalletAssetTipGift
+           <set>
+            <if test="fromAccountId != null">
+                fromAccountId = #{fromAccountId} ,
+            </if>
+            <if test="toAccountId != null">
+                toAccountId = #{toAccountId} ,
+            </if>
+            <if test="currency != null">
+                currency = #{currency} ,
+            </if>
+            <if test="trxNo != null">
+                trxNo = #{trxNo} ,
+            </if>
+            <if test="trxBalance != null">
+                trxBalance = #{trxBalance} ,
+            </if>
+            <if test="trxFee != null">
+                trxFee = #{trxFee} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO WalletAssetTipGift(
+            id ,
+            fromAccountId ,
+            toAccountId ,
+            currency ,
+            trxNo ,
+            trxBalance ,
+            trxFee ,
+            status ,
+            createTime ,
+            updateTime ,
+            remark 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.fromAccountId} ,
+            #{item.toAccountId} ,
+            #{item.currency} ,
+            #{item.trxNo} ,
+            #{item.trxBalance} ,
+            #{item.trxFee} ,
+            #{item.status} ,
+            #{item.createTime} ,
+            #{item.updateTime} ,
+            #{item.remark} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE WalletAssetTipGift SET
+            fromAccountId = #{item.fromAccountId} ,
+            toAccountId = #{item.toAccountId} ,
+            currency = #{item.currency} ,
+            trxNo = #{item.trxNo} ,
+            trxBalance = #{item.trxBalance} ,
+            trxFee = #{item.trxFee} ,
+            status = #{item.status} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} ,
+            remark = #{item.remark} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        UPDATE WalletAssetTipGift SET
+            fromAccountId = #{fromAccountId} ,
+            toAccountId = #{toAccountId} ,
+            currency = #{currency} ,
+            trxNo = #{trxNo} ,
+            trxBalance = #{trxBalance} ,
+            trxFee = #{trxFee} ,
+            status = #{status} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} ,
+            remark = #{remark} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        SELECT <include refid="walletAssetTipGiftColumns"/> FROM WalletAssetTipGift a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        SELECT
+        <include refid="walletAssetTipGiftColumns"/>
+        FROM WalletAssetTipGift a WHERE 1 = 1
+        <if test="fromAccountId != null">
+            AND a.fromAccountId = #{fromAccountId}
+        </if>
+        <if test="toAccountId != null">
+            AND a.toAccountId = #{toAccountId}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND a.currency LIKE CONCAT('%',#{currency}, '%')
+        </if>
+        <if test="trxNo != null and trxNo != ''">
+            AND a.trxNo LIKE CONCAT('%',#{trxNo}, '%')
+        </if>
+        <if test="trxBalance != null">
+            AND a.trxBalance = #{trxBalance}
+        </if>
+        <if test="trxFee != null">
+            AND a.trxFee = #{trxFee}
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.asset.entity.WalletAssetTipGift">
+        SELECT
+        <include refid="walletAssetTipGiftColumns"/>
+        FROM WalletAssetTipGift a
+    </select>
+
+
+</mapper>
+

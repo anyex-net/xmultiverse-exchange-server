@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysAppVersionMapper">
+    <!--所有读写操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="FIFO" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="appVersionColumns">
+        a.id as id,
+        a.deviceType as deviceType,
+        a.appVersion as appVersion,
+        a.buildVersion as buildVersion,
+        a.canSupport as canSupport,
+        a.checkStatus as checkStatus,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.remark as remark
+    </sql>
+
+    <sql id="appVersionColumnsJoinUserInfo">
+        a.id as id,
+        a.deviceType as deviceType,
+        a.appVersion as appVersion,
+        a.buildVersion as buildVersion,
+        a.canSupport as canSupport,
+        a.checkStatus as checkStatus,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.remark as remark,
+        b.username as username
+    </sql>
+    <resultMap id="appVersionResultMap" type="com.anyex.apps.common.entity.SysAppVersion">
+        <id column="id" property="id" />
+        <result column="deviceType" property="deviceType"/>
+        <result column="appVersion" property="appVersion"/>
+        <result column="buildVersion" property="buildVersion"/>
+        <result column="canSupport" property="canSupport"/>
+        <result column="checkStatus" property="checkStatus"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createDate" property="createDate"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysAppVersion">
+        insert into SysAppVersion(
+        id ,
+        deviceType ,
+        appVersion ,
+        buildVersion ,
+        canSupport ,
+        checkStatus ,
+        createBy ,
+        createDate ,
+        remark
+        ) VALUES (
+        #{id} ,
+        #{deviceType} ,
+        #{appVersion} ,
+        #{buildVersion} ,
+        #{canSupport} ,
+        #{checkStatus} ,
+        #{createBy} ,
+        #{createDate} ,
+        #{remark}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysAppVersion where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        delete from SysAppVersion where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysAppVersion">
+        insert into SysAppVersion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="deviceType != null">
+                deviceType ,
+            </if>
+            <if test="appVersion != null">
+                appVersion ,
+            </if>
+            <if test="buildVersion != null">
+                buildVersion ,
+            </if>
+            <if test="canSupport != null">
+                canSupport ,
+            </if>
+            <if test="checkStatus != null">
+                checkStatus ,
+            </if>
+            <if test="createBy != null">
+                createBy ,
+            </if>
+            <if test="createDate != null">
+                createDate ,
+            </if>
+            <if test="remark != null">
+                remark
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="deviceType != null">
+                #{deviceType} ,
+            </if>
+            <if test="appVersion != null">
+                #{appVersion} ,
+            </if>
+            <if test="buildVersion != null">
+                #{buildVersion} ,
+            </if>
+            <if test="canSupport != null">
+                #{canSupport} ,
+            </if>
+            <if test="checkStatus != null">
+                #{checkStatus} ,
+            </if>
+            <if test="createBy != null">
+                #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate} ,
+            </if>
+            <if test="remark != null">
+                #{remark}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysAppVersion">
+        update SysAppVersion
+        <set>
+            <if test="deviceType != null">
+                deviceType = #{deviceType} ,
+            </if>
+            <if test="appVersion != null">
+                appVersion = #{appVersion} ,
+            </if>
+            <if test="buildVersion != null">
+                buildVersion = #{buildVersion} ,
+            </if>
+            <if test="canSupport != null">
+                canSupport = #{canSupport} ,
+            </if>
+            <if test="checkStatus != null">
+                checkStatus = #{checkStatus} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysAppVersion(
+        id ,
+        deviceType ,
+        appVersion ,
+        buildVersion ,
+        canSupport ,
+        checkStatus ,
+        createBy ,
+        createDate ,
+        remark
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.deviceType} ,
+            #{item.appVersion} ,
+            #{item.buildVersion} ,
+            #{item.canSupport} ,
+            #{item.checkStatus} ,
+            #{item.createBy} ,
+            #{item.createDate} ,
+            #{item.remark}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysAppVersion SET
+            deviceType = #{item.deviceType} ,
+            appVersion = #{item.appVersion} ,
+            buildVersion = #{item.buildVersion} ,
+            canSupport = #{item.canSupport} ,
+            checkStatus = #{item.checkStatus} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate} ,
+            remark = #{item.remark}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysAppVersion">
+        update SysAppVersion set
+        deviceType = #{deviceType} ,
+        appVersion = #{appVersion} ,
+        buildVersion = #{buildVersion} ,
+        canSupport = #{canSupport} ,
+        checkStatus = #{checkStatus} ,
+        createBy = #{createBy} ,
+        createDate = #{createDate} ,
+        remark = #{remark}
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.common.entity.SysAppVersion">
+        select <include refid="appVersionColumns"/> from SysAppVersion a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysAppVersion">
+        SELECT
+        <include refid="appVersionColumns"/>
+        FROM SysAppVersion a WHERE 1 = 1
+        <if test="deviceType != null">
+            and a.deviceType like CONCAT('%',#{deviceType}, '%')
+        </if>
+        <if test="buildVersion != null">
+            and a.buildVersion like CONCAT('%',#{buildVersion}, '%')
+        </if>
+        <if test="appVersion != null">
+            and a.appVersion like CONCAT('%',#{appVersion}, '%')
+        </if>
+        <if test="canSupport != null">
+            and a.canSupport  = #{canSupport}
+        </if>
+        <if test="checkStatus != null">
+            and a.checkStatus = #{checkStatus}
+        </if>
+        <if test="createBy != null">
+            and a.createBy = #{createBy}
+        </if>
+        ORDER BY a.id DESC
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysAppVersion">
+        SELECT
+        <include refid="appVersionColumns"/>
+        FROM SysAppVersion a
+    </select>
+
+</mapper>
+

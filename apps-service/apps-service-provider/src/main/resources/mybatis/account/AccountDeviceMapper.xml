@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountDeviceMapper">
+<!--    &lt;!&ndash;所有读写操作加上缓存，5分钟过期&ndash;&gt;-->
+<!--    <cache type="com.zjjatech.fhsc.bean.RedisCache" eviction="FIFO" flushInterval="300000"/>-->
+
+<!--    &lt;!&ndash; 基础列 &ndash;&gt;-->
+<!--    <sql id="accountDeviceColumns">-->
+<!--        a.id as id,-->
+<!--        a.accountId as accountId,-->
+<!--        a.appVersion as appVersion,-->
+<!--        a.deviceType as deviceType,-->
+<!--        a.deviceName as deviceName,-->
+<!--        a.deviceNum as deviceNum,-->
+<!--        a.ipAddress as ipAddress,-->
+<!--        a.createDate as createDate,-->
+<!--        a.latestLoginDate as latestLoginDate,-->
+<!--        b.loginName as loginName-->
+<!--    </sql>-->
+
+<!--    <resultMap id="accountDeviceResultMap" type="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="accountId" property="accountId"/>-->
+<!--        <result column="appVersion" property="appVersion"/>-->
+<!--        <result column="deviceType" property="deviceType"/>-->
+<!--        <result column="deviceName" property="deviceName"/>-->
+<!--        <result column="deviceNum" property="deviceNum"/>-->
+<!--        <result column="ipAddress" property="ipAddress"/>-->
+<!--        <result column="createDate" property="createDate"/>-->
+<!--        <result column="latestLoginDate" property="latestLoginDate"/>-->
+<!--    </resultMap>-->
+
+<!--    &lt;!&ndash; 普通插入 &ndash;&gt;-->
+<!--    <insert id="insert" parameterType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        insert into AccountDevice(-->
+<!--        id ,-->
+<!--        accountId ,-->
+<!--        appVersion ,-->
+<!--        deviceType ,-->
+<!--        deviceName ,-->
+<!--        deviceNum ,-->
+<!--        ipAddress ,-->
+<!--        createDate ,-->
+<!--        latestLoginDate-->
+<!--        ) VALUES (-->
+<!--        #{id} ,-->
+<!--        #{accountId} ,-->
+<!--        #{appVersion} ,-->
+<!--        #{deviceType} ,-->
+<!--        #{deviceName} ,-->
+<!--        #{deviceNum} ,-->
+<!--        #{ipAddress} ,-->
+<!--        #{createDate} ,-->
+<!--        #{latestLoginDate}-->
+<!--        )-->
+<!--    </insert>-->
+<!--    &lt;!&ndash; 根据主键物理删除 &ndash;&gt;-->
+<!--    <delete id="remove" parameterType="java.lang.Long">-->
+<!--        delete from AccountDevice where id = #{id}-->
+<!--    </delete>-->
+
+<!--    <delete id="deleteDeviceNum" parameterType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        delete from AccountDevice where accountId = #{accountId} and deviceNum = #{deviceNum}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash; 根据主键逻辑删除 &ndash;&gt;-->
+<!--    <update id="delete" parameterType="java.lang.Long">-->
+<!--        update AccountDevice set delFlag = 1 where id = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash;根据条件是否插入数据 &ndash;&gt;-->
+<!--    <insert id="insertSelective" parameterType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        insert into AccountDevice-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">-->
+<!--                id ,-->
+<!--            </if>-->
+<!--            <if test="accountId != null">-->
+<!--                accountId ,-->
+<!--            </if>-->
+<!--            <if test="appVersion != null">-->
+<!--                appVersion ,-->
+<!--            </if>-->
+<!--            <if test="deviceType != null">-->
+<!--                deviceType ,-->
+<!--            </if>-->
+<!--            <if test="deviceName != null">-->
+<!--                deviceName ,-->
+<!--            </if>-->
+<!--            <if test="deviceNum != null">-->
+<!--                deviceNum ,-->
+<!--            </if>-->
+<!--            <if test="ipAddress != null">-->
+<!--                ipAddress ,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                createDate ,-->
+<!--            </if>-->
+<!--            <if test="latestLoginDate != null">-->
+<!--                latestLoginDate-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">-->
+<!--                #{id} ,-->
+<!--            </if>-->
+<!--            <if test="accountId != null">-->
+<!--                #{accountId} ,-->
+<!--            </if>-->
+<!--            <if test="appVersion != null">-->
+<!--                #{appVersion} ,-->
+<!--            </if>-->
+<!--            <if test="deviceType != null">-->
+<!--                #{deviceType} ,-->
+<!--            </if>-->
+<!--            <if test="deviceName != null">-->
+<!--                #{deviceName} ,-->
+<!--            </if>-->
+<!--            <if test="deviceNum != null">-->
+<!--                #{deviceNum} ,-->
+<!--            </if>-->
+<!--            <if test="ipAddress != null">-->
+<!--                #{ipAddress} ,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                #{createDate} ,-->
+<!--            </if>-->
+<!--            <if test="latestLoginDate != null">-->
+<!--                #{latestLoginDate}-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 选择性更新数据 &ndash;&gt;-->
+<!--    <update id="updateByPrimaryKeySelective" parameterType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        update AccountDevice-->
+<!--        <set>-->
+<!--            <if test="accountId != null">-->
+<!--                accountId = #{accountId} ,-->
+<!--            </if>-->
+<!--            <if test="appVersion != null">-->
+<!--                appVersion = #{appVersion} ,-->
+<!--            </if>-->
+<!--            <if test="deviceType != null">-->
+<!--                deviceType = #{deviceType} ,-->
+<!--            </if>-->
+<!--            <if test="deviceName != null">-->
+<!--                deviceName = #{deviceName} ,-->
+<!--            </if>-->
+<!--            <if test="deviceNum != null">-->
+<!--                deviceNum = #{deviceNum} ,-->
+<!--            </if>-->
+<!--            <if test="ipAddress != null">-->
+<!--                ipAddress = #{ipAddress} ,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                createDate = #{createDate} ,-->
+<!--            </if>-->
+<!--            <if test="latestLoginDate != null">-->
+<!--                latestLoginDate = #{latestLoginDate}-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 批量插入 &ndash;&gt;-->
+<!--    <insert id="insertBatch" parameterType="list">-->
+<!--        INSERT INTO AccountDevice(-->
+<!--        id ,-->
+<!--        accountId ,-->
+<!--        appVersion ,-->
+<!--        deviceType ,-->
+<!--        deviceName ,-->
+<!--        deviceNum ,-->
+<!--        ipAddress ,-->
+<!--        createDate ,-->
+<!--        latestLoginDate-->
+<!--        ) VALUES-->
+<!--        <foreach collection="list" item="item" separator=",">-->
+<!--            (-->
+<!--            #{item.id} ,-->
+<!--            #{item.accountId} ,-->
+<!--            #{item.appVersion} ,-->
+<!--            #{item.deviceType} ,-->
+<!--            #{item.deviceName} ,-->
+<!--            #{item.deviceNum} ,-->
+<!--            #{item.ipAddress} ,-->
+<!--            #{item.createDate} ,-->
+<!--            #{item.latestLoginDate}-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 批量修改 &ndash;&gt;-->
+<!--    <update id="updateBatch" parameterType="java.util.List">-->
+<!--        <foreach collection="list" item="item" index="index" open="" close="" separator=";">-->
+<!--            UPDATE AccountDevice SET-->
+<!--            accountId = #{item.accountId} ,-->
+<!--            appVersion = #{item.appVersion} ,-->
+<!--            deviceType = #{item.deviceType} ,-->
+<!--            deviceName = #{item.deviceName} ,-->
+<!--            deviceNum = #{item.deviceNum} ,-->
+<!--            ipAddress = #{item.ipAddress} ,-->
+<!--            createDate = #{item.createDate} ,-->
+<!--            latestLoginDate = #{item.latestLoginDate}-->
+<!--            WHERE ID = #{item.id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 根据主键更新一条信息所有数据 &ndash;&gt;-->
+<!--    <update id="updateByPrimaryKey" parameterType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        update AccountDevice set-->
+<!--        accountId = #{accountId} ,-->
+<!--        appVersion = #{appVersion} ,-->
+<!--        deviceType = #{deviceType} ,-->
+<!--        deviceName = #{deviceName} ,-->
+<!--        deviceNum = #{deviceNum} ,-->
+<!--        ipAddress = #{ipAddress} ,-->
+<!--        createDate = #{createDate} ,-->
+<!--        latestLoginDate = #{latestLoginDate}-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 根据主键取数据 &ndash;&gt;-->
+<!--    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        select <include refid="accountDeviceColumns"/> from AccountDevice a where a.id = #{id}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 可分页的对象查询 &ndash;&gt;-->
+<!--    <select id="findList" resultType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        SELECT-->
+<!--        <include refid="accountDeviceColumns"/>-->
+<!--        FROM AccountDevice a left join Account b on a.accountId=b.id WHERE 1 = 1-->
+<!--        <if test="accountId != null">-->
+<!--            and a.accountId = #{accountId}-->
+<!--        </if>-->
+<!--        <if test="loginName != null">-->
+<!--            and b.loginName = #{loginName}-->
+<!--        </if>-->
+<!--        <if test="deviceType != null">-->
+<!--            and a.deviceType = #{deviceType}-->
+<!--        </if>-->
+<!--        <if test="appVersion != null">-->
+<!--            and a.appVersion = #{appVersion}-->
+<!--        </if>-->
+<!--        ORDER  BY  latestLoginDate DESC-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 查询所有 &ndash;&gt;-->
+<!--    <select id="selectAll" resultType="com.zjjatech.fhsc.account.entity.AccountDevice">-->
+<!--        SELECT-->
+<!--        <include refid="accountDeviceColumns"/>-->
+<!--        FROM AccountDevice a-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;根据用户id查询用户的信任设备号&ndash;&gt;-->
+<!--    <select id="accountDeviceNums" resultType="string">-->
+<!--        SELECT deviceNum  FROM AccountDevice a-->
+<!--        where a.accountId = #{accountId}-->
+<!--    </select>-->
+
+</mapper>
+
+
+
+
+
+

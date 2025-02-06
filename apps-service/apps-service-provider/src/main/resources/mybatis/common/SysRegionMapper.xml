@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysRegionMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="FIFO" readOnly="true" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="regionColumns">
+        a.id as id,
+        a.sCode as sCode,
+        a.lCode as lCode,
+        a.enName as enName,
+        a.cnName as cnName,
+        a.area as area,
+        a.sortNum as sortNum
+    </sql>
+
+    <resultMap id="regionResultMap" type="com.anyex.apps.common.entity.SysRegion">
+        <id column="a.id" property="id" jdbcType="BIGINT"/>
+        <result column="a.sCode" property="sCode" jdbcType="VARCHAR"/>
+        <result column="a.lCode" property="lCode" jdbcType="VARCHAR"/>
+        <result column="a.enName" property="enName" jdbcType="VARCHAR"/>
+        <result column="a.cnName" property="cnName" jdbcType="VARCHAR"/>
+        <result column="a.area" property="area" jdbcType="VARCHAR"/>
+        <result column="a.sortNum" property="sortNum" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysRegion">
+        INSERT INTO SysRegion (
+            id,
+            sCode,
+            lCode,
+            enName,
+            cnName,
+            area,
+            sortNum
+        ) VALUES (
+            #{id},
+            #{sCode},
+            #{lCode},
+            #{enName},
+            #{cnName},
+            #{area},
+            #{sortNum}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysRegion
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysRegion
+        SET delFlag = 1
+        WHERE id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysRegion">
+        insert into SysRegion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="sCode != null">
+                sCode ,
+            </if>
+            <if test="lCode != null">
+                lCode ,
+            </if>
+            <if test="enName != null">
+                enName ,
+            </if>
+            <if test="cnName != null">
+                cnName ,
+            </if>
+            <if test="area != null">
+                area ,
+            </if>
+            <if test="sortNum != null">
+                sortNum
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="sCode != null">
+                #{sCode} ,
+            </if>
+            <if test="lCode != null">
+                #{lCode} ,
+            </if>
+            <if test="enName != null">
+                #{enName} ,
+            </if>
+            <if test="cnName != null">
+                #{cnName} ,
+            </if>
+            <if test="area != null">
+                #{area} ,
+            </if>
+            <if test="sortNum != null">
+                #{sortNum}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysRegion">
+        update SysRegion
+        <set>
+            <if test="sCode != null">
+                sCode = #{sCode} ,
+            </if>
+            <if test="lCode != null">
+                lCode = #{lCode} ,
+            </if>
+            <if test="enName != null">
+                enName = #{enName} ,
+            </if>
+            <if test="cnName != null">
+                cnName = #{cnName} ,
+            </if>
+            <if test="area != null">
+                area = #{area} ,
+            </if>
+            <if test="sortNum != null">
+                sortNum = #{sortNum}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysRegion(
+        id ,
+        sCode ,
+        LCode ,
+        enName ,
+        cnName ,
+        area ,
+        sortNum
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.sCode} ,
+            #{item.lCode} ,
+            #{item.enName} ,
+            #{item.cnName} ,
+            #{item.area} ,
+            #{item.sortNum}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysRegion SET
+            sCode = #{item.sCode} ,
+            LCode = #{item.lCode} ,
+            enName = #{item.enName} ,
+            cnName = #{item.cnName} ,
+            area = #{item.area} ,
+            sortNum = #{item.sortNum}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysRegion">
+        UPDATE SysRegion
+        SET
+            sCode   = #{sCode},
+            lCode   = #{lCode},
+            enName  = #{enName},
+            cnName  = #{cnName},
+            area    = #{area},
+            sortNum = #{sortNum}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.common.entity.SysRegion">
+        select
+        <include refid="regionColumns"/>
+        from SysRegion a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysRegion">
+        SELECT
+        <include refid="regionColumns"/>
+        FROM SysRegion a WHERE 1=1
+        <if test="sCode != null and sCode != ''">
+            and a.sCode = #{sCode}
+        </if>
+        <if test="lCode != null and lCode != ''">
+            and a.lCode = #{lCode}
+        </if>
+        <if test="enName != null and enName != ''">
+            and a.enName like CONCAT('%',#{enName}, '%')
+        </if>
+        <if test="cnName != null and cnName != ''">
+            and a.cnName like CONCAT('%',#{cnName}, '%')
+        </if>
+        ORDER BY sortNum ASC
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysRegion">
+        SELECT
+        <include refid="regionColumns"/>
+        FROM SysRegion a WHERE 1=1
+        ORDER BY enName ASC
+    </select>
+
+
+    <!-- 查询常用的地区 -->
+    <select id="selectFrequentUsed" resultType="com.anyex.apps.common.entity.SysRegion">
+        SELECT
+        <include refid="regionColumns"/>
+        FROM SysRegion a WHERE a.enName IN ("China","Taiwan","Hong Kong","Macau")
+    </select>
+
+    <!-- 将地区进行按照中文首字母划分  -->
+    <select id="selectRegionGruop" resultType="com.anyex.apps.common.entity.SysRegion">
+        SELECT LCode,cnName,IFNULL(ELT(INTERVAL(CONV(HEX(LEFT(CONVERT(cnName USING gbk ) COLLATE gbk_chinese_ci,1)),16,10),
+            0xB0A1,0xB0C5,0xB2C1,0xB4EE,0xB6EA,0xB7A2,0xB8C1,0xB9FE,0xBBF7,0xBFA6,0xC0AC,0xC2E8,0xC4C3,0xC5B6,0xC5BE,0xC6DA,0xC8BB,0xC8F6,0xCBFA,0xCDDA,0xCEF4,0xD1B9,0xD4D1),
+           'A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q',
+           'R','S','T','W','X','Y','Z'),'C') AS py FROM  region
+        ORDER BY py ASC
+    </select>
+
+</mapper>
+

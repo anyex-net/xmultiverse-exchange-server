@@ -1,0 +1,178 @@
+#server:
+#  port: @port.admin@
+#  http2:
+#    enabled: true
+#  undertow:
+#    io-threads: 4 #IO线程数, 它主要执行非阻塞的任务，它们会负责多个连接，默认设置每个CPU核心一个线程，不可设置过大，否则启动项目会报错：打开文件数过多
+#    worker-threads: 64 #阻塞任务线程池，当执行类似servlet请求阻塞IO操作，undertow会从这个线程池中取得线程。它的值取决于系统线程执行任务的阻塞系数，默认值是 io-threads*8
+#  servlet:
+#    context-path: /api
+#spring:
+#  main:
+#    allow-circular-references: true
+#  cache:
+#    type: redis
+#  application:
+#    name: AppsAdminSingleServer
+#  data:
+#    mongodb:
+#      host: @mongodb.host@
+#      port: @mongodb.port@
+#      database: @mongodb.database@
+#  redis:
+#    cluster:
+#      nodes: @cluster.nodes@
+#      max-redirects: 3
+#    host: @redis.host@
+#    port: @redis.port@
+#    password: @redis.password@
+#    timeout: @redis.timeout@
+#    conn-type: @redis.conntype@ # cluster/single
+#    lettuce:
+#      pool:
+#        # 连接池中的最小空闲连接
+#        min-idle: 2
+#        # 连接池中的最大空闲连接
+#        max-idle: 500
+#        # 连接池最大连接数（使用负值表示没有限制）
+#        max-active: 2000
+#        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-wait: 10000
+#  servlet:
+#    multipart:
+#      max-file-size: 15MB     #单个文件最大限制
+#      max-request-size: 50MB  #多个文件最大限制
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+#  datasource:
+#    master:
+#      jdbc-url: @master.jdbc.url@
+#      pool-name: @master.jdbc.poolname@
+#      username: @master.jdbc.username@
+#      password: @master.jdbc.password@
+#      min-idle: 2
+#      idle-timeout: 600000
+#      max-lifetime: 1800000
+#      # 50 开发阶段用10
+#      maximum-pool-size: 10
+#      connection-timeout: 30000
+#      driver-class-name: com.mysql.cj.jdbc.Driver #dm.jdbc.driver.DmDriver
+#      connection-test-query: SELECT 1
+#    slave1:
+#      jdbc-url: @slave1.jdbc.url@
+#      pool-name: @slave1.jdbc.poolname@
+#      username: @slave1.jdbc.username@
+#      password: @slave1.jdbc.password@
+#      min-idle: 2
+#      idle-timeout: 600000
+#      max-lifetime: 1800000
+#      # 50 开发阶段用10
+#      maximum-pool-size: 10
+#      connection-timeout: 30000
+#      driver-class-name: com.mysql.cj.jdbc.Driver #dm.jdbc.driver.DmDriver
+#      connection-test-query: SELECT 1
+#  mail:
+#    host: @email.host@
+#    port: 465 # SSL配置
+#    default-encoding: UTF-8
+#    username: @email.username@
+#    password: @email.password@
+#    test-connection: false
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true # 需要验证登录名和密码
+#          ssl:
+#            enable: true
+#          starttls:
+#            enable: true # 需要TLS认证 保证发送邮件安全验证
+#            required: true
+##  activiti:
+##    #检测历史表是否存在 activiti7默认没有开启数据库历史记录 启动数据库历史记录
+##    db-history-used: true
+##    #默认none,full：保存历史数据的最高级别，除了会保存audit级别的数据外，还会保存其他全部流程相关的细节数据，包括一些流程参数等。
+##    history-level: full
+##    #默认:true,activiti会对数据库中所有表进行更新操作。如果表不存在，则自动创建,测试场景使用
+##    #flase,activiti在启动时，对比数据库表中保存的版本，如果没有表或者版本不匹配，将抛出异常
+##    database-schema-update: true
+#mybatis:
+#  mapper-locations: classpath*:/mybatis/**/*.xml
+#  check-config-location: true
+#  executor-type: simple
+#  configuration:
+#    jdbc-type-for-null: 'null' #注意null必须用单引号引起来
+#    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+##mybatis-plus:
+##  mapper-locations: classpath:com.anyex.apps/**/mapper/*Mapper.xml,classpath*:/mybatis/**/*.xml
+##  #实体扫描，多个package用逗号或者分号分隔
+##  typeAliasesPackage: com.anyex.apps.**.entity
+##  #typeEnumsPackage: org.org.springblade.dashboard.entity.enums
+##  global-config:
+##    # 关闭MP3.0自带的banner
+##    banner: false
+##    db-config:
+##      #主键类型  0:"数据库ID自增", 1:"不操作", 2:"用户输入ID",3:"数字型snowflake", 4:"全局唯一ID UUID", 5:"字符串型snowflake";
+##      id-type: assign_id
+##      #字段策略
+##      insert-strategy: not_null
+##      update-strategy: not_null
+##      select-strategy: not_empty
+##      #驼峰下划线转换
+##      table-underline: true
+##      # 逻辑删除配置
+##      # 逻辑删除全局值（1表示已删除，这也是Mybatis Plus的默认配置）
+##      logic-delete-value: 1
+##      # 逻辑未删除全局值（0表示未删除，这也是Mybatis Plus的默认配置）
+##      logic-not-delete-value: 0
+##  configuration:
+##    map-underscore-to-camel-case: true
+##    cache-enabled: false
+##    #org.apache.ibatis.logging.stdout.StdOutImpl 控制台打印sql语句方便调试sql语句执行错误
+##    #org.apache.ibatis.logging.log4j2.Log4j2Impl:这个不在控制台打印查询结果,但是在log4j中打印
+##    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+## 指定log4j2作为日志记录
+##logging:
+##  config: classpath:log4j2.xml
+##  level:
+##    #这个指定你的dao层，也就是mapper文件的所在包
+##    com.anyex.apps/**/mapper: debug
+#pagehelper:
+#  helper-dialect: @database.sql.dialect@
+#  reasonable: false
+#  support-methods-arguments: true
+#  params: count=countSql
+#
+#com:
+#  anyex:
+#    env: @env@
+#    withDrawInterfaceSwitch: @withdraw.interface.switch@
+#    open-log: true
+#    project-name: adminServer
+#    csrf:
+#      csrf-protect-enable: true
+#      csrf-white-domains: 112.14.45.72:9080,112.14.45.72:9991,192.168.1.5:5173,192.168.1.22:5173,127.0.0.1:5173,localhost:5173,admin.luckyboxpk.com
+#      csrf-white-paths: csrfWhitePaths
+#    aliyun:
+#      app-key: @aliyun.afs.appkey@
+#      access-key: @aliyun.access.key@
+#      secret-key: @aliyun.access.secret@
+#      end-point: @aliyun.oss.endpoint@
+#      bucket:
+#        release-name: im-release
+#        release-url: https://wivpal.oss-ap-southeast-1.aliyuncs.com/
+#        temp-name: im-temp
+#        temp-url: https://wivpal.oss-ap-southeast-1.aliyuncs.com/
+#    weiXin:
+#      app-key: @weixin.appkey@
+#      secret: @weixin.secret@
+#      open:
+#        app-key: @weixin.open.appkey@
+#        secret: @weixin.open.secret@
+#    jPush:
+#      app-key: @jpush.appkey@
+#      secret: @jpush.secret@
+#  alipay:
+#    sofa:
+#      rpc:
+#        registry-address: @zookeeper.address@

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysFrontRoleResMapper">
+    <!-- 基础列 -->
+    <sql id="frontRoleResColumns">
+        a.id as id,
+        a.roleId as roleId,
+        a.moduleId as moduleId
+    </sql>
+
+    <resultMap id="frontRoleResResultMap" type="com.anyex.apps.system.entity.SysFrontRoleRes">
+        <id column="ID" property="id" />
+        <result column="roleId" property="roleId"/>
+        <result column="moduleId" property="moduleId"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysFrontRoleRes">
+        INSERT INTO SysFrontRoleRes(
+            id ,
+            roleId ,
+            moduleId
+        ) VALUES (
+            #{id} ,
+            #{roleId} ,
+            #{moduleId}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysFrontRoleRes WHERE ID = #{id}
+    </delete>
+
+    <delete id="removeByRoleId" parameterType="java.lang.Long">
+        DELETE FROM SysFrontRoleRes WHERE roleId = #{roleId}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysFrontRoleRes SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysFrontRoleRes">
+        INSERT INTO SysFrontRoleRes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="roleId != null">
+                roleId ,
+        </if>
+        <if test="moduleId != null">
+                moduleId
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="roleId != null">
+                #{roleId} ,
+        </if>
+        <if test="moduleId != null">
+                #{moduleId}
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysFrontRoleRes">
+        UPDATE SysFrontRoleRes
+           <set>
+            <if test="roleId != null">
+                roleId = #{roleId} ,
+            </if>
+            <if test="moduleId != null">
+                moduleId = #{moduleId}
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysFrontRoleRes(
+            id ,
+            roleId ,
+            moduleId
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.roleId} ,
+            #{item.moduleId}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysFrontRoleRes SET
+            roleId = #{item.roleId} ,
+            moduleId = #{item.moduleId}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysFrontRoleRes">
+        UPDATE SysFrontRoleRes SET
+            roleId = #{roleId} ,
+            moduleId = #{moduleId}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysFrontRoleRes">
+        SELECT <include refid="frontRoleResColumns"/> FROM SysFrontRoleRes a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysFrontRoleRes">
+        SELECT
+        <include refid="frontRoleResColumns"/>
+        FROM SysFrontRoleRes a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="roleId != null">
+            AND a.roleId = #{roleId}
+        </if>
+        <if test="moduleId != null">
+            AND a.moduleId = #{moduleId}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysFrontRoleRes">
+        SELECT
+        <include refid="frontRoleResColumns"/>
+        FROM SysFrontRoleRes a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+</mapper>
+

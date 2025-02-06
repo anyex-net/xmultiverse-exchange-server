@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountInviteRewardsMapper">
+    <!-- 基础列 -->
+    <sql id="accountInviteRewardsColumns">
+        a.id as id,
+        a.registerAccountId as registerAccountId,
+        a.registerEmail as registerEmail,
+        a.inviteAccountId as inviteAccountId,
+        a.inviteEmail as inviteEmail,
+        a.rewardsAccountId as rewardsAccountId,
+        a.rewardsEmail as rewardsEmail,
+        a.rewardsSubAccountId as rewardsSubAccountId,
+        a.rewardsSubEmail as rewardsSubEmail,
+        a.rewardsRate as rewardsRate,
+        a.rewardsBalance as rewardsBalance,
+        a.rewardsLevel as rewardsLevel,
+        a.rewardsTag as rewardsTag,
+        a.rewardsStatus as rewardsStatus,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="accountInviteRewardsResultMap" type="com.anyex.apps.account.entity.AccountInviteRewards">
+        <id column="ID" property="id" />
+        <result column="registerAccountId" property="registerAccountId"/>
+        <result column="registerEmail" property="registerEmail"/>
+        <result column="inviteAccountId" property="inviteAccountId"/>
+        <result column="inviteEmail" property="inviteEmail"/>
+        <result column="rewardsAccountId" property="rewardsAccountId"/>
+        <result column="rewardsEmail" property="rewardsEmail"/>
+        <result column="rewardsSubAccountId" property="rewardsSubAccountId"/>
+        <result column="rewardsSubEmail" property="rewardsSubEmail"/>
+        <result column="rewardsRate" property="rewardsRate"/>
+        <result column="rewardsBalance" property="rewardsBalance"/>
+        <result column="rewardsLevel" property="rewardsLevel"/>
+        <result column="rewardsTag" property="rewardsTag"/>
+        <result column="rewardsStatus" property="rewardsStatus"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.AccountInviteRewards">
+        INSERT INTO AccountInviteRewards(
+            id ,
+            registerAccountId ,
+            registerEmail ,
+            inviteAccountId ,
+            inviteEmail ,
+            rewardsAccountId ,
+            rewardsEmail ,
+            rewardsSubAccountId ,
+            rewardsSubEmail ,
+            rewardsRate ,
+            rewardsBalance ,
+            rewardsLevel ,
+            rewardsTag ,
+            rewardsStatus ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{registerAccountId} ,
+            #{registerEmail} ,
+            #{inviteAccountId} ,
+            #{inviteEmail} ,
+            #{rewardsAccountId} ,
+            #{rewardsEmail} ,
+            #{rewardsSubAccountId} ,
+            #{rewardsSubEmail} ,
+            #{rewardsRate} ,
+            #{rewardsBalance} ,
+            #{rewardsLevel} ,
+            #{rewardsTag} ,
+            #{rewardsStatus} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM AccountInviteRewards WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE AccountInviteRewards SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.AccountInviteRewards">
+        INSERT INTO AccountInviteRewards
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="registerAccountId != null">
+                registerAccountId ,
+        </if>
+        <if test="registerEmail != null">
+                registerEmail ,
+        </if>
+        <if test="inviteAccountId != null">
+                inviteAccountId ,
+        </if>
+        <if test="inviteEmail != null">
+                inviteEmail ,
+        </if>
+        <if test="rewardsAccountId != null">
+                rewardsAccountId ,
+        </if>
+        <if test="rewardsEmail != null">
+                rewardsEmail ,
+        </if>
+        <if test="rewardsSubAccountId != null">
+                rewardsSubAccountId ,
+        </if>
+        <if test="rewardsSubEmail != null">
+                rewardsSubEmail ,
+        </if>
+        <if test="rewardsRate != null">
+                rewardsRate ,
+        </if>
+        <if test="rewardsBalance != null">
+                rewardsBalance ,
+        </if>
+        <if test="rewardsLevel != null">
+                rewardsLevel ,
+        </if>
+        <if test="rewardsTag != null">
+                rewardsTag ,
+        </if>
+        <if test="rewardsStatus != null">
+                rewardsStatus ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="registerAccountId != null">
+                #{registerAccountId} ,
+        </if>
+        <if test="registerEmail != null">
+                #{registerEmail} ,
+        </if>
+        <if test="inviteAccountId != null">
+                #{inviteAccountId} ,
+        </if>
+        <if test="inviteEmail != null">
+                #{inviteEmail} ,
+        </if>
+        <if test="rewardsAccountId != null">
+                #{rewardsAccountId} ,
+        </if>
+        <if test="rewardsEmail != null">
+                #{rewardsEmail} ,
+        </if>
+        <if test="rewardsSubAccountId != null">
+                #{rewardsSubAccountId} ,
+        </if>
+        <if test="rewardsSubEmail != null">
+                #{rewardsSubEmail} ,
+        </if>
+        <if test="rewardsRate != null">
+                #{rewardsRate} ,
+        </if>
+        <if test="rewardsBalance != null">
+                #{rewardsBalance} ,
+        </if>
+        <if test="rewardsLevel != null">
+                #{rewardsLevel} ,
+        </if>
+        <if test="rewardsTag != null">
+                #{rewardsTag} ,
+        </if>
+        <if test="rewardsStatus != null">
+                #{rewardsStatus} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.AccountInviteRewards">
+        UPDATE AccountInviteRewards
+           <set>
+            <if test="registerAccountId != null">
+                registerAccountId = #{registerAccountId} ,
+            </if>
+            <if test="registerEmail != null">
+                registerEmail = #{registerEmail} ,
+            </if>
+            <if test="inviteAccountId != null">
+                inviteAccountId = #{inviteAccountId} ,
+            </if>
+            <if test="inviteEmail != null">
+                inviteEmail = #{inviteEmail} ,
+            </if>
+            <if test="rewardsAccountId != null">
+                rewardsAccountId = #{rewardsAccountId} ,
+            </if>
+            <if test="rewardsEmail != null">
+                rewardsEmail = #{rewardsEmail} ,
+            </if>
+            <if test="rewardsSubAccountId != null">
+                rewardsSubAccountId = #{rewardsSubAccountId} ,
+            </if>
+            <if test="rewardsSubEmail != null">
+                rewardsSubEmail = #{rewardsSubEmail} ,
+            </if>
+            <if test="rewardsRate != null">
+                rewardsRate = #{rewardsRate} ,
+            </if>
+            <if test="rewardsBalance != null">
+                rewardsBalance = #{rewardsBalance} ,
+            </if>
+            <if test="rewardsLevel != null">
+                rewardsLevel = #{rewardsLevel} ,
+            </if>
+            <if test="rewardsTag != null">
+                rewardsTag = #{rewardsTag} ,
+            </if>
+            <if test="rewardsStatus != null">
+                rewardsStatus = #{rewardsStatus} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO AccountInviteRewards(
+            id ,
+            registerAccountId ,
+            registerEmail ,
+            inviteAccountId ,
+            inviteEmail ,
+            rewardsAccountId ,
+            rewardsEmail ,
+            rewardsSubAccountId ,
+            rewardsSubEmail ,
+            rewardsRate ,
+            rewardsBalance ,
+            rewardsLevel ,
+            rewardsTag ,
+            rewardsStatus ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.registerAccountId} ,
+            #{item.registerEmail} ,
+            #{item.inviteAccountId} ,
+            #{item.inviteEmail} ,
+            #{item.rewardsAccountId} ,
+            #{item.rewardsEmail} ,
+            #{item.rewardsSubAccountId} ,
+            #{item.rewardsSubEmail} ,
+            #{item.rewardsRate} ,
+            #{item.rewardsBalance} ,
+            #{item.rewardsLevel} ,
+            #{item.rewardsTag} ,
+            #{item.rewardsStatus} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE AccountInviteRewards SET
+            registerAccountId = #{item.registerAccountId} ,
+            registerEmail = #{item.registerEmail} ,
+            inviteAccountId = #{item.inviteAccountId} ,
+            inviteEmail = #{item.inviteEmail} ,
+            rewardsAccountId = #{item.rewardsAccountId} ,
+            rewardsEmail = #{item.rewardsEmail} ,
+            rewardsSubAccountId = #{item.rewardsSubAccountId} ,
+            rewardsSubEmail = #{item.rewardsSubEmail} ,
+            rewardsRate = #{item.rewardsRate} ,
+            rewardsBalance = #{item.rewardsBalance} ,
+            rewardsLevel = #{item.rewardsLevel} ,
+            rewardsTag = #{item.rewardsTag} ,
+            rewardsStatus = #{item.rewardsStatus} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.AccountInviteRewards">
+        UPDATE AccountInviteRewards SET
+            registerAccountId = #{registerAccountId} ,
+            registerEmail = #{registerEmail} ,
+            inviteAccountId = #{inviteAccountId} ,
+            inviteEmail = #{inviteEmail} ,
+            rewardsAccountId = #{rewardsAccountId} ,
+            rewardsEmail = #{rewardsEmail} ,
+            rewardsSubAccountId = #{rewardsSubAccountId} ,
+            rewardsSubEmail = #{rewardsSubEmail} ,
+            rewardsRate = #{rewardsRate} ,
+            rewardsBalance = #{rewardsBalance} ,
+            rewardsLevel = #{rewardsLevel} ,
+            rewardsTag = #{rewardsTag} ,
+            rewardsStatus = #{rewardsStatus} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.account.entity.AccountInviteRewards">
+        SELECT <include refid="accountInviteRewardsColumns"/> FROM AccountInviteRewards a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.AccountInviteRewards">
+        SELECT
+        <include refid="accountInviteRewardsColumns"/>
+        FROM AccountInviteRewards a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="registerAccountId != null">
+            AND a.registerAccountId = #{registerAccountId}
+        </if>
+        <if test="registerEmail != null and registerEmail != ''">
+            AND a.registerEmail LIKE CONCAT('%',#{registerEmail}, '%')
+            /** AND a.registerEmail = #{registerEmail} */
+        </if>
+        <if test="inviteAccountId != null">
+            AND a.inviteAccountId = #{inviteAccountId}
+        </if>
+        <if test="inviteEmail != null and inviteEmail != ''">
+            AND a.inviteEmail LIKE CONCAT('%',#{inviteEmail}, '%')
+            /** AND a.inviteEmail = #{inviteEmail} */
+        </if>
+        <if test="rewardsAccountId != null">
+            AND a.rewardsAccountId = #{rewardsAccountId}
+        </if>
+        <if test="rewardsEmail != null and rewardsEmail != ''">
+            AND a.rewardsEmail LIKE CONCAT('%',#{rewardsEmail}, '%')
+            /** AND a.rewardsEmail = #{rewardsEmail} */
+        </if>
+        <if test="rewardsSubAccountId != null">
+            AND a.rewardsSubAccountId = #{rewardsSubAccountId}
+        </if>
+        <if test="rewardsSubEmail != null and rewardsSubEmail != ''">
+            AND a.rewardsSubEmail LIKE CONCAT('%',#{rewardsSubEmail}, '%')
+            /** AND a.rewardsSubEmail = #{rewardsSubEmail} */
+        </if>
+        <if test="rewardsRate != null and rewardsRate != ''">
+            AND a.rewardsRate LIKE CONCAT('%',#{rewardsRate}, '%')
+            /** AND a.rewardsRate = #{rewardsRate} */
+        </if>
+        <if test="rewardsBalance != null">
+            AND a.rewardsBalance = #{rewardsBalance}
+        </if>
+        <if test="rewardsLevel != null">
+            AND a.rewardsLevel = #{rewardsLevel}
+        </if>
+        <if test="rewardsTag != null and rewardsTag != ''">
+            AND a.rewardsTag LIKE CONCAT('%',#{rewardsTag}, '%')
+            /** AND a.rewardsTag = #{rewardsTag} */
+        </if>
+        <if test="rewardsStatus != null">
+            AND a.rewardsStatus = #{rewardsStatus}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+            /** AND a.remark = #{remark} */
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.AccountInviteRewards">
+        SELECT
+        <include refid="accountInviteRewardsColumns"/>
+        FROM AccountInviteRewards a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <select id="getStatisticsModel" resultType="com.anyex.apps.account.model.AccountRewardsStatisticsModel">
+        select ifnull(sum(rewardsBalance),0) as total,
+               ifnull(sum(case when date_format(FROM_UNIXTIME(createTime/1000), '%Y-%m-%d')
+                   =date_format(curdate(), '%Y-%m-%d') then rewardsBalance else 0 end),0) as curTotal
+        from AccountInviteRewards
+    </select>
+
+    <select id="getStatisticsItems" resultType="com.anyex.apps.account.model.AccountRewardsItemModel">
+        select  a.id,a.unid,a.headUrl,a.email,sum(rewardsBalance) as total,a.referralCode as referralCode
+        from Account a,AccountInviteRewards b where a.id = b.rewardsAccountId
+        <if test="id != null">
+            AND a.id= #{id}
+        </if>
+        <if test="unid != null">
+            AND a.unid= #{unid}
+        </if>
+        <if test="referralCode != null and referralCode != ''">
+            AND a.referralCode= #{referralCode}
+        </if>
+        group by a.id
+    </select>
+
+    <select id="getStatisticsItemsDetail" resultType="com.anyex.apps.account.model.AccountRewardsItemDetailModel">
+        SELECT aa.id,
+               aa.unid,
+               aa.referralCode AS referralCode,
+               ifnull((select sum(rewardsBalance) from AccountInviteRewards where rewardsAccountId = aa.id), 0) as total,
+               IFNULL(COUNT(DISTINCT b.id), 0) AS levelOneCnt,
+               IFNULL(COUNT(DISTINCT c.id), 0) AS levelTwoCnt,
+               IFNULL(COUNT(DISTINCT d.id), 0) AS levelThreeCnt
+        FROM Account aa
+                 LEFT JOIN Account b ON b.referralCode = aa.invitationCode and aa.invitationCode != '' and aa.invitationCode is not null
+                 LEFT JOIN Account c ON c.referralCode = b.invitationCode and b.invitationCode != '' and b.invitationCode is not null
+                 LEFT JOIN Account d ON d.referralCode = c.invitationCode and c.invitationCode != '' and c.invitationCode is not null
+        WHERE aa.id = #{accountId}
+    </select>
+
+    <select id="getRewardsForAppTotal" resultType="com.anyex.apps.account.model.AccountInvitedStatisticsTotalForAppModel">
+        select ifnull(sum(rewardsBalance),0) as total,
+               ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then rewardsBalance else 0 end),0)  as curTotal,
+               ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then 0 else rewardsBalance end),0)  as hisTotal,
+               ifnull(sum((case when registerAccountId = #{levelAccountId} then rewardsBalance else 0 end)),0) as direct,
+               ifnull(sum((case when registerAccountId != #{levelAccountId} then rewardsBalance else 0 end)),0) as indirect
+        from AccountInviteRewards
+        where rewardsTag like CONCAT( '%',#{tag}, '%')
+          AND rewardsAccountId = #{rewardsAccountId}
+    </select>
+
+    <select id="getRewardsItemsForAppTotal" resultType="com.anyex.apps.account.model.AccountInvitedStatisticsItemForAppModel">
+        select aa.*, b.headUrl as headUrl, (case when trim(b.accountName)='' or b.accountName is null then b.email else b.accountName end) as email, b.createTime as registerTime
+        from (select SUBSTRING_INDEX(SUBSTRING(SUBSTRING_INDEX(rewardsTag,#{levelAccountId} ,-1),2),',',1) as accountId,
+                     ifnull(sum(case when inviteAccountId = #{levelAccountId} then 0 else 1 end), 0)  as hasInvite,
+                     ifnull(sum(rewardsBalance), 0)                                                    as total,
+                     ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then rewardsBalance else 0 end),0)  as curTotal,
+                     ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then 0 else rewardsBalance end),0)  as hisTotal
+              from AccountInviteRewards
+              where rewardsTag like CONCAT('%', #{tag}, '_%')
+                AND rewardsAccountId = #{rewardsAccountId}
+              group by SUBSTRING_INDEX(SUBSTRING(SUBSTRING_INDEX(rewardsTag,#{levelAccountId} ,-1),2),',',1)
+             ) aa,
+             Account b
+        where aa.accountId = b.id
+    </select>
+
+    <select id="getSecondLevelStatisticsForApp" resultType="com.anyex.apps.account.model.AccountInvitedRewardsEveryLevelDetailModel">
+        select  ifnull(sum(rewardsBalance), 0)    as totalSum,
+                count(*) as totalCnt,
+                ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then rewardsBalance else 0 end),0)  as todaySum,
+                ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then 1 else 0 end),0)  as todayCnt
+        from AccountInviteRewards r ,
+             (select a.id,a.email from Account a,Account b where a.referralCode=b.invitationCode and b.id=#{firstLevelAccountId}) c
+        where r.registerAccountId = c.id and  r.rewardsAccountId=#{rewardsAccountId}
+    </select>
+
+    <select id="getThirdLevelStatisticsForApp" resultType="com.anyex.apps.account.model.AccountInvitedRewardsEveryLevelDetailModel">
+        select  ifnull(sum(rewardsBalance), 0)                                                    as totalSum,
+                count(*) as totalCnt,
+                ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then rewardsBalance else 0 end),0)  as todaySum,
+                ifnull(sum(case when createTime > unix_timestamp(date(now())) * 1000 then 1 else 0 end),0)  as todayCnt
+        from AccountInviteRewards r ,
+             (
+                 select a.id,a.email from Account a,Account b,Account c where a.referralCode=b.invitationCode and  b.referralCode=c.invitationCode and c.id=#{firstLevelAccountId}
+             ) c
+        where r.registerAccountId = c.id and  r.rewardsAccountId=#{rewardsAccountId}
+    </select>
+
+
+
+
+</mapper>
+

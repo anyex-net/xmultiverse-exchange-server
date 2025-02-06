@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysResourcesMapper">
+    <!--所有读写操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="FIFO" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="resourcesColumns">
+        a.id as id,
+        a.parentId as parentId,
+        a.resCode as resCode,
+        a.resName as resName,
+        a.resDest as resDest,
+        a.type as type,
+        a.icon as icon,
+        a.sortNum as sortNum,
+        a.resShortUrl as resShortUrl,
+        a.resUrl as resUrl,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate
+    </sql>
+
+    <sql id="resourcesJoinColumns">
+        a.id as id,
+        a.parentId as parentId,
+        a.resCode as resCode,
+        a.resName as resName,
+        a.resDest as resDest,
+        a.type as type,
+        a.icon as icon,
+        a.sortNum as sortNum,
+        a.resShortUrl as resShortUrl,
+        a.resUrl as resUrl,
+        a.createBy as createBy,
+        b.trueName as createByName,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate
+    </sql>
+
+    <resultMap id="resourcesResultMap" type="com.anyex.apps.system.entity.SysResources">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.parentId" property="parentId" jdbcType="BIGINT"/>
+        <result column="a.resCode" property="resCode" jdbcType="VARCHAR"/>
+        <result column="a.resName" property="resName" jdbcType="VARCHAR"/>
+        <result column="a.resDest" property="resDest" jdbcType="VARCHAR"/>
+        <result column="a.type" property="type" jdbcType="BIT"/>
+        <result column="a.icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="a.sortNum" property="sortNum" jdbcType="INTEGER"/>
+        <result column="a.resShortUrl" property="resShortUrl" jdbcType="VARCHAR"/>
+        <result column="a.resUrl" property="resUrl" jdbcType="VARCHAR"/>
+        <result column="a.createBy" property="createBy" jdbcType="BIGINT"/>
+        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>
+        <result column="a.updateBy" property="updateBy" jdbcType="BIGINT"/>
+        <result column="a.updateDate" property="updateDate" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysResources">
+        insert into SysResources(
+            id ,
+            parentId ,
+            resCode ,
+            resName ,
+            resDest ,
+            type ,
+            icon ,
+            sortNum ,
+            resShortUrl ,
+            resUrl ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate
+        ) VALUES (
+            #{id} ,
+            #{parentId} ,
+            #{resCode} ,
+            #{resName} ,
+            #{resDest} ,
+            #{type} ,
+            #{icon} ,
+            #{sortNum} ,
+            #{resShortUrl} ,
+            #{resUrl} ,
+            #{createBy} ,
+            #{createDate} ,
+            #{updateBy} ,
+            #{updateDate}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysResources where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update SysResources set 1 = 1 where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysResources">
+        insert into SysResources
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="parentId != null">
+                parentId ,
+            </if>
+            <if test="resCode != null">
+                resCode ,
+            </if>
+            <if test="resName != null">
+                resName ,
+            </if>
+            <if test="resDest != null">
+                resDest ,
+            </if>
+            <if test="type != null">
+                type ,
+            </if>
+            <if test="icon != null">
+                icon ,
+            </if>
+            <if test="sortNum != null">
+                sortNum ,
+            </if>
+            <if test="resShortUrl != null">
+                resShortUrl ,
+            </if>
+            <if test="resUrl != null">
+                resUrl ,
+            </if>
+            <if test="createBy != null">
+                createBy ,
+            </if>
+            <if test="createDate != null">
+                createDate ,
+            </if>
+            <if test="updateBy != null">
+                updateBy ,
+            </if>
+            <if test="updateDate != null">
+                updateDate
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="parentId != null">
+                #{parentId} ,
+            </if>
+            <if test="resCode != null">
+                #{resCode} ,
+            </if>
+            <if test="resName != null">
+                #{resName} ,
+            </if>
+            <if test="resDest != null">
+                #{resDest} ,
+            </if>
+            <if test="type != null">
+                #{type} ,
+            </if>
+            <if test="icon != null">
+                #{icon} ,
+            </if>
+            <if test="sortNum != null">
+                #{sortNum} ,
+            </if>
+            <if test="resShortUrl != null">
+                #{resShortUrl} ,
+            </if>
+            <if test="resUrl != null">
+                #{resUrl} ,
+            </if>
+            <if test="createBy != null">
+                #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                #{updateDate}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysResources">
+        update SysResources
+        <set>
+            <if test="parentId != null">
+                parentId = #{parentId} ,
+            </if>
+            <if test="resCode != null">
+                resCode = #{resCode} ,
+            </if>
+            <if test="resName != null">
+                resName = #{resName} ,
+            </if>
+            <if test="resDest != null">
+                resDest = #{resDest} ,
+            </if>
+            <if test="type != null">
+                type = #{type} ,
+            </if>
+            <if test="icon != null">
+                icon = #{icon} ,
+            </if>
+            <if test="sortNum != null">
+                sortNum = #{sortNum} ,
+            </if>
+            <if test="resShortUrl != null">
+                resUrl = #{resShortUrl} ,
+            </if>
+            <if test="resUrl != null">
+                resUrl = #{resUrl} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                updateDate = #{updateDate}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        insert into SysResources(
+        id ,
+        parentId ,
+        resCode ,
+        resName ,
+        resDest ,
+        type ,
+        icon ,
+        sortNum ,
+        resShortUrl ,
+        resUrl ,
+        createBy ,
+        createDate ,
+        updateBy ,
+        updateDate
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id}  ,
+            #{item.parentId}  ,
+            #{item.resCode}  ,
+            #{item.resName}  ,
+            #{item.resDest}  ,
+            #{item.type}  ,
+            #{item.icon}  ,
+            #{item.sortNum}  ,
+            #{item.resShortUrl}  ,
+            #{item.resUrl}  ,
+            #{item.createBy}  ,
+            #{item.createDate}  ,
+            #{item.updateBy}  ,
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SysResources set
+            parentId = #{item.parentId} ,
+            resCode = #{item.resCode} ,
+            resName = #{item.resName} ,
+            resDest = #{item.resDest} ,
+            type = #{item.type} ,
+            icon = #{item.icon} ,
+            sortNum = #{item.sortNum} ,
+            resShortUrl = #{item.resShortUrl} ,
+            resUrl = #{item.resUrl} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate} ,
+            updateBy = #{item.updateBy} ,
+            updateDate = #{item.updateDate}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysResources">
+        update SysResources set
+            parentId = #{parentId} ,
+            resCode = #{resCode} ,
+            resName = #{resName} ,
+            resDest = #{resDest} ,
+            type = #{type} ,
+            icon = #{icon} ,
+            sortNum = #{sortNum} ,
+            resShortUrl = #{resShortUrl} ,
+            resUrl = #{resUrl} ,
+            createBy = #{createBy} ,
+            createDate = #{createDate} ,
+            updateBy = #{updateBy} ,
+            updateDate = #{updateDate}
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysResources">
+        select <include refid="resourcesColumns"/> from SysResources a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysResources">
+        SELECT
+        <include refid="resourcesJoinColumns"/>
+        FROM SysResources a LEFT JOIN SysUserInfo b
+        ON  a.createBy = b.id
+        WHERE 1 = 1
+        <choose>
+            <when test="parentId != null">
+                and a.parentId = #{parentId}
+            </when>
+            <otherwise>
+                and a.parentId is null
+            </otherwise>
+        </choose>
+        <if test="resCode != null and resCode != ''">
+            and a.resCode like CONCAT('%',#{resCode}, '%')
+        </if>
+        <if test="resName != null and resName != ''">
+            and a.resName like CONCAT('%',#{resName}, '%')
+        </if>
+        <if test="type != null">
+            and a.type = #{type}
+        </if>
+        <if test="updateBy != null">
+            and a.updateBy = #{updateBy}
+        </if>
+        order by sortNum
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysResources">
+        SELECT
+         <!--
+         a.id as id,
+         a.parentId as parentId,
+         a.resName as resName
+         -->
+        <include refid="resourcesColumns"/>
+        FROM SysResources a WHERE 1 = 1
+    </select>
+
+    <select id="findByRoleId" resultType="com.anyex.apps.system.entity.SysResources">
+        SELECT
+        <include refid="resourcesColumns"/>
+        FROM SysResources a, SysRoleRes b
+        WHERE a.id = b.resId
+            AND b.roleId = #{roleId}
+        order by a.sortNum
+    </select>
+
+    <select id="findByUserId" resultType="com.anyex.apps.system.entity.SysResources">
+        SELECT
+        <include refid="resourcesColumns"/>
+        FROM SysResources a, SysRoleRes b
+        WHERE a.id = b.resId
+            AND b.roleId in (select b.roleId from SysUserRole b where b.userId = #{userId})
+        order by a.sortNum
+    </select>
+
+    <select id="findByParentId" parameterType="hashmap" resultType="com.anyex.apps.system.entity.SysResources">
+        SELECT
+        <include refid="resourcesColumns"/>
+        FROM SysResources a
+        WHERE 1 =
+        <if test="parentId != null and parentId != ''">
+            AND a.parentId =  #{parentId}
+        </if>
+    </select>
+
+</mapper>
+

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountSignInInfoMapper">
+    <!-- 基础列 -->
+    <sql id="accountsignininfoColumns">
+                            id as id ,
+                            accountId as accountId ,
+                            totalPoints as totalPoints ,
+                            remainingPoints as remainingPoints ,
+                            pointsLevel as pointsLevel ,
+                            totalSignInTimes as totalSigninTimes ,
+                            maxSignInTimes as maxsSigninTimes ,
+                            lastSignInDate as lastSigninDate ,
+                            currentSignInTimes as currentSigninTimes ,
+                            createTime as createTime ,
+                            updateTime as updateTime
+                </sql>
+
+    <resultMap id="AccountSignInInfoResultMap" type="com.anyex.apps.account.entity.AccountSignInInfo">
+                    <result column="id" property="id"/>
+                    <result column="accountId" property="accountId"/>
+                    <result column="totalPoints" property="totalPoints"/>
+                    <result column="remainingPoints" property="remainingPoints"/>
+                    <result column="pointsLevel" property="pointsLevel"/>
+                    <result column="totalSignInTimes" property="totalSigninTimes"/>
+                    <result column="maxSignInTimes" property="maxsSigninTimes"/>
+                    <result column="lastSignInDate" property="lastSigninDate"/>
+                    <result column="currentSignInTimes" property="currentSigninTimes"/>
+                    <result column="createTime" property="createTime"/>
+                    <result column="updateTime" property="updateTime"/>
+            </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.AccountSignInInfo">
+        INSERT INTO AccountSignInInfo(
+                            id ,
+                            accountId ,
+                            totalPoints ,
+                            remainingPoints ,
+                            pointsLevel ,
+                            totalSignInTimes ,
+                            maxSignInTimes ,
+                            lastSignInDate ,
+                            currentSignInTimes ,
+                            createTime ,
+                            updateTime
+                    ) VALUES (
+                                #{id} ,
+                                #{accountId} ,
+                                #{totalPoints} ,
+                                #{remainingPoints} ,
+                                #{pointsLevel} ,
+                                #{totalSigninTimes} ,
+                                #{maxsSigninTimes} ,
+                                #{lastSigninDate} ,
+                                #{currentSigninTimes} ,
+                                #{createTime} ,
+                                #{updateTime}
+                        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE
+        FROM AccountSignInInfo WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE AccountSignInInfo SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.AccountSignInInfo">
+        INSERT INTO AccountSignInInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    id ,
+                </if>
+
+                <if test="accountId != null">
+                    accountId ,
+                </if>
+
+                <if test="totalPoints != null">
+                    totalPoints ,
+                </if>
+
+                <if test="remainingPoints != null">
+                    remainingPoints ,
+                </if>
+
+                <if test="pointsLevel != null">
+                    pointsLevel ,
+                </if>
+
+                <if test="totalSigninTimes != null">
+                    totalSignInTimes ,
+                </if>
+
+                <if test="maxsSigninTimes != null">
+                    maxSignInTimes ,
+                </if>
+
+                <if test="lastSigninDate != null">
+                    lastSignInDate ,
+                </if>
+
+                <if test="currentSigninTimes != null">
+                    currentSignInTimes ,
+                </if>
+
+                <if test="createTime != null">
+                    createTime ,
+                </if>
+
+                <if test="updateTime != null">
+                    updateTime
+                </if>
+
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    #{id} ,
+                </if>
+
+                <if test="accountId != null">
+                    #{accountId} ,
+                </if>
+
+                <if test="totalPoints != null">
+                    #{totalPoints} ,
+                </if>
+
+                <if test="remainingPoints != null">
+                    #{remainingPoints} ,
+                </if>
+
+                <if test="pointsLevel != null">
+                    #{pointsLevel} ,
+                </if>
+
+                <if test="totalSigninTimes != null">
+                    #{totalSigninTimes} ,
+                </if>
+
+                <if test="maxsSigninTimes != null">
+                    #{maxsSigninTimes} ,
+                </if>
+
+                <if test="lastSigninDate != null">
+                    #{lastSigninDate} ,
+                </if>
+
+                <if test="currentSigninTimes != null">
+                    #{currentSigninTimes} ,
+                </if>
+
+                <if test="createTime != null">
+                    #{createTime} ,
+                </if>
+
+                <if test="updateTime != null">
+                    #{updateTime}
+                </if>
+
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.AccountSignInInfo">
+        UPDATE AccountSignInInfo
+        <set>
+                    <if test="accountId != null">
+                        accountId = #{accountId} ,
+                    </if>
+                    <if test="totalPoints != null">
+                        totalPoints = #{totalPoints} ,
+                    </if>
+                    <if test="remainingPoints != null">
+                        remainingPoints = #{remainingPoints} ,
+                    </if>
+                    <if test="pointsLevel != null">
+                        pointsLevel = #{pointsLevel} ,
+                    </if>
+                    <if test="totalSigninTimes != null">
+                        totalSignInTimes = #{totalSigninTimes} ,
+                    </if>
+                    <if test="maxsSigninTimes != null">
+                        maxSignInTimes = #{maxsSigninTimes} ,
+                    </if>
+                    <if test="lastSigninDate != null">
+                        lastSignInDate = #{lastSigninDate} ,
+                    </if>
+                    <if test="currentSigninTimes != null">
+                        currentSignInTimes = #{currentSigninTimes} ,
+                    </if>
+                    <if test="createTime != null">
+                        createTime = #{createTime} ,
+                    </if>
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime}
+                    </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO AccountSignInInfo(
+                    id ,
+                    accountId ,
+                    totalPoints ,
+                    remainingPoints ,
+                    pointsLevel ,
+                    totalSignInTimes ,
+                    maxSignInTimes ,
+                    lastSignInDate ,
+                    currentSignInTimes ,
+                    createTime ,
+                    updateTime
+                ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.id} ,
+                #{item.accountId} ,
+                #{item.totalPoints} ,
+                #{item.remainingPoints} ,
+                #{item.pointsLevel} ,
+                #{item.totalSigninTimes} ,
+                #{item.maxsSigninTimes} ,
+                #{item.lastSigninDate} ,
+                #{item.currentSigninTimes} ,
+                #{item.createTime} ,
+                #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE AccountSignInInfo SET
+
+                    accountId = #{item.accountId} ,
+                    totalPoints = #{item.totalPoints} ,
+                    remainingPoints = #{item.remainingPoints} ,
+                    pointsLevel = #{item.pointsLevel} ,
+                    totalSignInTimes = #{item.totalSigninTimes} ,
+                    maxSignInTimes = #{item.maxsSigninTimes} ,
+                    lastSignInDate = #{item.lastSigninDate} ,
+                    currentSignInTimes = #{item.currentSigninTimes} ,
+                    createTime = #{item.createTime} ,
+                    updateTime = #{item.updateTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.AccountSignInInfo">
+        UPDATE AccountSignInInfo SET
+                    accountId = #{accountId} ,
+                    totalPoints = #{totalPoints} ,
+                    remainingPoints = #{remainingPoints} ,
+                    pointsLevel = #{pointsLevel} ,
+                    totalSignInTimes = #{totalSigninTimes} ,
+                    maxSignInTimes = #{maxsSigninTimes} ,
+                    lastSignInDate = #{lastSigninDate} ,
+                    currentSignInTimes = #{currentSigninTimes} ,
+                    createTime = #{createTime} ,
+                    updateTime = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.account.entity.AccountSignInInfo">
+        SELECT
+        <include refid="accountsignininfoColumns"/>
+        FROM AccountSignInInfo a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.account.entity.AccountSignInInfo">
+        SELECT
+        <include refid="accountsignininfoColumns"/>
+        FROM AccountSignInInfo a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+
+        <if test="totalPoints != null">
+            AND a.totalPoints = #{totalPoints}
+        </if>
+
+        <if test="remainingPoints != null">
+            AND a.remainingPoints = #{remainingPoints}
+        </if>
+
+        <if test="pointsLevel != null">
+            AND a.pointsLevel = #{pointsLevel}
+        </if>
+
+        <if test="totalSigninTimes != null">
+            AND a.totalSignInTimes = #{totalSigninTimes}
+        </if>
+
+        <if test="maxsSigninTimes != null">
+            AND a.maxSignInTimes = #{maxsSigninTimes}
+        </if>
+
+        <if test="lastSigninDate != null">
+            AND a.lastSignInDate = #{lastSigninDate}
+        </if>
+
+        <if test="currentSigninTimes != null">
+            AND a.currentSignInTimes = #{currentSigninTimes}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+
+        limit 1
+    </select>
+
+    <select id="findByAccountId" resultType="com.anyex.apps.account.entity.AccountSignInInfo">
+        SELECT
+        <include refid="accountsignininfoColumns"/>
+        FROM AccountSignInInfo a WHERE a.accountId = #{accountId}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.AccountSignInInfo">
+        SELECT
+        <include refid="accountsignininfoColumns"/>
+        FROM AccountSignInInfo a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+
+        <if test="totalPoints != null">
+            AND a.totalPoints = #{totalPoints}
+        </if>
+
+        <if test="remainingPoints != null">
+            AND a.remainingPoints = #{remainingPoints}
+        </if>
+
+        <if test="pointsLevel != null">
+            AND a.pointsLevel = #{pointsLevel}
+        </if>
+
+        <if test="totalSigninTimes != null">
+            AND a.totalSignInTimes = #{totalSigninTimes}
+        </if>
+
+        <if test="maxsSigninTimes != null">
+            AND a.maxSignInTimes = #{maxsSigninTimes}
+        </if>
+
+        <if test="lastSigninDate != null">
+            AND a.lastSignInDate = #{lastSigninDate}
+        </if>
+
+        <if test="currentSigninTimes != null">
+            AND a.currentSignInTimes = #{currentSigninTimes}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.AccountSignInInfo">
+        SELECT
+        <include refid="accountsignininfoColumns"/>
+        FROM AccountSignInInfo a
+    </select>
+
+
+</mapper>
+

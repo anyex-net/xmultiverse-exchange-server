@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.openim.mapper.AccountFavoriteMapper">
+    <!-- 基础列 -->
+    <sql id="accountfavoriteColumns">
+                            id as id ,
+                            accountId as accountId ,
+                            bizId as bizId,
+                            source as source ,
+                            content as content ,
+                            favoriteType as favoriteType ,
+                            functionType as functionType ,
+                            remark as remark ,
+                            createTime as createTime ,
+                            updateTime as updateTime
+                </sql>
+
+    <resultMap id="AccountFavoriteResultMap" type="com.anyex.apps.openim.entity.AccountFavorite">
+                    <result column="id" property="id"/>
+                    <result column="accountId" property="accountId"/>
+                    <result column="bizId" property="bizId"/>
+                    <result column="source" property="source"/>
+                    <result column="content" property="content"/>
+                    <result column="favoriteType" property="favoriteType"/>
+                    <result column="functionType" property="functionType"/>
+                    <result column="remark" property="remark"/>
+                    <result column="createTime" property="createTime"/>
+                    <result column="updateTime" property="updateTime"/>
+            </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.openim.entity.AccountFavorite">
+        INSERT INTO AccountFavorite(
+                            id ,
+                            accountId ,
+                            bizId,
+                            source ,
+                            content ,
+                            favoriteType ,
+                            functionType ,
+                            remark ,
+                            createTime ,
+                            updateTime
+                    ) VALUES (
+                                #{id} ,
+                                #{accountId} ,
+                                #{bizId},
+                                #{source} ,
+                                #{content} ,
+                                #{favoriteType} ,
+                                #{functionType} ,
+                                #{remark} ,
+                                #{createTime} ,
+                                #{updateTime}
+                        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE
+        FROM AccountFavorite WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE AccountFavorite SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.openim.entity.AccountFavorite">
+        INSERT INTO AccountFavorite
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    id ,
+                </if>
+
+                <if test="accountId != null">
+                    accountId ,
+                </if>
+
+                <if test="bizId != null and bizId != ''">
+                    bizId,
+                </if>
+                <if test="source != null">
+                    source ,
+                </if>
+
+                <if test="content != null">
+                    content ,
+                </if>
+
+                <if test="favoriteType != null">
+                    favoriteType ,
+                </if>
+
+                <if test="functionType != null">
+                    functionType ,
+                </if>
+
+                <if test="remark != null">
+                    remark ,
+                </if>
+
+                <if test="createTime != null">
+                    createTime ,
+                </if>
+
+                <if test="updateTime != null">
+                    updateTime
+                </if>
+
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    #{id} ,
+                </if>
+
+                <if test="accountId != null">
+                    #{accountId} ,
+                </if>
+                <if test="bizId != null and bizId != ''">
+                    #{bizId},
+                </if>
+
+                <if test="source != null">
+                    #{source} ,
+                </if>
+
+                <if test="content != null">
+                    #{content} ,
+                </if>
+
+                <if test="favoriteType != null">
+                    #{favoriteType} ,
+                </if>
+
+                <if test="functionType != null">
+                    #{functionType} ,
+                </if>
+
+                <if test="remark != null">
+                    #{remark} ,
+                </if>
+
+                <if test="createTime != null">
+                    #{createTime} ,
+                </if>
+
+                <if test="updateTime != null">
+                    #{updateTime}
+                </if>
+
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.openim.entity.AccountFavorite">
+        UPDATE AccountFavorite
+        <set>
+                    <if test="accountId != null">
+                        accountId = #{accountId} ,
+                    </if>
+            <if test="bizId != null and bizId != ''">
+                bizId= #{bizId},
+            </if>
+                    <if test="source != null">
+                        source = #{source} ,
+                    </if>
+                    <if test="content != null">
+                        content = #{content} ,
+                    </if>
+                    <if test="favoriteType != null">
+                        favoriteType = #{favoriteType} ,
+                    </if>
+                    <if test="functionType != null">
+                        functionType = #{functionType} ,
+                    </if>
+                    <if test="remark != null">
+                        remark = #{remark} ,
+                    </if>
+                    <if test="createTime != null">
+                        createTime = #{createTime} ,
+                    </if>
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime}
+                    </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO AccountFavorite(
+                    id ,
+                    accountId ,
+                    bizId,
+                    source ,
+                    content ,
+                    favoriteType ,
+                    functionType ,
+                    remark ,
+                    createTime ,
+                    updateTime
+                ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.id} ,
+                #{item.accountId} ,
+                #{item.bizId},
+                #{item.source} ,
+                #{item.content} ,
+                #{item.favoriteType} ,
+                #{item.functionType} ,
+                #{item.remark} ,
+                #{item.createTime} ,
+                #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE AccountFavorite SET
+
+                    accountId = #{item.accountId} ,
+                    bizId= #{item.bizId},
+                    source = #{item.source} ,
+                    content = #{item.content} ,
+                    favoriteType = #{item.favoriteType} ,
+                    functionType = #{item.functionType} ,
+                    remark = #{item.remark} ,
+                    createTime = #{item.createTime} ,
+                    updateTime = #{item.updateTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.openim.entity.AccountFavorite">
+        UPDATE AccountFavorite SET
+                    accountId = #{accountId} ,
+                    bizId= #{bizId},
+                    source = #{source} ,
+                    content = #{content} ,
+                    favoriteType = #{favoriteType} ,
+                    functionType = #{functionType} ,
+                    remark = #{remark} ,
+                    createTime = #{createTime} ,
+                    updateTime = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.openim.entity.AccountFavorite">
+        SELECT
+        <include refid="accountfavoriteColumns"/>
+        FROM AccountFavorite a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.openim.entity.AccountFavorite">
+        SELECT
+        <include refid="accountfavoriteColumns"/>
+        FROM AccountFavorite a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="bizId != null and bizId != ''">
+            AND a.bizId = #{bizId}
+        </if>
+
+        <if test="source != null">
+            AND a.source = #{source}
+        </if>
+
+        <if test="content != null">
+            AND a.content = #{content}
+        </if>
+
+        <if test="favoriteType != null">
+            AND a.favoriteType = #{favoriteType}
+        </if>
+
+        <if test="functionType != null">
+            AND a.functionType = #{functionType}
+        </if>
+
+        <if test="remark != null">
+            AND a.remark = #{remark}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.openim.entity.AccountFavorite">
+        SELECT
+        <include refid="accountfavoriteColumns"/>
+        FROM AccountFavorite a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="bizId != null and bizId != ''">
+            AND a.bizId = #{bizId}
+        </if>
+
+        <if test="source != null and source!=''">
+            AND a.source = #{source}
+        </if>
+
+        <if test="content != null and content!=''">
+            AND a.content LIKE CONCAT('%',#{content}, '%')
+        </if>
+
+        <if test="remark != null and remark!=''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+
+        <if test="favoriteType != null and favoriteType != ''">
+            AND a.favoriteType = #{favoriteType}
+        </if>
+
+        <if test="functionType != null and functionType != ''">
+            AND a.functionType = #{functionType}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by a.createTime desc
+
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.openim.entity.AccountFavorite">
+        SELECT
+        <include refid="accountfavoriteColumns"/>
+        FROM AccountFavorite a
+    </select>
+
+
+</mapper>
+

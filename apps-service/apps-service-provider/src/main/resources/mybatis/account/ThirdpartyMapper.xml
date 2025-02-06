@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.ThirdpartyMapper">
+<!--    &lt;!&ndash; 基础列 &ndash;&gt;-->
+<!--    <sql id="thirdpartyColumns">-->
+<!--        a.id as id,-->
+<!--        a.accountId as accountId,-->
+<!--        a.openId as openId,-->
+<!--        a.createDate as createDate,-->
+<!--        a.type as type,-->
+<!--        a.accountLogo as accountLogo,-->
+<!--        a.nickName as nickName-->
+<!--    </sql>-->
+
+<!--    <resultMap id="thirdpartyResultMap" type="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        <id column="ID" property="id"/>-->
+<!--        <result column="accountId" property="accountId"/>-->
+<!--        <result column="openId" property="openId"/>-->
+<!--        <result column="createDate" property="createDate"/>-->
+<!--        <result column="type" property="type"/>-->
+<!--        <result column="accountLogo" property="accountLogo"/>-->
+<!--        <result column="nickName" property="nickName"/>-->
+<!--    </resultMap>-->
+
+<!--    &lt;!&ndash; 普通插入 &ndash;&gt;-->
+<!--    <insert id="insert" parameterType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        INSERT INTO Thirdparty(-->
+<!--            id ,-->
+<!--            accountId ,-->
+<!--            openId ,-->
+<!--            createDate ,-->
+<!--            type ,-->
+<!--            accountLogo ,-->
+<!--            nickName-->
+<!--        ) VALUES (-->
+<!--            #{id} ,-->
+<!--            #{accountId} ,-->
+<!--            #{openId} ,-->
+<!--            #{createDate} ,-->
+<!--            #{type} ,-->
+<!--            #{accountLogo} ,-->
+<!--            #{nickName}-->
+<!--        )-->
+<!--    </insert>-->
+<!--    &lt;!&ndash; 根据主键物理删除 &ndash;&gt;-->
+<!--    <delete id="remove" parameterType="java.lang.Long">-->
+<!--        DELETE FROM Thirdparty WHERE ID = #{id}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash; 根据主键逻辑删除-->
+<!--    <update id="delete" parameterType="java.lang.Long">-->
+<!--        UPDATE Thirdparty SET DEL_FLAG = 1 WHERE ID = #{id}-->
+<!--    </update>-->
+<!--    &ndash;&gt;-->
+
+<!--    &lt;!&ndash;根据条件是否插入数据 &ndash;&gt;-->
+<!--    <insert id="insertSelective" parameterType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        INSERT INTO Thirdparty-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">-->
+<!--                id ,-->
+<!--            </if>-->
+<!--            <if test="accountId != null">-->
+<!--                accountId ,-->
+<!--            </if>-->
+<!--            <if test="openId != null">-->
+<!--                openId ,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                createDate ,-->
+<!--            </if>-->
+<!--            <if test="type != null">-->
+<!--                type ,-->
+<!--            </if>-->
+<!--            <if test="accountLogo != null">-->
+<!--                accountLogo ,-->
+<!--            </if>-->
+<!--            <if test="nickName != null">-->
+<!--                nickName-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">-->
+<!--                #{id} ,-->
+<!--            </if>-->
+<!--            <if test="accountId != null">-->
+<!--                #{accountId} ,-->
+<!--            </if>-->
+<!--            <if test="openId != null">-->
+<!--                #{openId} ,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                #{createDate} ,-->
+<!--            </if>-->
+<!--            <if test="type != null">-->
+<!--                #{type} ,-->
+<!--            </if>-->
+<!--            <if test="accountLogo != null">-->
+<!--                #{accountLogo} ,-->
+<!--            </if>-->
+<!--            <if test="nickName != null">-->
+<!--                #{nickName}-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 选择性更新数据 &ndash;&gt;-->
+<!--    <update id="updateByPrimaryKeySelective" parameterType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        UPDATE Thirdparty-->
+<!--        <set>-->
+<!--            <if test="accountId != null">-->
+<!--                accountId = #{accountId} ,-->
+<!--            </if>-->
+<!--            <if test="openId != null">-->
+<!--                openId = #{openId} ,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                createDate = #{createDate} ,-->
+<!--            </if>-->
+<!--            <if test="type != null">-->
+<!--                type = #{type} ,-->
+<!--            </if>-->
+<!--            <if test="accountLogo != null">-->
+<!--                accountLogo = #{accountLogo} ,-->
+<!--            </if>-->
+<!--            <if test="nickName != null">-->
+<!--                nickName = #{nickName}-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        WHERE ID = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 批量插入 &ndash;&gt;-->
+<!--    <insert id="insertBatch" parameterType="list">-->
+<!--        INSERT INTO Thirdparty(-->
+<!--        id ,-->
+<!--        accountId ,-->
+<!--        openId ,-->
+<!--        createDate ,-->
+<!--        type ,-->
+<!--        accountLogo ,-->
+<!--        nickName-->
+<!--        ) VALUES-->
+<!--        <foreach collection="list" item="item" separator=",">-->
+<!--            (-->
+<!--            #{item.id} ,-->
+<!--            #{item.accountId} ,-->
+<!--            #{item.openId} ,-->
+<!--            #{item.createDate} ,-->
+<!--            #{item.type} ,-->
+<!--            #{item.accountLogo} ,-->
+<!--            #{item.nickName}-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 批量修改 &ndash;&gt;-->
+<!--    <update id="updateBatch" parameterType="java.util.List">-->
+<!--        <foreach collection="list" item="item" index="index" open="" close="" separator=";">-->
+<!--            UPDATE Thirdparty SET-->
+<!--            accountId = #{item.accountId} ,-->
+<!--            openId = #{item.openId} ,-->
+<!--            createDate = #{item.createDate} ,-->
+<!--            type = #{item.type} ,-->
+<!--            accountLogo = #{item.accountLogo} ,-->
+<!--            nickName = #{item.nickName}-->
+<!--            WHERE ID = #{item.id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 根据主键更新一条信息所有数据 &ndash;&gt;-->
+<!--    <update id="updateByPrimaryKey" parameterType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        UPDATE Thirdparty SET-->
+<!--            accountId = #{accountId} ,-->
+<!--            openId = #{openId} ,-->
+<!--            createDate = #{createDate} ,-->
+<!--            type = #{type} ,-->
+<!--            accountLogo = #{accountLogo} ,-->
+<!--            nickName = #{nickName}-->
+<!--        WHERE ID = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 根据主键取数据 &ndash;&gt;-->
+<!--    <select id="selectByPrimaryKey" parameterType="java.lang.Long"-->
+<!--            resultType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        SELECT-->
+<!--        <include refid="thirdpartyColumns"/>-->
+<!--        FROM Thirdparty a WHERE a.ID = #{id}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 可分页的对象查询 &ndash;&gt;-->
+<!--    <select id="findList" resultType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        SELECT-->
+<!--        <include refid="thirdpartyColumns"/>-->
+<!--        FROM Thirdparty a WHERE 1 = 1 &lt;!&ndash; and a.DEL_FLAG = 0&ndash;&gt;-->
+<!--        <if test="accountId != null">-->
+<!--            AND a.accountId = #{accountId}-->
+<!--        </if>-->
+<!--        <if test="openId != null">-->
+<!--            AND a.openId = #{openId}-->
+<!--        </if>-->
+<!--        <if test="type != null">-->
+<!--            AND a.type = #{type}-->
+<!--        </if>-->
+<!--        <if test="nickName != null">-->
+<!--            AND a.nickName LIKE CONCAT('%',#{nickName}, '%')-->
+<!--        </if>-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 查询所有 &ndash;&gt;-->
+<!--    <select id="selectAll" resultType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        SELECT-->
+<!--        <include refid="thirdpartyColumns"/>-->
+<!--        FROM Thirdparty a &lt;!&ndash;WHERE a.DEL_FLAG = 0&ndash;&gt;-->
+<!--    </select>-->
+
+<!--    <select id="findByOpenId" resultType="com.zjjatech.fhsc.account.entity.Thirdparty">-->
+<!--        SELECT-->
+<!--        <include refid="thirdpartyColumns"/>-->
+<!--        FROM Thirdparty a WHERE a.openId = #{openId}-->
+<!--        LIMIT 0,1-->
+<!--    </select>-->
+
+<!--    <select id="findByAccountId" resultType="com.zjjatech.fhsc.account.entity.Thirdparty" parameterType="java.lang.Long">-->
+<!--        SELECT-->
+<!--        <include refid="thirdpartyColumns"/>-->
+<!--        FROM Thirdparty a WHERE a.accountId = #{accountId} and a.type = 'wechat'-->
+<!--        LIMIT 1-->
+<!--    </select>-->
+
+</mapper>
+

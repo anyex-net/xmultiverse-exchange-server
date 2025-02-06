@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sofa="http://sofastack.io/schema/sofaboot"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://sofastack.io/schema/sofaboot http://sofastack.io/schema/sofaboot.xsd">
+    <!-- 系统管理服务 -->
+    <!-- 机构管理 -->
+    <sofa:reference id="organizationService" interface="com.anyex.apps.system.service.SysOrganizationService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 资源管理 -->
+    <sofa:reference id="resourcesService" interface="com.anyex.apps.system.service.SysResourcesService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 角色管理 -->
+    <sofa:reference id="roleInfoService" interface="com.anyex.apps.system.service.SysRoleInfoService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户管理 -->
+    <sofa:reference id="userInfoService" interface="com.anyex.apps.system.service.SysUserInfoService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--角色数据权限-->
+    <sofa:reference id="roleDataService" interface="com.anyex.apps.system.service.SysRoleDataService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--用户数据权限-->
+    <sofa:reference id="userDataService" interface="com.anyex.apps.system.service.SysUserDataService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户数据权限管理 -->
+    <sofa:reference id="roleDataPermissionService" interface="com.anyex.apps.system.service.RoleDataPermissionService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 缓存管理 -->
+    <sofa:reference id="cacheService" interface="com.anyex.apps.system.service.SysCacheService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!-- 访问日志 -->
+    <sofa:reference id="accessLogService" interface="com.anyex.apps.system.service.SysAccessLogService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!-- 项目业务消费者 -->
+    <!--  -->
+
+</beans>

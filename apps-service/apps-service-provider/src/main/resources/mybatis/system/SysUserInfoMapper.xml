@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysUserInfoMapper">
+    <!-- 基础列 -->
+    <sql id="userInfoColumns">
+        a.id as id,
+        a.orgId as orgId,
+        a.userName as userName,
+        a.trueName as trueName,
+        a.passWord as passWord,
+        a.phone as phone,
+        a.gender as gender,
+        a.active as active,
+        a.idCard as idCard,
+        a.sign as sign,
+        a.randomKey as randomKey,
+        a.authKey as authKey,
+        a.userLogo as userLogo,
+        a.userLogo as userLogo,
+        a.userDesc as userDesc,
+        a.jobTitle as jobTitle,
+        a.address as address,
+        a.zzdOpenId as zzdOpenId,
+        a.zzdName as zzdName,
+        a.wxOpenId as wxOpenId,
+        a.wxName as wxName,
+        a.createDate as createDate,
+        a.updateDate as updateDate
+    </sql>
+
+    <sql id="userInfoJoinColumns">
+        a.id as id,
+        a.orgId as orgId,
+        b.orgName as orgName,
+        a.userName as userName,
+        a.trueName as trueName,
+        a.passWord as passWord,
+        a.phone as phone,
+        a.gender as gender,
+        a.active as active,
+        a.idCard as idCard,
+        a.sign as sign,
+        a.randomKey as randomKey,
+        a.authKey as authKey,
+        a.userLogo as userLogo,
+        a.userDesc as userDesc,
+        a.jobTitle as jobTitle,
+        a.address as address,
+        a.zzdOpenId as zzdOpenId,
+        a.zzdName as zzdName,
+        a.wxOpenId as wxOpenId,
+        a.wxName as wxName,
+        a.createDate as createDate,
+        a.updateDate as updateDate
+    </sql>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysUserInfo">
+        INSERT INTO SysUserInfo (
+            id,
+            orgId,
+            userName,
+            trueName,
+            passWord,
+            phone,
+            gender,
+            active,
+            idCard,
+            sign,
+            randomKey,
+            authKey,
+            userLogo,
+            userDesc,
+            jobTitle,
+            address,
+            zzdOpenId,
+            zzdName,
+            wxOpenId,
+            wxName,
+            createDate,
+            updateDate
+        ) VALUES (
+            #{id},
+            #{orgId},
+            #{userName},
+            #{trueName},
+            #{passWord},
+            #{phone},
+            #{gender},
+            #{active},
+            #{idCard},
+            #{sign},
+            #{randomKey},
+            #{authKey},
+            #{userLogo},
+            #{userDesc},
+            #{jobTitle},
+            #{address},
+            #{zzdOpenId},
+            #{zzdName},
+            #{wxOpenId},
+            #{wxName},
+            #{createDate},
+            #{updateDate}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysUserInfo WHERE id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysUserInfo SET 1 = 1 WHERE id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysUserInfo">
+        insert into SysUserInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="orgId != null">
+                orgId ,
+            </if>
+            <if test="userName != null">
+                userName ,
+            </if>
+            <if test="trueName != null">
+                trueName ,
+            </if>
+            <if test="passWord != null">
+                passWord ,
+            </if>
+            <if test="phone != null">
+                phone ,
+            </if>
+            <if test="gender != null">
+                gender ,
+            </if>
+            <if test="active != null">
+                active ,
+            </if>
+            <if test="idCard != null">
+                idCard ,
+            </if>
+            <if test="sign != null">
+                sign ,
+            </if>
+            <if test="randomKey != null">
+                randomKey ,
+            </if>
+            <if test="authKey != null">
+                authKey ,
+            </if>
+            <if test="userLogo != null">
+                userLogo ,
+            </if>
+            <if test="userDesc != null">
+                userDesc ,
+            </if>
+            <if test="jobTitle != null">
+                jobTitle ,
+            </if>
+            <if test="address != null">
+                address ,
+            </if>
+            <if test="zzdOpenId != null">
+                zzdOpenId ,
+            </if>
+            <if test="zzdName != null">
+                zzdName ,
+            </if>
+            <if test="wxOpenId != null">
+                wxOpenId ,
+            </if>
+            <if test="wxName != null">
+                wxName ,
+            </if>
+            <if test="createDate != null">
+                createDate ,
+            </if>
+            <if test="updateDate != null">
+                updateDate
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="orgId != null">
+                #{orgId} ,
+            </if>
+            <if test="userName != null">
+                #{userName} ,
+            </if>
+            <if test="trueName != null">
+                #{trueName} ,
+            </if>
+            <if test="passWord != null">
+                #{passWord} ,
+            </if>
+            <if test="phone != null">
+                #{phone} ,
+            </if>
+            <if test="gender != null">
+                #{gender} ,
+            </if>
+            <if test="active != null">
+                #{active} ,
+            </if>
+            <if test="idCard != null">
+                #{idCard} ,
+            </if>
+            <if test="sign != null">
+                #{sign} ,
+            </if>
+            <if test="randomKey != null">
+                #{randomKey} ,
+            </if>
+            <if test="authKey != null">
+                #{authKey} ,
+            </if>
+            <if test="userLogo != null">
+                #{userLogo} ,
+            </if>
+            <if test="userDesc != null">
+                #{userDesc} ,
+            </if>
+            <if test="jobTitle != null">
+                #{jobTitle} ,
+            </if>
+            <if test="address != null">
+                #{address} ,
+            </if>
+            <if test="zzdOpenId != null">
+                #{zzdOpenId} ,
+            </if>
+            <if test="zzdName != null">
+                #{zzdName} ,
+            </if>
+            <if test="wxOpenId != null">
+                #{wxOpenId} ,
+            </if>
+            <if test="wxName != null">
+                #{wxName} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate} ,
+            </if>
+            <if test="updateDate != null">
+                #{updateDate}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysUserInfo">
+        update SysUserInfo
+        <set>
+            <if test="orgId != null">
+                orgId = #{orgId} ,
+            </if>
+            <if test="userName != null and userName != ''">
+                userName = #{userName} ,
+            </if>
+            <if test="trueName != null and trueName != ''">
+                trueName = #{trueName} ,
+            </if>
+            <if test="passWord != null and passWord != ''">
+                passWord = #{passWord} ,
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone} ,
+            </if>
+            <if test="gender != null">
+                gender = #{gender} ,
+            </if>
+            <if test="active != null">
+                active = #{active} ,
+            </if>
+            <if test="idCard != null and idCard != ''">
+                idCard = #{idCard} ,
+            </if>
+            <if test="sign != null">
+                sign = #{sign} ,
+            </if>
+            <if test="randomKey != null">
+                randomKey = #{randomKey} ,
+            </if>
+            <if test="authKey != null">
+                authKey = #{authKey} ,
+            </if>
+            <if test="userLogo != null">
+                userLogo = #{userLogo} ,
+            </if>
+            <if test="userDesc != null">
+                userDesc = #{userDesc} ,
+            </if>
+            <if test="jobTitle != null">
+                jobTitle = #{jobTitle} ,
+            </if>
+            <if test="address != null">
+                address = #{address} ,
+            </if>
+            <if test="zzdOpenId != null">
+                zzdOpenId = #{zzdOpenId} ,
+            </if>
+            <if test="zzdName != null">
+                zzdName = #{zzdName} ,
+            </if>
+            <if test="wxOpenId != null">
+                wxOpenId = #{wxOpenId} ,
+            </if>
+            <if test="wxName != null">
+                wxName = #{wxName} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="updateDate != null">
+                updateDate = #{updateDate}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        insert into SysUserInfo(
+        id ,
+        orgId ,
+        userName ,
+        trueName ,
+        passWord ,
+        phone ,
+        gender ,
+        active ,
+        idCard ,
+        sign ,
+        randomKey ,
+        authKey ,
+        userLogo ,
+        userDesc ,
+        jobTitle ,
+        address ,
+        zzdOpenId ,
+        zzdName ,
+        wxOpenId ,
+        wxName ,
+        createDate ,
+        updateDate
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.orgId} ,
+            #{item.userName} ,
+            #{item.trueName} ,
+            #{item.passWord} ,
+            #{item.phone} ,
+            #{item.gender} ,
+            #{item.active} ,
+            #{item.idCard} ,
+            #{item.sign} ,
+            #{item.randomKey} ,
+            #{item.authKey} ,
+            #{item.userLogo} ,
+            #{item.userDesc} ,
+            #{item.jobTitle} ,
+            #{item.address} ,
+            #{item.zzdOpenId} ,
+            #{item.zzdName} ,
+            #{item.wxOpenId} ,
+            #{item.wxName} ,
+            #{item.createDate} ,
+            #{item.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SysUserInfo set
+            orgId = #{item.orgId} ,
+            userName = #{item.userName} ,
+            trueName = #{item.trueName} ,
+            passWord = #{item.passWord} ,
+            phone = #{item.phone} ,
+            gender = #{item.gender} ,
+            active = #{item.active} ,
+            idCard = #{item.idCard} ,
+            sign = #{item.sign} ,
+            randomKey = #{item.randomKey} ,
+            authKey = #{item.authKey} ,
+            userLogo = #{item.userLogo} ,
+            userDesc = #{item.userDesc} ,
+            jobTitle = #{item.jobTitle} ,
+            address = #{item.address} ,
+            zzdOpenId = #{item.zzdOpenId} ,
+            zzdName = #{item.zzdName} ,
+            wxOpenId = #{item.wxOpenId} ,
+            wxName = #{item.wxName} ,
+            createDate = #{item.createDate} ,
+            updateDate = #{item.updateDate}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysUserInfo">
+        UPDATE SysUserInfo
+        SET
+            orgId      = #{orgId},
+            userName   = #{userName},
+            trueName   = #{trueName},
+            passWord   = #{passWord},
+            phone      = #{phone},
+            gender     = #{gender},
+            active     = #{active},
+            idCard     = #{idCard},
+            sign       = #{sign},
+            randomKey  = #{randomKey},
+            authKey    = #{authKey},
+            userLogo   = #{userLogo},
+            userDesc   = #{userDesc},
+            jobTitle   = #{jobTitle},
+            address    = #{address},
+            zzdOpenId  = #{zzdOpenId},
+            zzdName    = #{zzdName},
+            wxOpenId   = #{wxOpenId},
+            wxName     = #{wxName},
+            createDate = #{createDate},
+            updateDate = #{updateDate}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.system.entity.SysUserInfo">
+        select
+        <include refid="userInfoColumns"/>
+        FROM SysUserInfo a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysUserInfo">
+        SELECT
+        <include refid="userInfoJoinColumns"/>
+        FROM SysUserInfo a , SysOrganization b
+        WHERE a.orgId = b.id AND 1 = 1
+        <if test="id != null">
+            and a.id = #{id}
+        </if>
+        <if test="orgId != null">
+            and a.orgId = #{orgId}
+        </if>
+        <if test="userName != null and userName != ''">
+            and a.userName like CONCAT('%',#{userName}, '%')
+        </if>
+        <if test="trueName != null and trueName != ''">
+            and a.trueName like CONCAT('%',#{trueName}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and a.phone like CONCAT('%',#{phone}, '%')
+        </if>
+        <if test="gender != null">
+            and a.gender = #{gender}
+        </if>
+        <if test="active != null">
+            and a.active = #{active}
+        </if>
+        <if test="idCard != null">
+            and a.idCard like '%'||#{idCard}||'%'
+        </if>
+        <if test="orderBy != null ">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysUserInfo">
+        SELECT
+        <include refid="userInfoColumns"/>
+        FROM SysUserInfo a WHERE 1 = 1
+    </select>
+
+    <select id="findByUserName" resultType="com.anyex.apps.system.entity.SysUserInfo">
+        SELECT
+        <include refid="userInfoColumns"/>
+        FROM SysUserInfo a WHERE 1 = 1
+        AND a.userName = #{userName}
+    </select>
+
+    <select id="selectUserInfoByQuery" resultType="com.anyex.apps.system.entity.SysUserInfo">
+        SELECT
+        <include refid="userInfoColumns"/>
+        FROM
+        UserRole b
+        LEFT JOIN SysUserInfo a ON b.userId = a.id
+        WHERE 1 = 1
+        <if test="roleId != null">
+            and b.roleId = #{roleId}
+        </if>
+        <if test="active != null">
+            and a.active = #{active}
+        </if>
+        <if test="orgId != null">
+            and a.orgId = #{orgId}
+        </if>
+    </select>
+
+    <select id="findByZZDOpenId" resultType="com.anyex.apps.system.entity.SysUserInfo">
+        select
+        <include refid="userInfoColumns"/>
+        from SysUserInfo a WHERE 1 = 1 and ZZDOPENID = #{ZZDOpenId}
+    </select>
+
+</mapper>
+

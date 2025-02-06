@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.social.mapper.SnsPostCommentLikeMapper">
+    <!-- 基础列 -->
+    <sql id="snsPostCommentLikeColumns">
+        a.id as id,
+        a.postId as postId,
+        a.postCommentId as postCommentId,
+        a.likeUserId as likeUserId,
+        a.lng as lng,
+        a.lat as lat,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="snsPostCommentLikeResultMap" type="com.anyex.apps.social.entity.SnsPostCommentLike">
+        <id column="ID" property="id" />
+        <result column="postId" property="postId"/>
+        <result column="postCommentId" property="postCommentId"/>
+        <result column="likeUserId" property="likeUserId"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.social.entity.SnsPostCommentLike">
+        INSERT INTO SnsPostCommentLike(
+            id ,
+            postId ,
+            postCommentId ,
+            likeUserId ,
+            lng ,
+            lat ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{postId} ,
+            #{postCommentId} ,
+            #{likeUserId} ,
+            #{lng} ,
+            #{lat} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SnsPostCommentLike WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SnsPostCommentLike SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.social.entity.SnsPostCommentLike">
+        INSERT INTO SnsPostCommentLike
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="postId != null">
+                postId ,
+        </if>
+        <if test="postCommentId != null">
+                postCommentId ,
+        </if>
+        <if test="likeUserId != null">
+                likeUserId ,
+        </if>
+        <if test="lng != null">
+                lng ,
+        </if>
+        <if test="lat != null">
+                lat ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="postId != null">
+                #{postId} ,
+        </if>
+        <if test="postCommentId != null">
+                #{postCommentId} ,
+        </if>
+        <if test="likeUserId != null">
+                #{likeUserId} ,
+        </if>
+        <if test="lng != null">
+                #{lng} ,
+        </if>
+        <if test="lat != null">
+                #{lat} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.social.entity.SnsPostCommentLike">
+        UPDATE SnsPostCommentLike
+           <set>
+            <if test="postId != null">
+                postId = #{postId} ,
+            </if>
+            <if test="postCommentId != null">
+                postCommentId = #{postCommentId} ,
+            </if>
+            <if test="likeUserId != null">
+                likeUserId = #{likeUserId} ,
+            </if>
+            <if test="lng != null">
+                lng = #{lng} ,
+            </if>
+            <if test="lat != null">
+                lat = #{lat} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SnsPostCommentLike(
+            id ,
+            postId ,
+            postCommentId ,
+            likeUserId ,
+            lng ,
+            lat ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.postId} ,
+            #{item.postCommentId} ,
+            #{item.likeUserId} ,
+            #{item.lng} ,
+            #{item.lat} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SnsPostCommentLike SET
+            postId = #{item.postId} ,
+            postCommentId = #{item.postCommentId} ,
+            likeUserId = #{item.likeUserId} ,
+            lng = #{item.lng} ,
+            lat = #{item.lat} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.social.entity.SnsPostCommentLike">
+        UPDATE SnsPostCommentLike SET
+            postId = #{postId} ,
+            postCommentId = #{postCommentId} ,
+            likeUserId = #{likeUserId} ,
+            lng = #{lng} ,
+            lat = #{lat} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.social.entity.SnsPostCommentLike">
+        SELECT <include refid="snsPostCommentLikeColumns"/> FROM SnsPostCommentLike a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.social.entity.SnsPostCommentLike">
+        SELECT
+        <include refid="snsPostCommentLikeColumns"/>
+        FROM SnsPostCommentLike a WHERE 1 = 1
+        <if test="postId != null">
+            AND a.postId = #{postId}
+        </if>
+        <if test="postCommentId != null">
+            AND a.postCommentId = #{postCommentId}
+        </if>
+        <if test="likeUserId != null">
+            AND a.likeUserId = #{likeUserId}
+        </if>
+        <if test="lng != null and lng != ''">
+            AND a.lng LIKE CONCAT('%',#{lng}, '%')
+        </if>
+        <if test="lat != null and lat != ''">
+            AND a.lat LIKE CONCAT('%',#{lat}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.social.entity.SnsPostCommentLike">
+        SELECT
+        <include refid="snsPostCommentLikeColumns"/>
+        FROM SnsPostCommentLike a
+    </select>
+
+
+</mapper>
+

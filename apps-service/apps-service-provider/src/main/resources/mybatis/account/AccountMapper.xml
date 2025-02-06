@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountMapper">
+    <!-- 基础列 -->
+    <sql id="accountColumns">
+        a.id as id,
+        a.unid as unid,
+        a.userId as userId,
+        a.country as country,
+        a.mobile as mobile,
+        a.accountName as accountName,
+        a.realName as realName,
+        a.cnic as cnic,
+        a.loginPwd as loginPwd,
+        a.headUrl as headUrl,
+        a.email as email,
+        a.birth as birth,
+        a.gender as gender,
+        a.deviceId as deviceId,
+        a.ip as ip,
+        a.lng as lng,
+        a.lat as lat,
+        a.city as city,
+        a.invitationCode as invitationCode,
+        a.referralCode as referralCode,
+        a.source as source,
+        a.status as status,
+        a.sign as sign,
+        a.randomKey as randomKey,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="accountResultMap" type="com.anyex.apps.account.entity.Account">
+        <id column="ID" property="id" />
+        <result column="unid" property="unid"/>
+        <result column="userId" property="userId"/>
+        <result column="country" property="country"/>
+        <result column="mobile" property="mobile"/>
+        <result column="accountName" property="accountName"/>
+        <result column="realName" property="realName"/>
+        <result column="cnic" property="cnic"/>
+        <result column="loginPwd" property="loginPwd"/>
+        <result column="headUrl" property="headUrl"/>
+        <result column="email" property="email"/>
+        <result column="birth" property="birth"/>
+        <result column="gender" property="gender"/>
+        <result column="deviceId" property="deviceId"/>
+        <result column="ip" property="ip"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="city" property="city"/>
+        <result column="invitationCode" property="invitationCode"/>
+        <result column="referralCode" property="referralCode"/>
+        <result column="source" property="source"/>
+        <result column="status" property="status"/>
+        <result column="sign" property="sign"/>
+        <result column="randomKey" property="randomKey"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.Account">
+        INSERT INTO Account(
+            id ,
+            unid ,
+            userId ,
+            country ,
+            mobile ,
+            accountName ,
+            realName ,
+            cnic ,
+            loginPwd ,
+            headUrl ,
+            email ,
+            birth ,
+            gender ,
+            deviceId ,
+            ip ,
+            lng ,
+            lat ,
+            city,
+            invitationCode ,
+            referralCode ,
+            source ,
+            status ,
+            sign ,
+            randomKey ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{unid} ,
+            #{userId} ,
+            #{country} ,
+            #{mobile} ,
+            #{accountName} ,
+            #{realName} ,
+            #{cnic} ,
+            #{loginPwd} ,
+            #{headUrl} ,
+            #{email} ,
+            #{birth} ,
+            #{gender} ,
+            #{deviceId} ,
+            #{ip} ,
+            #{lng} ,
+            #{lat} ,
+            #{city} ,
+            #{invitationCode} ,
+            #{referralCode} ,
+            #{source} ,
+            #{status} ,
+            #{sign} ,
+            #{randomKey} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM Account WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE Account SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.Account">
+        INSERT INTO Account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="unid != null">
+                unid ,
+        </if>
+        <if test="userId != null">
+            userId ,
+        </if>
+        <if test="country != null">
+                country ,
+        </if>
+        <if test="mobile != null">
+                mobile ,
+        </if>
+        <if test="accountName != null">
+                accountName ,
+        </if>
+        <if test="realName != null">
+                realName ,
+        </if>
+        <if test="cnic != null">
+                cnic ,
+        </if>
+        <if test="loginPwd != null">
+                loginPwd ,
+        </if>
+        <if test="headUrl != null">
+                headUrl ,
+        </if>
+        <if test="email != null">
+                email ,
+        </if>
+        <if test="birth != null">
+                birth ,
+        </if>
+        <if test="gender != null">
+                gender ,
+        </if>
+        <if test="deviceId != null">
+                deviceId ,
+        </if>
+        <if test="ip != null">
+                ip ,
+        </if>
+        <if test="lng != null">
+                lng ,
+        </if>
+        <if test="lat != null">
+                lat ,
+        </if>
+        <if test="city != null">
+                city ,
+        </if>
+        <if test="invitationCode != null">
+                invitationCode ,
+        </if>
+        <if test="referralCode != null">
+                referralCode ,
+        </if>
+        <if test="source != null">
+                source ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="sign != null">
+                sign ,
+        </if>
+        <if test="randomKey != null">
+                randomKey ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="unid != null">
+                #{unid} ,
+        </if>
+        <if test="userId != null">
+            #{userId} ,
+        </if>
+        <if test="country != null">
+                #{country} ,
+        </if>
+        <if test="mobile != null">
+                #{mobile} ,
+        </if>
+        <if test="accountName != null">
+                #{accountName} ,
+        </if>
+        <if test="realName != null">
+                #{realName} ,
+        </if>
+        <if test="cnic != null">
+                #{cnic} ,
+        </if>
+        <if test="loginPwd != null">
+                #{loginPwd} ,
+        </if>
+        <if test="headUrl != null">
+                #{headUrl} ,
+        </if>
+        <if test="email != null">
+                #{email} ,
+        </if>
+        <if test="birth != null">
+                #{birth} ,
+        </if>
+        <if test="gender != null">
+                #{gender} ,
+        </if>
+        <if test="deviceId != null">
+                #{deviceId} ,
+        </if>
+        <if test="ip != null">
+                #{ip} ,
+        </if>
+        <if test="lng != null">
+                #{lng} ,
+        </if>
+        <if test="lat != null">
+                #{lat} ,
+        </if>
+        <if test="city != null">
+                #{city} ,
+        </if>
+        <if test="invitationCode != null">
+                #{invitationCode} ,
+        </if>
+        <if test="referralCode != null">
+                #{referralCode} ,
+        </if>
+        <if test="source != null">
+                #{source} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="sign != null">
+                #{sign} ,
+        </if>
+        <if test="randomKey != null">
+                #{randomKey} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.Account">
+        UPDATE Account
+           <set>
+            <if test="unid != null">
+                unid = #{unid} ,
+            </if>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="country != null">
+                country = #{country} ,
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile} ,
+            </if>
+            <if test="accountName != null">
+                accountName = #{accountName} ,
+            </if>
+            <if test="realName != null">
+                realName = #{realName} ,
+            </if>
+            <if test="cnic != null">
+                cnic = #{cnic} ,
+            </if>
+            <if test="loginPwd != null">
+                loginPwd = #{loginPwd} ,
+            </if>
+            <if test="headUrl != null">
+                headUrl = #{headUrl} ,
+            </if>
+            <if test="email != null">
+                email = #{email} ,
+            </if>
+            <if test="birth != null">
+                birth = #{birth} ,
+            </if>
+            <if test="gender != null">
+                gender = #{gender} ,
+            </if>
+            <if test="deviceId != null">
+                deviceId = #{deviceId} ,
+            </if>
+            <if test="ip != null">
+                ip = #{ip} ,
+            </if>
+            <if test="lng != null">
+                lng = #{lng} ,
+            </if>
+            <if test="lat != null">
+                lat = #{lat} ,
+            </if>
+            <if test="city != null">
+                city = #{city} ,
+            </if>
+            <if test="invitationCode != null">
+                invitationCode = #{invitationCode} ,
+            </if>
+            <if test="referralCode != null">
+                referralCode = #{referralCode} ,
+            </if>
+            <if test="source != null">
+                source = #{source} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="sign != null">
+                sign = #{sign} ,
+            </if>
+            <if test="randomKey != null">
+                randomKey = #{randomKey} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO Account(
+            id ,
+            unid ,
+            userId ,
+            country ,
+            mobile ,
+            accountName ,
+            realName ,
+            cnic ,
+            loginPwd ,
+            headUrl ,
+            email ,
+            birth ,
+            gender ,
+            deviceId ,
+            ip ,
+            lng ,
+            lat ,
+            city ,
+            invitationCode ,
+            referralCode ,
+            source ,
+            status ,
+            sign ,
+            randomKey ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.unid} ,
+            #{item.userId} ,
+            #{item.country} ,
+            #{item.mobile} ,
+            #{item.accountName} ,
+            #{item.realName} ,
+            #{item.cnic} ,
+            #{item.loginPwd} ,
+            #{item.headUrl} ,
+            #{item.email} ,
+            #{item.birth} ,
+            #{item.gender} ,
+            #{item.deviceId} ,
+            #{item.ip} ,
+            #{item.lng} ,
+            #{item.lat} ,
+            #{item.city} ,
+            #{item.invitationCode} ,
+            #{item.referralCode} ,
+            #{item.source} ,
+            #{item.status} ,
+            #{item.sign} ,
+            #{item.randomKey} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE Account SET
+            unid = #{item.unid} ,
+            userId = #{item.userId} ,
+            country = #{item.country} ,
+            mobile = #{item.mobile} ,
+            accountName = #{item.accountName} ,
+            realName = #{item.realName} ,
+            cnic = #{item.cnic} ,
+            loginPwd = #{item.loginPwd} ,
+            headUrl = #{item.headUrl} ,
+            email = #{item.email} ,
+            birth = #{item.birth} ,
+            gender = #{item.gender} ,
+            deviceId = #{item.deviceId} ,
+            ip = #{item.ip} ,
+            lng = #{item.lng} ,
+            lat = #{item.lat} ,
+            city = #{item.city} ,
+            invitationCode = #{item.invitationCode} ,
+            referralCode = #{item.referralCode} ,
+            source = #{item.source} ,
+            status = #{item.status} ,
+            sign = #{item.sign} ,
+            randomKey = #{item.randomKey} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.Account">
+        UPDATE Account SET
+            unid = #{unid} ,
+            userId = #{userId} ,
+            country = #{country} ,
+            mobile = #{mobile} ,
+            accountName = #{accountName} ,
+            realName = #{realName} ,
+            cnic = #{cnic} ,
+            loginPwd = #{loginPwd} ,
+            headUrl = #{headUrl} ,
+            email = #{email} ,
+            birth = #{birth} ,
+            gender = #{gender} ,
+            deviceId = #{deviceId} ,
+            ip = #{ip} ,
+            lng = #{lng} ,
+            lat = #{lat} ,
+            city = #{city} ,
+            invitationCode = #{invitationCode} ,
+            referralCode = #{referralCode} ,
+            source = #{source} ,
+            status = #{status} ,
+            sign = #{sign} ,
+            randomKey = #{randomKey} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.account.entity.Account">
+        SELECT <include refid="accountColumns"/> FROM Account a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="id != null">
+            AND a.id= #{id}
+        </if>
+        <if test="unid != null">
+            AND a.unid= #{unid}
+        </if>
+        <if test="userId != null and userId != ''">
+            AND a.userId= #{userId}
+        </if>
+        <if test="country != null and country != ''">
+            AND a.country= #{country}
+        </if>
+        <if test="mobile != null and mobile != ''">
+            AND a.mobile LIKE CONCAT('%',#{mobile}, '%') 
+        </if>
+        <if test="accountName != null and accountName != ''">
+            AND a.accountName LIKE CONCAT('%',#{accountName}, '%') 
+        </if>
+        <if test="realName != null and realName != ''">
+            AND a.realName LIKE CONCAT('%',#{realName}, '%')
+        </if>
+        <if test="cnic != null and cnic != ''">
+            AND a.cnic = #{cnic}
+        </if>
+        <if test="email != null and email != ''">
+            AND a.email LIKE CONCAT('%',#{email}, '%') 
+        </if>
+        <if test="gender != null">
+            AND a.gender = #{gender}
+        </if>
+        <if test="deviceId != null">
+            AND a.deviceId = #{deviceId}
+        </if>
+        <if test="city != null and city != ''">
+            AND a.city = #{city}
+        </if>
+        <if test="invitationCode != null and invitationCode != ''">
+            AND a.invitationCode= #{invitationCode}
+        </if>
+        <if test="referralCode != null and referralCode != ''">
+            AND a.referralCode= #{referralCode}
+        </if>
+        <if test="source != null">
+            AND a.source = #{source}
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <select id="getMaxUNID" resultType="java.lang.Long">
+      SELECT IFNULL(MAX(a.unid), 10000) FROM Account a
+    </select>
+
+    <select id="findByUnid" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a WHERE 1 = 1
+        and a.status = 0
+        and a.unid = #{unid} limit 1
+    </select>
+
+    <select id="findByUserId" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a WHERE 1 = 1
+        and a.status = 0
+        and a.userId = #{userId} limit 1
+    </select>
+
+    <!-- 根据帐户名查帐户对象 -->
+    <select id="findByAccountName" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a WHERE 1 = 1
+        and a.status = 0
+        and a.accountName = #{accountName} limit 1
+    </select>
+
+    <!-- 根据手机号查帐户对象 -->
+    <select id="findByMobile" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a WHERE 1 = 1
+        and a.status = 0
+        and a.mobile = #{mobile} limit 1
+    </select>
+
+    <!-- 根据邮箱查帐户对象 -->
+    <select id="findByEmail" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a WHERE 1 = 1
+        and a.status = 0
+        and a.email = #{email} limit 1
+    </select>
+
+    <!-- 根据邮箱查帐户对象 -->
+    <select id="findByEmail4Register" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a WHERE 1 = 1
+        and a.email = #{email} limit 1
+    </select>
+
+    <select id="getInvitedStatistics" resultType="com.anyex.apps.account.model.AccountInvitedStatisticsModel">
+        select ifnull(sum(1),0) as total,
+               ifnull(sum(case when date_format(FROM_UNIXTIME(createTime/1000), '%Y-%m-%d')
+                   =date_format(curdate(), '%Y-%m-%d') then 1 else 0 end),0) as curTotal
+        from Account where invitationCode is not null
+    </select>
+
+    <select id="getInvitedAccount" resultType="com.anyex.apps.account.model.AccountInvitedModel">
+        select
+        a.id as id,
+        a.unid as unid,
+        a.email as email,
+        a.invitationCode as invitationCode,
+        a.referralCode as referralCode,
+        a.createTime as createTime,
+        b.id as inviteId,
+        b.unid as inviteUnid,
+        b.email as inviteEmail
+        from Account a,Account b where a.referralCode = b.invitationCode  and   (a.referralCode is not null and a.referralCode != '')
+        <if test="entity.id != null">
+            AND a.id= #{entity.id}
+        </if>
+        <if test="entity.unid != null">
+            AND a.unid= #{entity.unid}
+        </if>
+        <if test="entity.email != null and entity.email != ''">
+            AND a.email= #{entity.email}
+        </if>
+        <if test="entity.inviteId != null">
+            AND b.id= #{entity.inviteId}
+        </if>
+        <if test="entity.inviteUnid != null">
+            AND b.unid= #{entity.inviteUnid}
+        </if>
+        <if test="entity.inviteEmail != null and entity.inviteEmail != ''">
+            AND b.email= #{entity.inviteEmail}
+        </if>
+    </select>
+
+    <select id="findByReferralCode" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a
+        WHERE  a.referralCode = #{referralCode}
+    </select>
+
+    <select id="findByInvitationCode" resultType="com.anyex.apps.account.entity.Account">
+        SELECT
+        <include refid="accountColumns"/>
+        FROM Account a
+        WHERE  a.invitationCode = #{invitationCode}
+    </select>
+
+    <select id="findSocialList" resultType="com.anyex.apps.social.model.AccountInfoModel">
+        SELECT
+       a.id as id,
+        a.userId as userId,
+        a.accountName as accountName,
+        a.headUrl as headUrl,
+        (select
+        count(*)
+        from
+        SnsFollow l
+        where
+        l.followedUserId = a.userId
+        and l.userId = #{viewerUserId} )>0 as isFollow,
+        (select
+        count(*)
+        from
+        SnsFriend l
+        where
+        l.friendUserId = a.userId
+        and l.userId = #{viewerUserId} )>0 as isFriend,
+        (select
+        count(*)
+        from
+        SnsFans l
+        where
+        l.userId = a.userId ) as fansCnt
+        FROM Account a WHERE 1 = 1
+        <if test="keywords != null and keywords != ''">
+            AND a.accountName LIKE CONCAT('%',#{keywords}, '%')
+        </if>
+        order by a.createTime desc
+    </select>
+
+</mapper>
+

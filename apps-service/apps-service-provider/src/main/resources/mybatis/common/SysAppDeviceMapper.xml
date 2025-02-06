@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysAppDeviceMapper">
+    <!--所有读写操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="FIFO" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="appDeviceColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.deviceType as deviceType,
+        a.deviceName as deviceName,
+        a.deviceNumber as deviceNumber,
+        a.ipAddress as ipAddress,
+        a.appVersion as appVersion,
+        a.buildVersion as buildVersion,
+        a.lastLoginDate as lastLoginDate,
+        a.createDate as createDate,
+        a.remark as remark
+    </sql>
+    <sql id="appDeviceJoinColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.deviceType as deviceType,
+        a.deviceName as deviceName,
+        a.deviceNumber as deviceNumber,
+        a.ipAddress as ipAddress,
+        a.appVersion as appVersion,
+        a.buildVersion as buildVersion,
+        a.lastLoginDate as lastLoginDate,
+        a.createDate as createDate,
+        a.remark as remark,
+        b.uid as uid,
+        b.accountName as accountName
+    </sql>
+
+    <resultMap id="appDeviceResultMap" type="com.anyex.apps.common.entity.SysAppDevice">
+        <id column="ID" property="id"/>
+        <result column="accountId" property="accountId"/>
+        <result column="deviceType" property="deviceType"/>
+        <result column="deviceName" property="deviceName"/>
+        <result column="deviceNumber" property="deviceNumber"/>
+        <result column="ipAddress" property="ipAddress"/>
+        <result column="appVersion" property="appVersion"/>
+        <result column="buildVersion" property="buildVersion"/>
+        <result column="lastLoginDate" property="lastLoginDate"/>
+        <result column="createDate" property="createDate"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysAppDevice">
+        INSERT INTO SysAppDevice(
+            id ,
+            accountId ,
+            deviceType ,
+            deviceName ,
+            deviceNumber ,
+            ipAddress ,
+            appVersion ,
+            buildVersion ,
+            lastLoginDate ,
+            createDate ,
+            remark
+        ) VALUES (
+            #{id} ,
+            #{accountId} ,
+            #{deviceType} ,
+            #{deviceName} ,
+            #{deviceNumber} ,
+            #{ipAddress} ,
+            #{appVersion} ,
+            #{buildVersion} ,
+            #{lastLoginDate} ,
+            #{createDate} ,
+            #{remark}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysAppDevice WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysAppDevice SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysAppDevice">
+        INSERT INTO SysAppDevice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="accountId != null">
+                accountId ,
+            </if>
+            <if test="deviceType != null">
+                deviceType ,
+            </if>
+            <if test="deviceName != null">
+                deviceName ,
+            </if>
+            <if test="deviceNumber != null">
+                deviceNumber ,
+            </if>
+            <if test="ipAddress != null">
+                ipAddress ,
+            </if>
+            <if test="appVersion != null">
+                appVersion ,
+            </if>
+            <if test="buildVersion != null">
+                buildVersion ,
+            </if>
+            <if test="lastLoginDate != null">
+                lastLoginDate ,
+            </if>
+            <if test="createDate != null">
+                createDate ,
+            </if>
+            <if test="remark != null">
+                remark
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="accountId != null">
+                #{accountId} ,
+            </if>
+            <if test="deviceType != null">
+                #{deviceType} ,
+            </if>
+            <if test="deviceName != null">
+                #{deviceName} ,
+            </if>
+            <if test="deviceNumber != null">
+                #{deviceNumber} ,
+            </if>
+            <if test="ipAddress != null">
+                #{ipAddress} ,
+            </if>
+            <if test="appVersion != null">
+                #{appVersion} ,
+            </if>
+            <if test="buildVersion != null">
+                #{buildVersion} ,
+            </if>
+            <if test="lastLoginDate != null">
+                #{lastLoginDate} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate} ,
+            </if>
+            <if test="remark != null">
+                #{remark}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysAppDevice">
+        UPDATE SysAppDevice
+        <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="deviceType != null">
+                deviceType = #{deviceType} ,
+            </if>
+            <if test="deviceName != null">
+                deviceName = #{deviceName} ,
+            </if>
+            <if test="deviceNumber != null">
+                deviceNumber = #{deviceNumber} ,
+            </if>
+            <if test="ipAddress != null">
+                ipAddress = #{ipAddress} ,
+            </if>
+            <if test="appVersion != null">
+                appVersion = #{appVersion} ,
+            </if>
+            <if test="buildVersion != null">
+                buildVersion = #{buildVersion} ,
+            </if>
+            <if test="lastLoginDate != null">
+                lastLoginDate = #{lastLoginDate} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark}
+            </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysAppDevice(
+        id ,
+        accountId ,
+        deviceType ,
+        deviceName ,
+        deviceNumber ,
+        ipAddress ,
+        appVersion ,
+        buildVersion ,
+        lastLoginDate ,
+        createDate ,
+        remark
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.accountId} ,
+            #{item.deviceType} ,
+            #{item.deviceName} ,
+            #{item.deviceNumber} ,
+            #{item.ipAddress} ,
+            #{item.appVersion} ,
+            #{item.buildVersion} ,
+            #{item.lastLoginDate} ,
+            #{item.createDate} ,
+            #{item.remark}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysAppDevice SET
+            accountId = #{item.accountId} ,
+            deviceType = #{item.deviceType} ,
+            deviceName = #{item.deviceName} ,
+            deviceNumber = #{item.deviceNumber} ,
+            ipAddress = #{item.ipAddress} ,
+            appVersion = #{item.appVersion} ,
+            buildVersion = #{item.buildVersion} ,
+            lastLoginDate = #{item.lastLoginDate} ,
+            createDate = #{item.createDate} ,
+            remark = #{item.remark}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysAppDevice">
+        UPDATE SysAppDevice SET
+            accountId = #{accountId} ,
+            deviceType = #{deviceType} ,
+            deviceName = #{deviceName} ,
+            deviceNumber = #{deviceNumber} ,
+            ipAddress = #{ipAddress} ,
+            appVersion = #{appVersion} ,
+            buildVersion = #{buildVersion} ,
+            lastLoginDate = #{lastLoginDate} ,
+            createDate = #{createDate} ,
+            remark = #{remark}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.anyex.apps.common.entity.SysAppDevice">
+        SELECT
+        <include refid="appDeviceColumns"/>
+        FROM SysAppDevice a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysAppDevice">
+        SELECT
+        <!--
+        <include refid="appDeviceJoinColumns"/>
+        FROM SysAppDevice a, Account b WHERE 1 = 1 and a.accountId = b.id
+        -->
+        <include refid="appDeviceColumns"/>
+        FROM SysAppDevice a WHERE 1 = 1
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="deviceType != null and deviceType != ''">
+            AND a.deviceType = #{deviceType}
+        </if>
+        <if test="deviceName != null and deviceName != ''">
+            AND a.deviceName = #{deviceName}
+        </if>
+        <if test="deviceNumber != null">
+            AND a.deviceNumber = #{deviceNumber}
+        </if>
+        <if test="ipAddress != null">
+            AND a.ipAddress = #{ipAddress}
+        </if>
+        <if test="appVersion != null">
+            AND a.appVersion = #{appVersion}
+        </if>
+        <if test="buildVersion != null">
+            AND a.buildVersion = #{buildVersion}
+        </if>
+        <if test="lastLoginDate != null">
+            AND a.lastLoginDate = #{lastLoginDate}
+        </if>
+        <if test="createDate != null">
+            AND a.createDate = #{createDate}
+        </if>
+        <if test="remark != null">
+            AND a.remark = #{remark}
+        </if>
+        <!--
+        <if test="uid != null">
+            AND b.uid = #{uid}
+        </if>
+        <if test="accountName != null and accountName != ''">
+            AND b.accountName = #{accountName}
+        </if>
+        -->
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysAppDevice">
+        SELECT
+        <include refid="appDeviceColumns"/>
+        FROM SysAppDevice a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+</mapper>

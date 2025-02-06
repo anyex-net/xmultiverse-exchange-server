@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.openim.mapper.ConversationLimitMapper">
+    <!-- 基础列 -->
+    <sql id="conversationLimitColumns">
+        a.id as id,
+        a.conversationId as conversationId,
+        a.fromUserId as fromUserId,
+        a.toUserId as toUserId,
+        a.userId as userId,
+        a.msgSeq as msgSeq,
+        a.status as status,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="conversationLimitResultMap" type="com.anyex.apps.openim.entity.ConversationLimit">
+        <id column="ID" property="id" />
+        <result column="conversationId" property="conversationId"/>
+        <result column="fromUserId" property="fromUserId"/>
+        <result column="toUserId" property="toUserId"/>
+        <result column="userId" property="userId"/>
+        <result column="msgSeq" property="msgSeq"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.openim.entity.ConversationLimit">
+        INSERT INTO ConversationLimit(
+            id ,
+            conversationId ,
+            fromUserId ,
+            toUserId ,
+            userId ,
+            msgSeq ,
+            status ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{conversationId} ,
+            #{fromUserId} ,
+            #{toUserId} ,
+            #{userId} ,
+            #{msgSeq} ,
+            #{status} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM ConversationLimit WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE ConversationLimit SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.openim.entity.ConversationLimit">
+        INSERT INTO ConversationLimit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="conversationId != null">
+                conversationId ,
+        </if>
+        <if test="fromUserId != null">
+                fromUserId ,
+        </if>
+        <if test="toUserId != null">
+                toUserId ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="msgSeq != null">
+                msgSeq ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="conversationId != null">
+                #{conversationId} ,
+        </if>
+        <if test="fromUserId != null">
+                #{fromUserId} ,
+        </if>
+        <if test="toUserId != null">
+                #{toUserId} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="msgSeq != null">
+                #{msgSeq} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.openim.entity.ConversationLimit">
+        UPDATE ConversationLimit
+           <set>
+            <if test="conversationId != null">
+                conversationId = #{conversationId} ,
+            </if>
+            <if test="fromUserId != null">
+                fromUserId = #{fromUserId} ,
+            </if>
+            <if test="toUserId != null">
+                toUserId = #{toUserId} ,
+            </if>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="msgSeq != null">
+                msgSeq = #{msgSeq} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO ConversationLimit(
+            id ,
+            conversationId ,
+            fromUserId ,
+            toUserId ,
+            userId ,
+            msgSeq ,
+            status ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.conversationId} ,
+            #{item.fromUserId} ,
+            #{item.toUserId} ,
+            #{item.userId} ,
+            #{item.msgSeq} ,
+            #{item.status} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE ConversationLimit SET
+            conversationId = #{item.conversationId} ,
+            fromUserId = #{item.fromUserId} ,
+            toUserId = #{item.toUserId} ,
+            userId = #{item.userId} ,
+            msgSeq = #{item.msgSeq} ,
+            status = #{item.status} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.openim.entity.ConversationLimit">
+        UPDATE ConversationLimit SET
+            conversationId = #{conversationId} ,
+            fromUserId = #{fromUserId} ,
+            toUserId = #{toUserId} ,
+            userId = #{userId} ,
+            msgSeq = #{msgSeq} ,
+            status = #{status} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.openim.entity.ConversationLimit">
+        SELECT <include refid="conversationLimitColumns"/> FROM ConversationLimit a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.openim.entity.ConversationLimit">
+        SELECT
+        <include refid="conversationLimitColumns"/>
+        FROM ConversationLimit a WHERE 1 = 1
+        <if test="conversationId != null and conversationId != ''">
+            AND a.conversationId = #{conversationId}
+        </if>
+        <if test="fromUserId != null and fromUserId != ''">
+            AND a.fromUserId = #{fromUserId}
+        </if>
+        <if test="toUserId != null and toUserId != ''">
+            AND a.toUserId = #{toUserId}
+        </if>
+        <if test="userId != null and userId != ''">
+            AND a.userId = #{userId}
+        </if>
+        <if test="msgSeq != null">
+            AND a.msgSeq = #{msgSeq}
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.openim.entity.ConversationLimit">
+        SELECT
+        <include refid="conversationLimitColumns"/>
+        FROM ConversationLimit a WHERE 1 = 1
+        <if test="conversationId != null and conversationId != ''">
+            AND a.conversationId LIKE CONCAT('%',#{conversationId}, '%')
+        </if>
+        <if test="fromUserId != null and fromUserId != ''">
+            AND a.fromUserId LIKE CONCAT('%',#{fromUserId}, '%')
+        </if>
+        <if test="toUserId != null and toUserId != ''">
+            AND a.toUserId LIKE CONCAT('%',#{toUserId}, '%')
+        </if>
+        <if test="userId != null and userId != ''">
+            AND a.userId LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="msgSeq != null">
+            AND a.msgSeq = #{msgSeq}
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.openim.entity.ConversationLimit">
+        SELECT
+        <include refid="conversationLimitColumns"/>
+        FROM ConversationLimit a
+    </select>
+
+
+</mapper>
+

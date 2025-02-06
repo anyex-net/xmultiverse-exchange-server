@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sofa="http://sofastack.io/schema/sofaboot"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://sofastack.io/schema/sofaboot http://sofastack.io/schema/sofaboot.xsd">
+    <!-- 系统管理服务 -->
+    <!-- 机构管理 -->
+    <sofa:reference id="sysOrganizationService" interface="com.anyex.apps.system.service.SysOrganizationService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 资源管理 -->
+    <sofa:reference id="sysResourcesService" interface="com.anyex.apps.system.service.SysResourcesService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 角色管理 -->
+    <sofa:reference id="sysRoleInfoService" interface="com.anyex.apps.system.service.SysRoleInfoService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户管理 -->
+    <sofa:reference id="sysUserInfoService" interface="com.anyex.apps.system.service.SysUserInfoService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--角色数据权限-->
+    <sofa:reference id="sysRoleDataService" interface="com.anyex.apps.system.service.SysRoleDataService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--用户数据权限-->
+    <sofa:reference id="sysUserDataService" interface="com.anyex.apps.system.service.SysUserDataService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 缓存管理 -->
+    <sofa:reference id="sysCacheService" interface="com.anyex.apps.system.service.SysCacheService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 前端功能模块 -->
+    <sofa:reference id="sysFrontModuleService" interface="com.anyex.apps.system.service.SysFrontModuleService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 前端功能角色权限 -->
+    <sofa:reference id="sysFrontRoleResService" interface="com.anyex.apps.system.service.SysFrontRoleResService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 访问日志 -->
+    <sofa:reference id="sysAccessLogService" interface="com.anyex.apps.system.service.SysAccessLogService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--公共业务消费服务-->
+    <!--区域代码-->
+    <sofa:reference id="sysRegionService" interface="com.anyex.apps.common.service.SysRegionService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--数据字典-->
+    <sofa:reference id="sysDictionaryService" interface="com.anyex.apps.common.service.SysDictionaryService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--消息模版-->
+    <sofa:reference id="sysMsgTemplateService" interface="com.anyex.apps.common.service.SysMsgTemplateService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--消息日志-->
+    <sofa:reference id="sysMsgRecordService" interface="com.anyex.apps.common.service.SysMsgRecordService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--消息日志-->
+    <sofa:reference id="sysMsgRecordNoSqlService" interface="com.anyex.apps.common.service.SysMsgRecordNoSqlService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--手机端版本-->
+    <sofa:reference id="sysAppVersionService" interface="com.anyex.apps.common.service.SysAppVersionService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--手机设备-->
+    <sofa:reference id="sysAppDeviceService" interface="com.anyex.apps.common.service.SysAppDeviceService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 平台公告 -->
+    <sofa:reference id="sysNoticeService" interface="com.anyex.apps.common.service.SysNoticeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--意见反馈-->
+    <sofa:reference id="sysFeedBackService" interface="com.anyex.apps.common.service.SysFeedBackService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--参数配置-->
+    <sofa:reference id="sysParameterService" interface="com.anyex.apps.common.service.SysParameterService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+
+    <!--项目相关如下-->
+    <!-- IM 服务 -->
+    <sofa:reference id="openImChatService" interface="com.anyex.apps.openim.service.OpenImChatService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="openImApiService" interface="com.anyex.apps.openim.service.OpenImApiService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--账户管理-->
+    <sofa:reference id="accountService" interface="com.anyex.apps.account.service.AccountService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="attributeService" interface="com.anyex.apps.account.service.AttributeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="accountAddressService" interface="com.anyex.apps.account.service.AccountAddressService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="accountReceivingBankService" interface="com.anyex.apps.account.service.AccountReceivingBankService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="accountInviteRewardsService" interface="com.anyex.apps.account.service.AccountInviteRewardsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--资产管理-->
+    <sofa:reference id="walletAssetService" interface="com.anyex.apps.asset.service.WalletAssetService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="walletAssetFlowsService" interface="com.anyex.apps.asset.service.WalletAssetFlowsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="walletAssetTransactionsService" interface="com.anyex.apps.asset.service.WalletAssetTransactionsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="60000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 钱包资产打赏礼物记录 -->
+    <sofa:reference id="walletAssetTipGiftService" interface="com.anyex.apps.asset.service.WalletAssetTipGiftService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!-- 资讯 -->
+    <sofa:reference id="newsService" interface="com.anyex.apps.news.service.NewsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 资讯点赞 -->
+    <sofa:reference id="newsLikeService" interface="com.anyex.apps.news.service.NewsLikeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 资讯收藏 -->
+    <sofa:reference id="newsFavoriteService" interface="com.anyex.apps.news.service.NewsFavoriteService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+
+    <!--店铺管理-->
+    <sofa:reference id="shopService" interface="com.anyex.apps.business.luckybox.shop.service.ShopService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!--商品管理-->
+    <sofa:reference id="goodsBrandService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsBrandService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="goodsCategoryService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsCategoryService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="goodsCategoryBrandService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsCategoryBrandService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="goodsSpecGroupService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpecGroupService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="goodsSpecParamService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpecParamService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="goodsSpuService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpuService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="goodsSkuService" interface="com.anyex.apps.business.luckybox.goods.service.GoodsSkuService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--活动管理-->
+    <sofa:reference id="activityTreasureHuntService" interface="com.anyex.apps.business.luckybox.activity.service.ActivityTreasureHuntService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="activityHotDealsService" interface="com.anyex.apps.business.luckybox.activity.service.ActivityHotDealsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="activityOperRecordService" interface="com.anyex.apps.business.luckybox.activity.service.ActivityOperRecordService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--游戏管理-->
+    <sofa:reference id="gameService" interface="com.anyex.apps.business.luckybox.game.service.GameService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="gamePrizeService" interface="com.anyex.apps.business.luckybox.game.service.GamePrizeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--订单管理-->
+    <sofa:reference id="order4ActivityService" interface="com.anyex.apps.business.luckybox.order.service.Order4ActivityService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="order4GameService" interface="com.anyex.apps.business.luckybox.order.service.Order4GameService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!--运营管理-->
+    <sofa:reference id="appDownloadInfoService" interface="com.anyex.apps.operation.service.AppDownloadInfoService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="appActivationInfoService" interface="com.anyex.apps.operation.service.AppActivationInfoService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+</beans>

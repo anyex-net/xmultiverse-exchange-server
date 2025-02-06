@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysFeedBackMapper">
+    <!-- 基础列 -->
+    <sql id="feedBackColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.note as note,
+        a.ext as ext,
+        a.createDate as createDate,
+        a.delFlag as delFlag
+    </sql>
+
+    <resultMap id="feedBackResultMap" type="com.anyex.apps.common.entity.SysFeedBack">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.accountId" property="accountId" jdbcType="BIGINT"/>
+        <result column="a.note" property="note" jdbcType="CLOB"/>
+        <result column="a.ext" property="ext" jdbcType="VARCHAR"/>
+        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>
+        <result column="a.delFlag" property="delFlag" jdbcType="BIT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysFeedBack">
+        insert into SysFeedBack(
+         id ,
+         accountId ,
+         note ,
+         ext ,
+         createDate ,
+         delFlag 
+        ) VALUES (
+        #{id}  ,
+        #{accountId}  ,
+        #{note}  ,
+        #{ext}  ,
+        #{createDate}  ,
+        #{delFlag}  
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysFeedBack where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update SysFeedBack set delFlag = true where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysFeedBack">
+        insert into SysFeedBack
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            id ,
+        </if>
+        <if test="accountId != null">
+            accountId ,
+        </if>
+        <if test="note != null">
+            note ,
+        </if>
+        <if test="ext != null">
+            ext ,
+        </if>
+        <if test="createDate != null">
+            createDate ,
+        </if>
+        <if test="delFlag != null">
+            delFlag 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id} ,
+        </if>
+        <if test="accountId != null">
+            #{accountId} ,
+        </if>
+        <if test="note != null">
+            #{note} ,
+        </if>
+        <if test="ext != null">
+            #{ext} ,
+        </if>
+        <if test="createDate != null">
+            #{createDate} ,
+        </if>
+        <if test="delFlag != null">
+            #{delFlag} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        insert into SysFeedBack(
+         id ,
+         accountId ,
+         note ,
+         ext ,
+         createDate ,
+         delFlag 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id}  ,
+            #{item.accountId}  ,
+            #{item.note}  ,
+            #{item.ext}  ,
+            #{item.createDate}  ,
+            #{item.delFlag}  
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SysFeedBack set
+            accountId = #{item.accountId} ,
+            note = #{item.note} ,
+            ext = #{item.ext} ,
+            createDate = #{item.createDate} ,
+            delFlag = #{item.delFlag}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysFeedBack">
+        update SysFeedBack
+           <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="note != null">
+                note = #{note} ,
+            </if>
+            <if test="ext != null">
+                ext = #{ext} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="delFlag != null">
+                delFlag = #{delFlag} 
+            </if>
+           </set>
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysFeedBack">
+        update SysFeedBack set
+            accountId = #{accountId} ,
+            note = #{note} ,
+            ext = #{ext} ,
+            createDate = #{createDate} ,
+            delFlag = #{delFlag} 
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.common.entity.SysFeedBack">
+        select <include refid="feedBackColumns"/> from SysFeedBack a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysFeedBack">
+        SELECT
+        <include refid="feedBackColumns"/>
+        FROM SysFeedBack a WHERE a.delFlag = 0
+        <if test="accountId != null and accountId != ''">
+            and a.accountId = #{accountId}
+        </if>
+        <if test="note != null and note != ''">
+            and a.note like CONCAT('%',#{note}, '%')
+        </if>
+        ORDER BY a.id DESC
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysFeedBack">
+        SELECT
+        <include refid="feedBackColumns"/>
+        FROM SysFeedBack a WHERE a.delFlag = 0
+    </select>
+
+</mapper>
+

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.statistics.mapper.StatisticsMapper">
+    <!-- ################################################################################以下按天统计########################################################################################### -->
+
+    <select id="getRegisterGroupByHoursOfDay" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select id-1 as dt, ifnull(bb.cnt, 0) as num
+        from (select id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{dtStr}, '%Y-%m-%d'), interval id-1 HOUR ),
+                                        '%Y-%m-%d %H:%i'), '') AS 'time'
+              from SysSequence
+              order by id asc limit 24) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d %H'),
+                            ':00') as time,count(distinct a.id) cnt
+              from Account a
+              where source = #{source}
+                and date_format(FROM_UNIXTIME(a.createTime/1000)
+                  , '%Y-%m-%d')=date_format(#{dtStr}
+                  , '%Y-%m-%d')
+              group by date_format(FROM_UNIXTIME(a.createTime/1000), '%Y-%m-%d %H')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getAppActivationGroupByHoursOfDay" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select id-1 as dt, ifnull(bb.cnt, 0) as num
+        from (select id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{dtStr}, '%Y-%m-%d'), interval id-1 HOUR ),
+                                        '%Y-%m-%d %H:%i'), '') AS 'time'
+              from SysSequence
+              order by id asc limit 24) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d %H'),
+                            ':00') as time,count(distinct a.id) cnt
+              from AppActivationInfo a
+              where source = #{source}
+                and date_format(FROM_UNIXTIME(a.createTime/1000)
+                  , '%Y-%m-%d')=date_format(#{dtStr}
+                  , '%Y-%m-%d')
+              group by date_format(FROM_UNIXTIME(a.createTime/1000), '%Y-%m-%d %H')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getDepositGroupByHoursOfDay" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select id-1  as dt, ifnull(bb.num, 0) as num
+        from (select id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{dtStr}, '%Y-%m-%d'), interval id-1 HOUR ),
+                                        '%Y-%m-%d %H:%i'), '') AS 'time'
+              from SysSequence
+              order by id asc limit 24) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d %H'),
+                            ':00') as time,sum(a.trxAmount) num
+              from WalletAssetTransactions a
+              where trxType='deposit'
+                and trxStatus='success'
+                and date_format(FROM_UNIXTIME(a.createTime/1000)
+                  , '%Y-%m-%d')=date_format(#{dtStr}
+                  , '%Y-%m-%d')
+              group by date_format(FROM_UNIXTIME(a.createTime/1000), '%Y-%m-%d %H')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getWithDrawGroupByHoursOfDay" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select id-1  as dt, ifnull(bb.num, 0) as num
+        from (select id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{dtStr}, '%Y-%m-%d'), interval id-1 HOUR ),
+                                        '%Y-%m-%d %H:%i'), '') AS 'time'
+              from SysSequence
+              order by id asc limit 24) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d %H'),
+                            ':00') as time,sum(a.trxAmount) num
+              from WalletAssetTransactions a
+              where trxType='withDraw'
+                and trxStatus='success'
+                and date_format(FROM_UNIXTIME(a.createTime/1000)
+                  , '%Y-%m-%d')=date_format(#{dtStr}
+                  , '%Y-%m-%d')
+              group by date_format(FROM_UNIXTIME(a.createTime/1000), '%Y-%m-%d %H')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getFlowsOutcomeGroupByHoursOfDay" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select id-1  as dt, ifnull(bb.num, 0) as num
+        from (select id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{dtStr}, '%Y-%m-%d'), interval id-1 HOUR ),
+                                        '%Y-%m-%d %H:%i'), '') AS 'time'
+              from SysSequence
+              order by id asc limit 24) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d %H'),
+                            ':00') as time,sum(a.balance) num
+              from WalletAssetFlows a
+              where businessCategory='expend'
+                and a.businessType=#{businessType}
+                and date_format(FROM_UNIXTIME(a.createTime/1000)
+                  , '%Y-%m-%d')=date_format(#{dtStr}
+                  , '%Y-%m-%d')
+              group by date_format(FROM_UNIXTIME(a.createTime/1000), '%Y-%m-%d %H')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <!-- ####################################################################################以下按上周统计####################################################################################### -->
+
+    <select id="getRegisterGroupByDaysOfDays" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select aa.time as dt, ifnull(bb.cnt, 0) as num
+        from (
+            select id,
+            DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') AS 'time'
+            from SysSequence where  DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') &lt;= #{dtEnd}
+            order by id asc
+                  ) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d'), '') as time,
+             count(distinct a.id)                                                             cnt
+              from Account a
+              where source = #{source}
+              group by date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getAppActivationGroupByDaysOfDays" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select aa.time as dt, ifnull(bb.cnt, 0) as num
+        from (select id,
+                     DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') AS 'time'
+              from SysSequence where  DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') &lt;= #{dtEnd}
+              order by id asc) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d'), '') as time,
+             count(distinct a.id)                                                             cnt
+              from AppActivationInfo a
+              where source = #{source}
+              group by date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getDepositGroupByDaysOfDays" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select aa.time as dt, ifnull(bb.num, 0) as num
+        from (select id,
+                     DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') AS 'time'
+              from SysSequence where  DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') &lt;= #{dtEnd}
+              order by id asc) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d'), '') as time,
+             sum(a.trxAmount)                                                                 num
+              from WalletAssetTransactions a
+              where trxType = 'deposit'
+                and trxStatus = 'success'
+              group by date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getWithDrawGroupByDaysOfDays" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select aa.time as dt, ifnull(bb.num, 0) as num
+        from (select id,
+                     DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') AS 'time'
+              from SysSequence where  DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') &lt;= #{dtEnd}
+              order by id asc) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d'), '') as time,
+             sum(a.trxAmount)                                                                 num
+              from WalletAssetTransactions a
+              where trxType = 'withDraw'
+                and trxStatus = 'success'
+              group by date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <select id="getFlowsOutcomeGroupByDaysOfDays" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select aa.time as dt, ifnull(bb.num, 0) as num
+        from (select id,
+                     DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') AS 'time'
+              from SysSequence where  DATE_FORMAT(date_add(date_format(#{dtStart},'%Y-%m-%d'), interval id - 1 Day),'%Y-%m-%d') &lt;= #{dtEnd}
+              order by id asc) aa
+                 left join
+             (select concat(date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d'), '') as time, sum(a.balance) num
+              from WalletAssetFlows a
+              where businessType = #{businessType}
+                and businessCategory = 'expend'
+              group by date_format(FROM_UNIXTIME(a.createTime / 1000), '%Y-%m-%d')
+              order by a.createTime asc) bb
+             on aa.time = bb.time
+    </select>
+
+    <!-- ####################################################################################以下按1月 3月 周统计####################################################################################### -->
+
+    <select id="getRegisterGroupByWeeksOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(count(distinct bb.id), 0) as num
+        from (select ceil((id - 0.1) / 7) as wk,
+        id,
+        concat(DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d'),
+        '')           AS time
+        from SysSequence
+        where DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d') &lt;=
+        date_format(#{lastSundayDateStr}, '%Y-%m-%d')
+        order by id asc
+        limit #{limit}) aa
+        left join
+        Account bb
+        on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m-%d'), '') and bb.source = #{source}
+        group by aa.wk
+    </select>
+
+    <select id="getAppActivationGroupByWeeksOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(count(distinct bb.id), 0) as num
+        from (select ceil((id - 0.1) / 7) as wk,
+                     id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d'),
+                            '')           AS time
+              from SysSequence
+              where DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d') &lt;=
+                  date_format(#{lastSundayDateStr}, '%Y-%m-%d')
+              order by id asc
+                  limit #{limit}) aa
+                 left join
+             AppActivationInfo bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m-%d'), '') and bb.source = #{source}
+        group by aa.wk
+    </select>
+
+    <select id="getDepositGroupByWeeksOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(sum(trxAmount), 0) as num
+        from (select ceil((id - 0.1) / 7) as wk,
+                     id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d'),
+                            '')           AS time
+              from SysSequence
+              where DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d') &lt;=
+                  date_format(#{lastSundayDateStr}, '%Y-%m-%d')
+              order by id asc
+                  limit #{limit}) aa
+                 left join
+             WalletAssetTransactions bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m-%d'), '')  and bb.trxType = 'deposit' and bb.trxStatus = 'success'
+        group by aa.wk
+    </select>
+
+    <select id="getWithDrawGroupByWeeksOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(sum(trxAmount), 0) as num
+        from (select ceil((id - 0.1) / 7) as wk,
+                     id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d'),
+                            '')           AS time
+              from SysSequence
+              where DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d') &lt;=
+                  date_format(#{lastSundayDateStr}, '%Y-%m-%d')
+              order by id asc
+                  limit #{limit}) aa
+                 left join
+             WalletAssetTransactions bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m-%d'), '')  and bb.trxType = 'withDraw' and bb.trxStatus = 'success'
+        group by aa.wk
+    </select>
+
+    <select id="getFlowsOutcomeGroupByWeeksOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(sum(balance), 0) as num
+        from (select ceil((id - 0.1) / 7) as wk,
+                     id,
+                     concat(DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d'),
+                            '')           AS time
+              from SysSequence
+              where DATE_FORMAT(DATE_ADD(date_format(#{firstMondayDateStr}, '%Y-%m-%d'), interval id - 1 Day), '%Y-%m-%d') &lt;=
+                  date_format(#{lastSundayDateStr}, '%Y-%m-%d')
+              order by id asc
+                  limit #{limit}) aa
+                 left join
+             WalletAssetFlows bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m-%d'), '') and businessType = #{businessType}
+                 and businessCategory = 'expend'
+        group by aa.wk
+    </select>
+
+    <!-- ####################################################################################以下》6月 月统计####################################################################################### -->
+    <select id="getRegisterGroupByMonthOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(count(distinct bb.id), 0) as num
+        from (select id,
+                     DATE_FORMAT(
+                             DATE_ADD(
+                                     DATE_ADD(date_sub(curdate(), interval dayofmonth(curdate()) - 1 day), interval 0-#{monthCnt} month),
+                                     interval id - 1 month), '%Y-%m') AS time
+              from SysSequence
+              where DATE_FORMAT(
+                  DATE_ADD(DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval 0-#{monthCnt} month)
+                  , interval id - 1 month)
+                  , '%Y-%m-%d') &lt;=
+                  DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval -1 day)
+              order by id asc
+                  limit #{monthCnt}) aa
+                 left join
+             Account bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m'), '') and
+                bb.source = #{source}
+        group by aa.time
+    </select>
+
+    <select id="getAppActivationGroupByMonthOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(count(distinct bb.id), 0) as num
+        from (select id,
+                     DATE_FORMAT(
+                             DATE_ADD(
+                                     DATE_ADD(date_sub(curdate(), interval dayofmonth(curdate()) - 1 day), interval 0-#{monthCnt} month),
+                                     interval id - 1 month), '%Y-%m') AS time
+              from SysSequence
+              where DATE_FORMAT(
+                  DATE_ADD(DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval 0-#{monthCnt} month)
+                  , interval id - 1 month)
+                  , '%Y-%m-%d') &lt;=
+                  DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval -1 day)
+              order by id asc
+                  limit #{monthCnt}) aa
+                 left join
+             AppActivationInfo bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m'), '') and
+                bb.source = #{source}
+        group by aa.time
+    </select>
+
+    <select id="getDepositGroupByMonthOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(sum(trxAmount), 0) as num
+        from (select id,
+                     DATE_FORMAT(
+                             DATE_ADD(
+                                     DATE_ADD(date_sub(curdate(), interval dayofmonth(curdate()) - 1 day), interval 0-#{monthCnt} month),
+                                     interval id - 1 month), '%Y-%m') AS time
+              from SysSequence
+              where DATE_FORMAT(
+                  DATE_ADD(DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval 0-#{monthCnt} month)
+                  , interval id - 1 month)
+                  , '%Y-%m-%d') &lt;=
+                  DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval -1 day)
+              order by id asc
+                  limit #{monthCnt}) aa
+                 left join
+             WalletAssetTransactions bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m'), '') and
+                bb.trxType = 'deposit'
+                 and bb.trxStatus = 'success'
+        group by aa.time
+    </select>
+
+    <select id="getWithDrawGroupByMonthOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(sum(trxAmount), 0) as num
+        from (select id,
+                     DATE_FORMAT(
+                             DATE_ADD(
+                                     DATE_ADD(date_sub(curdate(), interval dayofmonth(curdate()) - 1 day), interval 0-#{monthCnt} month),
+        interval id - 1 month), '%Y-%m') AS time
+        from SysSequence
+        where DATE_FORMAT(
+        DATE_ADD(DATE_ADD(date_sub(curdate()
+        , interval dayofmonth(curdate()) - 1 day)
+        , interval 0-#{monthCnt} month)
+        , interval id - 1 month)
+        , '%Y-%m-%d') &lt;=
+        DATE_ADD(date_sub(curdate()
+        , interval dayofmonth(curdate()) - 1 day)
+        , interval -1 day)
+        order by id asc
+        limit #{monthCnt}) aa
+        left join
+        WalletAssetTransactions bb
+        on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m'), '') and
+        bb.trxType = 'withDraw'
+        and bb.trxStatus = 'success'
+        group by aa.time
+    </select>
+
+    <select id="getFlowsOutcomeGroupByMonthOfPreMonths" resultType="com.anyex.apps.statistics.model.ChartModel">
+        select min(aa.time) as dt, ifnull(sum(balance), 0) as num
+        from (select id,
+                     DATE_FORMAT(
+                             DATE_ADD(
+                                     DATE_ADD(date_sub(curdate(), interval dayofmonth(curdate()) - 1 day), interval 0-#{monthCnt} month),
+                                     interval id - 1 month), '%Y-%m') AS time
+              from SysSequence
+              where DATE_FORMAT(
+                  DATE_ADD(DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval 0-#{monthCnt} month)
+                  , interval id - 1 month)
+                  , '%Y-%m-%d') &lt;=
+                  DATE_ADD(date_sub(curdate()
+                  , interval dayofmonth(curdate()) - 1 day)
+                  , interval -1 day)
+              order by id asc
+                  limit #{monthCnt}) aa
+                 left join
+             WalletAssetFlows bb
+             on aa.time = concat(date_format(FROM_UNIXTIME(bb.createTime / 1000), '%Y-%m'), '') and
+                businessType = 'activityTreasureHunt'
+                 and businessCategory = 'expend'
+        group by aa.time
+    </select>
+</mapper>
+

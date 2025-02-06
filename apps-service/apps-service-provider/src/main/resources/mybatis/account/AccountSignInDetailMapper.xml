@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountSignInDetailMapper">
+    <!-- 基础列 -->
+    <sql id="accountsignindetailColumns">
+                            id as id ,
+                            accountId as accountId ,
+                            signInDate as signinDate ,
+                            isContinuous as isContinuous ,
+                            currentSignInTimes as currentSigninTimes ,
+                            pointsAwarded as pointsAwarded ,
+                            signInTime as signinTime ,
+                            status as status ,
+                            createTime as createTime ,
+                            updateTime as updateTime
+                </sql>
+
+    <resultMap id="AccountSignInDetailResultMap" type="com.anyex.apps.account.entity.AccountSignInDetail">
+                    <result column="id" property="id"/>
+                    <result column="accountId" property="accountId"/>
+                    <result column="signInDate" property="signinDate"/>
+                    <result column="isContinuous" property="isContinuous"/>
+                    <result column="currentSignInTimes" property="currentSigninTimes"/>
+                    <result column="pointsAwarded" property="pointsAwarded"/>
+                    <result column="signInTime" property="signinTime"/>
+                    <result column="status" property="status"/>
+                    <result column="createTime" property="createTime"/>
+                    <result column="updateTime" property="updateTime"/>
+            </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.AccountSignInDetail">
+        INSERT INTO AccountSignInDetail(
+                            id ,
+                            accountId ,
+                            signInDate ,
+                            isContinuous ,
+                            currentSignInTimes ,
+                            pointsAwarded ,
+                            signInTime ,
+                            status ,
+                            createTime ,
+                            updateTime
+                    ) VALUES (
+                                #{id} ,
+                                #{accountId} ,
+                                #{signinDate} ,
+                                #{isContinuous} ,
+                                #{currentSigninTimes} ,
+                                #{pointsAwarded} ,
+                                #{signinTime} ,
+                                #{status} ,
+                                #{createTime} ,
+                                #{updateTime}
+                        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE
+        FROM AccountSignInDetail WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE AccountSignInDetail SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.AccountSignInDetail">
+        INSERT INTO AccountSignInDetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    id ,
+                </if>
+
+                <if test="accountId != null">
+                    accountId ,
+                </if>
+
+                <if test="signinDate != null">
+                    signInDate ,
+                </if>
+
+                <if test="isContinuous != null">
+                    isContinuous ,
+                </if>
+
+                <if test="currentSigninTimes != null">
+                    currentSignInTimes ,
+                </if>
+
+                <if test="pointsAwarded != null">
+                    pointsAwarded ,
+                </if>
+
+                <if test="signinTime != null">
+                    signInTime ,
+                </if>
+
+                <if test="status != null">
+                    status ,
+                </if>
+
+                <if test="createTime != null">
+                    createTime ,
+                </if>
+
+                <if test="updateTime != null">
+                    updateTime
+                </if>
+
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    #{id} ,
+                </if>
+
+                <if test="accountId != null">
+                    #{accountId} ,
+                </if>
+
+                <if test="signinDate != null">
+                    #{signinDate} ,
+                </if>
+
+                <if test="isContinuous != null">
+                    #{isContinuous} ,
+                </if>
+
+                <if test="currentSigninTimes != null">
+                    #{currentSigninTimes} ,
+                </if>
+
+                <if test="pointsAwarded != null">
+                    #{pointsAwarded} ,
+                </if>
+
+                <if test="signinTime != null">
+                    #{signinTime} ,
+                </if>
+
+                <if test="status != null">
+                    #{status} ,
+                </if>
+
+                <if test="createTime != null">
+                    #{createTime} ,
+                </if>
+
+                <if test="updateTime != null">
+                    #{updateTime}
+                </if>
+
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.AccountSignInDetail">
+        UPDATE AccountSignInDetail
+        <set>
+                    <if test="accountId != null">
+                        accountId = #{accountId} ,
+                    </if>
+                    <if test="signinDate != null">
+                        signInDate = #{signinDate} ,
+                    </if>
+                    <if test="isContinuous != null">
+                        isContinuous = #{isContinuous} ,
+                    </if>
+                    <if test="currentSigninTimes != null">
+                        currentSignInTimes = #{currentSigninTimes} ,
+                    </if>
+                    <if test="pointsAwarded != null">
+                        pointsAwarded = #{pointsAwarded} ,
+                    </if>
+                    <if test="signinTime != null">
+                        signInTime = #{signinTime} ,
+                    </if>
+                    <if test="status != null">
+                        status = #{status} ,
+                    </if>
+                    <if test="createTime != null">
+                        createTime = #{createTime} ,
+                    </if>
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime}
+                    </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO AccountSignInDetail(
+                    id ,
+                    accountId ,
+                    signInDate ,
+                    isContinuous ,
+                    currentSignInTimes ,
+                    pointsAwarded ,
+                    signInTime ,
+                    status ,
+                    createTime ,
+                    updateTime
+                ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.id} ,
+                #{item.accountId} ,
+                #{item.signinDate} ,
+                #{item.isContinuous} ,
+                #{item.currentSigninTimes} ,
+                #{item.pointsAwarded} ,
+                #{item.signinTime} ,
+                #{item.status} ,
+                #{item.createTime} ,
+                #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE AccountSignInDetail SET
+
+                    accountId = #{item.accountId} ,
+                    signInDate = #{item.signinDate} ,
+                    isContinuous = #{item.isContinuous} ,
+                    currentSignInTimes = #{item.currentSigninTimes} ,
+                    pointsAwarded = #{item.pointsAwarded} ,
+                    signInTime = #{item.signinTime} ,
+                    status = #{item.status} ,
+                    createTime = #{item.createTime} ,
+                    updateTime = #{item.updateTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.AccountSignInDetail">
+        UPDATE AccountSignInDetail SET
+                    accountId = #{accountId} ,
+                    signInDate = #{signinDate} ,
+                    isContinuous = #{isContinuous} ,
+                    currentSignInTimes = #{currentSigninTimes} ,
+                    pointsAwarded = #{pointsAwarded} ,
+                    signInTime = #{signinTime} ,
+                    status = #{status} ,
+                    createTime = #{createTime} ,
+                    updateTime = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.account.entity.AccountSignInDetail">
+        SELECT
+        <include refid="accountsignindetailColumns"/>
+        FROM AccountSignInDetail a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.account.entity.AccountSignInDetail">
+        SELECT
+        <include refid="accountsignindetailColumns"/>
+        FROM AccountSignInDetail a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+
+        <if test="signinDate != null">
+            AND a.signInDate = #{signinDate}
+        </if>
+
+        <if test="isContinuous != null">
+            AND a.isContinuous = #{isContinuous}
+        </if>
+
+        <if test="currentSigninTimes != null">
+            AND a.currentSignInTimes = #{currentSigninTimes}
+        </if>
+
+        <if test="pointsAwarded != null">
+            AND a.pointsAwarded = #{pointsAwarded}
+        </if>
+
+        <if test="signinTime != null">
+            AND a.signInTime = #{signinTime}
+        </if>
+
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.AccountSignInDetail">
+        SELECT
+        <include refid="accountsignindetailColumns"/>
+        FROM AccountSignInDetail a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+
+        <if test="signinDate != null">
+            AND a.signInDate = #{signinDate}
+        </if>
+
+        <if test="isContinuous != null">
+            AND a.isContinuous = #{isContinuous}
+        </if>
+
+        <if test="currentSigninTimes != null">
+            AND a.currentSignInTimes = #{currentSigninTimes}
+        </if>
+
+        <if test="pointsAwarded != null">
+            AND a.pointsAwarded = #{pointsAwarded}
+        </if>
+
+        <if test="signinTime != null">
+            AND a.signInTime = #{signinTime}
+        </if>
+
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+
+    </select>
+
+    <select id="findByAccountIdAndSignInDate" resultType="com.anyex.apps.account.entity.AccountSignInDetail">
+        SELECT
+        <include refid="accountsignindetailColumns"/>
+        FROM AccountSignInDetail a
+        WHERE  a.accountId = #{accountId} AND a.signInDate = #{signinDate}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.AccountSignInDetail">
+        SELECT
+        <include refid="accountsignindetailColumns"/>
+        FROM AccountSignInDetail a
+    </select>
+
+
+</mapper>
+

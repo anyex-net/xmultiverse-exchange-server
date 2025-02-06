@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysAccessLogMapper">
+    <!-- 基础列 -->
+    <sql id="accessLogColumns">
+        a.id as id,
+        a.userName as userName,
+        a.module as module,
+        a.method as method,
+        a.type as type,
+        a.remark as remark,
+        a.reqParam as reqParam,
+        a.respParam as respParam,
+        a.uri as uri,
+        a.ip as ip,
+        a.createDate as createDate
+    </sql>
+
+    <resultMap id="accessLogResultMap" type="com.anyex.apps.system.entity.SysAccessLog">
+        <id column="ID" property="id" />
+        <result column="id" property="id"/>
+        <result column="userName" property="userName"/>
+        <result column="module" property="module"/>
+        <result column="method" property="method"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+        <result column="reqParam" property="reqParam"/>
+        <result column="respParam" property="respParam"/>
+        <result column="uri" property="uri"/>
+        <result column="ip" property="ip"/>
+        <result column="createDate" property="createDate"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysAccessLog">
+        INSERT INTO SysAccessLog(
+            id ,
+            userName ,
+            module ,
+            method ,
+            type ,
+            remark ,
+            reqParam ,
+            respParam ,
+            uri ,
+            ip ,
+            createDate 
+        ) VALUES (
+            #{id} ,
+            #{userName} ,
+            #{module} ,
+            #{method} ,
+            #{type} ,
+            #{remark} ,
+            #{reqParam} ,
+            #{respParam} ,
+            #{uri} ,
+            #{ip} ,
+            #{createDate} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysAccessLog WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysAccessLog SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysAccessLog">
+        INSERT INTO SysAccessLog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userName != null">
+                userName ,
+        </if>
+        <if test="module != null">
+                module ,
+        </if>
+        <if test="method != null">
+                method ,
+        </if>
+        <if test="type != null">
+                type ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="reqParam != null">
+                reqParam ,
+        </if>
+        <if test="respParam != null">
+                respParam ,
+        </if>
+        <if test="uri != null">
+                uri ,
+        </if>
+        <if test="ip != null">
+                ip ,
+        </if>
+        <if test="createDate != null">
+                createDate 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userName != null">
+                #{userName} ,
+        </if>
+        <if test="module != null">
+                #{module} ,
+        </if>
+        <if test="method != null">
+                #{method} ,
+        </if>
+        <if test="type != null">
+                #{type} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="reqParam != null">
+                #{reqParam} ,
+        </if>
+        <if test="respParam != null">
+                #{respParam} ,
+        </if>
+        <if test="uri != null">
+                #{uri} ,
+        </if>
+        <if test="ip != null">
+                #{ip} ,
+        </if>
+        <if test="createDate != null">
+                #{createDate} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysAccessLog">
+        UPDATE SysAccessLog
+           <set>
+            <if test="id != null">
+                id = #{id} ,
+            </if>
+            <if test="userName != null">
+                userName = #{userName} ,
+            </if>
+            <if test="module != null">
+                module = #{module} ,
+            </if>
+            <if test="method != null">
+                method = #{method} ,
+            </if>
+            <if test="type != null">
+                type = #{type} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="reqParam != null">
+                reqParam = #{reqParam} ,
+            </if>
+            <if test="respParam != null">
+                respParam = #{respParam} ,
+            </if>
+            <if test="uri != null">
+                uri = #{uri} ,
+            </if>
+            <if test="ip != null">
+                ip = #{ip} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysAccessLog(
+            id ,
+            userName ,
+            module ,
+            method ,
+            type ,
+            remark ,
+            reqParam ,
+            respParam ,
+            uri ,
+            ip ,
+            createDate 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userName} ,
+            #{item.module} ,
+            #{item.method} ,
+            #{item.type} ,
+            #{item.remark} ,
+            #{item.reqParam} ,
+            #{item.respParam} ,
+            #{item.uri} ,
+            #{item.ip} ,
+            #{item.createDate} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysAccessLog SET
+            id = #{item.id} ,
+            userName = #{item.userName} ,
+            module = #{item.module} ,
+            method = #{item.method} ,
+            type = #{item.type} ,
+            remark = #{item.remark} ,
+            reqParam = #{item.reqParam} ,
+            respParam = #{item.respParam} ,
+            uri = #{item.uri} ,
+            ip = #{item.ip} ,
+            createDate = #{item.createDate} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysAccessLog">
+        UPDATE SysAccessLog SET
+            id = #{id} ,
+            userName = #{userName} ,
+            module = #{module} ,
+            method = #{method} ,
+            type = #{type} ,
+            remark = #{remark} ,
+            reqParam = #{reqParam} ,
+            respParam = #{respParam} ,
+            uri = #{uri} ,
+            ip = #{ip} ,
+            createDate = #{createDate} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysAccessLog">
+        SELECT <include refid="accessLogColumns"/> FROM SysAccessLog a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysAccessLog">
+        SELECT
+        <include refid="accessLogColumns"/>
+        FROM SysAccessLog a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="id != null">
+            AND a.id LIKE CONCAT('%',#{id}, '%') 
+        </if>
+        <if test="userName != null">
+            AND a.userName = #{userName}
+        </if>
+        <if test="module != null">
+            AND a.module LIKE CONCAT('%',#{module}, '%') 
+        </if>
+        <if test="method != null">
+            AND a.method LIKE CONCAT('%',#{method}, '%') 
+        </if>
+        <if test="type != null">
+            AND a.type LIKE CONCAT('%',#{type}, '%') 
+        </if>
+        <if test="remark != null">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="reqParam != null">
+            AND a.reqParam LIKE CONCAT('%',#{reqParam}, '%') 
+        </if>
+        <if test="respParam != null">
+            AND a.respParam LIKE CONCAT('%',#{respParam}, '%')
+        </if>
+        <if test="uri != null">
+            AND a.uri LIKE CONCAT('%',#{uri}, '%') 
+        </if>
+        <if test="ip != null">
+            AND a.ip LIKE CONCAT('%',#{ip}, '%') 
+        </if>
+        <if test="createDate != null">
+            AND a.createDate = #{createDate}
+        </if>
+        order by a.createDate desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysAccessLog">
+        SELECT
+        <include refid="accessLogColumns"/>
+        FROM SysAccessLog a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+</mapper>
+

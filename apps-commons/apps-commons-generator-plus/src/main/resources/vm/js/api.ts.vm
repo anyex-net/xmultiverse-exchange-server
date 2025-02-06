@@ -1,0 +1,72 @@
+
+import request from "@/utils/request";
+
+/**
+ * 查询${functionName}
+ *
+ * @param {object} query 参数Obj
+ * @returns
+ */
+export const list${ClassName} = async (query: any) => {
+    return await request({
+        url: "/api/${packageNameNoSmybol}/${className}/data",
+        method: "post",
+        data: query,
+    });
+};
+
+/**
+ * 查询${functionName}详细
+ *
+ * @param {number} id 参数ID
+ * @returns
+ */
+export const get${ClassName} = async (id: number) => {
+    return await request({
+        url: "/api/${packageNameNoSmybol}/${className}/findBy?id=" + id,
+        method: "get",
+    });
+};
+
+/**
+ * 新增修改${functionName}
+ *
+ * @param {object} param 参数Obj
+ * @returns
+ */
+export const save${ClassName} = async (param: any) => {
+    return await request({
+        url: "/api/${packageNameNoSmybol}/${className}/save",
+        method: "post",
+        data: param,
+    });
+};
+
+/**
+ * 删除${functionName}
+ *
+ * @param {string} data 参数ID
+ * @returns
+ */
+export const del${ClassName} = async (data:any) => {
+    return await request({
+        url: "/api/${packageNameNoSmybol}/${className}/del",
+        method: "post",
+        data:data
+    });
+};
+
+/**
+ * 所有下拉${functionName}
+ *
+ * @param {object} query 参数Obj
+ * @returns
+ */
+export const all${ClassName} = async (query: any) => {
+    return await request({
+        url: "/api/${packageNameNoSmybol}/${className}/all",
+        method: "post",
+        data: query,
+    });
+};
+

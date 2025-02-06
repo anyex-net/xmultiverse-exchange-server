@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.operation.mapper.MonitorWalletAssetFlowsMapper">
+    <!-- 基础列 -->
+    <sql id="monitorWalletAssetFlowsColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.currency as currency,
+        a.lastMonitorTime as lastMonitorTime,
+        a.monitorStatus as monitorStatus,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="monitorWalletAssetFlowsResultMap" type="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        <id column="ID" property="id" />
+        <result column="accountId" property="accountId"/>
+        <result column="currency" property="currency"/>
+        <result column="lastMonitorTime" property="lastMonitorTime"/>
+        <result column="monitorStatus" property="monitorStatus"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        INSERT INTO MonitorWalletAssetFlows(
+            id ,
+            accountId ,
+            currency ,
+            lastMonitorTime ,
+            monitorStatus ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{accountId} ,
+            #{currency} ,
+            #{lastMonitorTime} ,
+            #{monitorStatus} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM MonitorWalletAssetFlows WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE MonitorWalletAssetFlows SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        INSERT INTO MonitorWalletAssetFlows
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="currency != null">
+                currency ,
+        </if>
+        <if test="lastMonitorTime != null">
+                lastMonitorTime ,
+        </if>
+        <if test="monitorStatus != null">
+                monitorStatus ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="currency != null">
+                #{currency} ,
+        </if>
+        <if test="lastMonitorTime != null">
+                #{lastMonitorTime} ,
+        </if>
+        <if test="monitorStatus != null">
+                #{monitorStatus} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        UPDATE MonitorWalletAssetFlows
+           <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="currency != null">
+                currency = #{currency} ,
+            </if>
+            <if test="lastMonitorTime != null">
+                lastMonitorTime = #{lastMonitorTime} ,
+            </if>
+            <if test="monitorStatus != null">
+                monitorStatus = #{monitorStatus} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO MonitorWalletAssetFlows(
+            id ,
+            accountId ,
+            currency ,
+            lastMonitorTime ,
+            monitorStatus ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.accountId} ,
+            #{item.currency} ,
+            #{item.lastMonitorTime} ,
+            #{item.monitorStatus} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE MonitorWalletAssetFlows SET
+            accountId = #{item.accountId} ,
+            currency = #{item.currency} ,
+            lastMonitorTime = #{item.lastMonitorTime} ,
+            monitorStatus = #{item.monitorStatus} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        UPDATE MonitorWalletAssetFlows SET
+            accountId = #{accountId} ,
+            currency = #{currency} ,
+            lastMonitorTime = #{lastMonitorTime} ,
+            monitorStatus = #{monitorStatus} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        SELECT <include refid="monitorWalletAssetFlowsColumns"/> FROM MonitorWalletAssetFlows a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        SELECT
+        <include refid="monitorWalletAssetFlowsColumns"/>
+        FROM MonitorWalletAssetFlows a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND a.currency LIKE CONCAT('%',#{currency}, '%')
+            /** AND a.currency = #{currency} */
+        </if>
+        <if test="lastMonitorTime != null">
+            AND a.lastMonitorTime = #{lastMonitorTime}
+        </if>
+        <if test="monitorStatus != null">
+            AND a.monitorStatus = #{monitorStatus}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+            /** AND a.remark = #{remark} */
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        SELECT
+        <include refid="monitorWalletAssetFlowsColumns"/>
+        FROM MonitorWalletAssetFlows a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <select id="findByAccountIdAndCurrency" resultType="com.anyex.apps.operation.entity.MonitorWalletAssetFlows">
+        SELECT
+        <include refid="monitorWalletAssetFlowsColumns"/>
+        FROM MonitorWalletAssetFlows a
+        where a.accountId = #{accountId} AND a.currency = #{currency}
+    </select>
+
+    <select id="monitorWalletAssetFlows" resultType="com.anyex.apps.operation.model.MonitorWalletAssetFlowsResultModel">
+        select aa.accountId as accountId,count(*) as errCnt,group_concat('[',aa.id,' ',bb.id,']') as errMsg
+        from
+        (select ROW_NUMBER() OVER (ORDER BY id) AS row_num, a.* from WalletAssetFlows a where accountId = #{accountId} and currency=#{currency} and createTime between #{startTime} and #{endTime} order by createTime desc) aa
+        left join
+        (select ROW_NUMBER() OVER (ORDER BY id) AS row_num, a.* from WalletAssetFlows a where accountId = #{accountId} and currency=#{currency} and createTime between #{startTime} and #{endTime} order by createTime desc) bb
+        on aa.row_num = bb.row_num+1
+        where bb.id is not null and bb.afterBalance != aa.beforeBalance
+        group by aa.accountId
+    </select>
+
+</mapper>
+

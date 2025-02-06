@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.order.mapper.Order4GameMapper">
+    <!-- 基础列 -->
+    <sql id="order4GameColumns">
+        a.id as id,
+        a.orderTxNo as orderTxNo,
+        a.gameId as gameId,
+        a.accountId as accountId,
+        a.gameExpendBalance as gameExpendBalance,
+        a.gamePrizeId as gamePrizeId,
+        a.gamePrizeName as gamePrizeName,
+        a.gameRewardBalance as gameRewardBalance,
+        a.orderStatus as orderStatus,
+        a.isWinning as isWinning,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="order4GameResultMap" type="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        <id column="ID" property="id" />
+        <result column="orderTxNo" property="orderTxNo"/>
+        <result column="gameId" property="gameId"/>
+        <result column="accountId" property="accountId"/>
+        <result column="gameExpendBalance" property="gameExpendBalance"/>
+        <result column="gamePrizeId" property="gamePrizeId"/>
+        <result column="gamePrizeName" property="gamePrizeName"/>
+        <result column="gameRewardBalance" property="gameRewardBalance"/>
+        <result column="orderStatus" property="orderStatus"/>
+        <result column="isWinning" property="isWinning"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        INSERT INTO Order4Game(
+            id ,
+            orderTxNo ,
+            gameId ,
+            accountId ,
+            gameExpendBalance ,
+            gamePrizeId ,
+            gamePrizeName ,
+            gameRewardBalance ,
+            orderStatus ,
+            isWinning ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{orderTxNo} ,
+            #{gameId} ,
+            #{accountId} ,
+            #{gameExpendBalance} ,
+            #{gamePrizeId} ,
+            #{gamePrizeName} ,
+            #{gameRewardBalance} ,
+            #{orderStatus} ,
+            #{isWinning} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM Order4Game WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE Order4Game SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        INSERT INTO Order4Game
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="orderTxNo != null">
+                orderTxNo ,
+        </if>
+        <if test="gameId != null">
+                gameId ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="gameExpendBalance != null">
+                gameExpendBalance ,
+        </if>
+        <if test="gamePrizeId != null">
+                gamePrizeId ,
+        </if>
+        <if test="gamePrizeName != null">
+                gamePrizeName ,
+        </if>
+        <if test="gameRewardBalance != null">
+                gameRewardBalance ,
+        </if>
+        <if test="orderStatus != null">
+                orderStatus ,
+        </if>
+        <if test="isWinning != null">
+                isWinning ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="orderTxNo != null">
+                #{orderTxNo} ,
+        </if>
+        <if test="gameId != null">
+                #{gameId} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="gameExpendBalance != null">
+                #{gameExpendBalance} ,
+        </if>
+        <if test="gamePrizeId != null">
+                #{gamePrizeId} ,
+        </if>
+        <if test="gamePrizeName != null">
+                #{gamePrizeName} ,
+        </if>
+        <if test="gameRewardBalance != null">
+                #{gameRewardBalance} ,
+        </if>
+        <if test="orderStatus != null">
+                #{orderStatus} ,
+        </if>
+        <if test="isWinning != null">
+                #{isWinning} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        UPDATE Order4Game
+           <set>
+            <if test="orderTxNo != null">
+                orderTxNo = #{orderTxNo} ,
+            </if>
+            <if test="gameId != null">
+                gameId = #{gameId} ,
+            </if>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="gameExpendBalance != null">
+                gameExpendBalance = #{gameExpendBalance} ,
+            </if>
+            <if test="gamePrizeId != null">
+                gamePrizeId = #{gamePrizeId} ,
+            </if>
+            <if test="gamePrizeName != null">
+                gamePrizeName = #{gamePrizeName} ,
+            </if>
+            <if test="gameRewardBalance != null">
+                gameRewardBalance = #{gameRewardBalance} ,
+            </if>
+            <if test="orderStatus != null">
+                orderStatus = #{orderStatus} ,
+            </if>
+            <if test="isWinning != null">
+                isWinning = #{isWinning} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO Order4Game(
+            id ,
+            orderTxNo ,
+            gameId ,
+            accountId ,
+            gameExpendBalance ,
+            gamePrizeId ,
+            gamePrizeName ,
+            gameRewardBalance ,
+            orderStatus ,
+            isWinning ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.orderTxNo} ,
+            #{item.gameId} ,
+            #{item.accountId} ,
+            #{item.gameExpendBalance} ,
+            #{item.gamePrizeId} ,
+            #{item.gamePrizeName} ,
+            #{item.gameRewardBalance} ,
+            #{item.orderStatus} ,
+            #{item.isWinning} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE Order4Game SET
+            orderTxNo = #{item.orderTxNo} ,
+            gameId = #{item.gameId} ,
+            accountId = #{item.accountId} ,
+            gameExpendBalance = #{item.gameExpendBalance} ,
+            gamePrizeId = #{item.gamePrizeId} ,
+            gamePrizeName = #{item.gamePrizeName} ,
+            gameRewardBalance = #{item.gameRewardBalance} ,
+            orderStatus = #{item.orderStatus} ,
+            isWinning = #{item.isWinning} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        UPDATE Order4Game SET
+            orderTxNo = #{orderTxNo} ,
+            gameId = #{gameId} ,
+            accountId = #{accountId} ,
+            gameExpendBalance = #{gameExpendBalance} ,
+            gamePrizeId = #{gamePrizeId} ,
+            gamePrizeName = #{gamePrizeName} ,
+            gameRewardBalance = #{gameRewardBalance} ,
+            orderStatus = #{orderStatus} ,
+            isWinning = #{isWinning} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        SELECT <include refid="order4GameColumns"/> FROM Order4Game a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        SELECT
+        <include refid="order4GameColumns"/>
+        , b.unid as unid,
+        b.email as email
+        FROM Order4Game a left join Account b on a.accountId = b.id
+        WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="orderTxNo != null and orderTxNo != ''">
+            AND a.orderTxNo LIKE CONCAT('%',#{orderTxNo}, '%')
+        </if>
+        <if test="gameId != null">
+            AND a.gameId = #{gameId}
+        </if>
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="gamePrizeId != null">
+            AND a.gamePrizeId = #{gamePrizeId}
+        </if>
+        <if test="gamePrizeName != null and gamePrizeName != ''">
+            AND a.gamePrizeName LIKE CONCAT('%',#{gamePrizeName}, '%') 
+        </if>
+        <if test="orderStatus != null">
+            AND a.orderStatus = #{orderStatus}
+        </if>
+        <if test="isWinning != null">
+            AND a.isWinning = #{isWinning}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.order.entity.Order4Game">
+        SELECT
+        <include refid="order4GameColumns"/>
+        FROM Order4Game a
+    </select>
+
+    <!-- 查询游戏订单参与的账户人数 -->
+    <select id="getOrder4GameAccountNum" resultType="java.lang.Long">
+      SELECT count(distinct(a.accountId)) FROM Order4Game a
+    </select>
+
+    <!-- 查询游戏订单参与并中奖的账户人数 -->
+    <select id="getOrder4GameIsWinningAccountNum" resultType="java.lang.Long">
+      SELECT count(distinct(a.accountId)) FROM Order4Game a
+      WHERE a.isWinning = 1
+    </select>
+
+</mapper>
+

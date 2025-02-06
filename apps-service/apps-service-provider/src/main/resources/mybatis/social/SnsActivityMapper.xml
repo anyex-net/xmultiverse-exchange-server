@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.social.mapper.SnsActivityMapper">
+    <!-- 基础列 -->
+    <sql id="snsactivityColumns">
+                            id as id ,
+                            title as title ,
+                            content as content ,
+                            imgUrl as imgUrl ,
+                            activityTag as activityTag ,
+                            openUrl as openUrl ,
+                            remark as remark ,
+                            status as status ,
+                            createTime as createTime ,
+                            updateTime as updateTime
+                </sql>
+
+    <resultMap id="SnsActivityResultMap" type="com.anyex.apps.social.entity.SnsActivity">
+                    <result column="id" property="id"/>
+                    <result column="title" property="title"/>
+                    <result column="content" property="content"/>
+                    <result column="imgUrl" property="imgUrl"/>
+                    <result column="activityTag" property="activityTag"/>
+                    <result column="openUrl" property="openUrl"/>
+                    <result column="remark" property="remark"/>
+                    <result column="status" property="status"/>
+                    <result column="createTime" property="createTime"/>
+                    <result column="updateTime" property="updateTime"/>
+            </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.social.entity.SnsActivity">
+        INSERT INTO SnsActivity(
+                            id ,
+                            title ,
+                            content ,
+                            imgUrl ,
+                            activityTag ,
+                            openUrl ,
+                            remark ,
+                            status ,
+                            createTime ,
+                            updateTime
+                    ) VALUES (
+                                #{id} ,
+                                #{title} ,
+                                #{content} ,
+                                #{imgUrl} ,
+                                #{activityTag} ,
+                                #{openUrl} ,
+                                #{remark} ,
+                                #{status} ,
+                                #{createTime} ,
+                                #{updateTime}
+                        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE
+        FROM SnsActivity WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SnsActivity SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.social.entity.SnsActivity">
+        INSERT INTO SnsActivity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    id ,
+                </if>
+
+                <if test="title != null">
+                    title ,
+                </if>
+
+                <if test="content != null">
+                    content ,
+                </if>
+
+                <if test="imgUrl != null">
+                    imgUrl ,
+                </if>
+
+                <if test="activityTag != null">
+                    activityTag ,
+                </if>
+
+                <if test="openUrl != null">
+                    openUrl ,
+                </if>
+
+                <if test="remark != null">
+                    remark ,
+                </if>
+
+                <if test="status != null">
+                    status ,
+                </if>
+
+                <if test="createTime != null">
+                    createTime ,
+                </if>
+
+                <if test="updateTime != null">
+                    updateTime
+                </if>
+
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    #{id} ,
+                </if>
+
+                <if test="title != null">
+                    #{title} ,
+                </if>
+
+                <if test="content != null">
+                    #{content} ,
+                </if>
+
+                <if test="imgUrl != null">
+                    #{imgUrl} ,
+                </if>
+
+                <if test="activityTag != null">
+                    #{activityTag} ,
+                </if>
+
+                <if test="openUrl != null">
+                    #{openUrl} ,
+                </if>
+
+                <if test="remark != null">
+                    #{remark} ,
+                </if>
+
+                <if test="status != null">
+                    #{status} ,
+                </if>
+
+                <if test="createTime != null">
+                    #{createTime} ,
+                </if>
+
+                <if test="updateTime != null">
+                    #{updateTime}
+                </if>
+
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.social.entity.SnsActivity">
+        UPDATE SnsActivity
+        <set>
+                    <if test="title != null">
+                        title = #{title} ,
+                    </if>
+                    <if test="content != null">
+                        content = #{content} ,
+                    </if>
+                    <if test="imgUrl != null">
+                        imgUrl = #{imgUrl} ,
+                    </if>
+                    <if test="activityTag != null">
+                        activityTag = #{activityTag} ,
+                    </if>
+                    <if test="openUrl != null">
+                        openUrl = #{openUrl} ,
+                    </if>
+                    <if test="remark != null">
+                        remark = #{remark} ,
+                    </if>
+                    <if test="status != null">
+                        status = #{status} ,
+                    </if>
+                    <if test="createTime != null">
+                        createTime = #{createTime} ,
+                    </if>
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime}
+                    </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SnsActivity(
+                    id ,
+                    title ,
+                    content ,
+                    imgUrl ,
+                    activityTag ,
+                    openUrl ,
+                    remark ,
+                    status ,
+                    createTime ,
+                    updateTime
+                ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.id} ,
+                #{item.title} ,
+                #{item.content} ,
+                #{item.imgUrl} ,
+                #{item.activityTag} ,
+                #{item.openUrl} ,
+                #{item.remark} ,
+                #{item.status} ,
+                #{item.createTime} ,
+                #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SnsActivity SET
+
+                    title = #{item.title} ,
+                    content = #{item.content} ,
+                    imgUrl = #{item.imgUrl} ,
+                    activityTag = #{item.activityTag} ,
+                    openUrl = #{item.openUrl} ,
+                    remark = #{item.remark} ,
+                    status = #{item.status} ,
+                    createTime = #{item.createTime} ,
+                    updateTime = #{item.updateTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.social.entity.SnsActivity">
+        UPDATE SnsActivity SET
+                    title = #{title} ,
+                    content = #{content} ,
+                    imgUrl = #{imgUrl} ,
+                    activityTag = #{activityTag} ,
+                    openUrl = #{openUrl} ,
+                    remark = #{remark} ,
+                    status = #{status} ,
+                    createTime = #{createTime} ,
+                    updateTime = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.social.entity.SnsActivity">
+        SELECT
+        <include refid="snsactivityColumns"/>
+        FROM SnsActivity a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.social.entity.SnsActivity">
+        SELECT
+        <include refid="snsactivityColumns"/>
+        FROM SnsActivity a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="title != null">
+            AND a.title = #{title}
+        </if>
+
+        <if test="content != null">
+            AND a.content = #{content}
+        </if>
+
+        <if test="imgUrl != null">
+            AND a.imgUrl = #{imgUrl}
+        </if>
+
+        <if test="activityTag != null">
+            AND a.activityTag = #{activityTag}
+        </if>
+
+        <if test="openUrl != null">
+            AND a.openUrl = #{openUrl}
+        </if>
+
+        <if test="remark != null">
+            AND a.remark = #{remark}
+        </if>
+
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.social.entity.SnsActivity">
+        SELECT
+        <include refid="snsactivityColumns"/>
+        FROM SnsActivity a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+
+        <if test="title != null">
+            AND a.title = #{title}
+        </if>
+
+        <if test="content != null">
+            AND a.content = #{content}
+        </if>
+
+        <if test="imgUrl != null">
+            AND a.imgUrl = #{imgUrl}
+        </if>
+
+        <if test="activityTag != null">
+            AND a.activityTag = #{activityTag}
+        </if>
+
+        <if test="openUrl != null">
+            AND a.openUrl = #{openUrl}
+        </if>
+
+        <if test="remark != null">
+            AND a.remark = #{remark}
+        </if>
+
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.social.entity.SnsActivity">
+        SELECT
+        <include refid="snsactivityColumns"/>
+        FROM SnsActivity a
+    </select>
+
+
+</mapper>
+

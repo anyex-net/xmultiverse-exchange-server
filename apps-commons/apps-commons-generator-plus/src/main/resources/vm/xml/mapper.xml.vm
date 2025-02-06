@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${moduleName}${packageName}.mapper.${ClassName}Mapper">
+    <!-- 基础列 -->
+    <sql id="${className}Columns">
+            #foreach ($column in $columns)
+                $column.columnName as $column.javaField #if($columns.size()!=$column.sort),#end
+
+            #end
+    </sql>
+
+    <resultMap id="${ClassName}ResultMap" type="${moduleName}${packageName}.entity.${ClassName}">
+        #foreach ($column in $columns)
+            <result column="${column.columnName}" property="${column.javaField}"/>
+        #end
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="${moduleName}${packageName}.entity.${ClassName}">
+        INSERT INTO ${tableName}(
+            #foreach ($column in $columns)
+                $column.columnName #if($columns.size()!=$column.sort),#end
+
+            #end
+        ) VALUES (
+            #foreach ($column in $columns)
+                    #{$column.javaField} #if($columns.size()!=$column.sort),#end
+
+            #end
+            )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE
+        FROM ${tableName} WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE ${tableName} SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="${moduleName}${packageName}.entity.${ClassName}">
+        INSERT INTO ${tableName}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+#foreach ($column in $columns)
+                <if test="$column.javaField != null">
+                    $column.columnName #if($columns.size()!=$column.sort),#end
+
+                </if>
+
+#end
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+#foreach ($column in $columns)
+                <if test="$column.javaField != null">
+                    #{$column.javaField} #if($columns.size()!=$column.sort),#end
+
+                </if>
+
+#end
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="${moduleName}${packageName}.entity.${ClassName}">
+        UPDATE ${tableName}
+        <set>
+#foreach ($column in $columns)
+#if(!$column.pk)
+                    <if test="$column.javaField != null">
+                        $column.columnName = #{$column.javaField} #if($columns.size()!=$column.sort),#end
+
+                    </if>
+#end
+#end
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO ${tableName}(
+        #foreach ($column in $columns)
+            $column.columnName #if($columns.size()!=$column.sort),#end
+
+        #end
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+#foreach ($column in $columns)
+                #{item.$column.javaField} #if($columns.size()!=$column.sort),#end
+
+#end
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE ${tableName} SET
+#foreach ($column in $columns)
+#if(!$column.pk)
+                    $column.columnName = #{item.$column.javaField} #if($columns.size()!=$column.sort),#end
+#end
+
+#end
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="${moduleName}${packageName}.entity.${ClassName}">
+        UPDATE ${tableName} SET
+#foreach ($column in $columns)
+#if(!$column.pk)
+                    $column.columnName = #{$column.javaField} #if($columns.size()!=$column.sort),#end
+
+#end
+#end
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="${moduleName}${packageName}.entity.${ClassName}">
+        SELECT
+        <include refid="${className}Columns"/>
+        FROM ${tableName} a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="${moduleName}${packageName}.entity.${ClassName}">
+        SELECT
+        <include refid="${className}Columns"/>
+        FROM ${tableName} a WHERE 1 = 1
+#foreach ($column in $columns)
+#if ($column.javaType == "java.lang.String")
+        <if test="$column.javaField != null and $column.javaField != ''">
+            AND a.$column.columnName LIKE CONCAT('%',#{$column.javaField}, '%')
+        </if>
+
+#else
+        <if test="$column.javaField != null">
+            AND a.$column.columnName = #{$column.javaField}
+        </if>
+
+#end
+#end
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="${moduleName}${packageName}.entity.${ClassName}">
+        SELECT
+        <include refid="${className}Columns"/>
+        FROM ${tableName} a WHERE 1 = 1
+#foreach ($column in $columns)
+#if ($column.javaType == "java.lang.String")
+        <if test="$column.javaField != null and $column.javaField != ''">
+            AND a.$column.columnName LIKE CONCAT('%',#{$column.javaField}, '%')
+        </if>
+
+#else
+        <if test="$column.javaField != null">
+            AND a.$column.columnName = #{$column.javaField}
+        </if>
+
+#end
+#end
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="${moduleName}${packageName}.entity.${ClassName}">
+        SELECT
+        <include refid="${className}Columns"/>
+        FROM ${tableName} a
+    </select>
+
+
+</mapper>
+

@@ -1,0 +1,39 @@
+package ${moduleName}${packageName}.domain.params;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+
+/**
+ * ${functionName} 入参
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@ApiModel(description = "${functionName} 入参")
+@Data
+public class ${ClassName}Params {
+    private static final long serialVersionUID = 1L;
+#foreach ($column in $columns)
+    #if($column.insert || $column.edit)
+
+    @ApiModelProperty(value = "$column.columnComment")
+    #if($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    #end
+    #if($column.required && !$column.pk)
+        #if($column.javaType == 'String')
+    @NotBlank(message = "${column.columnComment}不能为空")
+        #else
+    @NotNull(message = "${column.columnComment}不能为空")
+        #end
+    #end
+    private $column.javaType $column.javaField;
+    #end
+#end
+}

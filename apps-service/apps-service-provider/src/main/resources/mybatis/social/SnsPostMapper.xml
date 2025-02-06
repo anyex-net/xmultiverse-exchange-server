@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.social.mapper.SnsPostMapper">
+    <!-- 基础列 -->
+    <sql id="snsPostColumns">
+        a.id as id,
+        a.userId as userId,
+        a.postTextContent as postTextContent,
+        a.postImageUrl as postImageUrl,
+        a.postVideoUrl as postVideoUrl,
+        a.openness as openness,
+        a.viewer as viewer,
+        a.lng as lng,
+        a.lat as lat,
+        a.city as city,
+        a.viewNum as viewNum,
+        a.favoriteNum as favoriteNum,
+        a.likeNum as likeNum,
+        a.commentNum as commentNum,
+        a.shareNum as shareNum,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="snsPostResultMap" type="com.anyex.apps.social.entity.SnsPost">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="postTextContent" property="postTextContent"/>
+        <result column="postImageUrl" property="postImageUrl"/>
+        <result column="postVideoUrl" property="postVideoUrl"/>
+        <result column="openness" property="openness"/>
+        <result column="viewer" property="viewer"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="city" property="city"/>
+        <result column="viewNum" property="viewNum"/>
+        <result column="favoriteNum" property="favoriteNum"/>
+        <result column="likeNum" property="likeNum"/>
+        <result column="commentNum" property="commentNum"/>
+        <result column="shareNum" property="shareNum"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.social.entity.SnsPost">
+        INSERT INTO SnsPost(
+            id ,
+            userId ,
+            postTextContent ,
+            postImageUrl ,
+            postVideoUrl ,
+            openness ,
+            viewer ,
+            lng ,
+            lat ,
+            city ,
+            viewNum ,
+            favoriteNum ,
+            likeNum ,
+            commentNum ,
+            shareNum ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{postTextContent} ,
+            #{postImageUrl} ,
+            #{postVideoUrl} ,
+            #{openness} ,
+            #{viewer} ,
+            #{lng} ,
+            #{lat} ,
+            #{city} ,
+            #{viewNum} ,
+            #{favoriteNum} ,
+            #{likeNum} ,
+            #{commentNum} ,
+            #{shareNum} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SnsPost WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SnsPost SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.social.entity.SnsPost">
+        INSERT INTO SnsPost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="postTextContent != null">
+                postTextContent ,
+        </if>
+        <if test="postImageUrl != null">
+                postImageUrl ,
+        </if>
+        <if test="postVideoUrl != null">
+                postVideoUrl ,
+        </if>
+        <if test="openness != null">
+                openness ,
+        </if>
+        <if test="viewer != null">
+                viewer ,
+        </if>
+        <if test="lng != null">
+                lng ,
+        </if>
+        <if test="lat != null">
+                lat ,
+        </if>
+        <if test="city != null">
+                city ,
+        </if>
+        <if test="viewNum != null">
+                viewNum ,
+        </if>
+        <if test="favoriteNum != null">
+                favoriteNum ,
+        </if>
+        <if test="likeNum != null">
+                likeNum ,
+        </if>
+        <if test="commentNum != null">
+                commentNum ,
+        </if>
+        <if test="shareNum != null">
+                shareNum ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="postTextContent != null">
+                #{postTextContent} ,
+        </if>
+        <if test="postImageUrl != null">
+                #{postImageUrl} ,
+        </if>
+        <if test="postVideoUrl != null">
+                #{postVideoUrl} ,
+        </if>
+        <if test="openness != null">
+                #{openness} ,
+        </if>
+        <if test="viewer != null">
+                #{viewer} ,
+        </if>
+        <if test="lng != null">
+                #{lng} ,
+        </if>
+        <if test="lat != null">
+                #{lat} ,
+        </if>
+        <if test="city != null">
+                #{city} ,
+        </if>
+        <if test="viewNum != null">
+                #{viewNum} ,
+        </if>
+        <if test="favoriteNum != null">
+                #{favoriteNum} ,
+        </if>
+        <if test="likeNum != null">
+                #{likeNum} ,
+        </if>
+        <if test="commentNum != null">
+                #{commentNum} ,
+        </if>
+        <if test="shareNum != null">
+                #{shareNum} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.social.entity.SnsPost">
+        UPDATE SnsPost
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="postTextContent != null">
+                postTextContent = #{postTextContent} ,
+            </if>
+            <if test="postImageUrl != null">
+                postImageUrl = #{postImageUrl} ,
+            </if>
+            <if test="postVideoUrl != null">
+                postVideoUrl = #{postVideoUrl} ,
+            </if>
+            <if test="openness != null">
+                openness = #{openness} ,
+            </if>
+            <if test="viewer != null">
+                viewer = #{viewer} ,
+            </if>
+            <if test="lng != null">
+                lng = #{lng} ,
+            </if>
+            <if test="lat != null">
+                lat = #{lat} ,
+            </if>
+            <if test="city != null">
+                city = #{city} ,
+            </if>
+            <if test="viewNum != null">
+                viewNum = #{viewNum} ,
+            </if>
+            <if test="favoriteNum != null">
+                favoriteNum = #{favoriteNum} ,
+            </if>
+            <if test="likeNum != null">
+                likeNum = #{likeNum} ,
+            </if>
+            <if test="commentNum != null">
+                commentNum = #{commentNum} ,
+            </if>
+            <if test="shareNum != null">
+                shareNum = #{shareNum} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SnsPost(
+            id ,
+            userId ,
+            postTextContent ,
+            postImageUrl ,
+            postVideoUrl ,
+            openness ,
+            viewer ,
+            lng ,
+            lat ,
+            city ,
+            viewNum ,
+            favoriteNum ,
+            likeNum ,
+            commentNum ,
+            shareNum ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.postTextContent} ,
+            #{item.postImageUrl} ,
+            #{item.postVideoUrl} ,
+            #{item.openness} ,
+            #{item.viewer} ,
+            #{item.lng} ,
+            #{item.lat} ,
+            #{item.city} ,
+            #{item.viewNum} ,
+            #{item.favoriteNum} ,
+            #{item.likeNum} ,
+            #{item.commentNum} ,
+            #{item.shareNum} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SnsPost SET
+            userId = #{item.userId} ,
+            postTextContent = #{item.postTextContent} ,
+            postImageUrl = #{item.postImageUrl} ,
+            postVideoUrl = #{item.postVideoUrl} ,
+            openness = #{item.openness} ,
+            viewer = #{item.viewer} ,
+            lng = #{item.lng} ,
+            lat = #{item.lat} ,
+            city = #{item.city} ,
+            viewNum = #{item.viewNum} ,
+            favoriteNum = #{item.favoriteNum} ,
+            likeNum = #{item.likeNum} ,
+            commentNum = #{item.commentNum} ,
+            shareNum = #{item.shareNum} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.social.entity.SnsPost">
+        UPDATE SnsPost SET
+            userId = #{userId} ,
+            postTextContent = #{postTextContent} ,
+            postImageUrl = #{postImageUrl} ,
+            postVideoUrl = #{postVideoUrl} ,
+            openness = #{openness} ,
+            viewer = #{viewer} ,
+            lng = #{lng} ,
+            lat = #{lat} ,
+            city = #{city} ,
+            viewNum = #{viewNum} ,
+            favoriteNum = #{favoriteNum} ,
+            likeNum = #{likeNum} ,
+            commentNum = #{commentNum} ,
+            shareNum = #{shareNum} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.social.entity.SnsPost">
+        SELECT <include refid="snsPostColumns"/> FROM SnsPost a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.social.entity.SnsPost">
+        SELECT
+        <include refid="snsPostColumns"/>
+        FROM SnsPost a WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND a.userId LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="postTextContent != null and postTextContent != ''">
+            AND a.postTextContent LIKE CONCAT('%',#{postTextContent}, '%')
+        </if>
+        <if test="postImageUrl != null and postImageUrl != ''">
+            AND a.postImageUrl LIKE CONCAT('%',#{postImageUrl}, '%')
+        </if>
+        <if test="postVideoUrl != null and postVideoUrl != ''">
+            AND a.postVideoUrl LIKE CONCAT('%',#{postVideoUrl}, '%')
+        </if>
+        <if test="openness != null">
+            AND a.openness = #{openness}
+        </if>
+        <if test="viewer != null">
+            AND a.viewer = #{viewer}
+        </if>
+        <if test="lng != null and lng != ''">
+            AND a.lng LIKE CONCAT('%',#{lng}, '%')
+        </if>
+        <if test="lat != null and lat != ''">
+            AND a.lat LIKE CONCAT('%',#{lat}, '%')
+        </if>
+        <if test="city != null and city != ''">
+            AND a.city LIKE CONCAT('%',#{city}, '%')
+        </if>
+        <if test="viewNum != null">
+            AND a.viewNum = #{viewNum}
+        </if>
+        <if test="favoriteNum != null">
+            AND a.favoriteNum = #{favoriteNum}
+        </if>
+        <if test="likeNum != null">
+            AND a.likeNum = #{likeNum}
+        </if>
+        <if test="commentNum != null">
+            AND a.commentNum = #{commentNum}
+        </if>
+        <if test="shareNum != null">
+            AND a.shareNum = #{shareNum}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.social.entity.SnsPost">
+        SELECT
+        <include refid="snsPostColumns"/>
+        FROM SnsPost a
+    </select>
+
+    <select id="getUserPostNumStatisticsModel" resultType="com.anyex.apps.social.model.UserPostNumStatisticsModel">
+        select ifnull(sum(case when openness = 1 then 1 else 0 end), 0) as totalPublicPostNum, count(*) as totalAllPostNum
+        from SnsPost
+        where userId = ${userId}
+    </select>
+
+    <select id="followPosts" resultType="com.anyex.apps.social.model.SnsPostModel">
+        select  a.id as id,
+                a.userId as userId,
+                a.postTextContent as postTextContent,
+                a.postImageUrl as postImageUrl,
+                a.postVideoUrl as postVideoUrl,
+                a.openness as openness,
+                a.viewer as viewer,
+                a.lng as lng,
+                a.lat as lat,
+                a.viewNum as viewNum,
+                a.favoriteNum as favoriteNum,
+                a.likeNum as likeNum,
+                a.commentNum as commentNum,
+                a.shareNum as shareNum,
+                a.remark as remark,
+                a.createTime as createTime,
+                a.updateTime as updateTime,
+                <choose>
+                    <when test="viewerUserId != null and viewerUserId != ''">
+                        (select count(*) from SnsPostLike l where l.postId = a.id and l.likeUserId = #{viewerUserId} )>0 as isLike,
+                    </when>
+                    <otherwise>
+                        0 as isLike,
+                    </otherwise>
+                </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFollow l
+                where
+                l.followedUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFollow,
+            </when>
+            <otherwise>
+                0 as isFollow,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFriend l
+                where
+                l.friendUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFriend,
+            </when>
+            <otherwise>
+                0 as isFriend,
+            </otherwise>
+        </choose>
+                b.accountName as accountName, b.headUrl as headUrl
+        from SnsPost a,Account b
+        where a.userId=b.userId  and a.openness = 1
+        and a.userId in (select followedUserId from SnsFollow where userId = #{viewerUserId})
+        and (
+            viewer = 0
+            <if test="viewerUserId != null and viewerUserId != ''">
+                or (viewer = 1 and  (select count(*) from SnsFollowFans c where c.followedUserId = a.userId and c.followerUserId = #{viewerUserId})>0 )
+            </if>
+            <if test="viewerUserId != null and viewerUserId != ''">
+                or (viewer = 2 and  (select count(*) from SnsFriend c where c.userId = a.userId and c.friendUserId = #{viewerUserId})>0 )
+            </if>
+            )
+        <if test="userId != null and userId != ''">
+            AND a.userId = #{userId}
+        </if>
+        <if test="postTextContent != null and postTextContent != ''">
+            AND a.postTextContent LIKE CONCAT('%',#{postTextContent}, '%')
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <select id="publicPosts" resultType="com.anyex.apps.social.model.SnsPostModel">
+        select  a.id as id,
+        a.userId as userId,
+        a.postTextContent as postTextContent,
+        a.postImageUrl as postImageUrl,
+        a.postVideoUrl as postVideoUrl,
+        a.openness as openness,
+        a.viewer as viewer,
+        a.lng as lng,
+        a.lat as lat,
+        a.viewNum as viewNum,
+        a.favoriteNum as favoriteNum,
+        a.likeNum as likeNum,
+        a.commentNum as commentNum,
+        a.shareNum as shareNum,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select count(*) from SnsPostLike l where l.postId = a.id and l.likeUserId = #{viewerUserId} )>0 as isLike,
+            </when>
+            <otherwise>
+                0 as isLike,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFollow l
+                where
+                l.followedUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFollow,
+            </when>
+            <otherwise>
+                0 as isFollow,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFriend l
+                where
+                l.friendUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFriend,
+            </when>
+            <otherwise>
+                0 as isFriend,
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="openness != 1">
+                'anonymous' as accountName,'anonymous' as headUrl
+            </when>
+            <otherwise>
+                b.accountName as accountName,b.headUrl as headUrl
+            </otherwise>
+        </choose>
+        from SnsPost a,Account b
+        where a.userId=b.userId  and a.openness = #{openness} and viewer = 0
+        <if test="userId != null and userId != ''">
+            AND a.userId = #{userId}
+        </if>
+        <if test="postTextContent != null and postTextContent != ''">
+            AND a.postTextContent LIKE CONCAT('%',#{postTextContent}, '%')
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <select id="locationPosts" resultType="com.anyex.apps.social.model.SnsPostModel">
+        select  a.id as id,
+        a.userId as userId,
+        a.postTextContent as postTextContent,
+        a.postImageUrl as postImageUrl,
+        a.postVideoUrl as postVideoUrl,
+        a.openness as openness,
+        a.viewer as viewer,
+        a.lng as lng,
+        a.lat as lat,
+        a.viewNum as viewNum,
+        a.favoriteNum as favoriteNum,
+        a.likeNum as likeNum,
+        a.commentNum as commentNum,
+        a.shareNum as shareNum,
+        a.remark as remakserk,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select count(*) from SnsPostLike l where l.postId = a.id and l.likeUserId = #{viewerUserId} )>0 as isLike,
+            </when>
+            <otherwise>
+                0 as isLike,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFollow l
+                where
+                l.followedUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFollow,
+            </when>
+            <otherwise>
+                0 as isFollow,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFriend l
+                where
+                l.friendUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFriend,
+            </when>
+            <otherwise>
+                0 as isFriend,
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="openness != 1">
+                'anonymous' as accountName,'anonymous' as headUrl
+            </when>
+            <otherwise>
+                b.accountName as accountName,b.headUrl as headUrl
+            </otherwise>
+        </choose>
+        , ST_Distance_Sphere( point(CAST(#{viewerLng} AS DECIMAL(15,12)), CAST(#{viewerLat} AS DECIMAL(15,12))), point(CAST(a.lng AS DECIMAL(15,12)), CAST(a.lat AS DECIMAL(15,12)))) AS distance
+        from SnsPost a,Account b
+        where a.userId=b.userId  and a.openness = 1 and viewer = 0
+        <if test="userId != null and userId != ''">
+            AND a.userId = #{userId}
+        </if>
+        <if test="postTextContent != null and postTextContent != ''">
+            AND a.postTextContent LIKE CONCAT('%',#{postTextContent}, '%')
+        </if>
+        <if test="distance != null and distance != ''">
+            AND ST_Distance_Sphere( point(CAST(#{viewerLng} AS DECIMAL(15,12)), CAST(#{viewerLat} AS DECIMAL(15,12))), point(CAST(a.lng AS DECIMAL(15,12)), CAST(a.lat AS DECIMAL(15,12)))) &lt; #{distance}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <select id="cityPosts" resultType="com.anyex.apps.social.model.SnsPostModel">
+        select  a.id as id,
+        a.userId as userId,
+        a.postTextContent as postTextContent,
+        a.postImageUrl as postImageUrl,
+        a.postVideoUrl as postVideoUrl,
+        a.openness as openness,
+        a.viewer as viewer,
+        a.lng as lng,
+        a.lat as lat,
+        a.viewNum as viewNum,
+        a.favoriteNum as favoriteNum,
+        a.likeNum as likeNum,
+        a.commentNum as commentNum,
+        a.shareNum as shareNum,
+        a.remark as remakserk,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select count(*) from SnsPostLike l where l.postId = a.id and l.likeUserId = #{viewerUserId} )>0 as isLike,
+            </when>
+            <otherwise>
+                0 as isLike,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFollow l
+                where
+                l.followedUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFollow,
+            </when>
+            <otherwise>
+                0 as isFollow,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFriend l
+                where
+                l.friendUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFriend,
+            </when>
+            <otherwise>
+                0 as isFriend,
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="openness != 1">
+                'anonymous' as accountName,'anonymous' as headUrl
+            </when>
+            <otherwise>
+                b.accountName as accountName,b.headUrl as headUrl
+            </otherwise>
+        </choose>
+        from SnsPost a,Account b
+        where a.userId=b.userId  and a.openness = #{openness} and viewer = 0 and a.city=#{city}
+        <if test="userId != null and userId != ''">
+            AND a.userId = #{userId}
+        </if>
+        <if test="postTextContent != null and postTextContent != ''">
+            AND a.postTextContent LIKE CONCAT('%',#{postTextContent}, '%')
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <select id="findById" resultType="com.anyex.apps.social.model.SnsPostModel">
+        select  a.id as id,
+        a.userId as userId,
+        a.postTextContent as postTextContent,
+        a.postImageUrl as postImageUrl,
+        a.postVideoUrl as postVideoUrl,
+        a.openness as openness,
+        a.viewer as viewer,
+        a.lng as lng,
+        a.lat as lat,
+        a.viewNum as viewNum,
+        a.favoriteNum as favoriteNum,
+        a.likeNum as likeNum,
+        a.commentNum as commentNum,
+        a.shareNum as shareNum,
+        a.remark as remakserk,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select count(*) from SnsPostLike l where l.postId = a.id and l.likeUserId = #{viewerUserId} )>0 as isLike,
+            </when>
+            <otherwise>
+                0 as isLike,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFollow l
+                where
+                l.followedUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFollow,
+            </when>
+            <otherwise>
+                0 as isFollow,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFriend l
+                where
+                l.friendUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFriend,
+            </when>
+            <otherwise>
+                0 as isFriend,
+            </otherwise>
+        </choose>
+        (case when a.openness != 1 then 'anonymous' else b.accountName end) as accountName,
+        (case when a.openness != 1 then 'anonymous' else b.headUrl end) as headUrl
+        from SnsPost a,Account b
+        where a.userId=b.userId and a.id=#{id}
+    </select>
+
+    <select id="homePosts" resultType="com.anyex.apps.social.model.SnsPostModel">
+        select  a.id as id,
+        a.userId as userId,
+        a.postTextContent as postTextContent,
+        a.postImageUrl as postImageUrl,
+        a.postVideoUrl as postVideoUrl,
+        a.openness as openness,
+        a.viewer as viewer,
+        a.lng as lng,
+        a.lat as lat,
+        a.viewNum as viewNum,
+        a.favoriteNum as favoriteNum,
+        a.likeNum as likeNum,
+        a.commentNum as commentNum,
+        a.shareNum as shareNum,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select count(*) from SnsPostLike l where l.postId = a.id and l.likeUserId = #{viewerUserId} )>0 as isLike,
+            </when>
+            <otherwise>
+                0 as isLike,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFollow l
+                where
+                l.followedUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFollow,
+            </when>
+            <otherwise>
+                0 as isFollow,
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test="viewerUserId != null and viewerUserId != ''">
+                (select
+                count(*)
+                from
+                SnsFriend l
+                where
+                l.friendUserId = a.userId
+                and l.userId = #{viewerUserId} )>0 as isFriend,
+            </when>
+            <otherwise>
+                0 as isFriend,
+            </otherwise>
+        </choose>
+        b.accountName as accountName, b.headUrl as headUrl
+        from SnsPost a,Account b
+        where a.userId=b.userId
+
+        and a.userId = #{userId}
+
+        <if test="viewerUserId != userId">
+            and a.openness = 1 and (
+            viewer = 0
+            <if test="viewerUserId != null and viewerUserId != ''">
+                or (viewer = 1 and  (select count(*) from SnsFollowFans c where c.followedUserId = a.userId and c.followerUserId = #{viewerUserId})>0 )
+            </if>
+            <if test="viewerUserId != null and viewerUserId != ''">
+                or (viewer = 2 and  (select count(*) from SnsFriend c where c.userId = a.userId and c.friendUserId = #{viewerUserId})>0 )
+            </if>
+            )
+        </if>
+        <if test="userId != null and userId != ''">
+            AND a.userId = #{userId}
+        </if>
+        <if test="postTextContent != null and postTextContent != ''">
+            AND a.postTextContent LIKE CONCAT('%',#{postTextContent}, '%')
+        </if>
+        order by a.createTime desc
+
+    </select>
+    
+</mapper>
+

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysTradeDayMapper">
+    <!-- 基础列 -->
+    <sql id="sysTradeDayColumns">
+        a.id as id,
+        a.date as date,
+        a.type as type,
+        a.createTime as createTime,
+        a.createName as createName,
+        a.updateTime as updateTime,
+        a.updateName as updateName
+    </sql>
+
+    <resultMap id="sysTradeDayResultMap" type="com.anyex.apps.common.entity.SysTradeDay">
+        <id column="ID" property="id" />
+        <result column="date" property="date"/>
+        <result column="type" property="type"/>
+        <result column="createTime" property="createTime"/>
+        <result column="createName" property="createName"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="updateName" property="updateName"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysTradeDay">
+        INSERT INTO SysTradeDay(
+            id ,
+            date ,
+            type ,
+            createTime ,
+            createName ,
+            updateTime ,
+            updateName 
+        ) VALUES (
+            #{id} ,
+            #{date} ,
+            #{type} ,
+            #{createTime} ,
+            #{createName} ,
+            #{updateTime} ,
+            #{updateName} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysTradeDay WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysTradeDay SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysTradeDay">
+        INSERT INTO SysTradeDay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="date != null">
+                date ,
+        </if>
+        <if test="type != null">
+                type ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="createName != null">
+                createName ,
+        </if>
+        <if test="updateTime != null">
+                updateTime ,
+        </if>
+        <if test="updateName != null">
+                updateName 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="date != null">
+                #{date} ,
+        </if>
+        <if test="type != null">
+                #{type} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="createName != null">
+                #{createName} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="updateName != null">
+                #{updateName} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysTradeDay">
+        UPDATE SysTradeDay
+           <set>
+            <if test="date != null">
+                date = #{date} ,
+            </if>
+            <if test="type != null">
+                type = #{type} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="createName != null">
+                createName = #{createName} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} ,
+            </if>
+            <if test="updateName != null">
+                updateName = #{updateName} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysTradeDay(
+            id ,
+            date ,
+            type ,
+            createTime ,
+            createName ,
+            updateTime ,
+            updateName 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.date} ,
+            #{item.type} ,
+            #{item.createTime} ,
+            #{item.createName} ,
+            #{item.updateTime} ,
+            #{item.updateName} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysTradeDay SET
+            date = #{item.date} ,
+            type = #{item.type} ,
+            createTime = #{item.createTime} ,
+            createName = #{item.createName} ,
+            updateTime = #{item.updateTime} ,
+            updateName = #{item.updateName} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysTradeDay">
+        UPDATE SysTradeDay SET
+            date = #{date} ,
+            type = #{type} ,
+            createTime = #{createTime} ,
+            createName = #{createName} ,
+            updateTime = #{updateTime} ,
+            updateName = #{updateName} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.common.entity.SysTradeDay">
+        SELECT <include refid="sysTradeDayColumns"/> FROM SysTradeDay a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysTradeDay">
+        SELECT
+        <include refid="sysTradeDayColumns"/>
+        FROM SysTradeDay a WHERE 1 = 1
+        <if test="date != null and date != ''">
+            AND a.date LIKE CONCAT('%',#{date}, '%')
+        </if>
+        <if test="type != null">
+            AND a.type = #{type}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="createName != null and createName != ''">
+            AND a.createName LIKE CONCAT('%',#{createName}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="updateName != null and updateName != ''">
+            AND a.updateName LIKE CONCAT('%',#{updateName}, '%')
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysTradeDay">
+        SELECT
+        <include refid="sysTradeDayColumns"/>
+        FROM SysTradeDay a
+    </select>
+
+
+</mapper>
+

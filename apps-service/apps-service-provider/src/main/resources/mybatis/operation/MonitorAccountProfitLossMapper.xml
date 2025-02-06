@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.operation.mapper.MonitorAccountProfitLossMapper">
+    <!-- 基础列 -->
+    <sql id="monitorAccountProfitLossColumns">
+        a.id as id,
+        a.balance as balance,
+        a.frozenBal as frozenBal,
+        a.sumDeposit as sumDeposit,
+        a.sumWithDraw as sumWithDraw,
+        a.sumAdjustAdd as sumAdjustAdd,
+        a.sumAdjustSub as sumAdjustSub,
+        a.profitLoss as profitLoss,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="monitorAccountProfitLossResultMap" type="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        <id column="ID" property="id" />
+        <result column="balance" property="balance"/>
+        <result column="frozenBal" property="frozenBal"/>
+        <result column="sumDeposit" property="sumDeposit"/>
+        <result column="sumWithDraw" property="sumWithDraw"/>
+        <result column="sumAdjustAdd" property="sumAdjustAdd"/>
+        <result column="sumAdjustSub" property="sumAdjustSub"/>
+        <result column="profitLoss" property="profitLoss"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        INSERT INTO MonitorAccountProfitLoss(
+            id ,
+            balance ,
+            frozenBal ,
+            sumDeposit ,
+            sumWithDraw ,
+            sumAdjustAdd ,
+            sumAdjustSub ,
+            profitLoss ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{balance} ,
+            #{frozenBal} ,
+            #{sumDeposit} ,
+            #{sumWithDraw} ,
+            #{sumAdjustAdd} ,
+            #{sumAdjustSub} ,
+            #{profitLoss} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM MonitorAccountProfitLoss WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE MonitorAccountProfitLoss SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        INSERT INTO MonitorAccountProfitLoss
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="balance != null">
+                balance ,
+        </if>
+        <if test="frozenBal != null">
+                frozenBal ,
+        </if>
+        <if test="sumDeposit != null">
+                sumDeposit ,
+        </if>
+        <if test="sumWithDraw != null">
+                sumWithDraw ,
+        </if>
+        <if test="sumAdjustAdd != null">
+                sumAdjustAdd ,
+        </if>
+        <if test="sumAdjustSub != null">
+                sumAdjustSub ,
+        </if>
+        <if test="profitLoss != null">
+                profitLoss ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="balance != null">
+                #{balance} ,
+        </if>
+        <if test="frozenBal != null">
+                #{frozenBal} ,
+        </if>
+        <if test="sumDeposit != null">
+                #{sumDeposit} ,
+        </if>
+        <if test="sumWithDraw != null">
+                #{sumWithDraw} ,
+        </if>
+        <if test="sumAdjustAdd != null">
+                #{sumAdjustAdd} ,
+        </if>
+        <if test="sumAdjustSub != null">
+                #{sumAdjustSub} ,
+        </if>
+        <if test="profitLoss != null">
+                #{profitLoss} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        UPDATE MonitorAccountProfitLoss
+           <set>
+            <if test="balance != null">
+                balance = #{balance} ,
+            </if>
+            <if test="frozenBal != null">
+                frozenBal = #{frozenBal} ,
+            </if>
+            <if test="sumDeposit != null">
+                sumDeposit = #{sumDeposit} ,
+            </if>
+            <if test="sumWithDraw != null">
+                sumWithDraw = #{sumWithDraw} ,
+            </if>
+            <if test="sumAdjustAdd != null">
+                sumAdjustAdd = #{sumAdjustAdd} ,
+            </if>
+            <if test="sumAdjustSub != null">
+                sumAdjustSub = #{sumAdjustSub} ,
+            </if>
+            <if test="profitLoss != null">
+                profitLoss = #{profitLoss} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO MonitorAccountProfitLoss(
+            id ,
+            balance ,
+            frozenBal ,
+            sumDeposit ,
+            sumWithDraw ,
+            sumAdjustAdd ,
+            sumAdjustSub ,
+            profitLoss ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.balance} ,
+            #{item.frozenBal} ,
+            #{item.sumDeposit} ,
+            #{item.sumWithDraw} ,
+            #{item.sumAdjustAdd} ,
+            #{item.sumAdjustSub} ,
+            #{item.profitLoss} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE MonitorAccountProfitLoss SET
+            balance = #{item.balance} ,
+            frozenBal = #{item.frozenBal} ,
+            sumDeposit = #{item.sumDeposit} ,
+            sumWithDraw = #{item.sumWithDraw} ,
+            sumAdjustAdd = #{item.sumAdjustAdd} ,
+            sumAdjustSub = #{item.sumAdjustSub} ,
+            profitLoss = #{item.profitLoss} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        UPDATE MonitorAccountProfitLoss SET
+            balance = #{balance} ,
+            frozenBal = #{frozenBal} ,
+            sumDeposit = #{sumDeposit} ,
+            sumWithDraw = #{sumWithDraw} ,
+            sumAdjustAdd = #{sumAdjustAdd} ,
+            sumAdjustSub = #{sumAdjustSub} ,
+            profitLoss = #{profitLoss} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        SELECT <include refid="monitorAccountProfitLossColumns"/> FROM MonitorAccountProfitLoss a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        SELECT
+        <include refid="monitorAccountProfitLossColumns"/>
+        FROM MonitorAccountProfitLoss a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        SELECT
+        <include refid="monitorAccountProfitLossColumns"/>
+        FROM MonitorAccountProfitLoss a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <select id="updateMonitorAllAccountProfit">
+        INSERT INTO MonitorAccountProfitLoss (id, balance,frozenBal,sumDeposit,sumWithDraw,sumAdjustAdd,sumAdjustSub,profitLoss,updateTime)
+            (
+                select a.id,ifnull(w.balance,0) ,ifnull(w.frozenBal,0),
+                       ifnull(sum(case when f.businessType='deposit' then f.balance else 0 end),0) as sumDeposit,
+                       ifnull(sum(case when f.businessType='withDraw' then f.balance else 0 end),0)-ifnull(sum(case when f.businessType='withDrawRollBack' then f.balance else 0 end),0) as sumWithDraw,
+                       ifnull(sum(case when f.businessType='assetAdjustAdd' then f.balance else 0 end),0) as sumAdjustAdd,
+                       ifnull(sum(case when f.businessType='assetAdjustSub' then f.balance else 0 end),0) as sumAdjustSub,
+                       ifnull(w.balance,0)+
+                       (ifnull(sum(case when f.businessType='withDraw' or f.businessType='assetAdjustSub' then f.balance else 0 end),0)-ifnull(sum(case when f.businessType='withDrawRollBack' then f.balance else 0 end),0))
+                           -ifnull(sum(case when f.businessType='assetAdjustAdd' or f.businessType='deposit' then f.balance else 0 end),0) as profitLoss,
+                       UNIX_TIMESTAMP(NOW())*1000 as updateTime
+                from Account a
+                         left join WalletAsset  w on a.id = w.accountId
+                         left join WalletAssetFlows f on a.id = f.accountId
+                group by a.id
+            )
+            ON DUPLICATE KEY UPDATE
+                                 balance = VALUES(balance),
+                                 frozenBal = VALUES(frozenBal),
+                                 sumDeposit = VALUES(sumDeposit),
+                                 sumWithDraw = VALUES(sumWithDraw),
+                                 sumAdjustAdd = VALUES(sumAdjustAdd),
+                                 sumAdjustSub = VALUES(sumAdjustSub),
+                                 profitLoss = VALUES(profitLoss),
+                                 updateTime = VALUES(updateTime)
+    </select>
+
+    <select id="allAccountProfit" resultType="com.anyex.apps.operation.entity.MonitorAccountProfitLoss">
+        select 0 as id,
+               ifnull(sum(balance),0) as balance,
+               ifnull(sum(frozenBal),0) as frozenBal,
+               ifnull(sum(sumDeposit),0) as sumDeposit,
+               ifnull(sum(sumWithDraw),0) as sumWithDraw,
+               ifnull(sum(sumAdjustAdd),0) as sumAdjustAdd,
+               ifnull(sum(sumAdjustSub),0) as sumAdjustSub,
+               ifnull(sum(profitLoss),0) as profitLoss,
+               UNIX_TIMESTAMP(NOW())*1000 as updateTime
+        from MonitorAccountProfitLoss
+    </select>
+
+
+</mapper>
+

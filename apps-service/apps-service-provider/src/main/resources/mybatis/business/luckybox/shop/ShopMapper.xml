@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.shop.mapper.ShopMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="LRU" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="shopColumns">
+        a.id as id,
+        a.city as city,
+        a.address as address,
+        a.tel as tel
+    </sql>
+
+    <resultMap id="shopResultMap" type="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        <id column="ID" property="id" />
+        <result column="city" property="city"/>
+        <result column="address" property="address"/>
+        <result column="tel" property="tel"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        INSERT INTO Shop(
+            id ,
+            city ,
+            address ,
+            tel 
+        ) VALUES (
+            #{id} ,
+            #{city} ,
+            #{address} ,
+            #{tel} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM Shop WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE Shop SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        INSERT INTO Shop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="city != null">
+                city ,
+        </if>
+        <if test="address != null">
+                address ,
+        </if>
+        <if test="tel != null">
+                tel 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="city != null">
+                #{city} ,
+        </if>
+        <if test="address != null">
+                #{address} ,
+        </if>
+        <if test="tel != null">
+                #{tel} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        UPDATE Shop
+           <set>
+            <if test="city != null">
+                city = #{city} ,
+            </if>
+            <if test="address != null">
+                address = #{address} ,
+            </if>
+            <if test="tel != null">
+                tel = #{tel} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO Shop(
+            id ,
+            city ,
+            address ,
+            tel 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.city} ,
+            #{item.address} ,
+            #{item.tel} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE Shop SET
+            city = #{item.city} ,
+            address = #{item.address} ,
+            tel = #{item.tel} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        UPDATE Shop SET
+            city = #{city} ,
+            address = #{address} ,
+            tel = #{tel} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        SELECT <include refid="shopColumns"/> FROM Shop a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        SELECT
+        <include refid="shopColumns"/>
+        FROM Shop a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="city != null">
+            AND a.city LIKE CONCAT('%',#{city}, '%') 
+        </if>
+        <if test="address != null">
+            AND a.address LIKE CONCAT('%',#{address}, '%') 
+        </if>
+        <if test="tel != null">
+            AND a.tel LIKE CONCAT('%',#{tel}, '%') 
+        </if>
+        order by a.id desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.shop.entity.Shop">
+        SELECT
+        <include refid="shopColumns"/>
+        FROM Shop a
+    </select>
+
+</mapper>
+

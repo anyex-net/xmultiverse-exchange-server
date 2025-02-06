@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysMsgTemplateMapper">
+    <!--所有读写操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="FIFO" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="msgTemplateColumns">
+        a.id as id,
+        a.tplKey as tplKey,
+        a.lang as lang,
+        a.type as type,
+        a.title as title,
+        a.content as content,
+        a.dest as dest,
+        a.createBy as createBy,
+        a.createDate as createDate
+    </sql>
+    <sql id="msgTemplateJoinColumns">
+        a.id as id,
+        a.tplKey as tplKey,
+        a.lang as lang,
+        a.type as type,
+        a.title as title,
+        a.content as content,
+        a.dest as dest,
+        b.trueName as createName,
+        a.createDate as createDate
+    </sql>
+
+    <resultMap id="msgTemplateResultMap" type="com.anyex.apps.common.entity.SysMsgTemplate">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.tplKey" property="tplKey" jdbcType="VARCHAR"/>
+        <result column="a.lang" property="lang" jdbcType="VARCHAR"/>
+        <result column="a.type" property="type" jdbcType="VARCHAR"/>
+        <result column="a.title" property="title" jdbcType="VARCHAR"/>
+        <result column="a.content" property="content" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+        <result column="a.dest" property="dest" jdbcType="VARCHAR"/>
+        <result column="a.createBy" property="createBy" jdbcType="BIGINT"/>
+        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysMsgTemplate">
+        insert into SysMsgTemplate(
+            id ,
+            tplKey ,
+            lang ,
+            type ,
+            title ,
+            content ,
+            dest ,
+            createBy ,
+            createDate
+        ) VALUES (
+            #{id} ,
+            #{tplKey} ,
+            #{lang} ,
+            #{type} ,
+            #{title} ,
+            #{content} ,
+            #{dest} ,
+            #{createBy} ,
+            #{createDate}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysMsgTemplate where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <!--
+    <update id="delete" parameterType="java.lang.Long">
+        update SysMsgTemplate set delFlag = 1 where id = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysMsgTemplate">
+        insert into SysMsgTemplate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="tplKey != null">
+                tplKey ,
+            </if>
+            <if test="lang != null">
+                lang ,
+            </if>
+            <if test="type != null">
+                type ,
+            </if>
+            <if test="title != null">
+                title ,
+            </if>
+            <if test="content != null">
+                content ,
+            </if>
+            <if test="dest != null">
+                dest ,
+            </if>
+            <if test="createBy != null">
+                createBy ,
+            </if>
+            <if test="createDate != null">
+                createDate
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="tplKey != null">
+                #{tplKey} ,
+            </if>
+            <if test="lang != null">
+                #{lang} ,
+            </if>
+            <if test="type != null">
+                #{type} ,
+            </if>
+            <if test="title != null">
+                #{title} ,
+            </if>
+            <if test="content != null">
+                #{content} ,
+            </if>
+            <if test="dest != null">
+                #{dest} ,
+            </if>
+            <if test="createBy != null">
+                #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysMsgTemplate">
+        update SysMsgTemplate
+        <set>
+            <if test="tplKey != null">
+                tplKey = #{tplKey} ,
+            </if>
+            <if test="lang != null">
+                lang = #{lang} ,
+            </if>
+            <if test="type != null">
+                type = #{type} ,
+            </if>
+            <if test="title != null">
+                title = #{title} ,
+            </if>
+            <if test="content != null">
+                content = #{content} ,
+            </if>
+            <if test="dest != null">
+                dest = #{dest} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysMsgTemplate(
+        id ,
+        tplKey ,
+        lang ,
+        type ,
+        title ,
+        content ,
+        dest ,
+        createBy ,
+        createDate
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.tplKey} ,
+            #{item.lang} ,
+            #{item.type} ,
+            #{item.title} ,
+            #{item.content} ,
+            #{item.dest} ,
+            #{item.createBy} ,
+            #{item.createDate}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysMsgTemplate SET
+            tplKey = #{item.tplKey} ,
+            lang = #{item.lang} ,
+            type = #{item.type} ,
+            title = #{item.title} ,
+            content = #{item.content} ,
+            dest = #{item.dest} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysMsgTemplate">
+        update SysMsgTemplate set
+            tplKey = #{tplKey} ,
+            lang = #{lang} ,
+            type = #{type} ,
+            title = #{title} ,
+            content = #{content} ,
+            dest = #{dest} ,
+            createBy = #{createBy} ,
+            createDate = #{createDate}
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.common.entity.SysMsgTemplate">
+        select
+        <include refid="msgTemplateColumns"/>
+        from SysMsgTemplate a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysMsgTemplate">
+        SELECT
+        <include refid="msgTemplateJoinColumns"/>
+        FROM SysMsgTemplate a left join SysUserInfo b on a.createBy=b.id  WHERE 1 = 1
+        <if test="tplKey != null and tplKey != ''">
+            and a.tplKey = #{tplKey}
+        </if>
+        <if test="type != null and type != ''">
+            and a.type = #{type}
+        </if>
+        <if test="title != null and title != ''">
+            and a.title like CONCAT('%',#{title}, '%')
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysMsgTemplate">
+        SELECT
+        <include refid="msgTemplateColumns"/>
+        FROM SysMsgTemplate a WHERE 1 = 1
+    </select>
+
+    <select id="findByKeyAndLang" parameterType="hashmap"
+            resultType="com.anyex.apps.common.entity.SysMsgTemplate">
+        SELECT
+        <include refid="msgTemplateColumns"/>
+        FROM SysMsgTemplate a WHERE 1 = 1
+        AND a.tplKey = #{tplKey} and a.type = #{type}
+        AND a.lang like CONCAT('%',#{lang}, '%') limit 1
+    </select>
+
+</mapper>
+

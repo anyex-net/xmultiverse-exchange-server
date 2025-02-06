@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.goods.mapper.GoodsBrandMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="LRU" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="goodsBrandColumns">
+        a.id as id,
+        a.name as name,
+        a.logoImageUrl as logoImageUrl,
+        a.letter as letter,
+        a.status as status,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="goodsBrandResultMap" type="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        <id column="ID" property="id" />
+        <result column="name" property="name"/>
+        <result column="logoImageUrl" property="logoImageUrl"/>
+        <result column="letter" property="letter"/>
+        <result column="status" property="status"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        INSERT INTO GoodsBrand(
+            id ,
+            name ,
+            logoImageUrl ,
+            letter ,
+            status ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{name} ,
+            #{logoImageUrl} ,
+            #{letter} ,
+            #{status} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM GoodsBrand WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE GoodsBrand SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        INSERT INTO GoodsBrand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="name != null">
+                name ,
+        </if>
+        <if test="logoImageUrl != null">
+                logoImageUrl ,
+        </if>
+        <if test="letter != null">
+                letter ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="name != null">
+                #{name} ,
+        </if>
+        <if test="logoImageUrl != null">
+                #{logoImageUrl} ,
+        </if>
+        <if test="letter != null">
+                #{letter} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        UPDATE GoodsBrand
+           <set>
+            <if test="name != null">
+                name = #{name} ,
+            </if>
+            <if test="logoImageUrl != null">
+                logoImageUrl = #{logoImageUrl} ,
+            </if>
+            <if test="letter != null">
+                letter = #{letter} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO GoodsBrand(
+            id ,
+            name ,
+            logoImageUrl ,
+            letter ,
+            status ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.name} ,
+            #{item.logoImageUrl} ,
+            #{item.letter} ,
+            #{item.status} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE GoodsBrand SET
+            name = #{item.name} ,
+            logoImageUrl = #{item.logoImageUrl} ,
+            letter = #{item.letter} ,
+            status = #{item.status} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        UPDATE GoodsBrand SET
+            name = #{name} ,
+            logoImageUrl = #{logoImageUrl} ,
+            letter = #{letter} ,
+            status = #{status} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        SELECT <include refid="goodsBrandColumns"/> FROM GoodsBrand a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        SELECT
+        <include refid="goodsBrandColumns"/>
+        FROM GoodsBrand a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="name != null">
+            AND a.name LIKE CONCAT('%',#{name}, '%') 
+        </if>
+        <if test="logoImageUrl != null">
+            AND a.logoImageUrl LIKE CONCAT('%',#{logoImageUrl}, '%') 
+        </if>
+        <if test="letter != null">
+            AND a.letter LIKE CONCAT('%',#{letter}, '%') 
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        order by  a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        SELECT
+        <include refid="goodsBrandColumns"/>
+        FROM GoodsBrand a
+    </select>
+
+    <select id="findByGoodsCategoryId" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsBrand">
+        SELECT
+        <include refid="goodsBrandColumns"/>
+        FROM GoodsBrand a, GoodsCategoryBrand b
+        WHERE a.id = b.brandId
+          AND b.categoryId = #{categoryId}
+        order by a.id
+    </select>
+
+</mapper>
+

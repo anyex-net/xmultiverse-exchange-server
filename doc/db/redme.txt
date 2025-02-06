@@ -1,0 +1,7 @@
+数据库sql脚本
+
+apps_1.x_xxx 表示初始化版本sql脚本
+
+apps_增量sql脚本 表示发版后增量sql脚本
+    apps_v2.1_sql
+        apps_YYYYMMDD_脚本描述.sql

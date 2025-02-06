@@ -1,0 +1,46 @@
+/*
+ * Copyright 2024 Apps, Inc. All rights reserved. com.anyex
+ * PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
+package ${moduleName}.controller${packageName}.req;
+
+import com.anyex.apps.bean.GenericEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import com.anyex.apps.model.Pagination;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+#foreach ($import in $importList)
+import ${import};
+#end
+
+/**
+ * ${functionName} 分页查询
+ * <p>File：${ClassName}.java</p>
+ * <p>Title: ${ClassName}</p>
+ * <p>Description:${ClassName}</p>
+ * <p>Copyright: Copyright (c) May 26, 2015</p>
+ * <p>Company: AnyEx</p>
+ * @author Playguy
+ * @version 1.0
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "${functionName}分页查询")
+public class Req${ClassName}Pagination extends Pagination
+{
+#foreach ($column in $columns)
+#if (!$column.pk && !$column.fk && $column.columnName != "sign" && $column.columnName != "randomKey" && $column.columnName != "delFlag"&& $column.columnName != "version")
+    @ApiModelProperty(value = "$column.columnComment", position = ${column.sort} #if ($column.required), required = true #end)
+#if($column.required && !$column.pk && !$table.split)
+#if($column.javaType == 'String')
+    @NotBlank(message = "${column.columnComment}不能为空")
+#else
+    @NotNull(message = "${column.columnComment}不能为空")
+#end
+#end
+    private $column.javaType $column.javaField;
+
+#end
+#end
+}

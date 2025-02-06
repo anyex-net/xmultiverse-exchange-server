@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountReceivingBankMapper">
+    <!-- 基础列 -->
+    <sql id="accountReceivingBankColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.accountType as accountType,
+        a.accountNo as accountNo,
+        a.accountName as accountName,
+        a.bankName as bankName,
+        a.iban as iban,
+        a.cnic as cnic,
+        a.email as email,
+        a.mobile as mobile,
+        a.status as status,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="accountReceivingBankResultMap" type="com.anyex.apps.account.entity.AccountReceivingBank">
+        <id column="ID" property="id" />
+        <result column="accountId" property="accountId"/>
+        <result column="accountType" property="accountType"/>
+        <result column="accountNo" property="accountNo"/>
+        <result column="accountName" property="accountName"/>
+        <result column="bankName" property="bankName"/>
+        <result column="iban" property="iban"/>
+        <result column="cnic" property="cnic"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.AccountReceivingBank">
+        INSERT INTO AccountReceivingBank(
+            id ,
+            accountId ,
+            accountType ,
+            accountNo ,
+            accountName ,
+            bankName ,
+            iban ,
+            cnic ,
+            email ,
+            mobile ,
+            status ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{accountId} ,
+            #{accountType} ,
+            #{accountNo} ,
+            #{accountName} ,
+            #{bankName} ,
+            #{iban} ,
+            #{cnic} ,
+            #{email} ,
+            #{mobile} ,
+            #{status} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM AccountReceivingBank WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE AccountReceivingBank SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.AccountReceivingBank">
+        INSERT INTO AccountReceivingBank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="accountType != null">
+                accountType ,
+        </if>
+        <if test="accountNo != null">
+                accountNo ,
+        </if>
+        <if test="accountName != null">
+                accountName ,
+        </if>
+        <if test="bankName != null">
+                bankName ,
+        </if>
+        <if test="iban != null">
+                iban ,
+        </if>
+        <if test="cnic != null">
+                cnic ,
+        </if>
+        <if test="email != null">
+                email ,
+        </if>
+        <if test="mobile != null">
+                mobile ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="accountType != null">
+                #{accountType} ,
+        </if>
+        <if test="accountNo != null">
+                #{accountNo} ,
+        </if>
+        <if test="accountName != null">
+                #{accountName} ,
+        </if>
+        <if test="bankName != null">
+                #{bankName} ,
+        </if>
+        <if test="iban != null">
+                #{iban} ,
+        </if>
+        <if test="cnic != null">
+                #{cnic} ,
+        </if>
+        <if test="email != null">
+                #{email} ,
+        </if>
+        <if test="mobile != null">
+                #{mobile} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.AccountReceivingBank">
+        UPDATE AccountReceivingBank
+           <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="accountType != null">
+                accountType = #{accountType} ,
+            </if>
+            <if test="accountNo != null">
+                accountNo = #{accountNo} ,
+            </if>
+            <if test="accountName != null">
+                accountName = #{accountName} ,
+            </if>
+            <if test="bankName != null">
+                bankName = #{bankName} ,
+            </if>
+            <if test="iban != null">
+                iban = #{iban} ,
+            </if>
+            <if test="cnic != null">
+                cnic = #{cnic} ,
+            </if>
+            <if test="email != null">
+                email = #{email} ,
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO AccountReceivingBank(
+            id ,
+            accountId ,
+            accountType ,
+            accountNo ,
+            accountName ,
+            bankName ,
+            iban ,
+            cnic ,
+            email ,
+            mobile ,
+            status ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.accountId} ,
+            #{item.accountType} ,
+            #{item.accountNo} ,
+            #{item.accountName} ,
+            #{item.bankName} ,
+            #{item.iban} ,
+            #{item.cnic} ,
+            #{item.email} ,
+            #{item.mobile} ,
+            #{item.status} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE AccountReceivingBank SET
+            accountId = #{item.accountId} ,
+            accountType = #{item.accountType} ,
+            accountNo = #{item.accountNo} ,
+            accountName = #{item.accountName} ,
+            bankName = #{item.bankName} ,
+            iban = #{item.iban} ,
+            cnic = #{item.cnic} ,
+            email = #{item.email} ,
+            mobile = #{item.mobile} ,
+            status = #{item.status} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.AccountReceivingBank">
+        UPDATE AccountReceivingBank SET
+            accountId = #{accountId} ,
+            accountType = #{accountType} ,
+            accountNo = #{accountNo} ,
+            accountName = #{accountName} ,
+            bankName = #{bankName} ,
+            iban = #{iban} ,
+            cnic = #{cnic} ,
+            email = #{email} ,
+            mobile = #{mobile} ,
+            status = #{status} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.account.entity.AccountReceivingBank">
+        SELECT <include refid="accountReceivingBankColumns"/> FROM AccountReceivingBank a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.AccountReceivingBank">
+        SELECT
+        <include refid="accountReceivingBankColumns"/>
+        FROM AccountReceivingBank a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="accountType != null">
+            AND a.accountType LIKE CONCAT('%',#{accountType}, '%') 
+        </if>
+        <if test="accountNo != null">
+            AND a.accountNo LIKE CONCAT('%',#{accountNo}, '%') 
+        </if>
+        <if test="accountName != null">
+            AND a.accountName LIKE CONCAT('%',#{accountName}, '%') 
+        </if>
+        <if test="bankName != null">
+            AND a.bankName LIKE CONCAT('%',#{bankName}, '%') 
+        </if>
+        <if test="iban != null">
+            AND a.iban LIKE CONCAT('%',#{iban}, '%') 
+        </if>
+        <if test="cnic != null">
+            AND a.cnic LIKE CONCAT('%',#{cnic}, '%') 
+        </if>
+        <if test="email != null">
+            AND a.email LIKE CONCAT('%',#{email}, '%') 
+        </if>
+        <if test="mobile != null">
+            AND a.mobile LIKE CONCAT('%',#{mobile}, '%') 
+        </if>
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        order by  a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.AccountReceivingBank">
+        SELECT
+        <include refid="accountReceivingBankColumns"/>
+        FROM AccountReceivingBank a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <select id="findByAccountIdAndAccountNo"  resultType="com.anyex.apps.account.entity.AccountReceivingBank">
+        SELECT <include refid="accountReceivingBankColumns"/> FROM AccountReceivingBank a WHERE a.accountId = #{accountId}  and accountNo = #{accountNo}
+    </select>
+
+    <select id="findByBankName"  resultType="com.anyex.apps.account.entity.AccountReceivingBank">
+        SELECT <include refid="accountReceivingBankColumns"/> FROM AccountReceivingBank a WHERE a.accountId = #{accountId}  and accountType = #{accountType} and bankName = #{bankName} limit 1
+    </select>
+
+</mapper>
+

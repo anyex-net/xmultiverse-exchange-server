@@ -1,0 +1,188 @@
+spring:
+  main:
+    web-application-type: none
+    allow-circular-references: true
+  cache:
+    type: redis
+  application:
+    name: AppsRPCServer
+  data:
+    mongodb:
+      host: @mongodb.host@
+      port: @mongodb.port@
+      database: @mongodb.database@
+  redis:
+    cluster:
+      nodes: @cluster.nodes@
+      max-redirects: 3
+    host: @redis.host@
+    port: @redis.port@
+    password: @redis.password@
+    timeout: @redis.timeout@
+    conn-type: @redis.conntype@ # cluster/single
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 2
+        # 连接池中的最大空闲连接
+        max-idle: 200
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 2000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+  datasource:
+    master:
+      jdbc-url: @master.jdbc.url@
+      pool-name: @master.jdbc.poolname@
+      username: @master.jdbc.username@
+      password: @master.jdbc.password@
+      min-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      # 50 开发阶段用10
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      driver-class-name: com.mysql.cj.jdbc.Driver #dm.jdbc.driver.DmDriver
+      connection-test-query: SELECT 1
+    slave1:
+      jdbc-url: @slave1.jdbc.url@
+      pool-name: @slave1.jdbc.poolname@
+      username: @slave1.jdbc.username@
+      password: @slave1.jdbc.password@
+      min-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      # 50 开发阶段用10
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      driver-class-name: com.mysql.cj.jdbc.Driver #dm.jdbc.driver.DmDriver
+      connection-test-query: SELECT 1
+  mail:
+    host: @email.host@
+    port: 465 # SSL配置
+    default-encoding: UTF-8
+    username: @email.username@
+    password: @email.password@
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true # 需要验证登录名和密码
+          ssl:
+            enable: true
+          starttls:
+            enable: true # 需要TLS认证 保证发送邮件安全验证
+            required: true
+#  activiti:
+#    #检测历史表是否存在 activiti7默认没有开启数据库历史记录 启动数据库历史记录
+#    db-history-used: true
+#    #默认none,full：保存历史数据的最高级别，除了会保存audit级别的数据外，还会保存其他全部流程相关的细节数据，包括一些流程参数等。
+#    history-level: full
+#    #默认:true,activiti会对数据库中所有表进行更新操作。如果表不存在，则自动创建,测试场景使用
+#    #flase,activiti在启动时，对比数据库表中保存的版本，如果没有表或者版本不匹配，将抛出异常
+#    database-schema-update: true
+mybatis:
+  mapper-locations: classpath*:/mybatis/**/*.xml
+  check-config-location: true
+  executor-type: simple
+  configuration:
+    jdbc-type-for-null: 'null' #注意null必须用单引号引起来
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  mapper-locations: classpath:com.anyex.apps/**/mapper/*Mapper.xml,classpath*:/mybatis/**/*.xml
+#  #实体扫描，多个package用逗号或者分号分隔
+#  typeAliasesPackage: com.anyex.apps.**.entity
+#  #typeEnumsPackage: org.org.springblade.dashboard.entity.enums
+#  global-config:
+#    # 关闭MP3.0自带的banner
+#    banner: false
+#    db-config:
+#      #主键类型  0:"数据库ID自增", 1:"不操作", 2:"用户输入ID",3:"数字型snowflake", 4:"全局唯一ID UUID", 5:"字符串型snowflake";
+#      id-type: assign_id
+#      #字段策略
+#      insert-strategy: not_null
+#      update-strategy: not_null
+#      select-strategy: not_empty
+#      #驼峰下划线转换
+#      table-underline: true
+#      # 逻辑删除配置
+#      # 逻辑删除全局值（1表示已删除，这也是Mybatis Plus的默认配置）
+#      logic-delete-value: 1
+#      # 逻辑未删除全局值（0表示未删除，这也是Mybatis Plus的默认配置）
+#      logic-not-delete-value: 0
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    cache-enabled: false
+#    #org.apache.ibatis.logging.stdout.StdOutImpl 控制台打印sql语句方便调试sql语句执行错误
+#    #org.apache.ibatis.logging.log4j2.Log4j2Impl:这个不在控制台打印查询结果,但是在log4j中打印
+#    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+# 指定log4j2作为日志记录
+logging:
+  config: classpath:log4j2.xml
+  level:
+    #这个指定你的dao层，也就是mapper文件的所在包
+    com.anyex.apps/**/mapper: debug
+pagehelper:
+  helper-dialect: @database.sql.dialect@
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql
+com:
+  anyex:
+    env: @env@
+    withDrawInterfaceSwitch: @withdraw.interface.switch@
+    wivpay:
+      payUrl: @wivpay.payUrl@
+      payQueryUrl: @wivpay.payQueryUrl@
+      redirectUrl: @wivpay.redirectUrl@
+      notifyUrl: @wivpay.notifyUrl@
+      merchantSn: @wivpay.merchantSn@
+      merchantAk: @wivpay.merchantAk@
+      merchantSk: @wivpay.merchantSk@
+      channelAliasName: @wivpay.channelAliasName@
+    globalpay:
+      rootUrl: @globalpay.rootUrl@
+      mchno: @globalpay.mchno@
+      appid: @globalpay.appid@
+      payInNotifyUrl: @globalpay.payInNotifyUrl@
+      payOutNotifyUrl: @globalpay.payOutNotifyUrl@
+      key: @globalpay.key@
+    sms:
+      host: @sms.send.host@
+      user: @sms.send.user@
+      pass: @sms.send.pass@
+      inthost: @sms.send.inthost@
+      intuser: @sms.send.intuser@
+      intpass: @sms.send.intpass@
+      signature:
+        en: 签名
+        cn: 签名
+    weiXin:
+      app-key: @weixin.appkey@
+      secret: @weixin.secret@
+      open:
+        app-key: @weixin.open.appkey@
+        secret: @weixin.open.secret@
+    jPush:
+      app-key: @jpush.appkey@
+      secret: @jpush.secret@
+  alipay:
+    sofa:
+      rpc:
+        registry-address: @zookeeper.address@
+        boltPort: @port.rpcServer@ #12310
+      tracer:
+        disableDigestLog: true #是否关闭所有集成 SOFATracer 组件摘要日志打印
+        tracerGlobalLogReserveDay: 1 #SOFATracer 日志的保留天数
+
+openim:
+  apiRoot: @openim.apiRoot@
+  #  下面可以不配置，默认按以下规则生成 后续开发 请到Openimconfig文件中添加
+  #  apiRoot: http://openim-web.host.fit/api
+  #  chatRoot: http://openim-web.host.fit/chat
+  #  adminRoot: http://openim-web.host.fit/complete_admin
+  secret: @openim.secret@
+  adminAccount: @openim.adminAccount@
+  adminPwd: @openim.adminPwd@
+  #预留功能，支持每个请求，自动带个header authKey参数
+  authKey: @openim.authKey@

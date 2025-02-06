@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.social.mapper.SnsFollowMapper">
+    <!-- 基础列 -->
+    <sql id="snsFollowColumns">
+        a.id as id,
+        a.userId as userId,
+        a.followedUserId as followedUserId,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="snsFollowResultMap" type="com.anyex.apps.social.entity.SnsFollow">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="followedUserId" property="followedUserId"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.social.entity.SnsFollow">
+        INSERT INTO SnsFollow(
+            id ,
+            userId ,
+            followedUserId ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{followedUserId} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SnsFollow WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SnsFollow SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.social.entity.SnsFollow">
+        INSERT INTO SnsFollow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="followedUserId != null">
+                followedUserId ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="followedUserId != null">
+                #{followedUserId} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.social.entity.SnsFollow">
+        UPDATE SnsFollow
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="followedUserId != null">
+                followedUserId = #{followedUserId} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SnsFollow(
+            id ,
+            userId ,
+            followedUserId ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.followedUserId} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SnsFollow SET
+            userId = #{item.userId} ,
+            followedUserId = #{item.followedUserId} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.social.entity.SnsFollow">
+        UPDATE SnsFollow SET
+            userId = #{userId} ,
+            followedUserId = #{followedUserId} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.social.entity.SnsFollow">
+        SELECT <include refid="snsFollowColumns"/> FROM SnsFollow a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.social.entity.SnsFollow">
+        SELECT
+        <include refid="snsFollowColumns"/>
+        FROM SnsFollow a WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND a.userId LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="followedUserId != null and followedUserId != ''">
+            AND a.followedUserId LIKE CONCAT('%',#{followedUserId}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.social.entity.SnsFollow">
+        SELECT
+        <include refid="snsFollowColumns"/>
+        FROM SnsFollow a
+    </select>
+
+    <select id="cntFollow" resultType="java.lang.Integer">
+        SELECT
+       count(*)
+        FROM SnsFollow a where a.userId = #{userId}
+    </select>
+
+    <select id="listFollows" resultType="com.anyex.apps.social.model.AccountInfoModel">
+        SELECT
+        b.id as id, b.accountName as accountName,b.userId as userId,b.headUrl as headUrl,
+        (select
+             count(*)
+         from
+             SnsFriend l
+         where
+             l.userId = b.userId
+           and l.friendUserId = #{userId} )>0 as isFriend
+        FROM SnsFollow a,Account b where b.userId = a.followedUserId and a.userId = #{userId}
+    </select>
+</mapper>
+

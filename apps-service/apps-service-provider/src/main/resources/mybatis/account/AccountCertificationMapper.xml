@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountCertificationMapper">
+
+<!--    &lt;!&ndash; 基础列 &ndash;&gt;-->
+<!--    <sql id="accountCertificationColumns">-->
+<!--        a.id as id,-->
+<!--        a.accountId as accountId,-->
+<!--        a.realName as realName,-->
+<!--        a.idcard as idcard,-->
+<!--        a.cardType as cardType,-->
+<!--        a.attachments as attachments,-->
+<!--        a.reason as reason,-->
+<!--        a.status as status,-->
+<!--        a.recommend as recommend,-->
+<!--        a.createDate as createDate-->
+<!--    </sql>-->
+
+<!--    <sql id="accountCertificationJoinColumns">-->
+<!--        a.id as id,-->
+<!--        a.accountId as accountId,-->
+<!--        a.realName as realName,-->
+<!--        a.idcard as idcard,-->
+<!--        a.cardType as cardType,-->
+<!--        a.recommend as recommend,-->
+<!--        a.attachments as attachments,-->
+<!--        a.reason as reason,-->
+<!--        a.status as status,-->
+<!--        a.createDate as createDate,-->
+<!--        b.phone as phone,-->
+<!--        b.nickName as nickName-->
+<!--    </sql>-->
+
+<!--    <resultMap id="accountCertificationResultMap" type="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        <id column="a.id" property="id" jdbcType="BIGINT" />-->
+<!--        <result column="a.accountId" property="accountId" jdbcType="BIGINT"/>-->
+<!--        <result column="a.realName" property="realName" jdbcType="VARCHAR"/>-->
+<!--        <result column="a.idcard" property="idcard" jdbcType="VARCHAR"/>-->
+<!--        <result column="a.cardType" property="cardType" jdbcType="BIGINT"/>-->
+<!--        <result column="a.attachments" property="attachments" jdbcType="VARCHAR"/>-->
+<!--        <result column="a.recommend" property="recommend" jdbcType="BIT"/>-->
+<!--        <result column="a.reason" property="reason" jdbcType="VARCHAR"/>-->
+<!--        <result column="a.status" property="status" jdbcType="VARCHAR"/>-->
+<!--        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>-->
+<!--    </resultMap>-->
+
+<!--    &lt;!&ndash; 普通插入 &ndash;&gt;-->
+<!--    <insert id="insert" parameterType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        insert into AccountCertification(-->
+<!--         id ,-->
+<!--         accountId ,-->
+<!--         realName ,-->
+<!--         idcard ,-->
+<!--         cardType ,-->
+<!--         attachments ,-->
+<!--         recommend ,-->
+<!--         reason ,-->
+<!--         status ,-->
+<!--         createDate-->
+<!--        ) VALUES (-->
+<!--        #{id}  ,-->
+<!--        #{accountId}  ,-->
+<!--        #{realName}  ,-->
+<!--        #{idcard}  ,-->
+<!--        #{cardType}  ,-->
+<!--        #{attachments}  ,-->
+<!--        #{recommend}  ,-->
+<!--        #{reason}  ,-->
+<!--        #{status}  ,-->
+<!--        #{createDate}-->
+<!--        )-->
+<!--    </insert>-->
+<!--    &lt;!&ndash; 根据主键物理删除 &ndash;&gt;-->
+<!--    <delete id="remove" parameterType="java.lang.Long">-->
+<!--        delete from AccountCertification where id = #{id}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash; 根据主键逻辑删除 &ndash;&gt;-->
+<!--    <delete id="delete" parameterType="java.lang.Long">-->
+<!--        delete from AccountCertification where id = #{id}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash;根据条件是否插入数据 &ndash;&gt;-->
+<!--    <insert id="insertSelective" parameterType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        insert into AccountCertification-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--        <if test="id != null">-->
+<!--            id ,-->
+<!--        </if>-->
+<!--        <if test="accountId != null">-->
+<!--            accountId ,-->
+<!--        </if>-->
+<!--        <if test="realName != null">-->
+<!--            realName ,-->
+<!--        </if>-->
+<!--        <if test="idcard != null">-->
+<!--            idcard ,-->
+<!--        </if>-->
+<!--        <if test="cardType != null">-->
+<!--            cardType ,-->
+<!--        </if>-->
+<!--        <if test="recommend != null">-->
+<!--            recommend ,-->
+<!--        </if>-->
+<!--        <if test="attachments != null">-->
+<!--            attachments ,-->
+<!--        </if>-->
+<!--        <if test="reason != null">-->
+<!--            reason ,-->
+<!--        </if>-->
+<!--        <if test="status != null">-->
+<!--            status ,-->
+<!--        </if>-->
+<!--        <if test="createDate != null">-->
+<!--            createDate-->
+<!--        </if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--        <if test="id != null">-->
+<!--            #{id} ,-->
+<!--        </if>-->
+<!--        <if test="accountId != null">-->
+<!--            #{accountId} ,-->
+<!--        </if>-->
+<!--        <if test="realName != null">-->
+<!--            #{realName} ,-->
+<!--        </if>-->
+<!--        <if test="idcard != null">-->
+<!--            #{idcard} ,-->
+<!--        </if>-->
+<!--        <if test="cardType != null">-->
+<!--            #{cardType} ,-->
+<!--        </if>-->
+<!--        <if test="recommend != null">-->
+<!--            #{recommend} ,-->
+<!--        </if>-->
+<!--        <if test="attachments != null">-->
+<!--            #{attachments} ,-->
+<!--        </if>-->
+<!--        <if test="reason != null">-->
+<!--            #{reason} ,-->
+<!--        </if>-->
+<!--        <if test="status != null">-->
+<!--            #{status} ,-->
+<!--        </if>-->
+<!--        <if test="createDate != null">-->
+<!--            #{createDate}-->
+<!--        </if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 批量插入 &ndash;&gt;-->
+<!--    <insert id="insertBatch" parameterType="list">-->
+<!--        insert into AccountCertification(-->
+<!--         id ,-->
+<!--         accountId ,-->
+<!--         realName ,-->
+<!--         idcard ,-->
+<!--         cardType ,-->
+<!--         recommend ,-->
+<!--         attachments ,-->
+<!--         reason ,-->
+<!--         status ,-->
+<!--         createDate-->
+<!--        ) VALUES-->
+<!--        <foreach collection="list" item="item" separator=",">-->
+<!--            (-->
+<!--            #{item.id}  ,-->
+<!--            #{item.accountId}  ,-->
+<!--            #{item.realName}  ,-->
+<!--            #{item.idcard}  ,-->
+<!--            #{item.cardType}  ,-->
+<!--            #{item.recommend}  ,-->
+<!--            #{item.attachments}  ,-->
+<!--            #{item.reason}  ,-->
+<!--            #{item.status}  ,-->
+<!--            #{item.createDate}-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 选择性更新数据 &ndash;&gt;-->
+<!--    <update id="updateByPrimaryKeySelective" parameterType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        update AccountCertification-->
+<!--           <set>-->
+<!--            <if test="accountId != null">-->
+<!--                accountId = #{accountId} ,-->
+<!--            </if>-->
+<!--            <if test="realName != null">-->
+<!--                realName = #{realName} ,-->
+<!--            </if>-->
+<!--            <if test="idcard != null">-->
+<!--                idcard = #{idcard} ,-->
+<!--            </if>-->
+<!--            <if test="cardType != null">-->
+<!--                cardType = #{cardType} ,-->
+<!--            </if>-->
+<!--            <if test="recommend != null">-->
+<!--                recommend = #{recommend} ,-->
+<!--            </if>-->
+<!--            <if test="attachments != null">-->
+<!--                attachments = #{attachments} ,-->
+<!--            </if>-->
+<!--            <if test="reason != null">-->
+<!--                reason = #{reason} ,-->
+<!--            </if>-->
+<!--            <if test="status != null">-->
+<!--                status = #{status} ,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                createDate = #{createDate}-->
+<!--            </if>-->
+<!--           </set>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 批量修改 &ndash;&gt;-->
+<!--    <update id="updateBatch" parameterType="java.util.List">-->
+<!--        <foreach collection="list" item="item" index="index" open="" close="" separator=";">-->
+<!--            update AccountCertification set-->
+<!--            accountId = #{item.accountId} ,-->
+<!--            realName = #{item.realName} ,-->
+<!--            idcard = #{item.idcard} ,-->
+<!--            cardType = #{item.cardType} ,-->
+<!--            recommend = #{item.recommend} ,-->
+<!--            attachments = #{item.attachments} ,-->
+<!--            reason = #{item.reason} ,-->
+<!--            status = #{item.status} ,-->
+<!--            createDate = #{item.createDate}-->
+<!--            where id = #{item.id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 根据主键更新一条信息所有数据 &ndash;&gt;-->
+<!--    <update id="updateByPrimaryKey" parameterType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        update AccountCertification set-->
+<!--            accountId = #{accountId} ,-->
+<!--            realName = #{realName} ,-->
+<!--            idcard = #{idcard} ,-->
+<!--            cardType = #{cardType} ,-->
+<!--            recommend = #{recommend} ,-->
+<!--            attachments = #{attachments} ,-->
+<!--            reason = #{reason} ,-->
+<!--            status = #{status} ,-->
+<!--            createDate = #{createDate}-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 根据主键取数据 &ndash;&gt;-->
+<!--    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        select <include refid="accountCertificationColumns"/> from AccountCertification a where a.id = #{id}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 可分页的对象查询 &ndash;&gt;-->
+<!--    <select id="findList" resultType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        SELECT-->
+<!--        <include refid="accountCertificationJoinColumns"/>-->
+<!--        FROM AccountCertification a left join Account b on a.accountId=b.id WHERE 1 = 1-->
+<!--        <if test="accountId != null and accountId != ''">-->
+<!--            and a.accountId = #{accountId}-->
+<!--        </if>-->
+<!--        <if test="realName != null and realName != ''">-->
+<!--            and a.realName like CONCAT('%',#{realName}, '%')-->
+<!--        </if>-->
+<!--        <if test="nickName != null and nickName != ''">-->
+<!--            and b.nickName like CONCAT('%',#{nickName}, '%')-->
+<!--        </if>-->
+<!--        <if test="idcard != null and idcard != ''">-->
+<!--            and a.idcard like CONCAT('%',#{idcard}, '%')-->
+<!--        </if>-->
+<!--        <if test="cardType != null and cardType != ''">-->
+<!--            and a.cardType = #{cardType}-->
+<!--        </if>-->
+<!--        <if test="status != null and status != ''">-->
+<!--            and a.status = #{status}-->
+<!--        </if>-->
+<!--        <if test="recommend != null">-->
+<!--            and a.recommend = #{recommend}-->
+<!--        </if>-->
+<!--        order by a.id desc-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 查询所有 &ndash;&gt;-->
+<!--    <select id="selectAll" resultType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        SELECT-->
+<!--        <include refid="accountCertificationColumns"/>-->
+<!--        FROM AccountCertification a-->
+<!--    </select>-->
+
+<!--    <select id="findByAccountId" resultType="com.zjjatech.fhsc.account.entity.AccountCertification">-->
+<!--        SELECT-->
+<!--        <include refid="accountCertificationColumns"/>-->
+<!--        FROM AccountCertification a-->
+<!--        where a.accountId = #{accountId}-->
+<!--    </select>-->
+
+</mapper>
+

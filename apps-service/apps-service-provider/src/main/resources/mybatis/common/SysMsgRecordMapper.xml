@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysMsgRecordMapper">
+    <!-- 基础列 -->
+    <sql id="msgRecordColumns">
+        a.id as id,
+        a.type as type,
+        a.object as object,
+        a.content as content,
+        a.createDate as createDate,
+        a.status as status
+    </sql>
+
+    <resultMap id="msgRecordResultMap" type="com.anyex.apps.common.entity.SysMsgRecord">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.type" property="type" jdbcType="VARCHAR"/>
+        <result column="a.object" property="object" jdbcType="VARCHAR"/>
+        <result column="a.content" property="content" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>
+        <result column="a.status" property="status" jdbcType="BIT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysMsgRecord">
+        insert into SysMsgRecord(
+            id ,
+            type ,
+            object ,
+            content ,
+            createDate ,
+            status
+        ) VALUES (
+            #{id} ,
+            #{type} ,
+            #{object} ,
+            #{content,jdbcType=CLOB} ,
+            #{createDate} ,
+            #{status}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysMsgRecord where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update SysMsgRecord set delFlag = 1 where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysMsgRecord">
+        insert into SysMsgRecord
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="type != null">
+                type ,
+            </if>
+            <if test="object != null">
+                object ,
+            </if>
+            <if test="content != null">
+                content ,
+            </if>
+            <if test="createDate != null">
+                createDate ,
+            </if>
+            <if test="status != null">
+                status
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="type != null">
+                #{type} ,
+            </if>
+            <if test="object != null">
+                #{object} ,
+            </if>
+            <if test="content != null">
+                #{content} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate} ,
+            </if>
+            <if test="status != null">
+                #{status}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysMsgRecord">
+        update SysMsgRecord
+        <set>
+            <if test="type != null">
+                object = #{type} ,
+            </if>
+            <if test="object != null">
+                object = #{object} ,
+            </if>
+            <if test="content != null">
+                content = #{content} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysMsgRecord(
+        id ,
+        type ,
+        object ,
+        content ,
+        createDate ,
+        status
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.type} ,
+            #{item.object} ,
+            #{item.content} ,
+            #{item.createDate} ,
+            #{item.status}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysMsgRecord SET
+            type = #{item.type} ,
+            object = #{item.object} ,
+            content = #{item.content} ,
+            createDate = #{item.createDate} ,
+            status = #{item.status}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysMsgRecord">
+        update SysMsgRecord set
+            type = #{type} ,
+            object = #{object} ,
+            content = #{content,jdbcType=CLOB} ,
+            createDate = #{createDate} ,
+            status = #{status}
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.common.entity.SysMsgRecord">
+        select
+        <include refid="msgRecordColumns"/>
+        from SysMsgRecord a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysMsgRecord">
+        SELECT
+        <include refid="msgRecordColumns"/>
+        FROM SysMsgRecord a WHERE 1 = 1
+        <if test="object != null and object != ''">
+            and a.object like CONCAT('%',#{object}, '%')
+        </if>
+        <if test="type != null and type != ''">
+            and a.type = #{type}
+        </if>
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        ORDER BY a.id DESC
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysMsgRecord">
+        SELECT
+        <include refid="msgRecordColumns"/>
+        FROM SysMsgRecord a
+    </select>
+
+</mapper>
+

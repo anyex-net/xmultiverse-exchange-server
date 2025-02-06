@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.account.mapper.AccountAddressMapper">
+    <!-- 基础列 -->
+    <sql id="accountAddressColumns">
+        a.id as id,
+        a.accountId as accountId,
+        a.name as name,
+        a.mobile as mobile,
+        a.email as email,
+        a.area as area,
+        a.address as address,
+        a.landmark as landmark,
+        a.prime as prime,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="accountAddressResultMap" type="com.anyex.apps.account.entity.AccountAddress">
+        <id column="ID" property="id" />
+        <result column="accountId" property="accountId"/>
+        <result column="name" property="name"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="area" property="area"/>
+        <result column="address" property="address"/>
+        <result column="landmark" property="landmark"/>
+        <result column="prime" property="prime"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.account.entity.AccountAddress">
+        INSERT INTO AccountAddress(
+            id ,
+            accountId ,
+            name ,
+            mobile ,
+            email ,
+            area ,
+            address ,
+            landmark ,
+            prime ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{accountId} ,
+            #{name} ,
+            #{mobile} ,
+            #{email} ,
+            #{area} ,
+            #{address} ,
+            #{landmark} ,
+            #{prime} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM AccountAddress WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE AccountAddress SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.account.entity.AccountAddress">
+        INSERT INTO AccountAddress
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="name != null">
+                name ,
+        </if>
+        <if test="mobile != null">
+                mobile ,
+        </if>
+        <if test="email != null">
+                email ,
+        </if>
+        <if test="area != null">
+                area ,
+        </if>
+        <if test="address != null">
+                address ,
+        </if>
+        <if test="landmark != null">
+                landmark ,
+        </if>
+        <if test="prime != null">
+                prime ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="name != null">
+                #{name} ,
+        </if>
+        <if test="mobile != null">
+                #{mobile} ,
+        </if>
+        <if test="email != null">
+                #{email} ,
+        </if>
+        <if test="area != null">
+                #{area} ,
+        </if>
+        <if test="address != null">
+                #{address} ,
+        </if>
+        <if test="landmark != null">
+                #{landmark} ,
+        </if>
+        <if test="prime != null">
+                #{prime} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.account.entity.AccountAddress">
+        UPDATE AccountAddress
+           <set>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="name != null">
+                name = #{name} ,
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile} ,
+            </if>
+            <if test="email != null">
+                email = #{email} ,
+            </if>
+            <if test="area != null">
+                area = #{area} ,
+            </if>
+            <if test="address != null">
+                address = #{address} ,
+            </if>
+            <if test="landmark != null">
+                landmark = #{landmark} ,
+            </if>
+            <if test="prime != null">
+                prime = #{prime} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO AccountAddress(
+            id ,
+            accountId ,
+            name ,
+            mobile ,
+            email ,
+            area ,
+            address ,
+            landmark ,
+            prime ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.accountId} ,
+            #{item.name} ,
+            #{item.mobile} ,
+            #{item.email} ,
+            #{item.area} ,
+            #{item.address} ,
+            #{item.landmark} ,
+            #{item.prime} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE AccountAddress SET
+            accountId = #{item.accountId} ,
+            name = #{item.name} ,
+            mobile = #{item.mobile} ,
+            email = #{item.email} ,
+            area = #{item.area} ,
+            address = #{item.address} ,
+            landmark = #{item.landmark} ,
+            prime = #{item.prime} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.account.entity.AccountAddress">
+        UPDATE AccountAddress SET
+            accountId = #{accountId} ,
+            name = #{name} ,
+            mobile = #{mobile} ,
+            email = #{email} ,
+            area = #{area} ,
+            address = #{address} ,
+            landmark = #{landmark} ,
+            prime = #{prime} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.account.entity.AccountAddress">
+        SELECT <include refid="accountAddressColumns"/> FROM AccountAddress a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.account.entity.AccountAddress">
+        SELECT
+        <include refid="accountAddressColumns"/>
+        FROM AccountAddress a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="name != null">
+            AND a.name LIKE CONCAT('%',#{name}, '%') 
+        </if>
+        <if test="mobile != null">
+            AND a.mobile LIKE CONCAT('%',#{mobile}, '%') 
+        </if>
+        <if test="email != null">
+            AND a.email LIKE CONCAT('%',#{email}, '%') 
+        </if>
+        <if test="area != null">
+            AND a.area LIKE CONCAT('%',#{area}, '%') 
+        </if>
+        <if test="address != null">
+            AND a.address LIKE CONCAT('%',#{address}, '%') 
+        </if>
+        order by  a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.account.entity.AccountAddress">
+        SELECT
+        <include refid="accountAddressColumns"/>
+        FROM AccountAddress a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+
+</mapper>
+

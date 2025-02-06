@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.social.mapper.SnsFriendMapper">
+    <!-- 基础列 -->
+    <sql id="snsFriendColumns">
+        a.id as id,
+        a.userId as userId,
+        a.friendUserId as friendUserId,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="snsFriendResultMap" type="com.anyex.apps.social.entity.SnsFriend">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="friendUserId" property="friendUserId"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.social.entity.SnsFriend">
+        INSERT INTO SnsFriend(
+            id ,
+            userId ,
+            friendUserId ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{friendUserId} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SnsFriend WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SnsFriend SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.social.entity.SnsFriend">
+        INSERT INTO SnsFriend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="friendUserId != null">
+                friendUserId ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="friendUserId != null">
+                #{friendUserId} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.social.entity.SnsFriend">
+        UPDATE SnsFriend
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="friendUserId != null">
+                friendUserId = #{friendUserId} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SnsFriend(
+            id ,
+            userId ,
+            friendUserId ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.friendUserId} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SnsFriend SET
+            userId = #{item.userId} ,
+            friendUserId = #{item.friendUserId} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.social.entity.SnsFriend">
+        UPDATE SnsFriend SET
+            userId = #{userId} ,
+            friendUserId = #{friendUserId} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.social.entity.SnsFriend">
+        SELECT <include refid="snsFriendColumns"/> FROM SnsFriend a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.social.entity.SnsFriend">
+        SELECT
+        <include refid="snsFriendColumns"/>
+        FROM SnsFriend a WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND a.userId LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="friendUserId != null and friendUserId != ''">
+            AND a.friendUserId LIKE CONCAT('%',#{friendUserId}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.social.entity.SnsFriend">
+        SELECT
+        <include refid="snsFriendColumns"/>
+        FROM SnsFriend a
+    </select>
+
+    <select id="getFriendsCntByUserId" resultType="java.lang.Integer">
+        select count(*) from SnsFriend where userId = ${userId}
+    </select>
+
+    <select id="myFriends" resultType="com.anyex.apps.social.model.AccountInfoModel">
+
+        SELECT
+        b.id as id, b.accountName as accountName,b.userId as userId,b.headUrl as headUrl,1 as isFriend
+        FROM SnsFriend a ,Account b WHERE b.userId = a.friendUserId
+        <if test="userId != null and userId != ''">
+            AND a.userId LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="friendUserId != null and friendUserId != ''">
+            AND a.friendUserId LIKE CONCAT('%',#{friendUserId}, '%')
+        </if>
+
+    </select>
+
+
+
+
+</mapper>
+

@@ -1,0 +1,32 @@
+
+package ${moduleName}${packageName}.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.anyex.apps.bean.GenericServiceImpl;
+import ${moduleName}${packageName}.entity.${ClassName};
+import ${moduleName}${packageName}.mapper.${ClassName}Mapper;
+
+/**
+ * ${functionName} 服务实现类
+ * <p>File：${ClassName}ServiceImpl.java </p>
+ * <p>Title: ${ClassName}ServiceImpl </p>
+ * <p>Description:${ClassName}ServiceImpl </p>
+ * <p>Copyright: Copyright (c) May 26, 2015</p>
+ * <p>Company: AnyEx</p>
+ * @author Playguy
+ * @version 1.0
+ */
+@Service
+public class ${ClassName}ServiceImpl extends GenericServiceImpl<${ClassName}> implements ${ClassName}Service
+{
+    protected ${ClassName}Mapper ${className}Mapper;
+
+    @Autowired(required = false)
+    public ${ClassName}ServiceImpl(${ClassName}Mapper ${className}Mapper)
+    {
+        super(${className}Mapper);
+        this.${className}Mapper = ${className}Mapper;
+    }
+}

@@ -1,0 +1,18 @@
+package ${moduleName}${packageName}.service;
+import com.anyex.apps.bean.GenericService;
+import ${moduleName}${packageName}.entity.${ClassName};
+
+/**
+ * ${functionName} 服务接口
+ * <p>File：${ClassName}Service.java </p>
+ * <p>Title: ${ClassName}Service </p>
+ * <p>Description:${ClassName}Service </p>
+ * <p>Copyright: Copyright (c) May 26, 2015</p>
+ * <p>Company: AnyEx</p>
+ * @author Playguy
+ * @version 1.0
+ */
+public interface ${ClassName}Service extends GenericService<${ClassName}> {
+
+
+}

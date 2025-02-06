@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.activity.mapper.ActivityOperRecordMapper">
+    <!-- 基础列 -->
+    <sql id="activityOperRecordColumns">
+        a.id as id,
+        a.activityId as activityId,
+        a.activityType as activityType,
+        a.requestIp as requestIp,
+        a.accountId as accountId,
+        a.operType as operType,
+        a.operContent as operContent,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="activityOperRecordResultMap" type="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        <id column="ID" property="id" />
+        <result column="activityId" property="activityId"/>
+        <result column="activityType" property="activityType"/>
+        <result column="requestIp" property="requestIp"/>
+        <result column="accountId" property="accountId"/>
+        <result column="operType" property="operType"/>
+        <result column="operContent" property="operContent"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        INSERT INTO ActivityOperRecord(
+            id ,
+            activityId ,
+            activityType ,
+            requestIp ,
+            accountId ,
+            operType ,
+            operContent ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{activityId} ,
+            #{activityType} ,
+            #{requestIp} ,
+            #{accountId} ,
+            #{operType} ,
+            #{operContent} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM ActivityOperRecord WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE ActivityOperRecord SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        INSERT INTO ActivityOperRecord
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="activityId != null">
+                activityId ,
+        </if>
+        <if test="activityType != null">
+                activityType ,
+        </if>
+        <if test="requestIp != null">
+                requestIp ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="operType != null">
+                operType ,
+        </if>
+        <if test="operContent != null">
+                operContent ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="activityId != null">
+                #{activityId} ,
+        </if>
+        <if test="activityType != null">
+                #{activityType} ,
+        </if>
+        <if test="requestIp != null">
+                #{requestIp} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="operType != null">
+                #{operType} ,
+        </if>
+        <if test="operContent != null">
+                #{operContent} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        UPDATE ActivityOperRecord
+           <set>
+            <if test="activityId != null">
+                activityId = #{activityId} ,
+            </if>
+            <if test="activityType != null">
+                activityType = #{activityType} ,
+            </if>
+            <if test="requestIp != null">
+                requestIp = #{requestIp} ,
+            </if>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="operType != null">
+                operType = #{operType} ,
+            </if>
+            <if test="operContent != null">
+                operContent = #{operContent} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO ActivityOperRecord(
+            id ,
+            activityId ,
+            activityType ,
+            requestIp ,
+            accountId ,
+            operType ,
+            operContent ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.activityId} ,
+            #{item.activityType} ,
+            #{item.requestIp} ,
+            #{item.accountId} ,
+            #{item.operType} ,
+            #{item.operContent} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE ActivityOperRecord SET
+            activityId = #{item.activityId} ,
+            activityType = #{item.activityType} ,
+            requestIp = #{item.requestIp} ,
+            accountId = #{item.accountId} ,
+            operType = #{item.operType} ,
+            operContent = #{item.operContent} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        UPDATE ActivityOperRecord SET
+            activityId = #{activityId} ,
+            activityType = #{activityType} ,
+            requestIp = #{requestIp} ,
+            accountId = #{accountId} ,
+            operType = #{operType} ,
+            operContent = #{operContent} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        SELECT <include refid="activityOperRecordColumns"/> FROM ActivityOperRecord a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        SELECT
+        <include refid="activityOperRecordColumns"/>
+        FROM ActivityOperRecord a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="activityId != null">
+            AND a.activityId = #{activityId}
+        </if>
+        <if test="activityType != null">
+            AND a.activityType LIKE CONCAT('%',#{activityType}, '%') 
+        </if>
+        <if test="requestIp != null">
+            AND a.requestIp LIKE CONCAT('%',#{requestIp}, '%') 
+        </if>
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="operType != null">
+            AND a.operType LIKE CONCAT('%',#{operType}, '%') 
+        </if>
+        <if test="operContent != null">
+            AND a.operContent LIKE CONCAT('%',#{operContent}, '%') 
+        </if>
+        order by  a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.activity.entity.ActivityOperRecord">
+        SELECT
+        <include refid="activityOperRecordColumns"/>
+        FROM ActivityOperRecord a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <!-- 查询活动操作记录数量 -->
+    <select id="getActivityOperRecordNum" resultType="java.lang.Long">
+      SELECT count(a.id) FROM ActivityOperRecord a
+      WHERE a.activityType = #{activityType}
+        AND a.operType = #{operType}
+    </select>
+
+</mapper>
+

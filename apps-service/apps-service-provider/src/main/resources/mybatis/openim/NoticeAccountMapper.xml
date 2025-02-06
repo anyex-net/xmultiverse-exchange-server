@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.openim.mapper.NoticeAccountMapper">
+    <!-- 基础列 -->
+    <sql id="noticeAccountColumns">
+        a.id as id,
+        a.user_id as userId,
+        a.nickname as nickname,
+        a.face_url as faceUrl
+    </sql>
+
+    <resultMap id="noticeAccountResultMap" type="com.anyex.apps.openim.entity.NoticeAccount">
+        <id column="ID" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="nickname" property="nickname"/>
+        <result column="face_url" property="faceUrl"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.openim.entity.NoticeAccount">
+        INSERT INTO NoticeAccount(
+            id ,
+            user_id ,
+            nickname ,
+            face_url 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{nickname} ,
+            #{faceUrl} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM NoticeAccount WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE NoticeAccount SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.openim.entity.NoticeAccount">
+        INSERT INTO NoticeAccount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                user_id ,
+        </if>
+        <if test="nickname != null">
+                nickname ,
+        </if>
+        <if test="faceUrl != null">
+                face_url 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="nickname != null">
+                #{nickname} ,
+        </if>
+        <if test="faceUrl != null">
+                #{faceUrl} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.openim.entity.NoticeAccount">
+        UPDATE NoticeAccount
+           <set>
+            <if test="userId != null">
+                user_id = #{userId} ,
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname} ,
+            </if>
+            <if test="faceUrl != null">
+                face_url = #{faceUrl} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO NoticeAccount(
+            id ,
+            user_id ,
+            nickname ,
+            face_url 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.nickname} ,
+            #{item.faceUrl} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE NoticeAccount SET
+            user_id = #{item.userId} ,
+            nickname = #{item.nickname} ,
+            face_url = #{item.faceUrl} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.openim.entity.NoticeAccount">
+        UPDATE NoticeAccount SET
+            user_id = #{userId} ,
+            nickname = #{nickname} ,
+            face_url = #{faceUrl} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.openim.entity.NoticeAccount">
+        SELECT <include refid="noticeAccountColumns"/> FROM NoticeAccount a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.openim.entity.NoticeAccount">
+        SELECT
+        <include refid="noticeAccountColumns"/>
+        FROM NoticeAccount a WHERE 1 = 1
+        <if test="userId != null and userId != ''">
+            AND a.user_id LIKE CONCAT('%',#{userId}, '%')
+        </if>
+        <if test="nickname != null and nickname != ''">
+            AND a.nickname LIKE CONCAT('%',#{nickname}, '%')
+        </if>
+        <if test="faceUrl != null and faceUrl != ''">
+            AND a.face_url LIKE CONCAT('%',#{faceUrl}, '%')
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.openim.entity.NoticeAccount">
+        SELECT
+        <include refid="noticeAccountColumns"/>
+        FROM NoticeAccount a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+
+</mapper>
+

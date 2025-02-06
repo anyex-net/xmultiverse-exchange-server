@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.common.mapper.SysNoticeMapper">
+    <!-- 基础列 -->
+    <sql id="noticeColumns">
+        a.id as id,
+        a.langType as langType,
+        a.title as title,
+        a.imageUrl as imageUrl,
+        a.content as content,
+        a.remark as remark,
+        a.status as status,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate,
+        a.publishBy as publishBy,
+        a.publishDate as publishDate
+    </sql>
+
+    <resultMap id="noticeResultMap" type="com.anyex.apps.common.entity.SysNotice">
+        <id column="ID" property="id" />
+        <result column="langType" property="langType"/>
+        <result column="title" property="title"/>
+        <result column="imageUrl" property="imageUrl"/>
+        <result column="content" property="content"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createDate" property="createDate"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateDate" property="updateDate"/>
+        <result column="publishBy" property="publishBy"/>
+        <result column="publishDate" property="publishDate"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.common.entity.SysNotice">
+        INSERT INTO SysNotice(
+            id ,
+            langType ,
+            title ,
+            imageUrl ,
+            content ,
+            remark ,
+            status ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate ,
+            publishBy ,
+            publishDate
+        ) VALUES (
+            #{id} ,
+            #{langType} ,
+            #{title} ,
+            #{imageUrl} ,
+            #{content} ,
+            #{remark} ,
+            #{status} ,
+            #{createBy} ,
+            #{createDate} ,
+            #{updateBy} ,
+            #{updateDate} ,
+            #{publishBy} ,
+            #{publishDate}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM SysNotice WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE SysNotice SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.common.entity.SysNotice">
+        INSERT INTO SysNotice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="langType != null">
+                langType ,
+        </if>
+        <if test="title != null">
+                title ,
+        </if>
+        <if test="imageUrl != null">
+                imageUrl ,
+        </if>
+        <if test="content != null">
+                content ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="createBy != null">
+                createBy ,
+        </if>
+        <if test="createDate != null">
+                createDate ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateDate != null">
+                updateDate ,
+        </if>
+        <if test="publishBy != null">
+                publishBy ,
+        </if>
+        <if test="publishDate != null">
+                publishDate
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="langType != null">
+                #{langType} ,
+        </if>
+        <if test="title != null">
+                #{title} ,
+        </if>
+        <if test="imageUrl != null">
+                #{imageUrl} ,
+        </if>
+        <if test="content != null">
+                #{content} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="createBy != null">
+                #{createBy} ,
+        </if>
+        <if test="createDate != null">
+                #{createDate} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateDate != null">
+                #{updateDate} ,
+        </if>
+        <if test="publishBy != null">
+                #{publishBy} ,
+        </if>
+        <if test="publishDate != null">
+                #{publishDate}
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.common.entity.SysNotice">
+        UPDATE SysNotice
+           <set>
+            <if test="langType != null">
+                langType = #{langType} ,
+            </if>
+            <if test="title != null">
+                title = #{title} ,
+            </if>
+            <if test="imageUrl != null">
+                imageUrl = #{imageUrl} ,
+            </if>
+            <if test="content != null">
+                content = #{content} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                updateDate = #{updateDate} ,
+            </if>
+            <if test="publishBy != null">
+                publishBy = #{publishBy} ,
+            </if>
+            <if test="publishDate != null">
+                publishDate = #{publishDate}
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO SysNotice(
+            id ,
+            langType ,
+            title ,
+            imageUrl ,
+            content ,
+            remark ,
+            status ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate ,
+            publishBy ,
+            publishDate
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.langType} ,
+            #{item.title} ,
+            #{item.imageUrl} ,
+            #{item.content} ,
+            #{item.remark} ,
+            #{item.status} ,
+            #{item.createBy} ,
+            #{item.createDate} ,
+            #{item.updateBy} ,
+            #{item.updateDate} ,
+            #{item.publishBy} ,
+            #{item.publishDate}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE SysNotice SET
+            langType = #{item.langType} ,
+            title = #{item.title} ,
+            imageUrl = #{item.imageUrl} ,
+            content = #{item.content} ,
+            remark = #{item.remark} ,
+            status = #{item.status} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate} ,
+            updateBy = #{item.updateBy} ,
+            updateDate = #{item.updateDate} ,
+            publishBy = #{item.publishBy} ,
+            publishDate = #{item.publishDate}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.common.entity.SysNotice">
+        UPDATE SysNotice SET
+            langType = #{langType} ,
+            title = #{title} ,
+            imageUrl = #{imageUrl} ,
+            content = #{content} ,
+            remark = #{remark} ,
+            status = #{status} ,
+            createBy = #{createBy} ,
+            createDate = #{createDate} ,
+            updateBy = #{updateBy} ,
+            updateDate = #{updateDate} ,
+            publishBy = #{publishBy} ,
+            publishDate = #{publishDate}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.common.entity.SysNotice">
+        SELECT <include refid="noticeColumns"/> FROM SysNotice a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.common.entity.SysNotice">
+        SELECT
+        <include refid="noticeColumns"/>
+        FROM SysNotice a WHERE 1 = 1 <!-- and a.DEL_FLAG = 0-->
+        <if test="langType != null and langType != ''">
+            AND a.langType = #{langType}
+        </if>
+        <if test="title != null and title != ''">
+            AND a.title like CONCAT('%',#{title}, '%')
+        </if>
+        <if test="imageUrl != null and imageUrl != ''">
+            AND a.imageUrl like CONCAT('%',#{imageUrl}, '%')
+        </if>
+        <if test="content != null and content != ''">
+            AND a.content = #{content}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        <if test="createBy != null">
+            AND a.createBy = #{createBy}
+        </if>
+        <if test="createDate != null">
+            AND a.createDate = #{createDate}
+        </if>
+        <if test="updateBy != null">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateDate != null">
+            AND a.updateDate = #{updateDate}
+        </if>
+        <if test="publishBy != null">
+            AND a.publishBy = #{publishBy}
+        </if>
+        <if test="publishDate != null">
+            AND a.publishDate = #{publishDate}
+        </if>
+        <if test="orderBy != null ">
+            ORDER BY a.${orderBy}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.common.entity.SysNotice">
+        SELECT
+        <include refid="noticeColumns"/>
+        FROM SysNotice a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+</mapper>
+

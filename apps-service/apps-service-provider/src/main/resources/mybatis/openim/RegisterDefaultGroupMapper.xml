@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.openim.mapper.RegisterDefaultGroupMapper">
+    <!-- 基础列 -->
+    <sql id="registerDefaultGroupColumns">
+        a.id as id,
+        a.group_id as groupId,
+        a.group_name as groupName,
+        a.group_face_url as groupFaceUrl
+    </sql>
+
+    <resultMap id="registerDefaultGroupResultMap" type="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        <id column="ID" property="id" />
+        <result column="group_id" property="groupId"/>
+        <result column="group_name" property="groupName"/>
+        <result column="group_face_url" property="groupFaceUrl"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        INSERT INTO RegisterDefaultGroup(
+            id ,
+            group_id ,
+            group_name ,
+            group_face_url 
+        ) VALUES (
+            #{id} ,
+            #{groupId} ,
+            #{groupName} ,
+            #{groupFaceUrl} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM RegisterDefaultGroup WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE RegisterDefaultGroup SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        INSERT INTO RegisterDefaultGroup
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="groupId != null">
+                group_id ,
+        </if>
+        <if test="groupName != null">
+                group_name ,
+        </if>
+        <if test="groupFaceUrl != null">
+                group_face_url 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="groupId != null">
+                #{groupId} ,
+        </if>
+        <if test="groupName != null">
+                #{groupName} ,
+        </if>
+        <if test="groupFaceUrl != null">
+                #{groupFaceUrl} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        UPDATE RegisterDefaultGroup
+           <set>
+            <if test="groupId != null">
+                group_id = #{groupId} ,
+            </if>
+            <if test="groupName != null">
+                group_name = #{groupName} ,
+            </if>
+            <if test="groupFaceUrl != null">
+                group_face_url = #{groupFaceUrl} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO RegisterDefaultGroup(
+            id ,
+            group_id ,
+            group_name ,
+            group_face_url 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.groupId} ,
+            #{item.groupName} ,
+            #{item.groupFaceUrl} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE RegisterDefaultGroup SET
+            group_id = #{item.groupId} ,
+            group_name = #{item.groupName} ,
+            group_face_url = #{item.groupFaceUrl} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        UPDATE RegisterDefaultGroup SET
+            group_id = #{groupId} ,
+            group_name = #{groupName} ,
+            group_face_url = #{groupFaceUrl} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        SELECT <include refid="registerDefaultGroupColumns"/> FROM RegisterDefaultGroup a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        SELECT
+        <include refid="registerDefaultGroupColumns"/>
+        FROM RegisterDefaultGroup a WHERE 1 = 1
+        <if test="groupId != null and groupId != ''">
+            AND a.group_id LIKE CONCAT('%',#{groupId}, '%')
+
+        </if>
+        <if test="groupName != null and groupName != ''">
+            AND a.group_name LIKE CONCAT('%',#{groupName}, '%')
+
+        </if>
+        <if test="groupFaceUrl != null and groupFaceUrl != ''">
+            AND a.group_face_url LIKE CONCAT('%',#{groupFaceUrl}, '%')
+
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        SELECT
+        <include refid="registerDefaultGroupColumns"/>
+        FROM RegisterDefaultGroup a <!--WHERE a.DEL_FLAG = 0-->
+    </select>
+
+    <select id="findByGroupId" resultType="com.anyex.apps.openim.entity.RegisterDefaultGroup">
+        SELECT
+        <include refid="registerDefaultGroupColumns"/>
+        FROM RegisterDefaultGroup a WHERE a.group_id = #{groupId}
+    </select>
+
+
+</mapper>
+

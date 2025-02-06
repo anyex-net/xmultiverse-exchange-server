@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration status="error">
+    <appenders>
+        <!-- 输出控制台配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!-- 控制台只输出debug及以上级别的信息 -->
+            <ThresholdFilter level="info" />
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method-%L] - %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="RollingFileInfo" fileName="logs/api.log" filePattern="logs/api-%d{yyyyMMdd}.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method-%L] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="RollingFileError" fileName="logs/api_error.log" filePattern="logs/api_error-%d{yyyyMMdd}.log">
+            <!--控制台只输出warn及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method-%L] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingRandomAccessFile>
+    </appenders>
+    <loggers>
+        <!-- 过滤掉无用的框架DEBUG信息 -->
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="org.mybatis" level="INFO"/>
+        <root level="all">
+            <!-- 定义对日志信息如何处理 -->
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileError"/>
+        </root>
+    </loggers>
+</configuration>

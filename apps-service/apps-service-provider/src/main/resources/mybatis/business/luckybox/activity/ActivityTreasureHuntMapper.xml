@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.activity.mapper.ActivityTreasureHuntMapper">
+    <!-- 基础列 -->
+    <sql id="activityTreasureHuntColumns">
+        a.id as id,
+        a.activityName as activityName,
+        a.skuId as skuId,
+        a.spuId as spuId,
+        a.treasurePrice as treasurePrice,
+        a.treasureSumNum as treasureSumNum,
+        a.treasureRobotNum as treasureRobotNum,
+        a.treasureSumRound as treasureSumRound,
+        a.treasureStartTime as treasureStartTime,
+        a.treasureEndTime as treasureEndTime,
+        a.status as status,
+        a.actCurrentRound as actCurrentRound,
+        a.actCurrentPurchasedNum as actCurrentPurchasedNum,
+        a.actCurrentAccountNum as actCurrentAccountNum,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+    <!-- 基础列 -->
+    <sql id="activityTreasureHuntColumnsJoinGoodsSku">
+        a.id as id,
+        a.activityName as activityName,
+        a.skuId as skuId,
+        a.spuId as spuId,
+        a.treasurePrice as treasurePrice,
+        a.treasureSumNum as treasureSumNum,
+        a.treasureRobotNum as treasureRobotNum,
+        a.treasureSumRound as treasureSumRound,
+        a.treasureStartTime as treasureStartTime,
+        a.treasureEndTime as treasureEndTime,
+        a.status as status,
+        a.actCurrentRound as actCurrentRound,
+        a.actCurrentPurchasedNum as actCurrentPurchasedNum,
+        a.actCurrentAccountNum as actCurrentAccountNum,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        sku.title as title,
+        sku.subTitle as subTitle,
+        sku.sellingPoint as sellingPoint,
+        sku.iconImage as iconImage,
+        sku.mainImages as mainImages,
+        sku.detailImages as detailImages,
+        sku.price as price,
+        sku.stock as stock,
+        sku.param as param,
+        sku.description as description
+    </sql>
+
+    <resultMap id="activityTreasureHuntResultMap" type="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        <id column="ID" property="id" />
+        <result column="activityName" property="activityName"/>
+        <result column="skuId" property="skuId"/>
+        <result column="spuId" property="spuId"/>
+        <result column="treasurePrice" property="treasurePrice"/>
+        <result column="treasureSumNum" property="treasureSumNum"/>
+        <result column="treasureRobotNum" property="treasureRobotNum"/>
+        <result column="treasureSumRound" property="treasureSumRound"/>
+        <result column="treasureStartTime" property="treasureStartTime"/>
+        <result column="treasureEndTime" property="treasureEndTime"/>
+        <result column="status" property="status"/>
+        <result column="actCurrentRound" property="actCurrentRound"/>
+        <result column="actCurrentPurchasedNum" property="actCurrentPurchasedNum"/>
+        <result column="actCurrentAccountNum" property="actCurrentAccountNum"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        INSERT INTO ActivityTreasureHunt(
+            id ,
+            activityName ,
+            skuId ,
+            spuId ,
+            treasurePrice ,
+            treasureSumNum ,
+            treasureRobotNum ,
+            treasureSumRound ,
+            treasureStartTime ,
+            treasureEndTime ,
+            status ,
+            actCurrentRound ,
+            actCurrentPurchasedNum ,
+            actCurrentAccountNum ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{activityName} ,
+            #{skuId} ,
+            #{spuId} ,
+            #{treasurePrice} ,
+            #{treasureSumNum} ,
+            #{treasureRobotNum} ,
+            #{treasureSumRound} ,
+            #{treasureStartTime} ,
+            #{treasureEndTime} ,
+            #{status} ,
+            #{actCurrentRound} ,
+            #{actCurrentPurchasedNum} ,
+            #{actCurrentAccountNum} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM ActivityTreasureHunt WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE ActivityTreasureHunt SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        INSERT INTO ActivityTreasureHunt
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="activityName != null">
+                activityName ,
+        </if>
+        <if test="skuId != null">
+                skuId ,
+        </if>
+        <if test="spuId != null">
+                spuId ,
+        </if>
+        <if test="treasurePrice != null">
+                treasurePrice ,
+        </if>
+        <if test="treasureSumNum != null">
+                treasureSumNum ,
+        </if>
+        <if test="treasureRobotNum != null">
+                treasureRobotNum ,
+        </if>
+        <if test="treasureSumRound != null">
+                treasureSumRound ,
+        </if>
+        <if test="treasureStartTime != null">
+                treasureStartTime ,
+        </if>
+        <if test="treasureEndTime != null">
+                treasureEndTime ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="actCurrentRound != null">
+                actCurrentRound ,
+        </if>
+        <if test="actCurrentPurchasedNum != null">
+                actCurrentPurchasedNum ,
+        </if>
+        <if test="actCurrentAccountNum != null">
+                actCurrentAccountNum ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="activityName != null">
+                #{activityName} ,
+        </if>
+        <if test="skuId != null">
+                #{skuId} ,
+        </if>
+        <if test="spuId != null">
+                #{spuId} ,
+        </if>
+        <if test="treasurePrice != null">
+                #{treasurePrice} ,
+        </if>
+        <if test="treasureSumNum != null">
+                #{treasureSumNum} ,
+        </if>
+        <if test="treasureRobotNum != null">
+                #{treasureRobotNum} ,
+        </if>
+        <if test="treasureSumRound != null">
+                #{treasureSumRound} ,
+        </if>
+        <if test="treasureStartTime != null">
+                #{treasureStartTime} ,
+        </if>
+        <if test="treasureEndTime != null">
+                #{treasureEndTime} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="actCurrentRound != null">
+                #{actCurrentRound} ,
+        </if>
+        <if test="actCurrentPurchasedNum != null">
+                #{actCurrentPurchasedNum} ,
+        </if>
+        <if test="actCurrentAccountNum != null">
+                #{actCurrentAccountNum} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        UPDATE ActivityTreasureHunt
+           <set>
+            <if test="activityName != null">
+                activityName = #{activityName} ,
+            </if>
+            <if test="skuId != null">
+                skuId = #{skuId} ,
+            </if>
+            <if test="spuId != null">
+                spuId = #{spuId} ,
+            </if>
+            <if test="treasurePrice != null">
+                treasurePrice = #{treasurePrice} ,
+            </if>
+            <if test="treasureSumNum != null">
+                treasureSumNum = #{treasureSumNum} ,
+            </if>
+            <if test="treasureRobotNum != null">
+                treasureRobotNum = #{treasureRobotNum} ,
+            </if>
+            <if test="treasureSumRound != null">
+                treasureSumRound = #{treasureSumRound} ,
+            </if>
+            <if test="treasureStartTime != null">
+                treasureStartTime = #{treasureStartTime} ,
+            </if>
+            <if test="treasureEndTime != null">
+                treasureEndTime = #{treasureEndTime} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="actCurrentRound != null">
+                actCurrentRound = #{actCurrentRound} ,
+            </if>
+            <if test="actCurrentPurchasedNum != null">
+                actCurrentPurchasedNum = #{actCurrentPurchasedNum} ,
+            </if>
+            <if test="actCurrentAccountNum != null">
+                actCurrentAccountNum = #{actCurrentAccountNum} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO ActivityTreasureHunt(
+            id ,
+            activityName ,
+            skuId ,
+            spuId ,
+            treasurePrice ,
+            treasureSumNum ,
+            treasureRobotNum ,
+            treasureSumRound ,
+            treasureStartTime ,
+            treasureEndTime ,
+            status ,
+            actCurrentRound ,
+            actCurrentPurchasedNum ,
+            actCurrentAccountNum ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.activityName} ,
+            #{item.skuId} ,
+            #{item.spuId} ,
+            #{item.treasurePrice} ,
+            #{item.treasureSumNum} ,
+            #{item.treasureRobotNum} ,
+            #{item.treasureSumRound} ,
+            #{item.treasureStartTime} ,
+            #{item.treasureEndTime} ,
+            #{item.status} ,
+            #{item.actCurrentRound} ,
+            #{item.actCurrentPurchasedNum} ,
+            #{item.actCurrentAccountNum} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE ActivityTreasureHunt SET
+            activityName = #{item.activityName} ,
+            skuId = #{item.skuId} ,
+            spuId = #{item.spuId} ,
+            treasurePrice = #{item.treasurePrice} ,
+            treasureSumNum = #{item.treasureSumNum} ,
+            treasureRobotNum = #{item.treasureRobotNum} ,
+            treasureSumRound = #{item.treasureSumRound} ,
+            treasureStartTime = #{item.treasureStartTime} ,
+            treasureEndTime = #{item.treasureEndTime} ,
+            status = #{item.status} ,
+            actCurrentRound = #{item.actCurrentRound} ,
+            actCurrentPurchasedNum = #{item.actCurrentPurchasedNum} ,
+            actCurrentAccountNum = #{item.actCurrentAccountNum} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        UPDATE ActivityTreasureHunt SET
+            activityName = #{activityName} ,
+            skuId = #{skuId} ,
+            spuId = #{spuId} ,
+            treasurePrice = #{treasurePrice} ,
+            treasureSumNum = #{treasureSumNum} ,
+            treasureRobotNum = #{treasureRobotNum} ,
+            treasureSumRound = #{treasureSumRound} ,
+            treasureStartTime = #{treasureStartTime} ,
+            treasureEndTime = #{treasureEndTime} ,
+            status = #{status} ,
+            actCurrentRound = #{actCurrentRound} ,
+            actCurrentPurchasedNum = #{actCurrentPurchasedNum} ,
+            actCurrentAccountNum = #{actCurrentAccountNum} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        SELECT <include refid="activityTreasureHuntColumnsJoinGoodsSku"/>
+        FROM ActivityTreasureHunt a left join GoodsSku sku on a.skuId = sku.id
+        WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        SELECT
+        <include refid="activityTreasureHuntColumnsJoinGoodsSku"/>
+        FROM ActivityTreasureHunt a left join GoodsSku sku on a.skuId = sku.id
+        WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="activityName != null">
+            AND a.activityName LIKE CONCAT('%',#{activityName}, '%') 
+        </if>
+        <if test="skuId != null">
+            AND a.skuId = #{skuId}
+        </if>
+        <if test="spuId != null">
+            AND a.spuId = #{spuId}
+        </if>
+        <if test="treasurePrice != null">
+            AND a.treasurePrice = #{treasurePrice}
+        </if>
+        <if test="treasureSumNum != null">
+            AND a.treasureSumNum = #{treasureSumNum}
+        </if>
+        <if test="treasureRobotNum != null">
+            AND a.treasureRobotNum = #{treasureRobotNum}
+        </if>
+        <if test="treasureSumRound != null">
+            AND a.treasureSumRound = #{treasureSumRound}
+        </if>
+        <if test="treasureStartTime != null">
+            AND a.treasureStartTime = #{treasureStartTime}
+        </if>
+        <if test="treasureEndTime != null">
+            AND a.treasureEndTime = #{treasureEndTime}
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        <if test="actCurrentRound != null">
+            AND a.actCurrentRound = #{actCurrentRound}
+        </if>
+        <if test="actCurrentPurchasedNum != null">
+            AND a.actCurrentPurchasedNum = #{actCurrentPurchasedNum}
+        </if>
+        <if test="actCurrentAccountNum != null">
+            AND a.actCurrentAccountNum = #{actCurrentAccountNum}
+        </if>
+        order by  a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.activity.entity.ActivityTreasureHunt">
+        SELECT
+        <include refid="activityTreasureHuntColumns"/>
+        FROM ActivityTreasureHunt a
+    </select>
+
+</mapper>
+

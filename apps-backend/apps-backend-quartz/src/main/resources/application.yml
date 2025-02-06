@@ -1,0 +1,40 @@
+spring:
+  main:
+    web-application-type: none
+  application:
+    name: AppsQuartzServer
+  redis:
+    cluster:
+      nodes: @cluster.nodes@
+      max-redirects: 3
+    host: @redis.host@
+    port: @redis.port@
+    password: @redis.password@
+    timeout: @redis.timeout@
+    conn-type: @redis.conntype@ # cluster/single
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 2
+        # 连接池中的最大空闲连接
+        max-idle: 200
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 2000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+com:
+  alipay:
+    sofa:
+      rpc:
+        registry-address: @zookeeper.address@
+openim:
+  apiRoot: @openim.apiRoot@
+  #  下面可以不配置，默认按以下规则生成 后续开发 请到Openimconfig文件中添加
+  #  apiRoot: http://openim-web.host.fit/api
+  #  chatRoot: http://openim-web.host.fit/chat
+  #  adminRoot: http://openim-web.host.fit/complete_admin
+  secret: @openim.secret@
+  adminAccount: @openim.adminAccount@
+  adminPwd: @openim.adminPwd@
+  #预留功能，支持每个请求，自动带个header authKey参数
+  authKey: @openim.authKey@

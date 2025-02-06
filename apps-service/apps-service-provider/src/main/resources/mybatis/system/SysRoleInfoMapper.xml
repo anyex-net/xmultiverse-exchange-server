@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysRoleInfoMapper">
+    <!-- 基础列 -->
+    <sql id="roleInfoColumns">
+        a.id as id,
+        a.roleCode as roleCode,
+        a.roleName as roleName,
+        a.roleDest as roleDest,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate,
+        a.needGa as needGa
+    </sql>
+
+    <!-- 数据权限关联列 -->
+    <sql id="roleInfoJoinDataColumns">
+        a.id as id,
+        a.roleCode as roleCode,
+        a.roleName as roleName,
+        a.roleDest as roleDest,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate,
+        a.needGa as needGa
+    </sql>
+
+    <sql id="roleInfoJoinColumns">
+        a.id as id,
+        a.roleCode as roleCode,
+        a.roleName as roleName,
+        a.roleDest as roleDest,
+        a.createBy as createBy,
+        b.trueName as createByName,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate,
+        a.needGa as needGa
+    </sql>
+
+    <resultMap id="roleInfoResultMap" type="com.anyex.apps.system.entity.SysRoleInfo">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.roleCode" property="roleCode" jdbcType="VARCHAR"/>
+        <result column="a.roleName" property="roleName" jdbcType="VARCHAR"/>
+        <result column="a.roleDest" property="roleDest" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+        <result column="a.createBy" property="createBy" jdbcType="BIGINT"/>
+        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>
+        <result column="a.updateBy" property="updateBy" jdbcType="BIGINT"/>
+        <result column="a.updateDate" property="updateDate" jdbcType="BIGINT"/>
+        <result column="a.needGa" property="needGa" jdbcType="BIT"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysRoleInfo">
+        insert into SysRoleInfo(
+            id ,
+            roleCode ,
+            roleName ,
+            roleDest ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate ,
+            needGa
+        ) VALUES (
+            #{id} ,
+            #{roleCode} ,
+            #{roleName} ,
+            #{roleDest} ,
+            #{createBy} ,
+            #{createDate} ,
+            #{updateBy} ,
+            #{updateDate} ,
+            #{needGa}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysRoleInfo where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update SysRoleInfo set 1 = 1 where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysRoleInfo">
+        insert into SysRoleInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="roleCode != null">
+                roleCode ,
+        </if>
+        <if test="roleName != null">
+                roleName ,
+        </if>
+        <if test="roleDest != null">
+                roleDest ,
+        </if>
+        <if test="createBy != null">
+                createBy ,
+        </if>
+        <if test="createDate != null">
+                createDate ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateDate != null">
+                updateDate ,
+        </if>
+        <if test="needGa != null">
+            needGa
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="roleCode != null">
+                #{roleCode} ,
+        </if>
+        <if test="roleName != null">
+                #{roleName} ,
+        </if>
+        <if test="roleDest != null">
+                #{roleDest} ,
+        </if>
+        <if test="createBy != null">
+                #{createBy} ,
+        </if>
+        <if test="createDate != null">
+                #{createDate} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateDate != null">
+                #{updateDate} ,
+        </if>
+        <if test="needGa != null">
+                needGa
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysRoleInfo">
+        update SysRoleInfo
+           <set>
+            <if test="roleCode != null">
+                roleCode = #{roleCode} ,
+            </if>
+            <if test="roleName != null">
+                roleName = #{roleName} ,
+            </if>
+            <if test="roleDest != null">
+                roleDest = #{roleDest} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                updateDate = #{updateDate} ,
+            </if>
+            <if test="needGa != null">
+                needGa = #{needGa}
+            </if>
+           </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        insert into SysRoleInfo(
+            id ,
+            roleCode ,
+            roleName ,
+            roleDest ,
+            createBy ,
+            createDate ,
+            updateBy ,
+            updateDate ,
+            needGa
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id}  ,
+            #{item.roleCode}  ,
+            #{item.roleName}  ,
+            #{item.roleDest}  ,
+            #{item.createBy}  ,
+            #{item.createDate}  ,
+            #{item.updateBy}  ,
+            #{item.updateDate}  ,
+            #{item.needGa}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SysRoleInfo set
+            roleCode = #{item.roleCode} ,
+            roleName = #{item.roleName} ,
+            roleDest = #{item.roleDest} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate} ,
+            updateBy = #{item.updateBy} ,
+            updateDate = #{item.updateDate} ,
+            needGa = #{item.needGa}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysRoleInfo">
+        update SysRoleInfo set
+            roleCode = #{roleCode} ,
+            roleName = #{roleName} ,
+            roleDest = #{roleDest} ,
+            createBy = #{createBy} ,
+            createDate = #{createDate} ,
+            updateBy = #{updateBy} ,
+            updateDate = #{updateDate} ,
+            needGa = #{needGa}
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysRoleInfo">
+        select <include refid="roleInfoColumns"/> from SysRoleInfo a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysRoleInfo">
+        SELECT
+        <include refid="roleInfoJoinColumns"/>
+        FROM SysRoleInfo a left join SysUserInfo b
+        on b.id = a.createBy
+        WHERE 1 = 1
+        <if test="roleCode != null and roleCode != ''">
+            and a.roleCode like CONCAT('%',#{roleCode}, '%')
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and a.roleName like CONCAT('%',#{roleName}, '%')
+        </if>
+        <if test="createBy != null">
+            and a.createBy = #{createBy}
+        </if>
+        <if test="createDate != null">
+            and a.createDate = #{createDate}
+        </if>
+        <if test="updateBy != null">
+            and a.updateBy = #{updateBy}
+        </if>
+        <if test="updateDate != null">
+            and a.updateDate = #{updateDate}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysRoleInfo">
+        SELECT
+        <include refid="roleInfoColumns"/>
+        FROM SysRoleInfo a WHERE 1 = 1
+    </select>
+
+    <select id="findByUserId" resultType="com.anyex.apps.system.entity.SysRoleInfo">
+        SELECT
+        <include refid="roleInfoColumns"/>
+        FROM SysRoleInfo a , SysUserRole b
+        WHERE a.id = b.roleId AND 1 = 1
+        AND b.userId = #{userId}
+    </select>
+
+    <select id="findByRoleId" resultType="com.anyex.apps.system.entity.SysRoleInfo">
+        SELECT
+        <include refid="roleInfoJoinDataColumns"/>
+        FROM SysRoleInfo a , SysRoleDataPermission b
+        WHERE a.id = b.roleId AND 1 = 1
+        AND b.roleId = #{roleId}
+    </select>
+
+</mapper>
+

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.system.mapper.SysOrganizationMapper">
+    <!-- 基础列 -->
+    <sql id="organizationColumns">
+        a.id as id,
+        a.parentId as parentId,
+        a.orgCode as orgCode,
+        a.orgName as orgName,
+        a.orgDest as orgDest,
+        a.createBy as createBy,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate,
+        a.sortNum as sortNum,
+        a.remark as remark
+    </sql>
+
+    <sql id="organizationJoinColumns">
+        a.id as id,
+        a.parentId as parentId,
+        a.orgCode as orgCode,
+        a.orgName as orgName,
+        a.orgDest as orgDest,
+        a.createBy as createBy,
+        b.trueName as createByName,
+        a.createDate as createDate,
+        a.updateBy as updateBy,
+        a.updateDate as updateDate,
+        a.sortNum as sortNum,
+        a.remark as remark
+    </sql>
+
+    <resultMap id="organizationResultMap" type="com.anyex.apps.system.entity.SysOrganization">
+        <id column="a.id" property="id" jdbcType="BIGINT" />
+        <result column="a.parentId" property="parentId" jdbcType="BIGINT"/>
+        <result column="a.orgCode" property="orgCode" jdbcType="VARCHAR"/>
+        <result column="a.orgName" property="orgName" jdbcType="VARCHAR"/>
+        <result column="a.orgDest" property="orgDest" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+        <result column="a.createBy" property="createBy" jdbcType="VARCHAR"/>
+        <result column="a.createDate" property="createDate" jdbcType="BIGINT"/>
+        <result column="a.updateBy" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="a.updateDate" property="updateDate" jdbcType="BIGINT"/>
+        <result column="a.sortNum" property="sortNum" jdbcType="INTEGER"/>
+        <result column="a.remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.system.entity.SysOrganization">
+        insert into SysOrganization(
+        id ,
+        parentId ,
+        orgCode ,
+        orgName ,
+        orgDest ,
+        createBy ,
+        createDate ,
+        updateBy ,
+        updateDate ,
+        sortNum ,
+        remark
+        ) VALUES (
+        #{id} ,
+        #{parentId} ,
+        #{orgCode} ,
+        #{orgName} ,
+        #{orgDest} ,
+        #{createBy} ,
+        #{createDate} ,
+        #{updateBy} ,
+        #{updateDate} ,
+        #{sortNum} ,
+        #{remark}
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        delete from SysOrganization where id = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update SysOrganization set 1 = 1 where id = #{id}
+    </update>
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.system.entity.SysOrganization">
+        insert into SysOrganization
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id ,
+            </if>
+            <if test="parentId != null">
+                parentId ,
+            </if>
+            <if test="orgCode != null">
+                orgCode ,
+            </if>
+            <if test="orgName != null">
+                orgName ,
+            </if>
+            <if test="orgDest != null">
+                orgDest ,
+            </if>
+            <if test="createBy != null">
+                createBy ,
+            </if>
+            <if test="createDate != null">
+                createDate ,
+            </if>
+            <if test="updateBy != null">
+                updateBy ,
+            </if>
+            <if test="updateDate != null">
+                updateDate ,
+            </if>
+            <if test="sortNum != null">
+                sortNum ,
+            </if>
+            <if test="remark != null">
+                remark
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="parentId != null">
+                #{parentId} ,
+            </if>
+            <if test="orgCode != null">
+                #{orgCode} ,
+            </if>
+            <if test="orgName != null">
+                #{orgName} ,
+            </if>
+            <if test="orgDest != null">
+                #{orgDest} ,
+            </if>
+            <if test="createBy != null">
+                #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                #{updateDate} ,
+            </if>
+            <if test="sortNum != null">
+                #{sortNum} ,
+            </if>
+            <if test="remark != null">
+                #{remark}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.system.entity.SysOrganization">
+        update SysOrganization
+        <set>
+            <if test="parentId != null">
+                parentId = #{parentId} ,
+            </if>
+            <if test="orgCode != null">
+                orgCode = #{orgCode} ,
+            </if>
+            <if test="orgName != null">
+                orgName = #{orgName} ,
+            </if>
+            <if test="orgDest != null">
+                orgDest = #{orgDest} ,
+            </if>
+            <if test="createBy != null">
+                createBy = #{createBy} ,
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateDate != null">
+                updateDate = #{updateDate} ,
+            </if>
+            <if test="sortNum != null">
+                sortNum = #{sortNum} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        insert into SysOrganization(
+        id ,
+        parentId ,
+        orgCode ,
+        orgName ,
+        orgDest ,
+        createBy ,
+        createDate ,
+        updateBy ,
+        updateDate ,
+        sortNum ,
+        remark
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id}  ,
+            #{item.parentId}  ,
+            #{item.orgCode}  ,
+            #{item.orgName}  ,
+            #{item.orgDest}  ,
+            #{item.createBy}  ,
+            #{item.createDate}  ,
+            #{item.updateBy}  ,
+            #{item.updateDate}  ,
+            #{item.sortNum} ,
+            #{item.remark}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update SysOrganization set
+            parentId = #{item.parentId} ,
+            orgCode = #{item.orgCode} ,
+            orgName = #{item.orgName} ,
+            orgDest = #{item.orgDest} ,
+            createBy = #{item.createBy} ,
+            createDate = #{item.createDate} ,
+            updateBy = #{item.updateBy} ,
+            updateDate = #{item.updateDate} ,
+            sortNum = #{item.sortNum} ,
+            remark = #{item.remark}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.system.entity.SysOrganization">
+        update SysOrganization set
+        parentId = #{parentId} ,
+        orgCode = #{orgCode} ,
+        orgName = #{orgName} ,
+        orgDest = #{orgDest} ,
+        createBy = #{createBy} ,
+        createDate = #{createDate} ,
+        updateBy = #{updateBy} ,
+        updateDate = #{updateDate} ,
+        sortNum = #{sortNum} ,
+        remark = #{remark}
+        where id = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.system.entity.SysOrganization">
+        select <include refid="organizationColumns"/> from SysOrganization a where a.id = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.system.entity.SysOrganization">
+        SELECT
+        <include refid="organizationJoinColumns"/>
+        FROM SysOrganization a LEFT JOIN SysUserInfo b
+        ON b.id = a.createBy WHERE 1 = 1
+        <choose>
+            <when test="parentId != null">
+                and a.parentId = #{parentId}
+            </when>
+            <otherwise>
+                and a.parentId is null
+            </otherwise>
+        </choose>
+        <if test="orgCode != null and orgCode != ''">
+            and a.orgCode like CONCAT('%',#{orgCode}, '%')
+        </if>
+        <if test="orgName != null and orgName != ''">
+            and a.orgName like CONCAT('%',#{orgName}, '%')
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.system.entity.SysOrganization">
+        SELECT
+        <!--
+        id ,
+        parentId ,
+        orgName
+        -->
+        <include refid="organizationColumns"/>
+        FROM SysOrganization a WHERE 1 = 1
+    </select>
+
+</mapper>

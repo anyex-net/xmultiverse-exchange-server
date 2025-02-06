@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.order.mapper.Order4ActivityMapper">
+    <!-- 基础列 -->
+    <sql id="order4ActivityColumns">
+        a.id as id,
+        a.orderTxNo as orderTxNo,
+        a.activityType as activityType,
+        a.activityId as activityId,
+        a.skuId as skuId,
+        a.spuId as spuId,
+        a.activitySkuPrice as activitySkuPrice,
+        a.accountId as accountId,
+        a.orderActPrice as orderActPrice,
+        a.orderActBalancePayment as orderActBalancePayment,
+        a.orderActPurchaseNum as orderActPurchaseNum,
+        a.orderSumBalance as orderSumBalance,
+        a.orderStatus as orderStatus,
+        a.balanceDeductionAmount as balanceDeductionAmount,
+        a.paymentActualAmount as paymentActualAmount,
+        a.paymentTime as paymentTime,
+        a.paymentNo as paymentNo,
+        a.paymentStatus as paymentStatus,
+        a.paymentDesc as paymentDesc,
+        a.activitySumNum as activitySumNum,
+        a.activitySumRound as activitySumRound,
+        a.activityCurrentRound as activityCurrentRound,
+        a.isLotteryDrawn as isLotteryDrawn,
+        a.isWinning as isWinning,
+        a.isClaimLottery as isClaimLottery,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+    <!-- 基础列 -->
+    <sql id="order4ActivityColumnsJoinAccountGoodsSku">
+        a.id as id,
+        a.orderTxNo as orderTxNo,
+        a.activityType as activityType,
+        a.activityId as activityId,
+        a.skuId as skuId,
+        a.spuId as spuId,
+        a.activitySkuPrice as activitySkuPrice,
+        a.accountId as accountId,
+        a.orderActPrice as orderActPrice,
+        a.orderActBalancePayment as orderActBalancePayment,
+        a.orderActPurchaseNum as orderActPurchaseNum,
+        a.orderSumBalance as orderSumBalance,
+        a.orderStatus as orderStatus,
+        a.balanceDeductionAmount as balanceDeductionAmount,
+        a.paymentActualAmount as paymentActualAmount,
+        a.paymentTime as paymentTime,
+        a.paymentNo as paymentNo,
+        a.paymentStatus as paymentStatus,
+        a.paymentDesc as paymentDesc,
+        a.activitySumNum as activitySumNum,
+        a.activitySumRound as activitySumRound,
+        a.activityCurrentRound as activityCurrentRound,
+        a.isLotteryDrawn as isLotteryDrawn,
+        a.isWinning as isWinning,
+        a.isClaimLottery as isClaimLottery,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateTime as updateTime,
+        ac.unid as unid,
+        ac.email as email,
+        ac.accountName as accountName,
+        ac.headUrl as headUrl,
+        sku.title as title,
+        sku.subTitle as subTitle,
+        sku.sellingPoint as sellingPoint,
+        sku.iconImage as iconImage
+    </sql>
+
+    <resultMap id="order4ActivityResultMap" type="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        <id column="ID" property="id" />
+        <result column="orderTxNo" property="orderTxNo"/>
+        <result column="activityType" property="activityType"/>
+        <result column="activityId" property="activityId"/>
+        <result column="skuId" property="skuId"/>
+        <result column="spuId" property="spuId"/>
+        <result column="activitySkuPrice" property="activitySkuPrice"/>
+        <result column="accountId" property="accountId"/>
+        <result column="orderActPrice" property="orderActPrice"/>
+        <result column="orderActBalancePayment" property="orderActBalancePayment"/>
+        <result column="orderActPurchaseNum" property="orderActPurchaseNum"/>
+        <result column="orderSumBalance" property="orderSumBalance"/>
+        <result column="orderStatus" property="orderStatus"/>
+        <result column="balanceDeductionAmount" property="balanceDeductionAmount"/>
+        <result column="paymentActualAmount" property="paymentActualAmount"/>
+        <result column="paymentTime" property="paymentTime"/>
+        <result column="paymentNo" property="paymentNo"/>
+        <result column="paymentStatus" property="paymentStatus"/>
+        <result column="paymentDesc" property="paymentDesc"/>
+        <result column="activitySumNum" property="activitySumNum"/>
+        <result column="activitySumRound" property="activitySumRound"/>
+        <result column="activityCurrentRound" property="activityCurrentRound"/>
+        <result column="isLotteryDrawn" property="isLotteryDrawn"/>
+        <result column="isWinning" property="isWinning"/>
+        <result column="isClaimLottery" property="isClaimLottery"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        INSERT INTO Order4Activity(
+            id ,
+            orderTxNo ,
+            activityType ,
+            activityId ,
+            skuId ,
+            spuId ,
+            activitySkuPrice ,
+            accountId ,
+            orderActPrice ,
+            orderActBalancePayment ,
+            orderActPurchaseNum ,
+            orderSumBalance ,
+            orderStatus ,
+            balanceDeductionAmount ,
+            paymentActualAmount ,
+            paymentTime ,
+            paymentNo ,
+            paymentStatus ,
+            paymentDesc ,
+            activitySumNum ,
+            activitySumRound ,
+            activityCurrentRound ,
+            isLotteryDrawn ,
+            isWinning ,
+            isClaimLottery ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{orderTxNo} ,
+            #{activityType} ,
+            #{activityId} ,
+            #{skuId} ,
+            #{spuId} ,
+            #{activitySkuPrice} ,
+            #{accountId} ,
+            #{orderActPrice} ,
+            #{orderActBalancePayment} ,
+            #{orderActPurchaseNum} ,
+            #{orderSumBalance} ,
+            #{orderStatus} ,
+            #{balanceDeductionAmount} ,
+            #{paymentActualAmount} ,
+            #{paymentTime} ,
+            #{paymentNo} ,
+            #{paymentStatus} ,
+            #{paymentDesc} ,
+            #{activitySumNum} ,
+            #{activitySumRound} ,
+            #{activityCurrentRound} ,
+            #{isLotteryDrawn} ,
+            #{isWinning} ,
+            #{isClaimLottery} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM Order4Activity WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE Order4Activity SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        INSERT INTO Order4Activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="orderTxNo != null">
+                orderTxNo ,
+        </if>
+        <if test="activityType != null">
+                activityType ,
+        </if>
+        <if test="activityId != null">
+                activityId ,
+        </if>
+        <if test="skuId != null">
+                skuId ,
+        </if>
+        <if test="spuId != null">
+                spuId ,
+        </if>
+        <if test="activitySkuPrice != null">
+                activitySkuPrice ,
+        </if>
+        <if test="accountId != null">
+                accountId ,
+        </if>
+        <if test="orderActPrice != null">
+                orderActPrice ,
+        </if>
+        <if test="orderActBalancePayment != null">
+                orderActBalancePayment ,
+        </if>
+        <if test="orderActPurchaseNum != null">
+                orderActPurchaseNum ,
+        </if>
+        <if test="orderSumBalance != null">
+                orderSumBalance ,
+        </if>
+        <if test="orderStatus != null">
+                orderStatus ,
+        </if>
+        <if test="balanceDeductionAmount != null">
+                balanceDeductionAmount ,
+        </if>
+        <if test="paymentActualAmount != null">
+                paymentActualAmount ,
+        </if>
+        <if test="paymentTime != null">
+                paymentTime ,
+        </if>
+        <if test="paymentNo != null">
+                paymentNo ,
+        </if>
+        <if test="paymentStatus != null">
+                paymentStatus ,
+        </if>
+        <if test="paymentDesc != null">
+                paymentDesc ,
+        </if>
+        <if test="activitySumNum != null">
+                activitySumNum ,
+        </if>
+        <if test="activitySumRound != null">
+                activitySumRound ,
+        </if>
+        <if test="activityCurrentRound != null">
+                activityCurrentRound ,
+        </if>
+        <if test="isLotteryDrawn != null">
+                isLotteryDrawn ,
+        </if>
+        <if test="isWinning != null">
+                isWinning ,
+        </if>
+        <if test="isClaimLottery != null">
+                isClaimLottery ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="orderTxNo != null">
+                #{orderTxNo} ,
+        </if>
+        <if test="activityType != null">
+                #{activityType} ,
+        </if>
+        <if test="activityId != null">
+                #{activityId} ,
+        </if>
+        <if test="skuId != null">
+                #{skuId} ,
+        </if>
+        <if test="spuId != null">
+                #{spuId} ,
+        </if>
+        <if test="activitySkuPrice != null">
+                #{activitySkuPrice} ,
+        </if>
+        <if test="accountId != null">
+                #{accountId} ,
+        </if>
+        <if test="orderActPrice != null">
+                #{orderActPrice} ,
+        </if>
+        <if test="orderActBalancePayment != null">
+                #{orderActBalancePayment} ,
+        </if>
+        <if test="orderActPurchaseNum != null">
+                #{orderActPurchaseNum} ,
+        </if>
+        <if test="orderSumBalance != null">
+                #{orderSumBalance} ,
+        </if>
+        <if test="orderStatus != null">
+                #{orderStatus} ,
+        </if>
+        <if test="balanceDeductionAmount != null">
+                #{balanceDeductionAmount} ,
+        </if>
+        <if test="paymentActualAmount != null">
+                #{paymentActualAmount} ,
+        </if>
+        <if test="paymentTime != null">
+                #{paymentTime} ,
+        </if>
+        <if test="paymentNo != null">
+                #{paymentNo} ,
+        </if>
+        <if test="paymentStatus != null">
+                #{paymentStatus} ,
+        </if>
+        <if test="paymentDesc != null">
+                #{paymentDesc} ,
+        </if>
+        <if test="activitySumNum != null">
+                #{activitySumNum} ,
+        </if>
+        <if test="activitySumRound != null">
+                #{activitySumRound} ,
+        </if>
+        <if test="activityCurrentRound != null">
+                #{activityCurrentRound} ,
+        </if>
+        <if test="isLotteryDrawn != null">
+                #{isLotteryDrawn} ,
+        </if>
+        <if test="isWinning != null">
+                #{isWinning} ,
+        </if>
+        <if test="isClaimLottery != null">
+                #{isClaimLottery} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        UPDATE Order4Activity
+           <set>
+            <if test="orderTxNo != null">
+                orderTxNo = #{orderTxNo} ,
+            </if>
+            <if test="activityType != null">
+                activityType = #{activityType} ,
+            </if>
+            <if test="activityId != null">
+                activityId = #{activityId} ,
+            </if>
+            <if test="skuId != null">
+                skuId = #{skuId} ,
+            </if>
+            <if test="spuId != null">
+                spuId = #{spuId} ,
+            </if>
+            <if test="activitySkuPrice != null">
+                activitySkuPrice = #{activitySkuPrice} ,
+            </if>
+            <if test="accountId != null">
+                accountId = #{accountId} ,
+            </if>
+            <if test="orderActPrice != null">
+                orderActPrice = #{orderActPrice} ,
+            </if>
+            <if test="orderActBalancePayment != null">
+                orderActBalancePayment = #{orderActBalancePayment} ,
+            </if>
+            <if test="orderActPurchaseNum != null">
+                orderActPurchaseNum = #{orderActPurchaseNum} ,
+            </if>
+            <if test="orderSumBalance != null">
+                orderSumBalance = #{orderSumBalance} ,
+            </if>
+            <if test="orderStatus != null">
+                orderStatus = #{orderStatus} ,
+            </if>
+            <if test="balanceDeductionAmount != null">
+                balanceDeductionAmount = #{balanceDeductionAmount} ,
+            </if>
+            <if test="paymentActualAmount != null">
+                paymentActualAmount = #{paymentActualAmount} ,
+            </if>
+            <if test="paymentTime != null">
+                paymentTime = #{paymentTime} ,
+            </if>
+            <if test="paymentNo != null">
+                paymentNo = #{paymentNo} ,
+            </if>
+            <if test="paymentStatus != null">
+                paymentStatus = #{paymentStatus} ,
+            </if>
+            <if test="paymentDesc != null">
+                paymentDesc = #{paymentDesc} ,
+            </if>
+            <if test="activitySumNum != null">
+                activitySumNum = #{activitySumNum} ,
+            </if>
+            <if test="activitySumRound != null">
+                activitySumRound = #{activitySumRound} ,
+            </if>
+            <if test="activityCurrentRound != null">
+                activityCurrentRound = #{activityCurrentRound} ,
+            </if>
+            <if test="isLotteryDrawn != null">
+                isLotteryDrawn = #{isLotteryDrawn} ,
+            </if>
+            <if test="isWinning != null">
+                isWinning = #{isWinning} ,
+            </if>
+            <if test="isClaimLottery != null">
+                isClaimLottery = #{isClaimLottery} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO Order4Activity(
+            id ,
+            orderTxNo ,
+            activityType,
+            activityId ,
+            skuId ,
+            spuId ,
+            activitySkuPrice ,
+            accountId ,
+            orderActPrice ,
+            orderActBalancePayment ,
+            orderActPurchaseNum ,
+            orderSumBalance ,
+            orderStatus ,
+            balanceDeductionAmount ,
+            paymentActualAmount ,
+            paymentTime ,
+            paymentNo ,
+            paymentStatus ,
+            paymentDesc ,
+            activitySumNum ,
+            activitySumRound ,
+            activityCurrentRound ,
+            isLotteryDrawn ,
+            isWinning ,
+            isClaimLottery ,
+            remark ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.orderTxNo} ,
+            #{item.activityType} ,
+            #{item.activityId} ,
+            #{item.skuId} ,
+            #{item.spuId} ,
+            #{item.activitySkuPrice} ,
+            #{item.accountId} ,
+            #{item.orderActPrice} ,
+            #{item.orderActBalancePayment} ,
+            #{item.orderActPurchaseNum} ,
+            #{item.orderSumBalance} ,
+            #{item.orderStatus} ,
+            #{item.balanceDeductionAmount} ,
+            #{item.paymentActualAmount} ,
+            #{item.paymentTime} ,
+            #{item.paymentNo} ,
+            #{item.paymentStatus} ,
+            #{item.paymentDesc} ,
+            #{item.activitySumNum} ,
+            #{item.activitySumRound} ,
+            #{item.activityCurrentRound} ,
+            #{item.isLotteryDrawn} ,
+            #{item.isWinning} ,
+            #{item.isClaimLottery} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE Order4Activity SET
+            orderTxNo = #{item.orderTxNo} ,
+            activityType = #{item.activityType} ,
+            activityId = #{item.activityId} ,
+            skuId = #{item.skuId} ,
+            spuId = #{item.spuId} ,
+            activitySkuPrice = #{item.activitySkuPrice} ,
+            accountId = #{item.accountId} ,
+            orderActPrice = #{item.orderActPrice} ,
+            orderActBalancePayment = #{item.orderActBalancePayment} ,
+            orderActPurchaseNum = #{item.orderActPurchaseNum} ,
+            orderSumBalance = #{item.orderSumBalance} ,
+            orderStatus = #{item.orderStatus} ,
+            balanceDeductionAmount = #{item.balanceDeductionAmount} ,
+            paymentActualAmount = #{item.paymentActualAmount} ,
+            paymentTime = #{item.paymentTime} ,
+            paymentNo = #{item.paymentNo} ,
+            paymentStatus = #{item.paymentStatus} ,
+            paymentDesc = #{item.paymentDesc} ,
+            activitySumNum = #{item.activitySumNum} ,
+            activitySumRound = #{item.activitySumRound} ,
+            activityCurrentRound = #{item.activityCurrentRound} ,
+            isLotteryDrawn = #{item.isLotteryDrawn} ,
+            isWinning = #{item.isWinning} ,
+            isClaimLottery = #{item.isClaimLottery} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        UPDATE Order4Activity SET
+            orderTxNo = #{orderTxNo} ,
+            activityType = #{activityType} ,
+            activityId = #{activityId} ,
+            skuId = #{skuId} ,
+            spuId = #{spuId} ,
+            activitySkuPrice = #{activitySkuPrice} ,
+            accountId = #{accountId} ,
+            orderActPrice = #{orderActPrice} ,
+            orderActBalancePayment = #{orderActBalancePayment} ,
+            orderActPurchaseNum = #{orderActPurchaseNum} ,
+            orderSumBalance = #{orderSumBalance} ,
+            orderStatus = #{orderStatus} ,
+            balanceDeductionAmount = #{balanceDeductionAmount} ,
+            paymentActualAmount = #{paymentActualAmount} ,
+            paymentTime = #{paymentTime} ,
+            paymentNo = #{paymentNo} ,
+            paymentStatus = #{paymentStatus} ,
+            paymentDesc = #{paymentDesc} ,
+            activitySumNum = #{activitySumNum} ,
+            activitySumRound = #{activitySumRound} ,
+            activityCurrentRound = #{activityCurrentRound} ,
+            isLotteryDrawn = #{isLotteryDrawn} ,
+            isWinning = #{isWinning} ,
+            isClaimLottery = #{isClaimLottery} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        SELECT <include refid="order4ActivityColumnsJoinAccountGoodsSku"/>
+        FROM Order4Activity a left join Account ac on a.accountId = ac.id
+                              left join GoodsSku sku on a.skuId = sku.id
+        WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        SELECT
+        <include refid="order4ActivityColumnsJoinAccountGoodsSku"/>
+        FROM Order4Activity a left join Account ac on a.accountId = ac.id
+                              left join GoodsSku sku on a.skuId = sku.id
+        WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="orderTxNo != null and orderTxNo != ''">
+            AND a.orderTxNo LIKE CONCAT('%',#{orderTxNo}, '%')
+        </if>
+        <if test="activityType != null and activityType != ''">
+            AND a.activityType = #{activityType}
+        </if>
+        <if test="activityId != null">
+            AND a.activityId = #{activityId}
+        </if>
+        <if test="skuId != null">
+            AND a.skuId = #{skuId}
+        </if>
+        <if test="spuId != null">
+            AND a.spuId = #{spuId}
+        </if>
+        <if test="accountId != null">
+            AND a.accountId = #{accountId}
+        </if>
+        <if test="orderStatus != null">
+            AND a.orderStatus = #{orderStatus}
+        </if>
+        <if test="paymentNo != null and paymentNo != ''">
+            AND a.paymentNo LIKE CONCAT('%',#{paymentNo}, '%') 
+        </if>
+        <if test="paymentStatus != null">
+            AND a.paymentStatus = #{paymentStatus}
+        </if>
+        <if test="activityCurrentRound != null">
+            AND a.activityCurrentRound = #{activityCurrentRound}
+        </if>
+        <if test="isLotteryDrawn != null">
+            AND a.isLotteryDrawn = #{isLotteryDrawn}
+        </if>
+        <if test="isWinning != null">
+            AND a.isWinning = #{isWinning}
+        </if>
+        <if test="isClaimLottery != null">
+            AND a.isClaimLottery = #{isClaimLottery}
+        </if>
+        order by a.createTime desc
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.order.entity.Order4Activity">
+        SELECT
+        <include refid="order4ActivityColumns"/>
+        FROM Order4Activity a
+    </select>
+
+    <!-- 查询活动订单参与的账户人数 -->
+    <select id="getOrder4ActivityAccountNum" resultType="java.lang.Long">
+      SELECT count(distinct(a.accountId)) FROM Order4Activity a
+      WHERE a.activityType = #{activityType}
+    </select>
+
+    <!-- 查询活动订单参与并中奖的账户人数 -->
+    <select id="getOrder4ActivityIsWinningAccountNum" resultType="java.lang.Long">
+      SELECT count(distinct(a.accountId)) FROM Order4Activity a
+      WHERE a.isWinning = 1
+        AND a.activityType = #{activityType}
+    </select>
+
+</mapper>
+

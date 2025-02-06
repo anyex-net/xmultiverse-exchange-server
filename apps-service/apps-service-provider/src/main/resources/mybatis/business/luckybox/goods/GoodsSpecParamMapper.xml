@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.business.luckybox.goods.mapper.GoodsSpecParamMapper">
+    <!--所有读取操作加上缓存，5分钟过期-->
+    <cache type="com.anyex.apps.bean.RedisCache" eviction="LRU" flushInterval="300000"/>
+
+    <!-- 基础列 -->
+    <sql id="goodsSpecParamColumns">
+        a.id as id,
+        a.spgId as spgId,
+        a.paramName as paramName,
+        a.isNumeric as isNumeric,
+        a.unit as unit,
+        a.paramValue as paramValue
+    </sql>
+
+    <resultMap id="goodsSpecParamResultMap" type="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        <id column="ID" property="id" />
+        <result column="spgId" property="spgId"/>
+        <result column="paramName" property="paramName"/>
+        <result column="isNumeric" property="isNumeric"/>
+        <result column="unit" property="unit"/>
+        <result column="paramValue" property="paramValue"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        INSERT INTO GoodsSpecParam(
+            id ,
+            spgId ,
+            paramName ,
+            isNumeric ,
+            unit ,
+            paramValue 
+        ) VALUES (
+            #{id} ,
+            #{spgId} ,
+            #{paramName} ,
+            #{isNumeric} ,
+            #{unit} ,
+            #{paramValue} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM GoodsSpecParam WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE GoodsSpecParam SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        INSERT INTO GoodsSpecParam
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="spgId != null">
+                spgId ,
+        </if>
+        <if test="paramName != null">
+                paramName ,
+        </if>
+        <if test="isNumeric != null">
+                isNumeric ,
+        </if>
+        <if test="unit != null">
+                unit ,
+        </if>
+        <if test="paramValue != null">
+                paramValue 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="spgId != null">
+                #{spgId} ,
+        </if>
+        <if test="paramName != null">
+                #{paramName} ,
+        </if>
+        <if test="isNumeric != null">
+                #{isNumeric} ,
+        </if>
+        <if test="unit != null">
+                #{unit} ,
+        </if>
+        <if test="paramValue != null">
+                #{paramValue} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        UPDATE GoodsSpecParam
+           <set>
+            <if test="spgId != null">
+                spgId = #{spgId} ,
+            </if>
+            <if test="paramName != null">
+                paramName = #{paramName} ,
+            </if>
+            <if test="isNumeric != null">
+                isNumeric = #{isNumeric} ,
+            </if>
+            <if test="unit != null">
+                unit = #{unit} ,
+            </if>
+            <if test="paramValue != null">
+                paramValue = #{paramValue} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO GoodsSpecParam(
+            id ,
+            spgId ,
+            paramName ,
+            isNumeric ,
+            unit ,
+            paramValue 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.spgId} ,
+            #{item.paramName} ,
+            #{item.isNumeric} ,
+            #{item.unit} ,
+            #{item.paramValue} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE GoodsSpecParam SET
+            spgId = #{item.spgId} ,
+            paramName = #{item.paramName} ,
+            isNumeric = #{item.isNumeric} ,
+            unit = #{item.unit} ,
+            paramValue = #{item.paramValue} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        UPDATE GoodsSpecParam SET
+            spgId = #{spgId} ,
+            paramName = #{paramName} ,
+            isNumeric = #{isNumeric} ,
+            unit = #{unit} ,
+            paramValue = #{paramValue} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        SELECT <include refid="goodsSpecParamColumns"/> FROM GoodsSpecParam a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        SELECT
+        <include refid="goodsSpecParamColumns"/>
+        FROM GoodsSpecParam a WHERE 1 = 1
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="spgId != null">
+            AND a.spgId = #{spgId}
+        </if>
+        <if test="paramName != null">
+            AND a.paramName LIKE CONCAT('%',#{paramName}, '%') 
+        </if>
+        <if test="isNumeric != null">
+            AND a.isNumeric = #{isNumeric}
+        </if>
+        <if test="unit != null">
+            AND a.unit LIKE CONCAT('%',#{unit}, '%') 
+        </if>
+        <if test="paramValue != null">
+            AND a.paramValue LIKE CONCAT('%',#{paramValue}, '%') 
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.business.luckybox.goods.entity.GoodsSpecParam">
+        SELECT
+        <include refid="goodsSpecParamColumns"/>
+        FROM GoodsSpecParam a
+    </select>
+
+</mapper>
+
