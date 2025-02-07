@@ -1,3 +1,4 @@
+--平台交易手续费费率
 drop table if exists InstTradeFee;
 create table InstTradeFee
 (
@@ -9,12 +10,14 @@ create table InstTradeFee
     maker             decimal(12, 8) default 0 not null comment '挂单手续费率 永续和交割合约时 为币本位U本位合约费率',
     delivery          decimal(12, 8) default 0 not null comment '交割手续费率',
     exercise          decimal(12, 8) default 0 not null comment '行权手续费率',
-    createDate        bigint(13)               not null comment '创建时间',
-    updateDate        bigint(13)                        comment '更新时间',
     remark            varchar(32)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间',
+    updateBy          varchar(32)                       comment '更新人',
+    updateTime        bigint(13)                        comment '更新时间',
     constraint index_InstTradeFee unique (instType, instId)
-) comment '平台交易手续费费率表';
+) comment '平台交易手续费费率';
 
+--用户交易手续费费率
 drop table if exists UserInstTradeFee;
 create table UserInstTradeFee
 (
@@ -28,8 +31,9 @@ create table UserInstTradeFee
     maker             decimal(12, 8) default 0 not null comment '挂单手续费率 永续和交割合约时 为币本位U本位合约费率',
     delivery          decimal(12, 8) default 0 not null comment '交割手续费率',
     exercise          decimal(12, 8) default 0 not null comment '行权手续费率',
-    createDate        bigint(13)               not null comment '创建时间',
-    updateDate        bigint(13)                        comment '更新时间',
     remark            varchar(32)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间',
+    updateBy          varchar(32)                       comment '更新人',
+    updateTime        bigint(13)                        comment '更新时间',
     constraint index_UserInstTradeFee unique (instType, instId)
-) comment '用户交易手续费费率表';
+) comment '用户交易手续费费率';

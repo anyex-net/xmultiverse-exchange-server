@@ -1,3 +1,14 @@
+--直接使用viabtc全套(包括)
+--包含业务：转入transferIn(对应balance.update并带上详细备注detail参数字段)、
+--        转出transferOut(对应balance.update并带上详细备注detail参数字段)、
+--        冻结forzen(对应balance.update并带上详细备注detail参数字段)、
+--        解冻unforzen(对应balance.update并带上详细备注detail参数字段)、
+--        下单(对应order.put_limit、order.put_market)、
+--        撤单(对应order.cancel)、
+--        成交(内部撮合处理)等
+
+
+
 /*
 drop table if exists BalancesSpot;
 create table BalancesSpot

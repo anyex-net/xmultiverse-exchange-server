@@ -1,33 +1,74 @@
-drop table if exists BalancesRwa;
-create table BalancesRwa
+--RWA认证机构投资者
+drop table if exists RwaCertInstInvestor;
+create table RwaCertInstInvestor
+(
+    id                bigint(20)               not null comment '账户ID' primary key,
+    userId            bigint(20)               not null comment '用户ID',
+    surName           varchar(32)              not null comment '姓氏',
+    realName          varchar(32)              not null comment '名字',
+    region            varchar(32)              not null comment '国家地区',
+    passportNo        varchar(64)              not null comment '证件号',
+    attachments       varchar(2048)            not null comment '附件信息',
+    state             varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝)',
+    remark            varchar(64)                       comment '备注',
+    constraint index_RwaCertInstInvestor unique (userId)
+) comment 'RWA认证机构投资者';
+
+--RWA认证机构SPV发起人
+drop table if exists RwaCertInstSpvPromoter;
+create table RwaCertInstSpvPromoter
+(
+    id                bigint(20)               not null comment '账户ID' primary key,
+    userId            bigint(20)               not null comment '用户ID',
+    surName           varchar(32)              not null comment '姓氏',
+    realName          varchar(32)              not null comment '名字',
+    region            varchar(32)              not null comment '国家地区',
+    passportNo        varchar(64)              not null comment '证件号',
+    attachments       varchar(2048)            not null comment '附件信息',
+    state             varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝)',
+    remark            varchar(64)                       comment '备注',
+    constraint index_RwaCertInstSpvPromoter unique (userId)
+) comment 'RWA认证机构SPV发起人';
+
+--RWA账户余额
+drop table if exists RwaBalances;
+create table RwaBalances
 (
     id                bigint(20)               not null comment '主键' primary key,
     userId            bigint(20)               not null comment '用户ID',
-    currency          varchar(8)               not null comment '币种(BTC ETH USDT)',
+    currency          varchar(8)               not null comment '币种(BTC、ETH、USDT)',
     balance           decimal(20, 8) default 0 not null comment '余额',
     frozenBal         decimal(20, 8) default 0 not null comment '冻结(不可用)',
     availBal          decimal(20, 8) default 0 not null comment '可用余额',
-    updateDate        bigint(13)                        comment '更新时间',
     remark            varchar(16)                       comment '备注',
-    constraint index_BalancesSpot unique (userId, currency)
-) comment 'RWA交易账户余额表';
+    updateTime        bigint(13)                        comment '更新时间',
+    constraint index_RwaBalances unique (userId, currency)
+) comment 'RWA账户余额';
 
-
-drop table if exists BalancesRwa;
-create table BalancesRwa
+--RWA账户交易历史
+--包含业务：转入transferIn、转出transferOut、冻结forzen、解冻unforzen、申购purchase、赎回redemption、分红dividend
+drop table if exists RwaBalancesTransHistory;
+create table RwaBalancesTransHistory
 (
     id                bigint(20)               not null comment '主键' primary key,
     userId            bigint(20)               not null comment '用户ID',
-    currency          varchar(8)               not null comment '币种(BTC ETH USDT)',
-    balance           decimal(20, 8) default 0 not null comment '余额',
-    frozenBal         decimal(20, 8) default 0 not null comment '冻结(不可用)',
-    availBal          decimal(20, 8) default 0 not null comment '可用余额',
-    updateDate        bigint(13)                        comment '更新时间',
-    remark            varchar(16)                       comment '备注',
-    constraint index_BalancesSpot unique (userId, currency)
-) comment 'RWA交易账户余额表';
+    currency          varchar(32)              not null comment '币种(BTC、ETH、USDT)',
+    type              varchar(32)              not null comment '类型(转入、转出、冻结、解冻、申购、分红)',
+    beforeBal         decimal(22, 8) default 0 not null comment '前余额',
+    changeAmt         decimal(22, 8) default 0 not null comment '发生数量',
+    afterBal          decimal(22, 8) default 0 not null comment '后余额',
+    businessId        varchar(64)                       comment '原业务ID',
+    fromAcct          varchar(64)                       comment '转出账户',
+    toAcct            varchar(64)                       comment '转入账户',
+    state             varchar(16)              not null comment '状态(成功success、处理中pending、失败failed)',
+    transDesc         varchar(128)             not null comment '交易描述',
+    remark            varchar(64)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间'
+) comment 'RWA账户交易历史';
 
 
+
+/*
 drop table if exists OrdersRwa;
 create table OrdersRwa
 (
@@ -87,3 +128,4 @@ create table FillsRwa
     ts                bigint(13)               not null comment '成交明细产生时间，Unix时间戳的毫秒数格式，如 1597026383085',
     remark            varchar(16)                       comment '备注'
 ) comment 'RWA交易成交明细表';
+*/

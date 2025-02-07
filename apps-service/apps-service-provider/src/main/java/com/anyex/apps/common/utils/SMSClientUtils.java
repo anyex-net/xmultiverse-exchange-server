@@ -114,7 +114,7 @@
 //
 //     public void main(String[] args) throws BusinessException
 //     {
-//     SMSResult result = sendIntSMS("8615306620878", "BITMS SMS TEST");
+//     SMSResult result = sendIntSMS("8619906620879", "BITMS SMS TEST");
 //     System.out.println(JSON.toJSONString(result));
 //     }
 //}
