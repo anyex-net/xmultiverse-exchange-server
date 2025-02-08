@@ -38,7 +38,7 @@ create table User
 drop table if exists UserCertKyc;
 create table UserCertKyc
 (
-    id                bigint(20)               not null comment '账户ID' primary key,
+    id                bigint(20)               not null comment 'ID' primary key,
     userId            bigint(20)               not null comment '用户ID',
     surName           varchar(32)              not null comment '姓氏',
     realName          varchar(32)              not null comment '名字',

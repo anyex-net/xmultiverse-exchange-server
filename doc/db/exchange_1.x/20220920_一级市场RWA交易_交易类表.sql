@@ -1,34 +1,78 @@
---RWA认证机构投资者
-drop table if exists RwaCertInstInvestor;
-create table RwaCertInstInvestor
-(
-    id                bigint(20)               not null comment '账户ID' primary key,
-    userId            bigint(20)               not null comment '用户ID',
-    surName           varchar(32)              not null comment '姓氏',
-    realName          varchar(32)              not null comment '名字',
-    region            varchar(32)              not null comment '国家地区',
-    passportNo        varchar(64)              not null comment '证件号',
-    attachments       varchar(2048)            not null comment '附件信息',
-    state             varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝)',
-    remark            varchar(64)                       comment '备注',
-    constraint index_RwaCertInstInvestor unique (userId)
-) comment 'RWA认证机构投资者';
-
 --RWA认证机构SPV发起人
 drop table if exists RwaCertInstSpvPromoter;
 create table RwaCertInstSpvPromoter
 (
-    id                bigint(20)               not null comment '账户ID' primary key,
-    userId            bigint(20)               not null comment '用户ID',
-    surName           varchar(32)              not null comment '姓氏',
-    realName          varchar(32)              not null comment '名字',
-    region            varchar(32)              not null comment '国家地区',
-    passportNo        varchar(64)              not null comment '证件号',
-    attachments       varchar(2048)            not null comment '附件信息',
-    state             varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝)',
-    remark            varchar(64)                       comment '备注',
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    --发起人公司信息
+    promoterCoName          varchar(64)              not null comment '发起人公司名称',
+    promoterCoType          varchar(32)              not null comment '发起人公司类型',
+    promoterCoRegistrNo     varchar(64)              not null comment '发起人公司注册编号',
+    promoterCoRegistrImg    varchar(64)              not null comment '发起人公司注册证书图片',
+    promoterCoCountry       varchar(64)              not null comment '发起人公司所在国家地区',
+    promoterCoEmail         varchar(32)              not null comment '发起人公司联系邮箱',
+    promoterCoMobileNo      varchar(32)              not null comment '发起人公司联系电话',
+    --代理人信息
+    agentName               varchar(32)              not null comment '代理人姓名',
+    agentRegion             varchar(32)              not null comment '代理人国家地区',
+    agentPassportType       varchar(16)              not null comment '代理人证件类型',
+    agentPassportNo         varchar(64)              not null comment '代理人证件号码',
+    agentPassportImg1       varchar(64)              not null comment '代理人证件照片1',
+    agentPassportImg2       varchar(64)                       comment '代理人证件照片2',
+    agentPassportImg3       varchar(64)                       comment '代理人证件照片3',
+    agentAuthorizationFile  varchar(64)              not null comment '代理人授权文件',
+    agentEmail              varchar(32)              not null comment '代理人联系邮箱',
+    agentMobileNo           varchar(32)              not null comment '代理人联系电话',
+    --
+    state                   varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间',
+    checkBy                 varchar(32)                       comment '复核人',
+    checkTime               bigint(13)                        comment '复核时间',
     constraint index_RwaCertInstSpvPromoter unique (userId)
 ) comment 'RWA认证机构SPV发起人';
+
+--RWA认证机构投资者
+drop table if exists RwaCertInstInvestor;
+create table RwaCertInstInvestor
+(
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    --代理人信息
+    agentName               varchar(32)              not null comment '代理人姓名',
+    agentRegion             varchar(32)              not null comment '代理人国家地区',
+    agentPassportType       varchar(16)              not null comment '代理人证件类型',
+    agentPassportNo         varchar(64)              not null comment '代理人证件号码',
+    agentPassportImg1       varchar(64)              not null comment '代理人证件照片1',
+    agentPassportImg2       varchar(64)                       comment '代理人证件照片2',
+    agentPassportImg3       varchar(64)                       comment '代理人证件照片3',
+    agentEmail              varchar(32)              not null comment '代理人联系邮箱',
+    agentMobileNo           varchar(32)              not null comment '代理人联系电话',
+    agentAuthorizationFile  varchar(64)              not null comment '代理人授权文件',
+    --公司信息
+    companyName             varchar(64)              not null comment '公司名称',
+    companyType             varchar(32)              not null comment '公司类型',
+    companyBusinessType     varchar(32)              not null comment '公司业务类型',
+    companyRegistrNo        varchar(64)              not null comment '公司注册编号',
+    companyRegistrImg       varchar(64)              not null comment '公司注册证书图片',
+    companyCountry          varchar(64)              not null comment '公司所在国家地区',
+    companyRegistrAddress   varchar(128)             not null comment '公司注册地址',
+    companyFoundedDate      date                     not null comment '公司成立日期',
+    companyLicenseNumber    varchar(64)              not null comment '公司持牌编号',
+    companyRegulator        varchar(64)              not null comment '公司监管机构',
+    companyAmlCertificate   varchar(64)              not null comment '公司AML反洗钱证明',
+    --
+    state                   varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间',
+    checkBy                 varchar(32)                       comment '复核人',
+    checkTime               bigint(13)                        comment '复核时间',
+    constraint index_RwaCertInstInvestor unique (userId)
+) comment 'RWA认证机构投资者';
 
 --RWA账户余额
 drop table if exists RwaBalances;
@@ -66,66 +110,128 @@ create table RwaBalancesTransHistory
     createTime        bigint(13)               not null comment '创建时间'
 ) comment 'RWA账户交易历史';
 
-
-
-/*
-drop table if exists OrdersRwa;
-create table OrdersRwa
+--RWA机构SPV公司
+drop table if exists RwaInstSpvCompany;
+create table RwaInstSpvCompany
 (
-    id                bigint(20)               not null comment '主键 订单ID' primary key,
-    userId            bigint(20)               not null comment '用户ID',
-    instType          varchar(16)              not null comment '产品类型 币币SPOT 币币杠杆MARGIN 永续合约SWAP 交割合约FUTURES 期权OPTION',
-    instId            varchar(16)              not null comment '产品ID',
-    tgtCcy            varchar(8)               not null comment '市价单委托数量的类型base_ccy:交易货币 quote_ccy:计价货币',
-    ccy               varchar(8)               not null comment '保证金币种，仅适用于单币种保证金模式下的全仓币币杠杆订单',
-    clOrdId           varchar(16)              not null comment '客户自定义订单ID',
-    tag               varchar(16)              not null comment '订单标签',
-    px                decimal(20, 8) default 0 not null comment '委托价格',
-    sz                decimal(20, 8) default 0 not null comment '委托数量',
-    pnl               decimal(20, 8) default 0 not null comment '收益',
-    ordType           varchar(16)              not null comment '订单类型 market:市价单 limit:限价单 post_only:只做maker单 fok:全部成交或立即取消 ioc:立即成交并取消剩余 optimal_limit_ioc:市价委托立即成交并取消剩余（仅适用交割、永续）',
-    side              varchar(8)               not null comment '订单方向 buy买 sell卖',
-    posSide           varchar(8)               not null comment '持仓方向 long多 short空 单向持仓模式返回net',
-    tdMode            varchar(8)               not null comment '交易模式 保证金模式 isolated:逐仓 cross:全仓 非保证金模式 cash:非保证金',
-    accFillSz         decimal(20, 8) default 0 not null comment '累计成交数量',
-    avgPx             decimal(20, 8) default 0 not null comment '成交均价',
-    state             varchar(16)              not null comment '订单状态 canceled:撤单成功 live:等待成交 partially_filled:部分成交 filled:完全成交',
-    lever             decimal(8, 4) default 0  not null comment '杠杆倍数，0.01到125之间的数值，仅适用于 币币杠杆/交割/永续',
-    feeCcy            varchar(8)               not null comment '交易手续费币种',
-    fee               decimal(20, 8) default 0 not null comment '订单交易手续费，平台向用户收取的交易手续费，手续费扣除为负数。如: -0.01',
-    source            varchar(8)               not null comment '订单来源 13:策略委托单触发后的生成的限价单',
-    rebateCcy         varchar(8)               not null comment '返佣金币种',
-    rebate            decimal(20, 8) default 0 not null comment '返佣金额，平台向达到指定lv交易等级的用户支付的挂单奖励（返佣），如果没有返佣金，该字段为“”。手续费返佣为正数，如：0.01',
-    category          varchar(16)              not null comment '订单种类 normal:普通委托 twap:TWAP自动换币 adl:ADL自动减仓 full_liquidation:强制平仓 partial_liquidation:强制减仓 delivery:交割 ddh:对冲减仓类型订单',
-    uTime             bigint(13)               not null comment '订单状态更新时间，Unix时间戳的毫秒数格式，如:1597026383085',
-    cTime             bigint(13)               not null comment '订单创建时间，Unix时间戳的毫秒数格式， 如:1597026383085',
-    remark            varchar(16)                       comment '备注'
-) comment 'RWA交易普通订单信息表';
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    instSpvPromoterId       bigint(20)               not null comment '机构SPV发起人ID',
+    --公司信息
+    spvCompanyName          varchar(64)              not null comment '公司名称',
+    spvCompanyType          varchar(32)              not null comment '公司类型',
+    spvCompanyIndustry      varchar(32)              not null comment '公司行业',
+    spvCompanyRegistrNo     varchar(64)              not null comment '公司注册编号',
+    spvCompanyRegistrImg    varchar(64)              not null comment '公司注册证书图片',
+    spvCompanyCountry       varchar(64)              not null comment '公司所在国家地区',
+    spvCompanyEmail         varchar(32)              not null comment '公司联系邮箱',
+    spvCompanyMobileNo      varchar(32)              not null comment '公司联系电话',
+    spvCompanyAddress       varchar(128)             not null comment '公司地址',
+    spvCompanyDesc          varchar(256)             not null comment '公司介绍',
+    --
+    state                   varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间',
+    checkBy                 varchar(32)                       comment '复核人',
+    checkTime               bigint(13)                        comment '复核时间'
+) comment 'RWA机构SPV公司';
 
-drop table if exists FillsRwa;
-create table FillsRwa
+--RWA机构SPV产品
+drop table if exists RwaInstSpvProduct;
+create table RwaInstSpvProduct
 (
-    id                bigint(20)               not null comment '主键 成交ID' primary key,
-    instType          varchar(16)              not null comment '产品类型 币币SPOT 币币杠杆MARGIN 永续合约SWAP 交割合约FUTURES 期权OPTION',
-    instId            varchar(16)              not null comment '产品ID',
-    buyUserId         bigint(20)               not null comment '用户ID',
-    sellUserId        bigint(20)               not null comment '用户ID',
-    buyOrdId          bigint(20)               not null comment '订单ID',
-    sellOrdId         bigint(20)               not null comment '订单ID',
-    fillPx            decimal(20, 8) default 0 not null comment '成交价格',
-    fillSz            decimal(20, 8) default 0 not null comment '成交数量',
-    side              varchar(8)               not null comment '成交方向 buy买 sell卖',
-    buyPosSide        varchar(8)               not null comment '持仓方向 long多 short空 单向持仓模式返回net',
-    sellPosSide       varchar(8)               not null comment '持仓方向 long多 short空 单向持仓模式返回net',
-    buyExecType       varchar(8)               not null comment '流动性方向 T taker M maker',
-    sellExecType      varchar(8)               not null comment '流动性方向 T taker M maker',
-    buyFeeCcy         varchar(8)               not null comment '交易手续费币种或者返佣金币种',
-    buyFeeRate        decimal(20, 8) default 0 not null comment '手续费金额或者返佣金额对应费率或绝对值 手续费扣除 为‘负数’，如-0.01; 手续费返佣 为‘正数’，如0.01',
-    buyFee            decimal(20, 8) default 0 not null comment '手续费金额或者返佣金额 手续费扣除 为‘负数’，如-0.01; 手续费返佣 为‘正数’，如0.01',
-    sellFeeCcy        varchar(8)               not null comment '交易手续费币种或者返佣金币种',
-    sellFeeRate       decimal(20, 8) default 0 not null comment '手续费金额或者返佣金额对应费率或绝对值 手续费扣除 为‘负数’，如-0.01; 手续费返佣 为‘正数’，如0.01',
-    sellFee           decimal(20, 8) default 0 not null comment '手续费金额或者返佣金额 手续费扣除 为‘负数’，如-0.01; 手续费返佣 为‘正数’，如0.01',
-    ts                bigint(13)               not null comment '成交明细产生时间，Unix时间戳的毫秒数格式，如 1597026383085',
-    remark            varchar(16)                       comment '备注'
-) comment 'RWA交易成交明细表';
-*/
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    instSpvPromoterId       bigint(20)               not null comment '机构SPV发起人ID',
+    instSpvCompanyId        bigint(20)               not null comment '机构SPV公司ID',
+    --发行信息
+    productNo               varchar(64)              not null comment '产品编号',
+    tokenName               varchar(32)              not null comment '代币名称',
+    tokenLogo               varchar(64)              not null comment '代币Logo',
+    tokenIssueNumber        decimal(20, 8)           not null comment '代币发行数量',
+    raiseCurrency           varchar(32)              not null comment '募集币种',
+    raiseAmount             decimal(20, 8)           not null comment '募集金额',
+    assetEndValuation       decimal(20, 8)           not null comment '资产期末估值, 预估收益率=(期末估值-募集金额)/募集金额',
+    issueDays               int                      not null comment '发行天数',
+    purchaseStartDate       date                     not null comment '申购开始日期',
+    purchaseEndDate         date                     not null comment '申购结束日期',
+    operationStarDate       date                     not null comment '运营开始日期',
+    operationEndDate        date                     not null comment '运营结束日期',
+    raiseEstablishedRatio   decimal(8, 4)            not null comment '募集成立条件比例',
+    --收入分成公司信息
+    companyAssetName        varchar(64)              not null comment '公司资产名称',
+    companyAssetDesc        varchar(128)             not null comment '公司资产描述',
+    companyRaiseUse         varchar(128)             not null comment '公司募集用途',
+    --合约信息
+    dividendRatio           decimal(8, 4)            not null comment '分红比例',
+    dividendFrequency       varchar(16)              not null comment '分红频率',
+    dividendFreezeDays      int                      not null comment '分红冻结天数',
+    --保证金信息
+    raiseMarginRatio        decimal(8, 4)            not null comment '募集对应保证金比例',
+    raiseMarginState        int                      not null comment '募集对应保证金状态(0未缴、1已缴)',
+    --已申购信息
+    purchasedSumAmount      decimal(20, 8)           not null comment '已申购总数量',
+    --
+    state                   varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间',
+    checkBy                 varchar(32)                       comment '复核人',
+    checkTime               bigint(13)                        comment '复核时间'
+) comment 'RWA机构SPV产品';
+
+--RWA机构SPV产品申购记录
+drop table if exists RwaInstSpvProductPurchase;
+create table RwaInstSpvProductPurchase
+(
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    instInvestorId          bigint(20)                        comment '机构投资者ID',
+    instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
+    purchaseCurrency        varchar(32)              not null comment '申购币种',
+    purchasePrice           decimal(20, 8)           not null comment '申购价格',
+    purchaseAmount          decimal(20, 8)           not null comment '申购数量',
+    state                   varchar(16)              not null comment '状态(成功success、处理中pending、失败failed)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间'
+) comment 'RWA机构SPV产品申购记录';
+
+--RWA机构SPV产品分红记录
+drop table if exists RwaInstSpvProductDividend;
+create table RwaInstSpvProductDividend
+(
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    instInvestorId          bigint(20)                        comment '机构投资者ID',
+    instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
+    dividendCurrency        varchar(32)              not null comment '分红币种',
+    dividendAmount          decimal(20, 8)           not null comment '分红金额',
+    state                   varchar(16)              not null comment '状态(成功success、处理中pending、失败failed)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间'
+) comment 'RWA机构SPV产品分红记录';
+
+--RWA机构SPV产品赎回记录
+drop table if exists RwaInstSpvProductRedemption;
+create table RwaInstSpvProductRedemption
+(
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    instInvestorId          bigint(20)               not null comment '机构投资者ID',
+    instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
+    redemptionCurrency      varchar(32)              not null comment '赎回币种',
+    redemptionPrice         decimal(20, 8)           not null comment '赎回价格',
+    redemptionAmount        decimal(20, 8)           not null comment '赎回数量',
+    state                   varchar(16)              not null comment '状态(成功success、处理中pending、失败failed)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间'
+) comment 'RWA机构SPV产品赎回记录';
