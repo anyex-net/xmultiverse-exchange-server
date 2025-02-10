@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.base.mapper.InstTradeFeeMapper">
+    <!-- 基础列 -->
+    <sql id="instTradeFeeColumns">
+        a.id as id,
+        a.instType as instType,
+        a.instId as instId,
+        a.uly as uly,
+        a.taker as taker,
+        a.maker as maker,
+        a.delivery as delivery,
+        a.exercise as exercise,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="instTradeFeeResultMap" type="com.anyex.apps.base.entity.InstTradeFee">
+        <id column="ID" property="id" />
+        <result column="instType" property="instType"/>
+        <result column="instId" property="instId"/>
+        <result column="uly" property="uly"/>
+        <result column="taker" property="taker"/>
+        <result column="maker" property="maker"/>
+        <result column="delivery" property="delivery"/>
+        <result column="exercise" property="exercise"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.base.entity.InstTradeFee">
+        INSERT INTO InstTradeFee(
+            id ,
+            instType ,
+            instId ,
+            uly ,
+            taker ,
+            maker ,
+            delivery ,
+            exercise ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{instType} ,
+            #{instId} ,
+            #{uly} ,
+            #{taker} ,
+            #{maker} ,
+            #{delivery} ,
+            #{exercise} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM InstTradeFee WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE InstTradeFee SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.base.entity.InstTradeFee">
+        INSERT INTO InstTradeFee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="instType != null">
+                instType ,
+        </if>
+        <if test="instId != null">
+                instId ,
+        </if>
+        <if test="uly != null">
+                uly ,
+        </if>
+        <if test="taker != null">
+                taker ,
+        </if>
+        <if test="maker != null">
+                maker ,
+        </if>
+        <if test="delivery != null">
+                delivery ,
+        </if>
+        <if test="exercise != null">
+                exercise ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="instType != null">
+                #{instType} ,
+        </if>
+        <if test="instId != null">
+                #{instId} ,
+        </if>
+        <if test="uly != null">
+                #{uly} ,
+        </if>
+        <if test="taker != null">
+                #{taker} ,
+        </if>
+        <if test="maker != null">
+                #{maker} ,
+        </if>
+        <if test="delivery != null">
+                #{delivery} ,
+        </if>
+        <if test="exercise != null">
+                #{exercise} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.base.entity.InstTradeFee">
+        UPDATE InstTradeFee
+           <set>
+            <if test="instType != null">
+                instType = #{instType} ,
+            </if>
+            <if test="instId != null">
+                instId = #{instId} ,
+            </if>
+            <if test="uly != null">
+                uly = #{uly} ,
+            </if>
+            <if test="taker != null">
+                taker = #{taker} ,
+            </if>
+            <if test="maker != null">
+                maker = #{maker} ,
+            </if>
+            <if test="delivery != null">
+                delivery = #{delivery} ,
+            </if>
+            <if test="exercise != null">
+                exercise = #{exercise} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO InstTradeFee(
+            id ,
+            instType ,
+            instId ,
+            uly ,
+            taker ,
+            maker ,
+            delivery ,
+            exercise ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.instType} ,
+            #{item.instId} ,
+            #{item.uly} ,
+            #{item.taker} ,
+            #{item.maker} ,
+            #{item.delivery} ,
+            #{item.exercise} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE InstTradeFee SET
+            instType = #{item.instType} ,
+            instId = #{item.instId} ,
+            uly = #{item.uly} ,
+            taker = #{item.taker} ,
+            maker = #{item.maker} ,
+            delivery = #{item.delivery} ,
+            exercise = #{item.exercise} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.base.entity.InstTradeFee">
+        UPDATE InstTradeFee SET
+            instType = #{instType} ,
+            instId = #{instId} ,
+            uly = #{uly} ,
+            taker = #{taker} ,
+            maker = #{maker} ,
+            delivery = #{delivery} ,
+            exercise = #{exercise} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.base.entity.InstTradeFee">
+        SELECT <include refid="instTradeFeeColumns"/> FROM InstTradeFee a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.base.entity.InstTradeFee">
+        SELECT
+        <include refid="instTradeFeeColumns"/>
+        FROM InstTradeFee a WHERE 1 = 1
+        <if test="instType != null and instType != ''">
+            AND a.instType = #{instType}
+        </if>
+        <if test="instId != null and instId != ''">
+            AND a.instId = #{instId}
+        </if>
+        <if test="uly != null and uly != ''">
+            AND a.uly = #{uly}
+        </if>
+        <if test="taker != null">
+            AND a.taker = #{taker}
+        </if>
+        <if test="maker != null">
+            AND a.maker = #{maker}
+        </if>
+        <if test="delivery != null">
+            AND a.delivery = #{delivery}
+        </if>
+        <if test="exercise != null">
+            AND a.exercise = #{exercise}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.base.entity.InstTradeFee">
+        SELECT
+        <include refid="instTradeFeeColumns"/>
+        FROM InstTradeFee a WHERE 1 = 1
+        <if test="instType != null and instType != ''">
+            AND a.instType LIKE CONCAT('%',#{instType}, '%')
+        </if>
+        <if test="instId != null and instId != ''">
+            AND a.instId LIKE CONCAT('%',#{instId}, '%')
+        </if>
+        <if test="uly != null and uly != ''">
+            AND a.uly LIKE CONCAT('%',#{uly}, '%')
+        </if>
+        <if test="taker != null">
+            AND a.taker = #{taker}
+        </if>
+        <if test="maker != null">
+            AND a.maker = #{maker}
+        </if>
+        <if test="delivery != null">
+            AND a.delivery = #{delivery}
+        </if>
+        <if test="exercise != null">
+            AND a.exercise = #{exercise}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.base.entity.InstTradeFee">
+        SELECT
+        <include refid="instTradeFeeColumns"/>
+        FROM InstTradeFee a
+    </select>
+
+
+</mapper>
+

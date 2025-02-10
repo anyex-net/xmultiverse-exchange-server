@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.base.mapper.InstrumentsMapper">
+    <!-- 基础列 -->
+    <sql id="instrumentsColumns">
+        a.id as id,
+        a.instType as instType,
+        a.instId as instId,
+        a.uly as uly,
+        a.category as category,
+        a.baseCcy as baseCcy,
+        a.quoteCcy as quoteCcy,
+        a.settleCcy as settleCcy,
+        a.ctVal as ctVal,
+        a.ctMult as ctMult,
+        a.ctValCcy as ctValCcy,
+        a.optType as optType,
+        a.stk as stk,
+        a.listTime as listTime,
+        a.expTime as expTime,
+        a.lever as lever,
+        a.tickSz as tickSz,
+        a.lotSz as lotSz,
+        a.minSz as minSz,
+        a.ctType as ctType,
+        a.alias as alias,
+        a.state as state,
+        a.maxLmtSz as maxLmtSz,
+        a.maxMktSz as maxMktSz,
+        a.maxTwapSz as maxTwapSz,
+        a.maxIcebergSz as maxIcebergSz,
+        a.maxTriggerSz as maxTriggerSz,
+        a.maxStopSz as maxStopSz,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="instrumentsResultMap" type="com.anyex.apps.base.entity.Instruments">
+        <id column="ID" property="id" />
+        <result column="instType" property="instType"/>
+        <result column="instId" property="instId"/>
+        <result column="uly" property="uly"/>
+        <result column="category" property="category"/>
+        <result column="baseCcy" property="baseCcy"/>
+        <result column="quoteCcy" property="quoteCcy"/>
+        <result column="settleCcy" property="settleCcy"/>
+        <result column="ctVal" property="ctVal"/>
+        <result column="ctMult" property="ctMult"/>
+        <result column="ctValCcy" property="ctValCcy"/>
+        <result column="optType" property="optType"/>
+        <result column="stk" property="stk"/>
+        <result column="listTime" property="listTime"/>
+        <result column="expTime" property="expTime"/>
+        <result column="lever" property="lever"/>
+        <result column="tickSz" property="tickSz"/>
+        <result column="lotSz" property="lotSz"/>
+        <result column="minSz" property="minSz"/>
+        <result column="ctType" property="ctType"/>
+        <result column="alias" property="alias"/>
+        <result column="state" property="state"/>
+        <result column="maxLmtSz" property="maxLmtSz"/>
+        <result column="maxMktSz" property="maxMktSz"/>
+        <result column="maxTwapSz" property="maxTwapSz"/>
+        <result column="maxIcebergSz" property="maxIcebergSz"/>
+        <result column="maxTriggerSz" property="maxTriggerSz"/>
+        <result column="maxStopSz" property="maxStopSz"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.base.entity.Instruments">
+        INSERT INTO Instruments(
+            id ,
+            instType ,
+            instId ,
+            uly ,
+            category ,
+            baseCcy ,
+            quoteCcy ,
+            settleCcy ,
+            ctVal ,
+            ctMult ,
+            ctValCcy ,
+            optType ,
+            stk ,
+            listTime ,
+            expTime ,
+            lever ,
+            tickSz ,
+            lotSz ,
+            minSz ,
+            ctType ,
+            alias ,
+            state ,
+            maxLmtSz ,
+            maxMktSz ,
+            maxTwapSz ,
+            maxIcebergSz ,
+            maxTriggerSz ,
+            maxStopSz ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{instType} ,
+            #{instId} ,
+            #{uly} ,
+            #{category} ,
+            #{baseCcy} ,
+            #{quoteCcy} ,
+            #{settleCcy} ,
+            #{ctVal} ,
+            #{ctMult} ,
+            #{ctValCcy} ,
+            #{optType} ,
+            #{stk} ,
+            #{listTime} ,
+            #{expTime} ,
+            #{lever} ,
+            #{tickSz} ,
+            #{lotSz} ,
+            #{minSz} ,
+            #{ctType} ,
+            #{alias} ,
+            #{state} ,
+            #{maxLmtSz} ,
+            #{maxMktSz} ,
+            #{maxTwapSz} ,
+            #{maxIcebergSz} ,
+            #{maxTriggerSz} ,
+            #{maxStopSz} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM Instruments WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE Instruments SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.base.entity.Instruments">
+        INSERT INTO Instruments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="instType != null">
+                instType ,
+        </if>
+        <if test="instId != null">
+                instId ,
+        </if>
+        <if test="uly != null">
+                uly ,
+        </if>
+        <if test="category != null">
+                category ,
+        </if>
+        <if test="baseCcy != null">
+                baseCcy ,
+        </if>
+        <if test="quoteCcy != null">
+                quoteCcy ,
+        </if>
+        <if test="settleCcy != null">
+                settleCcy ,
+        </if>
+        <if test="ctVal != null">
+                ctVal ,
+        </if>
+        <if test="ctMult != null">
+                ctMult ,
+        </if>
+        <if test="ctValCcy != null">
+                ctValCcy ,
+        </if>
+        <if test="optType != null">
+                optType ,
+        </if>
+        <if test="stk != null">
+                stk ,
+        </if>
+        <if test="listTime != null">
+                listTime ,
+        </if>
+        <if test="expTime != null">
+                expTime ,
+        </if>
+        <if test="lever != null">
+                lever ,
+        </if>
+        <if test="tickSz != null">
+                tickSz ,
+        </if>
+        <if test="lotSz != null">
+                lotSz ,
+        </if>
+        <if test="minSz != null">
+                minSz ,
+        </if>
+        <if test="ctType != null">
+                ctType ,
+        </if>
+        <if test="alias != null">
+                alias ,
+        </if>
+        <if test="state != null">
+                state ,
+        </if>
+        <if test="maxLmtSz != null">
+                maxLmtSz ,
+        </if>
+        <if test="maxMktSz != null">
+                maxMktSz ,
+        </if>
+        <if test="maxTwapSz != null">
+                maxTwapSz ,
+        </if>
+        <if test="maxIcebergSz != null">
+                maxIcebergSz ,
+        </if>
+        <if test="maxTriggerSz != null">
+                maxTriggerSz ,
+        </if>
+        <if test="maxStopSz != null">
+                maxStopSz ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="instType != null">
+                #{instType} ,
+        </if>
+        <if test="instId != null">
+                #{instId} ,
+        </if>
+        <if test="uly != null">
+                #{uly} ,
+        </if>
+        <if test="category != null">
+                #{category} ,
+        </if>
+        <if test="baseCcy != null">
+                #{baseCcy} ,
+        </if>
+        <if test="quoteCcy != null">
+                #{quoteCcy} ,
+        </if>
+        <if test="settleCcy != null">
+                #{settleCcy} ,
+        </if>
+        <if test="ctVal != null">
+                #{ctVal} ,
+        </if>
+        <if test="ctMult != null">
+                #{ctMult} ,
+        </if>
+        <if test="ctValCcy != null">
+                #{ctValCcy} ,
+        </if>
+        <if test="optType != null">
+                #{optType} ,
+        </if>
+        <if test="stk != null">
+                #{stk} ,
+        </if>
+        <if test="listTime != null">
+                #{listTime} ,
+        </if>
+        <if test="expTime != null">
+                #{expTime} ,
+        </if>
+        <if test="lever != null">
+                #{lever} ,
+        </if>
+        <if test="tickSz != null">
+                #{tickSz} ,
+        </if>
+        <if test="lotSz != null">
+                #{lotSz} ,
+        </if>
+        <if test="minSz != null">
+                #{minSz} ,
+        </if>
+        <if test="ctType != null">
+                #{ctType} ,
+        </if>
+        <if test="alias != null">
+                #{alias} ,
+        </if>
+        <if test="state != null">
+                #{state} ,
+        </if>
+        <if test="maxLmtSz != null">
+                #{maxLmtSz} ,
+        </if>
+        <if test="maxMktSz != null">
+                #{maxMktSz} ,
+        </if>
+        <if test="maxTwapSz != null">
+                #{maxTwapSz} ,
+        </if>
+        <if test="maxIcebergSz != null">
+                #{maxIcebergSz} ,
+        </if>
+        <if test="maxTriggerSz != null">
+                #{maxTriggerSz} ,
+        </if>
+        <if test="maxStopSz != null">
+                #{maxStopSz} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.base.entity.Instruments">
+        UPDATE Instruments
+           <set>
+            <if test="instType != null">
+                instType = #{instType} ,
+            </if>
+            <if test="instId != null">
+                instId = #{instId} ,
+            </if>
+            <if test="uly != null">
+                uly = #{uly} ,
+            </if>
+            <if test="category != null">
+                category = #{category} ,
+            </if>
+            <if test="baseCcy != null">
+                baseCcy = #{baseCcy} ,
+            </if>
+            <if test="quoteCcy != null">
+                quoteCcy = #{quoteCcy} ,
+            </if>
+            <if test="settleCcy != null">
+                settleCcy = #{settleCcy} ,
+            </if>
+            <if test="ctVal != null">
+                ctVal = #{ctVal} ,
+            </if>
+            <if test="ctMult != null">
+                ctMult = #{ctMult} ,
+            </if>
+            <if test="ctValCcy != null">
+                ctValCcy = #{ctValCcy} ,
+            </if>
+            <if test="optType != null">
+                optType = #{optType} ,
+            </if>
+            <if test="stk != null">
+                stk = #{stk} ,
+            </if>
+            <if test="listTime != null">
+                listTime = #{listTime} ,
+            </if>
+            <if test="expTime != null">
+                expTime = #{expTime} ,
+            </if>
+            <if test="lever != null">
+                lever = #{lever} ,
+            </if>
+            <if test="tickSz != null">
+                tickSz = #{tickSz} ,
+            </if>
+            <if test="lotSz != null">
+                lotSz = #{lotSz} ,
+            </if>
+            <if test="minSz != null">
+                minSz = #{minSz} ,
+            </if>
+            <if test="ctType != null">
+                ctType = #{ctType} ,
+            </if>
+            <if test="alias != null">
+                alias = #{alias} ,
+            </if>
+            <if test="state != null">
+                state = #{state} ,
+            </if>
+            <if test="maxLmtSz != null">
+                maxLmtSz = #{maxLmtSz} ,
+            </if>
+            <if test="maxMktSz != null">
+                maxMktSz = #{maxMktSz} ,
+            </if>
+            <if test="maxTwapSz != null">
+                maxTwapSz = #{maxTwapSz} ,
+            </if>
+            <if test="maxIcebergSz != null">
+                maxIcebergSz = #{maxIcebergSz} ,
+            </if>
+            <if test="maxTriggerSz != null">
+                maxTriggerSz = #{maxTriggerSz} ,
+            </if>
+            <if test="maxStopSz != null">
+                maxStopSz = #{maxStopSz} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO Instruments(
+            id ,
+            instType ,
+            instId ,
+            uly ,
+            category ,
+            baseCcy ,
+            quoteCcy ,
+            settleCcy ,
+            ctVal ,
+            ctMult ,
+            ctValCcy ,
+            optType ,
+            stk ,
+            listTime ,
+            expTime ,
+            lever ,
+            tickSz ,
+            lotSz ,
+            minSz ,
+            ctType ,
+            alias ,
+            state ,
+            maxLmtSz ,
+            maxMktSz ,
+            maxTwapSz ,
+            maxIcebergSz ,
+            maxTriggerSz ,
+            maxStopSz ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.instType} ,
+            #{item.instId} ,
+            #{item.uly} ,
+            #{item.category} ,
+            #{item.baseCcy} ,
+            #{item.quoteCcy} ,
+            #{item.settleCcy} ,
+            #{item.ctVal} ,
+            #{item.ctMult} ,
+            #{item.ctValCcy} ,
+            #{item.optType} ,
+            #{item.stk} ,
+            #{item.listTime} ,
+            #{item.expTime} ,
+            #{item.lever} ,
+            #{item.tickSz} ,
+            #{item.lotSz} ,
+            #{item.minSz} ,
+            #{item.ctType} ,
+            #{item.alias} ,
+            #{item.state} ,
+            #{item.maxLmtSz} ,
+            #{item.maxMktSz} ,
+            #{item.maxTwapSz} ,
+            #{item.maxIcebergSz} ,
+            #{item.maxTriggerSz} ,
+            #{item.maxStopSz} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE Instruments SET
+            instType = #{item.instType} ,
+            instId = #{item.instId} ,
+            uly = #{item.uly} ,
+            category = #{item.category} ,
+            baseCcy = #{item.baseCcy} ,
+            quoteCcy = #{item.quoteCcy} ,
+            settleCcy = #{item.settleCcy} ,
+            ctVal = #{item.ctVal} ,
+            ctMult = #{item.ctMult} ,
+            ctValCcy = #{item.ctValCcy} ,
+            optType = #{item.optType} ,
+            stk = #{item.stk} ,
+            listTime = #{item.listTime} ,
+            expTime = #{item.expTime} ,
+            lever = #{item.lever} ,
+            tickSz = #{item.tickSz} ,
+            lotSz = #{item.lotSz} ,
+            minSz = #{item.minSz} ,
+            ctType = #{item.ctType} ,
+            alias = #{item.alias} ,
+            state = #{item.state} ,
+            maxLmtSz = #{item.maxLmtSz} ,
+            maxMktSz = #{item.maxMktSz} ,
+            maxTwapSz = #{item.maxTwapSz} ,
+            maxIcebergSz = #{item.maxIcebergSz} ,
+            maxTriggerSz = #{item.maxTriggerSz} ,
+            maxStopSz = #{item.maxStopSz} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.base.entity.Instruments">
+        UPDATE Instruments SET
+            instType = #{instType} ,
+            instId = #{instId} ,
+            uly = #{uly} ,
+            category = #{category} ,
+            baseCcy = #{baseCcy} ,
+            quoteCcy = #{quoteCcy} ,
+            settleCcy = #{settleCcy} ,
+            ctVal = #{ctVal} ,
+            ctMult = #{ctMult} ,
+            ctValCcy = #{ctValCcy} ,
+            optType = #{optType} ,
+            stk = #{stk} ,
+            listTime = #{listTime} ,
+            expTime = #{expTime} ,
+            lever = #{lever} ,
+            tickSz = #{tickSz} ,
+            lotSz = #{lotSz} ,
+            minSz = #{minSz} ,
+            ctType = #{ctType} ,
+            alias = #{alias} ,
+            state = #{state} ,
+            maxLmtSz = #{maxLmtSz} ,
+            maxMktSz = #{maxMktSz} ,
+            maxTwapSz = #{maxTwapSz} ,
+            maxIcebergSz = #{maxIcebergSz} ,
+            maxTriggerSz = #{maxTriggerSz} ,
+            maxStopSz = #{maxStopSz} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.base.entity.Instruments">
+        SELECT <include refid="instrumentsColumns"/> FROM Instruments a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.base.entity.Instruments">
+        SELECT
+        <include refid="instrumentsColumns"/>
+        FROM Instruments a WHERE 1 = 1
+        <if test="instType != null and instType != ''">
+            AND a.instType = #{instType}
+        </if>
+        <if test="instId != null and instId != ''">
+            AND a.instId = #{instId}
+        </if>
+        <if test="uly != null and uly != ''">
+            AND a.uly = #{uly}
+        </if>
+        <if test="category != null and category != ''">
+            AND a.category = #{category}
+        </if>
+        <if test="baseCcy != null and baseCcy != ''">
+            AND a.baseCcy = #{baseCcy}
+        </if>
+        <if test="quoteCcy != null and quoteCcy != ''">
+            AND a.quoteCcy = #{quoteCcy}
+        </if>
+        <if test="settleCcy != null and settleCcy != ''">
+            AND a.settleCcy = #{settleCcy}
+        </if>
+        <if test="ctVal != null">
+            AND a.ctVal = #{ctVal}
+        </if>
+        <if test="ctMult != null">
+            AND a.ctMult = #{ctMult}
+        </if>
+        <if test="ctValCcy != null and ctValCcy != ''">
+            AND a.ctValCcy = #{ctValCcy}
+        </if>
+        <if test="optType != null and optType != ''">
+            AND a.optType = #{optType}
+        </if>
+        <if test="stk != null">
+            AND a.stk = #{stk}
+        </if>
+        <if test="listTime != null">
+            AND a.listTime = #{listTime}
+        </if>
+        <if test="expTime != null">
+            AND a.expTime = #{expTime}
+        </if>
+        <if test="lever != null">
+            AND a.lever = #{lever}
+        </if>
+        <if test="tickSz != null">
+            AND a.tickSz = #{tickSz}
+        </if>
+        <if test="lotSz != null">
+            AND a.lotSz = #{lotSz}
+        </if>
+        <if test="minSz != null">
+            AND a.minSz = #{minSz}
+        </if>
+        <if test="ctType != null and ctType != ''">
+            AND a.ctType = #{ctType}
+        </if>
+        <if test="alias != null and alias != ''">
+            AND a.alias = #{alias}
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state = #{state}
+        </if>
+        <if test="maxLmtSz != null">
+            AND a.maxLmtSz = #{maxLmtSz}
+        </if>
+        <if test="maxMktSz != null">
+            AND a.maxMktSz = #{maxMktSz}
+        </if>
+        <if test="maxTwapSz != null">
+            AND a.maxTwapSz = #{maxTwapSz}
+        </if>
+        <if test="maxIcebergSz != null">
+            AND a.maxIcebergSz = #{maxIcebergSz}
+        </if>
+        <if test="maxTriggerSz != null">
+            AND a.maxTriggerSz = #{maxTriggerSz}
+        </if>
+        <if test="maxStopSz != null">
+            AND a.maxStopSz = #{maxStopSz}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.base.entity.Instruments">
+        SELECT
+        <include refid="instrumentsColumns"/>
+        FROM Instruments a WHERE 1 = 1
+        <if test="instType != null and instType != ''">
+            AND a.instType LIKE CONCAT('%',#{instType}, '%')
+        </if>
+        <if test="instId != null and instId != ''">
+            AND a.instId LIKE CONCAT('%',#{instId}, '%')
+        </if>
+        <if test="uly != null and uly != ''">
+            AND a.uly LIKE CONCAT('%',#{uly}, '%')
+        </if>
+        <if test="category != null and category != ''">
+            AND a.category LIKE CONCAT('%',#{category}, '%')
+        </if>
+        <if test="baseCcy != null and baseCcy != ''">
+            AND a.baseCcy LIKE CONCAT('%',#{baseCcy}, '%')
+        </if>
+        <if test="quoteCcy != null and quoteCcy != ''">
+            AND a.quoteCcy LIKE CONCAT('%',#{quoteCcy}, '%')
+        </if>
+        <if test="settleCcy != null and settleCcy != ''">
+            AND a.settleCcy LIKE CONCAT('%',#{settleCcy}, '%')
+        </if>
+        <if test="ctVal != null">
+            AND a.ctVal = #{ctVal}
+        </if>
+        <if test="ctMult != null">
+            AND a.ctMult = #{ctMult}
+        </if>
+        <if test="ctValCcy != null and ctValCcy != ''">
+            AND a.ctValCcy LIKE CONCAT('%',#{ctValCcy}, '%')
+        </if>
+        <if test="optType != null and optType != ''">
+            AND a.optType LIKE CONCAT('%',#{optType}, '%')
+        </if>
+        <if test="stk != null">
+            AND a.stk = #{stk}
+        </if>
+        <if test="listTime != null">
+            AND a.listTime = #{listTime}
+        </if>
+        <if test="expTime != null">
+            AND a.expTime = #{expTime}
+        </if>
+        <if test="lever != null">
+            AND a.lever = #{lever}
+        </if>
+        <if test="tickSz != null">
+            AND a.tickSz = #{tickSz}
+        </if>
+        <if test="lotSz != null">
+            AND a.lotSz = #{lotSz}
+        </if>
+        <if test="minSz != null">
+            AND a.minSz = #{minSz}
+        </if>
+        <if test="ctType != null and ctType != ''">
+            AND a.ctType LIKE CONCAT('%',#{ctType}, '%')
+        </if>
+        <if test="alias != null and alias != ''">
+            AND a.alias LIKE CONCAT('%',#{alias}, '%')
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state LIKE CONCAT('%',#{state}, '%')
+        </if>
+        <if test="maxLmtSz != null">
+            AND a.maxLmtSz = #{maxLmtSz}
+        </if>
+        <if test="maxMktSz != null">
+            AND a.maxMktSz = #{maxMktSz}
+        </if>
+        <if test="maxTwapSz != null">
+            AND a.maxTwapSz = #{maxTwapSz}
+        </if>
+        <if test="maxIcebergSz != null">
+            AND a.maxIcebergSz = #{maxIcebergSz}
+        </if>
+        <if test="maxTriggerSz != null">
+            AND a.maxTriggerSz = #{maxTriggerSz}
+        </if>
+        <if test="maxStopSz != null">
+            AND a.maxStopSz = #{maxStopSz}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.base.entity.Instruments">
+        SELECT
+        <include refid="instrumentsColumns"/>
+        FROM Instruments a
+    </select>
+
+
+</mapper>
+

@@ -134,309 +134,334 @@
     </sofa:service>
 
     <!--项目相关如下-->
-    <!-- IM 服务 -->
-    <sofa:service interface="com.anyex.apps.openim.service.OpenImChatService" ref="openImChatServiceImpl">
+    <!-- 平台币种 -->
+    <sofa:service interface="com.anyex.apps.base.service.CurrenciesService" ref="currenciesServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
-    <sofa:service interface="com.anyex.apps.openim.service.OpenImAdminService" ref="openImAdminServiceImpl">
+    <!-- 平台交易产品 -->
+    <sofa:service interface="com.anyex.apps.base.service.InstrumentsService" ref="instrumentsServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
-    <sofa:service interface="com.anyex.apps.openim.service.OpenImApiService" ref="openImApiServiceImpl">
+    <!-- 平台交易手续费费率 -->
+    <sofa:service interface="com.anyex.apps.base.service.InstTradeFeeService" ref="instTradeFeeServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
-    <sofa:service interface="com.anyex.apps.openim.service.NoticeAccountService" ref="noticeAccountServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.openim.service.RegisterDefaultFriendService" ref="registerDefaultFriendServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.openim.service.RegisterDefaultGroupService" ref="registerDefaultGroupServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.openim.service.AccountFavoriteService" ref="accountFavoriteServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.openim.service.ConversationLimitService" ref="conversationLimitServiceImpl">
+    <!-- 用户交易手续费费率 -->
+    <sofa:service interface="com.anyex.apps.base.service.UserInstTradeFeeService" ref="userInstTradeFeeServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
 
-    <!--社交管理-->
-    <!-- 社交帖子 -->
-    <sofa:service interface="com.anyex.apps.social.service.SnsPostService" ref="snsPostServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 社交帖子点赞 -->
-    <sofa:service interface="com.anyex.apps.social.service.SnsPostLikeService" ref="snsPostLikeServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 社交帖子分享 -->
-    <sofa:service interface="com.anyex.apps.social.service.SnsPostShareService" ref="snsPostShareServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 社交帖子评论 -->
-    <sofa:service interface="com.anyex.apps.social.service.SnsPostCommentService" ref="snsPostCommentServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 社交帖子评论点赞 -->
-    <sofa:service interface="com.anyex.apps.social.service.SnsPostCommentLikeService" ref="snsPostCommentLikeServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 社交好友 -->
-    <sofa:service interface="com.anyex.apps.social.service.SnsFriendService" ref="snsFriendServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.social.service.SnsFollowService" ref="snsFollowServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.social.service.SnsFansService" ref="snsFansServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.social.service.SnsActivityService" ref="snsActivityServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImChatService" ref="openImChatServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImAdminService" ref="openImAdminServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImApiService" ref="openImApiServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.NoticeAccountService" ref="noticeAccountServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.RegisterDefaultFriendService" ref="registerDefaultFriendServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.RegisterDefaultGroupService" ref="registerDefaultGroupServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.AccountFavoriteService" ref="accountFavoriteServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.openim.service.ConversationLimitService" ref="conversationLimitServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!--账户管理-->
-    <sofa:service interface="com.anyex.apps.account.service.AccountService" ref="accountServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.account.service.AttributeService" ref="attributeServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.account.service.AccountAddressService" ref="accountAddressServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.account.service.AccountReceivingBankService" ref="accountReceivingBankServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 账户邀请奖励 -->
-    <sofa:service interface="com.anyex.apps.account.service.AccountInviteRewardsService" ref="accountInviteRewardsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;社交管理&ndash;&gt;-->
+<!--    &lt;!&ndash; 社交帖子 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsPostService" ref="snsPostServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 社交帖子点赞 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsPostLikeService" ref="snsPostLikeServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 社交帖子分享 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsPostShareService" ref="snsPostShareServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 社交帖子评论 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsPostCommentService" ref="snsPostCommentServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 社交帖子评论点赞 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsPostCommentLikeService" ref="snsPostCommentLikeServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 社交好友 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsFriendService" ref="snsFriendServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsFollowService" ref="snsFollowServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsFansService" ref="snsFansServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.social.service.SnsActivityService" ref="snsActivityServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <sofa:service interface="com.anyex.apps.account.service.AccountInviteRewardsDetailService" ref="accountInviteRewardsDetailServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.account.service.AccountInviteStatisticsService" ref="accountInviteStatisticsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service><sofa:service interface="com.anyex.apps.account.service.AccountSignInDetailService" ref="accountSignInDetailServiceImpl">
-    <sofa:binding.bolt>
-        <sofa:global-attrs timeout="600000"/>
-    </sofa:binding.bolt>
-</sofa:service>
-    <sofa:service interface="com.anyex.apps.account.service.AccountSignInInfoService" ref="accountSignInInfoServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;账户管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.account.service.AccountService" ref="accountServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.account.service.AttributeService" ref="attributeServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.account.service.AccountAddressService" ref="accountAddressServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.account.service.AccountReceivingBankService" ref="accountReceivingBankServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 账户邀请奖励 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.account.service.AccountInviteRewardsService" ref="accountInviteRewardsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!--资产管理-->
-    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetService" ref="walletAssetServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetFlowsService" ref="walletAssetFlowsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetTransactionsService" ref="walletAssetTransactionsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 钱包资产调整记录 -->
-    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetAdjustService" ref="walletAssetAdjustServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 钱包资产打赏礼物记录 -->
-    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetTipGiftService" ref="walletAssetTipGiftServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    <sofa:service interface="com.anyex.apps.account.service.AccountInviteRewardsDetailService" ref="accountInviteRewardsDetailServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.account.service.AccountInviteStatisticsService" ref="accountInviteStatisticsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service><sofa:service interface="com.anyex.apps.account.service.AccountSignInDetailService" ref="accountSignInDetailServiceImpl">-->
+<!--    <sofa:binding.bolt>-->
+<!--        <sofa:global-attrs timeout="600000"/>-->
+<!--    </sofa:binding.bolt>-->
+<!--</sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.account.service.AccountSignInInfoService" ref="accountSignInInfoServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!--运营管理-->
-    <sofa:service interface="com.anyex.apps.operation.service.AppDownloadInfoService" ref="appDownloadInfoServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.operation.service.AppActivationInfoService" ref="appActivationInfoServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.operation.service.MonitorWalletAssetFlowsService" ref="monitorWalletAssetFlowsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.operation.service.MonitorAccountProfitLossService" ref="monitorAccountProfitLossServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;资产管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetService" ref="walletAssetServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetFlowsService" ref="walletAssetFlowsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetTransactionsService" ref="walletAssetTransactionsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 钱包资产调整记录 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetAdjustService" ref="walletAssetAdjustServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 钱包资产打赏礼物记录 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.asset.service.WalletAssetTipGiftService" ref="walletAssetTipGiftServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <sofa:service interface="com.anyex.apps.statistics.service.StatisticsService" ref="statisticsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;运营管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.operation.service.AppDownloadInfoService" ref="appDownloadInfoServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.operation.service.AppActivationInfoService" ref="appActivationInfoServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.operation.service.MonitorWalletAssetFlowsService" ref="monitorWalletAssetFlowsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.operation.service.MonitorAccountProfitLossService" ref="monitorAccountProfitLossServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!-- 资讯 -->
-    <sofa:service interface="com.anyex.apps.news.service.NewsService" ref="newsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 资讯收藏 -->
-    <sofa:service interface="com.anyex.apps.news.service.NewsFavoriteService" ref="newsFavoriteServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <!-- 资讯点赞 -->
-    <sofa:service interface="com.anyex.apps.news.service.NewsLikeService" ref="newsLikeServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    <sofa:service interface="com.anyex.apps.statistics.service.StatisticsService" ref="statisticsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+
+<!--    &lt;!&ndash; 资讯 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.news.service.NewsService" ref="newsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 资讯收藏 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.news.service.NewsFavoriteService" ref="newsFavoriteServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    &lt;!&ndash; 资讯点赞 &ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.news.service.NewsLikeService" ref="newsLikeServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
 
-    <!--店铺管理-->
-    <sofa:service interface="com.anyex.apps.business.luckybox.shop.service.ShopService" ref="shopServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;店铺管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.shop.service.ShopService" ref="shopServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!--商品管理-->
-    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsBrandService" ref="goodsBrandServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsCategoryService" ref="goodsCategoryServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsCategoryBrandService" ref="goodsCategoryBrandServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpecGroupService" ref="goodsSpecGroupServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpecParamService" ref="goodsSpecParamServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpuService" ref="goodsSpuServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSkuService" ref="goodsSkuServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;商品管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsBrandService" ref="goodsBrandServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsCategoryService" ref="goodsCategoryServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsCategoryBrandService" ref="goodsCategoryBrandServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpecGroupService" ref="goodsSpecGroupServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpecParamService" ref="goodsSpecParamServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSpuService" ref="goodsSpuServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.goods.service.GoodsSkuService" ref="goodsSkuServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!--活动管理-->
-    <sofa:service interface="com.anyex.apps.business.luckybox.activity.service.ActivityTreasureHuntService" ref="activityTreasureHuntServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.activity.service.ActivityHotDealsService" ref="activityHotDealsServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.activity.service.ActivityOperRecordService" ref="activityOperRecordServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;活动管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.activity.service.ActivityTreasureHuntService" ref="activityTreasureHuntServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.activity.service.ActivityHotDealsService" ref="activityHotDealsServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.activity.service.ActivityOperRecordService" ref="activityOperRecordServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!--游戏管理-->
-    <sofa:service interface="com.anyex.apps.business.luckybox.game.service.GameService" ref="gameServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.game.service.GamePrizeService" ref="gamePrizeServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;游戏管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.game.service.GameService" ref="gameServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.game.service.GamePrizeService" ref="gamePrizeServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
-    <!--订单管理-->
-    <sofa:service interface="com.anyex.apps.business.luckybox.order.service.Order4ActivityService" ref="order4ActivityServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    <sofa:service interface="com.anyex.apps.business.luckybox.order.service.Order4GameService" ref="order4GameServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
+<!--    &lt;!&ndash;订单管理&ndash;&gt;-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.order.service.Order4ActivityService" ref="order4ActivityServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
+<!--    <sofa:service interface="com.anyex.apps.business.luckybox.order.service.Order4GameService" ref="order4GameServiceImpl">-->
+<!--        <sofa:binding.bolt>-->
+<!--            <sofa:global-attrs timeout="600000"/>-->
+<!--        </sofa:binding.bolt>-->
+<!--    </sofa:service>-->
 
 </beans>
