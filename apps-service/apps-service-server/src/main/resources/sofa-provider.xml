@@ -159,6 +159,19 @@
         </sofa:binding.bolt>
     </sofa:service>
 
+    <!-- 用户信息 -->
+    <sofa:service interface="com.anyex.apps.user.service.UserService" ref="userServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- 用户认证个人KYC -->
+    <sofa:service interface="com.anyex.apps.user.service.UserCertKycService" ref="userCertKycServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImChatService" ref="openImChatServiceImpl">-->
 <!--        <sofa:binding.bolt>-->

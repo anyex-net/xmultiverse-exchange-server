@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.user.mapper.UserMapper">
+    <!-- 基础列 -->
+    <sql id="userColumns">
+        a.id as id,
+        a.uid as uid,
+        a.userName as userName,
+        a.avatar as avatar,
+        a.loginPwd as loginPwd,
+        a.tradePwd as tradePwd,
+        a.email as email,
+        a.country as country,
+        a.mobileNo as mobileNo,
+        a.gaAuthKey as gaAuthKey,
+        a.location as location,
+        a.state as state,
+        a.thawTime as thawTime,
+        a.securityPolicy as securityPolicy,
+        a.tradePolicy as tradePolicy,
+        a.inviteCode as inviteCode,
+        a.referralCode as referralCode,
+        a.source as source,
+        a.riskEvaluation as riskEvaluation,
+        a.certState as certState,
+        a.lang as lang,
+        a.localCurrency as localCurrency,
+        a.stableCoinPreference as stableCoinPreference,
+        a.remark as remark,
+        a.sign as sign,
+        a.randomKey as randomKey,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="userResultMap" type="com.anyex.apps.user.entity.User">
+        <id column="ID" property="id" />
+        <result column="uid" property="uid"/>
+        <result column="userName" property="userName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="loginPwd" property="loginPwd"/>
+        <result column="tradePwd" property="tradePwd"/>
+        <result column="email" property="email"/>
+        <result column="country" property="country"/>
+        <result column="mobileNo" property="mobileNo"/>
+        <result column="gaAuthKey" property="gaAuthKey"/>
+        <result column="location" property="location"/>
+        <result column="state" property="state"/>
+        <result column="thawTime" property="thawTime"/>
+        <result column="securityPolicy" property="securityPolicy"/>
+        <result column="tradePolicy" property="tradePolicy"/>
+        <result column="inviteCode" property="inviteCode"/>
+        <result column="referralCode" property="referralCode"/>
+        <result column="source" property="source"/>
+        <result column="riskEvaluation" property="riskEvaluation"/>
+        <result column="certState" property="certState"/>
+        <result column="lang" property="lang"/>
+        <result column="localCurrency" property="localCurrency"/>
+        <result column="stableCoinPreference" property="stableCoinPreference"/>
+        <result column="remark" property="remark"/>
+        <result column="sign" property="sign"/>
+        <result column="randomKey" property="randomKey"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.user.entity.User">
+        INSERT INTO User(
+            id ,
+            uid ,
+            userName ,
+            avatar ,
+            loginPwd ,
+            tradePwd ,
+            email ,
+            country ,
+            mobileNo ,
+            gaAuthKey ,
+            location ,
+            state ,
+            thawTime ,
+            securityPolicy ,
+            tradePolicy ,
+            inviteCode ,
+            referralCode ,
+            source ,
+            riskEvaluation ,
+            certState ,
+            lang ,
+            localCurrency ,
+            stableCoinPreference ,
+            remark ,
+            sign ,
+            randomKey ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{uid} ,
+            #{userName} ,
+            #{avatar} ,
+            #{loginPwd} ,
+            #{tradePwd} ,
+            #{email} ,
+            #{country} ,
+            #{mobileNo} ,
+            #{gaAuthKey} ,
+            #{location} ,
+            #{state} ,
+            #{thawTime} ,
+            #{securityPolicy} ,
+            #{tradePolicy} ,
+            #{inviteCode} ,
+            #{referralCode} ,
+            #{source} ,
+            #{riskEvaluation} ,
+            #{certState} ,
+            #{lang} ,
+            #{localCurrency} ,
+            #{stableCoinPreference} ,
+            #{remark} ,
+            #{sign} ,
+            #{randomKey} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM User WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE User SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.user.entity.User">
+        INSERT INTO User
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="uid != null">
+                uid ,
+        </if>
+        <if test="userName != null">
+                userName ,
+        </if>
+        <if test="avatar != null">
+                avatar ,
+        </if>
+        <if test="loginPwd != null">
+                loginPwd ,
+        </if>
+        <if test="tradePwd != null">
+                tradePwd ,
+        </if>
+        <if test="email != null">
+                email ,
+        </if>
+        <if test="country != null">
+                country ,
+        </if>
+        <if test="mobileNo != null">
+                mobileNo ,
+        </if>
+        <if test="gaAuthKey != null">
+                gaAuthKey ,
+        </if>
+        <if test="location != null">
+                location ,
+        </if>
+        <if test="state != null">
+                state ,
+        </if>
+        <if test="thawTime != null">
+                thawTime ,
+        </if>
+        <if test="securityPolicy != null">
+                securityPolicy ,
+        </if>
+        <if test="tradePolicy != null">
+                tradePolicy ,
+        </if>
+        <if test="inviteCode != null">
+                inviteCode ,
+        </if>
+        <if test="referralCode != null">
+                referralCode ,
+        </if>
+        <if test="source != null">
+                source ,
+        </if>
+        <if test="riskEvaluation != null">
+                riskEvaluation ,
+        </if>
+        <if test="certState != null">
+                certState ,
+        </if>
+        <if test="lang != null">
+                lang ,
+        </if>
+        <if test="localCurrency != null">
+                localCurrency ,
+        </if>
+        <if test="stableCoinPreference != null">
+                stableCoinPreference ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="sign != null">
+                sign ,
+        </if>
+        <if test="randomKey != null">
+                randomKey ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="uid != null">
+                #{uid} ,
+        </if>
+        <if test="userName != null">
+                #{userName} ,
+        </if>
+        <if test="avatar != null">
+                #{avatar} ,
+        </if>
+        <if test="loginPwd != null">
+                #{loginPwd} ,
+        </if>
+        <if test="tradePwd != null">
+                #{tradePwd} ,
+        </if>
+        <if test="email != null">
+                #{email} ,
+        </if>
+        <if test="country != null">
+                #{country} ,
+        </if>
+        <if test="mobileNo != null">
+                #{mobileNo} ,
+        </if>
+        <if test="gaAuthKey != null">
+                #{gaAuthKey} ,
+        </if>
+        <if test="location != null">
+                #{location} ,
+        </if>
+        <if test="state != null">
+                #{state} ,
+        </if>
+        <if test="thawTime != null">
+                #{thawTime} ,
+        </if>
+        <if test="securityPolicy != null">
+                #{securityPolicy} ,
+        </if>
+        <if test="tradePolicy != null">
+                #{tradePolicy} ,
+        </if>
+        <if test="inviteCode != null">
+                #{inviteCode} ,
+        </if>
+        <if test="referralCode != null">
+                #{referralCode} ,
+        </if>
+        <if test="source != null">
+                #{source} ,
+        </if>
+        <if test="riskEvaluation != null">
+                #{riskEvaluation} ,
+        </if>
+        <if test="certState != null">
+                #{certState} ,
+        </if>
+        <if test="lang != null">
+                #{lang} ,
+        </if>
+        <if test="localCurrency != null">
+                #{localCurrency} ,
+        </if>
+        <if test="stableCoinPreference != null">
+                #{stableCoinPreference} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="sign != null">
+                #{sign} ,
+        </if>
+        <if test="randomKey != null">
+                #{randomKey} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.user.entity.User">
+        UPDATE User
+           <set>
+            <if test="uid != null">
+                uid = #{uid} ,
+            </if>
+            <if test="userName != null">
+                userName = #{userName} ,
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar} ,
+            </if>
+            <if test="loginPwd != null">
+                loginPwd = #{loginPwd} ,
+            </if>
+            <if test="tradePwd != null">
+                tradePwd = #{tradePwd} ,
+            </if>
+            <if test="email != null">
+                email = #{email} ,
+            </if>
+            <if test="country != null">
+                country = #{country} ,
+            </if>
+            <if test="mobileNo != null">
+                mobileNo = #{mobileNo} ,
+            </if>
+            <if test="gaAuthKey != null">
+                gaAuthKey = #{gaAuthKey} ,
+            </if>
+            <if test="location != null">
+                location = #{location} ,
+            </if>
+            <if test="state != null">
+                state = #{state} ,
+            </if>
+            <if test="thawTime != null">
+                thawTime = #{thawTime} ,
+            </if>
+            <if test="securityPolicy != null">
+                securityPolicy = #{securityPolicy} ,
+            </if>
+            <if test="tradePolicy != null">
+                tradePolicy = #{tradePolicy} ,
+            </if>
+            <if test="inviteCode != null">
+                inviteCode = #{inviteCode} ,
+            </if>
+            <if test="referralCode != null">
+                referralCode = #{referralCode} ,
+            </if>
+            <if test="source != null">
+                source = #{source} ,
+            </if>
+            <if test="riskEvaluation != null">
+                riskEvaluation = #{riskEvaluation} ,
+            </if>
+            <if test="certState != null">
+                certState = #{certState} ,
+            </if>
+            <if test="lang != null">
+                lang = #{lang} ,
+            </if>
+            <if test="localCurrency != null">
+                localCurrency = #{localCurrency} ,
+            </if>
+            <if test="stableCoinPreference != null">
+                stableCoinPreference = #{stableCoinPreference} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="sign != null">
+                sign = #{sign} ,
+            </if>
+            <if test="randomKey != null">
+                randomKey = #{randomKey} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO User(
+            id ,
+            uid ,
+            userName ,
+            avatar ,
+            loginPwd ,
+            tradePwd ,
+            email ,
+            country ,
+            mobileNo ,
+            gaAuthKey ,
+            location ,
+            state ,
+            thawTime ,
+            securityPolicy ,
+            tradePolicy ,
+            inviteCode ,
+            referralCode ,
+            source ,
+            riskEvaluation ,
+            certState ,
+            lang ,
+            localCurrency ,
+            stableCoinPreference ,
+            remark ,
+            sign ,
+            randomKey ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.uid} ,
+            #{item.userName} ,
+            #{item.avatar} ,
+            #{item.loginPwd} ,
+            #{item.tradePwd} ,
+            #{item.email} ,
+            #{item.country} ,
+            #{item.mobileNo} ,
+            #{item.gaAuthKey} ,
+            #{item.location} ,
+            #{item.state} ,
+            #{item.thawTime} ,
+            #{item.securityPolicy} ,
+            #{item.tradePolicy} ,
+            #{item.inviteCode} ,
+            #{item.referralCode} ,
+            #{item.source} ,
+            #{item.riskEvaluation} ,
+            #{item.certState} ,
+            #{item.lang} ,
+            #{item.localCurrency} ,
+            #{item.stableCoinPreference} ,
+            #{item.remark} ,
+            #{item.sign} ,
+            #{item.randomKey} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE User SET
+            uid = #{item.uid} ,
+            userName = #{item.userName} ,
+            avatar = #{item.avatar} ,
+            loginPwd = #{item.loginPwd} ,
+            tradePwd = #{item.tradePwd} ,
+            email = #{item.email} ,
+            country = #{item.country} ,
+            mobileNo = #{item.mobileNo} ,
+            gaAuthKey = #{item.gaAuthKey} ,
+            location = #{item.location} ,
+            state = #{item.state} ,
+            thawTime = #{item.thawTime} ,
+            securityPolicy = #{item.securityPolicy} ,
+            tradePolicy = #{item.tradePolicy} ,
+            inviteCode = #{item.inviteCode} ,
+            referralCode = #{item.referralCode} ,
+            source = #{item.source} ,
+            riskEvaluation = #{item.riskEvaluation} ,
+            certState = #{item.certState} ,
+            lang = #{item.lang} ,
+            localCurrency = #{item.localCurrency} ,
+            stableCoinPreference = #{item.stableCoinPreference} ,
+            remark = #{item.remark} ,
+            sign = #{item.sign} ,
+            randomKey = #{item.randomKey} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.user.entity.User">
+        UPDATE User SET
+            uid = #{uid} ,
+            userName = #{userName} ,
+            avatar = #{avatar} ,
+            loginPwd = #{loginPwd} ,
+            tradePwd = #{tradePwd} ,
+            email = #{email} ,
+            country = #{country} ,
+            mobileNo = #{mobileNo} ,
+            gaAuthKey = #{gaAuthKey} ,
+            location = #{location} ,
+            state = #{state} ,
+            thawTime = #{thawTime} ,
+            securityPolicy = #{securityPolicy} ,
+            tradePolicy = #{tradePolicy} ,
+            inviteCode = #{inviteCode} ,
+            referralCode = #{referralCode} ,
+            source = #{source} ,
+            riskEvaluation = #{riskEvaluation} ,
+            certState = #{certState} ,
+            lang = #{lang} ,
+            localCurrency = #{localCurrency} ,
+            stableCoinPreference = #{stableCoinPreference} ,
+            remark = #{remark} ,
+            sign = #{sign} ,
+            randomKey = #{randomKey} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.user.entity.User">
+        SELECT <include refid="userColumns"/> FROM User a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a WHERE 1 = 1
+        <if test="uid != null">
+            AND a.uid = #{uid}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND a.userName = #{userName}
+        </if>
+        <if test="avatar != null and avatar != ''">
+            AND a.avatar = #{avatar}
+        </if>
+        <if test="loginPwd != null and loginPwd != ''">
+            AND a.loginPwd = #{loginPwd}
+        </if>
+        <if test="tradePwd != null and tradePwd != ''">
+            AND a.tradePwd = #{tradePwd}
+        </if>
+        <if test="email != null and email != ''">
+            AND a.email = #{email}
+        </if>
+        <if test="country != null and country != ''">
+            AND a.country = #{country}
+        </if>
+        <if test="mobileNo != null and mobileNo != ''">
+            AND a.mobileNo = #{mobileNo}
+        </if>
+        <if test="gaAuthKey != null and gaAuthKey != ''">
+            AND a.gaAuthKey = #{gaAuthKey}
+        </if>
+        <if test="location != null and location != ''">
+            AND a.location = #{location}
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state = #{state}
+        </if>
+        <if test="thawTime != null">
+            AND a.thawTime = #{thawTime}
+        </if>
+        <if test="securityPolicy != null">
+            AND a.securityPolicy = #{securityPolicy}
+        </if>
+        <if test="tradePolicy != null">
+            AND a.tradePolicy = #{tradePolicy}
+        </if>
+        <if test="inviteCode != null and inviteCode != ''">
+            AND a.inviteCode = #{inviteCode}
+        </if>
+        <if test="referralCode != null and referralCode != ''">
+            AND a.referralCode = #{referralCode}
+        </if>
+        <if test="source != null and source != ''">
+            AND a.source = #{source}
+        </if>
+        <if test="riskEvaluation != null">
+            AND a.riskEvaluation = #{riskEvaluation}
+        </if>
+        <if test="certState != null">
+            AND a.certState = #{certState}
+        </if>
+        <if test="lang != null and lang != ''">
+            AND a.lang = #{lang}
+        </if>
+        <if test="localCurrency != null and localCurrency != ''">
+            AND a.localCurrency = #{localCurrency}
+        </if>
+        <if test="stableCoinPreference != null and stableCoinPreference != ''">
+            AND a.stableCoinPreference = #{stableCoinPreference}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="sign != null and sign != ''">
+            AND a.sign = #{sign}
+        </if>
+        <if test="randomKey != null and randomKey != ''">
+            AND a.randomKey = #{randomKey}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a WHERE 1 = 1
+        <if test="uid != null">
+            AND a.uid = #{uid}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND a.userName LIKE CONCAT('%',#{userName}, '%')
+        </if>
+        <if test="avatar != null and avatar != ''">
+            AND a.avatar LIKE CONCAT('%',#{avatar}, '%')
+        </if>
+        <if test="loginPwd != null and loginPwd != ''">
+            AND a.loginPwd LIKE CONCAT('%',#{loginPwd}, '%')
+        </if>
+        <if test="tradePwd != null and tradePwd != ''">
+            AND a.tradePwd LIKE CONCAT('%',#{tradePwd}, '%')
+        </if>
+        <if test="email != null and email != ''">
+            AND a.email LIKE CONCAT('%',#{email}, '%')
+        </if>
+        <if test="country != null and country != ''">
+            AND a.country LIKE CONCAT('%',#{country}, '%')
+        </if>
+        <if test="mobileNo != null and mobileNo != ''">
+            AND a.mobileNo LIKE CONCAT('%',#{mobileNo}, '%')
+        </if>
+        <if test="gaAuthKey != null and gaAuthKey != ''">
+            AND a.gaAuthKey LIKE CONCAT('%',#{gaAuthKey}, '%')
+        </if>
+        <if test="location != null and location != ''">
+            AND a.location LIKE CONCAT('%',#{location}, '%')
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state LIKE CONCAT('%',#{state}, '%')
+        </if>
+        <if test="thawTime != null">
+            AND a.thawTime = #{thawTime}
+        </if>
+        <if test="securityPolicy != null">
+            AND a.securityPolicy = #{securityPolicy}
+        </if>
+        <if test="tradePolicy != null">
+            AND a.tradePolicy = #{tradePolicy}
+        </if>
+        <if test="inviteCode != null and inviteCode != ''">
+            AND a.inviteCode LIKE CONCAT('%',#{inviteCode}, '%')
+        </if>
+        <if test="referralCode != null and referralCode != ''">
+            AND a.referralCode LIKE CONCAT('%',#{referralCode}, '%')
+        </if>
+        <if test="source != null and source != ''">
+            AND a.source LIKE CONCAT('%',#{source}, '%')
+        </if>
+        <if test="riskEvaluation != null">
+            AND a.riskEvaluation = #{riskEvaluation}
+        </if>
+        <if test="certState != null">
+            AND a.certState = #{certState}
+        </if>
+        <if test="lang != null and lang != ''">
+            AND a.lang LIKE CONCAT('%',#{lang}, '%')
+        </if>
+        <if test="localCurrency != null and localCurrency != ''">
+            AND a.localCurrency LIKE CONCAT('%',#{localCurrency}, '%')
+        </if>
+        <if test="stableCoinPreference != null and stableCoinPreference != ''">
+            AND a.stableCoinPreference LIKE CONCAT('%',#{stableCoinPreference}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="sign != null and sign != ''">
+            AND a.sign LIKE CONCAT('%',#{sign}, '%')
+        </if>
+        <if test="randomKey != null and randomKey != ''">
+            AND a.randomKey LIKE CONCAT('%',#{randomKey}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a
+    </select>
+
+
+</mapper>
+

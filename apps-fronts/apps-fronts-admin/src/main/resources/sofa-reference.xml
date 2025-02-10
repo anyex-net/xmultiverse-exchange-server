@@ -160,6 +160,19 @@
         </sofa:binding.bolt>
     </sofa:reference>
 
+    <!-- 用户信息 -->
+    <sofa:reference id="userService" interface="com.anyex.apps.user.service.UserService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户认证个人KYC -->
+    <sofa:reference id="userCertKycService" interface="com.anyex.apps.user.service.UserCertKycService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:reference id="openImAdminService" interface="com.anyex.apps.openim.service.OpenImAdminService" jvm-first="false">-->
 <!--        <sofa:binding.bolt>-->
