@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.fund.mapper.DepositTransHistoryMapper">
+    <!-- 基础列 -->
+    <sql id="depositTransHistoryColumns">
+        a.id as id,
+        a.userId as userId,
+        a.currency as currency,
+        a.blockchain as blockchain,
+        a.depositAddress as depositAddress,
+        a.transId as transId,
+        a.amount as amount,
+        a.netFee as netFee,
+        a.confirmState as confirmState,
+        a.depositState as depositState,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="depositTransHistoryResultMap" type="com.anyex.apps.fund.entity.DepositTransHistory">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="currency" property="currency"/>
+        <result column="blockchain" property="blockchain"/>
+        <result column="depositAddress" property="depositAddress"/>
+        <result column="transId" property="transId"/>
+        <result column="amount" property="amount"/>
+        <result column="netFee" property="netFee"/>
+        <result column="confirmState" property="confirmState"/>
+        <result column="depositState" property="depositState"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.fund.entity.DepositTransHistory">
+        INSERT INTO DepositTransHistory(
+            id ,
+            userId ,
+            currency ,
+            blockchain ,
+            depositAddress ,
+            transId ,
+            amount ,
+            netFee ,
+            confirmState ,
+            depositState ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{currency} ,
+            #{blockchain} ,
+            #{depositAddress} ,
+            #{transId} ,
+            #{amount} ,
+            #{netFee} ,
+            #{confirmState} ,
+            #{depositState} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM DepositTransHistory WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE DepositTransHistory SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.fund.entity.DepositTransHistory">
+        INSERT INTO DepositTransHistory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="currency != null">
+                currency ,
+        </if>
+        <if test="blockchain != null">
+                blockchain ,
+        </if>
+        <if test="depositAddress != null">
+                depositAddress ,
+        </if>
+        <if test="transId != null">
+                transId ,
+        </if>
+        <if test="amount != null">
+                amount ,
+        </if>
+        <if test="netFee != null">
+                netFee ,
+        </if>
+        <if test="confirmState != null">
+                confirmState ,
+        </if>
+        <if test="depositState != null">
+                depositState ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="currency != null">
+                #{currency} ,
+        </if>
+        <if test="blockchain != null">
+                #{blockchain} ,
+        </if>
+        <if test="depositAddress != null">
+                #{depositAddress} ,
+        </if>
+        <if test="transId != null">
+                #{transId} ,
+        </if>
+        <if test="amount != null">
+                #{amount} ,
+        </if>
+        <if test="netFee != null">
+                #{netFee} ,
+        </if>
+        <if test="confirmState != null">
+                #{confirmState} ,
+        </if>
+        <if test="depositState != null">
+                #{depositState} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.fund.entity.DepositTransHistory">
+        UPDATE DepositTransHistory
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="currency != null">
+                currency = #{currency} ,
+            </if>
+            <if test="blockchain != null">
+                blockchain = #{blockchain} ,
+            </if>
+            <if test="depositAddress != null">
+                depositAddress = #{depositAddress} ,
+            </if>
+            <if test="transId != null">
+                transId = #{transId} ,
+            </if>
+            <if test="amount != null">
+                amount = #{amount} ,
+            </if>
+            <if test="netFee != null">
+                netFee = #{netFee} ,
+            </if>
+            <if test="confirmState != null">
+                confirmState = #{confirmState} ,
+            </if>
+            <if test="depositState != null">
+                depositState = #{depositState} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO DepositTransHistory(
+            id ,
+            userId ,
+            currency ,
+            blockchain ,
+            depositAddress ,
+            transId ,
+            amount ,
+            netFee ,
+            confirmState ,
+            depositState ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.currency} ,
+            #{item.blockchain} ,
+            #{item.depositAddress} ,
+            #{item.transId} ,
+            #{item.amount} ,
+            #{item.netFee} ,
+            #{item.confirmState} ,
+            #{item.depositState} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE DepositTransHistory SET
+            userId = #{item.userId} ,
+            currency = #{item.currency} ,
+            blockchain = #{item.blockchain} ,
+            depositAddress = #{item.depositAddress} ,
+            transId = #{item.transId} ,
+            amount = #{item.amount} ,
+            netFee = #{item.netFee} ,
+            confirmState = #{item.confirmState} ,
+            depositState = #{item.depositState} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.fund.entity.DepositTransHistory">
+        UPDATE DepositTransHistory SET
+            userId = #{userId} ,
+            currency = #{currency} ,
+            blockchain = #{blockchain} ,
+            depositAddress = #{depositAddress} ,
+            transId = #{transId} ,
+            amount = #{amount} ,
+            netFee = #{netFee} ,
+            confirmState = #{confirmState} ,
+            depositState = #{depositState} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.fund.entity.DepositTransHistory">
+        SELECT <include refid="depositTransHistoryColumns"/> FROM DepositTransHistory a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.fund.entity.DepositTransHistory">
+        SELECT
+        <include refid="depositTransHistoryColumns"/>
+        FROM DepositTransHistory a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND a.currency = #{currency}
+        </if>
+        <if test="blockchain != null and blockchain != ''">
+            AND a.blockchain = #{blockchain}
+        </if>
+        <if test="depositAddress != null and depositAddress != ''">
+            AND a.depositAddress = #{depositAddress}
+        </if>
+        <if test="transId != null and transId != ''">
+            AND a.transId = #{transId}
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="netFee != null">
+            AND a.netFee = #{netFee}
+        </if>
+        <if test="confirmState != null and confirmState != ''">
+            AND a.confirmState = #{confirmState}
+        </if>
+        <if test="depositState != null and depositState != ''">
+            AND a.depositState = #{depositState}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.fund.entity.DepositTransHistory">
+        SELECT
+        <include refid="depositTransHistoryColumns"/>
+        FROM DepositTransHistory a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND a.currency LIKE CONCAT('%',#{currency}, '%')
+        </if>
+        <if test="blockchain != null and blockchain != ''">
+            AND a.blockchain LIKE CONCAT('%',#{blockchain}, '%')
+        </if>
+        <if test="depositAddress != null and depositAddress != ''">
+            AND a.depositAddress LIKE CONCAT('%',#{depositAddress}, '%')
+        </if>
+        <if test="transId != null and transId != ''">
+            AND a.transId LIKE CONCAT('%',#{transId}, '%')
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="netFee != null">
+            AND a.netFee = #{netFee}
+        </if>
+        <if test="confirmState != null and confirmState != ''">
+            AND a.confirmState LIKE CONCAT('%',#{confirmState}, '%')
+        </if>
+        <if test="depositState != null and depositState != ''">
+            AND a.depositState LIKE CONCAT('%',#{depositState}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.fund.entity.DepositTransHistory">
+        SELECT
+        <include refid="depositTransHistoryColumns"/>
+        FROM DepositTransHistory a
+    </select>
+
+</mapper>
+

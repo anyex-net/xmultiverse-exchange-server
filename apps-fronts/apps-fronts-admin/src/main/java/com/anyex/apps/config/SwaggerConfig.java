@@ -125,6 +125,23 @@ public class SwaggerConfig {
                 .pathMapping("/");
     }
 
+    @Bean
+    public Docket web_api_fund() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("资金管理API")
+                        .description("资金管理")
+                        .termsOfServiceUrl("")//这里可以是项目地址
+                        .version("2.0.1")
+                        .build())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/fund/**"))
+                .build()
+                .groupName("资金管理")
+                .pathMapping("/");
+    }
+
 //    @Bean
 //    public Docket web_api_openim() {
 //        return new Docket(DocumentationType.SWAGGER_2)

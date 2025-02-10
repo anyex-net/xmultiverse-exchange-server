@@ -173,6 +173,37 @@
         </sofa:binding.bolt>
     </sofa:reference>
 
+    <!-- 资金账户余额 -->
+    <sofa:reference id="balancesService" interface="com.anyex.apps.fund.service.BalancesService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 资金账户交易历史 -->
+    <sofa:reference id="balancesTransHistoryService" interface="com.anyex.apps.fund.service.BalancesTransHistoryService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 充值地址 -->
+    <sofa:reference id="depositAddressService" interface="com.anyex.apps.fund.service.DepositAddressService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 充值交易历史 -->
+    <sofa:reference id="depositTransHistoryService" interface="com.anyex.apps.fund.service.DepositTransHistoryService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 提现历史 -->
+    <sofa:reference id="withdrawalHistoryService" interface="com.anyex.apps.fund.service.WithdrawalHistoryService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:reference id="openImAdminService" interface="com.anyex.apps.openim.service.OpenImAdminService" jvm-first="false">-->
 <!--        <sofa:binding.bolt>-->

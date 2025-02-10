@@ -172,6 +172,37 @@
         </sofa:binding.bolt>
     </sofa:service>
 
+    <!-- 资金账户余额 -->
+    <sofa:service interface="com.anyex.apps.fund.service.BalancesService" ref="balancesServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- 资金账户交易历史 -->
+    <sofa:service interface="com.anyex.apps.fund.service.BalancesTransHistoryService" ref="balancesTransHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- 充值地址 -->
+    <sofa:service interface="com.anyex.apps.fund.service.DepositAddressService" ref="depositAddressServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- 充值交易历史 -->
+    <sofa:service interface="com.anyex.apps.fund.service.DepositTransHistoryService" ref="depositTransHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- 提现历史 -->
+    <sofa:service interface="com.anyex.apps.fund.service.WithdrawalHistoryService" ref="withdrawalHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImChatService" ref="openImChatServiceImpl">-->
 <!--        <sofa:binding.bolt>-->
