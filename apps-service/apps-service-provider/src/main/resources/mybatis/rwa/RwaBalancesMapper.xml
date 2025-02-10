@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.rwa.mapper.RwaBalancesMapper">
+    <!-- 基础列 -->
+    <sql id="rwaBalancesColumns">
+        a.id as id,
+        a.userId as userId,
+        a.currency as currency,
+        a.balance as balance,
+        a.frozenBal as frozenBal,
+        a.availBal as availBal,
+        a.remark as remark,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="rwaBalancesResultMap" type="com.anyex.apps.rwa.entity.RwaBalances">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="currency" property="currency"/>
+        <result column="balance" property="balance"/>
+        <result column="frozenBal" property="frozenBal"/>
+        <result column="availBal" property="availBal"/>
+        <result column="remark" property="remark"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.rwa.entity.RwaBalances">
+        INSERT INTO RwaBalances(
+            id ,
+            userId ,
+            currency ,
+            balance ,
+            frozenBal ,
+            availBal ,
+            remark ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{currency} ,
+            #{balance} ,
+            #{frozenBal} ,
+            #{availBal} ,
+            #{remark} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM RwaBalances WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE RwaBalances SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.rwa.entity.RwaBalances">
+        INSERT INTO RwaBalances
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="currency != null">
+                currency ,
+        </if>
+        <if test="balance != null">
+                balance ,
+        </if>
+        <if test="frozenBal != null">
+                frozenBal ,
+        </if>
+        <if test="availBal != null">
+                availBal ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="currency != null">
+                #{currency} ,
+        </if>
+        <if test="balance != null">
+                #{balance} ,
+        </if>
+        <if test="frozenBal != null">
+                #{frozenBal} ,
+        </if>
+        <if test="availBal != null">
+                #{availBal} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.rwa.entity.RwaBalances">
+        UPDATE RwaBalances
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="currency != null">
+                currency = #{currency} ,
+            </if>
+            <if test="balance != null">
+                balance = #{balance} ,
+            </if>
+            <if test="frozenBal != null">
+                frozenBal = #{frozenBal} ,
+            </if>
+            <if test="availBal != null">
+                availBal = #{availBal} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO RwaBalances(
+            id ,
+            userId ,
+            currency ,
+            balance ,
+            frozenBal ,
+            availBal ,
+            remark ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.currency} ,
+            #{item.balance} ,
+            #{item.frozenBal} ,
+            #{item.availBal} ,
+            #{item.remark} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE RwaBalances SET
+            userId = #{item.userId} ,
+            currency = #{item.currency} ,
+            balance = #{item.balance} ,
+            frozenBal = #{item.frozenBal} ,
+            availBal = #{item.availBal} ,
+            remark = #{item.remark} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.rwa.entity.RwaBalances">
+        UPDATE RwaBalances SET
+            userId = #{userId} ,
+            currency = #{currency} ,
+            balance = #{balance} ,
+            frozenBal = #{frozenBal} ,
+            availBal = #{availBal} ,
+            remark = #{remark} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.rwa.entity.RwaBalances">
+        SELECT <include refid="rwaBalancesColumns"/> FROM RwaBalances a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.rwa.entity.RwaBalances">
+        SELECT
+        <include refid="rwaBalancesColumns"/>
+        FROM RwaBalances a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND a.currency = #{currency}
+        </if>
+        <if test="balance != null">
+            AND a.balance = #{balance}
+        </if>
+        <if test="frozenBal != null">
+            AND a.frozenBal = #{frozenBal}
+        </if>
+        <if test="availBal != null">
+            AND a.availBal = #{availBal}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.rwa.entity.RwaBalances">
+        SELECT
+        <include refid="rwaBalancesColumns"/>
+        FROM RwaBalances a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND a.currency LIKE CONCAT('%',#{currency}, '%')
+        </if>
+        <if test="balance != null">
+            AND a.balance = #{balance}
+        </if>
+        <if test="frozenBal != null">
+            AND a.frozenBal = #{frozenBal}
+        </if>
+        <if test="availBal != null">
+            AND a.availBal = #{availBal}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.rwa.entity.RwaBalances">
+        SELECT
+        <include refid="rwaBalancesColumns"/>
+        FROM RwaBalances a
+    </select>
+
+
+</mapper>
+

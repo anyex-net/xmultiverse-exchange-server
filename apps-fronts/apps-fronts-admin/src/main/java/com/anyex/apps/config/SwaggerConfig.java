@@ -44,8 +44,8 @@ public class SwaggerConfig {
     public Docket web_api_common() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("通用管理API")
-                        .description("通用管理")
+                        .title("S-通用管理API")
+                        .description("S-通用管理")
                         .termsOfServiceUrl("")//这里可以是项目地址
                         .version("2.0.1")
                         .build())
@@ -53,7 +53,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/common/**"))
                 .build()
-                .groupName("通用管理")
+                .groupName("S-通用管理")
                 .pathMapping("/");
     }
 
@@ -61,8 +61,8 @@ public class SwaggerConfig {
     public Docket web_api_auth() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("安全认证API")
-                        .description("安全认证")
+                        .title("S-安全认证API")
+                        .description("S-安全认证")
                         .termsOfServiceUrl("")//这里可以是项目地址
                         .version("2.0.1")
                         .build())
@@ -70,7 +70,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/auth/**"))
                 .build()
-                .groupName("安全认证")
+                .groupName("S-安全认证")
                 .pathMapping("/");
     }
 
@@ -78,8 +78,8 @@ public class SwaggerConfig {
     public Docket web_api_system() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("系统管理API")
-                        .description("系统管理")
+                        .title("S-系统管理API")
+                        .description("S-系统管理")
                         .termsOfServiceUrl("")//这里可以是项目地址
                         .version("2.0.1")
                         .build())
@@ -87,7 +87,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/system/**"))
                 .build()
-                .groupName("系统管理")
+                .groupName("S-系统管理")
                 .pathMapping("/");
     }
 
@@ -95,8 +95,8 @@ public class SwaggerConfig {
     public Docket web_api_base() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("基础设置API")
-                        .description("基础设置")
+                        .title("B-基础设置API")
+                        .description("B-基础设置")
                         .termsOfServiceUrl("")//这里可以是项目地址
                         .version("2.0.1")
                         .build())
@@ -104,7 +104,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/base/**"))
                 .build()
-                .groupName("基础设置")
+                .groupName("B-基础设置")
                 .pathMapping("/");
     }
 
@@ -112,8 +112,8 @@ public class SwaggerConfig {
     public Docket web_api_user() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("用户管理API")
-                        .description("用户管理")
+                        .title("B-用户管理API")
+                        .description("B-用户管理")
                         .termsOfServiceUrl("")//这里可以是项目地址
                         .version("2.0.1")
                         .build())
@@ -121,7 +121,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/user/**"))
                 .build()
-                .groupName("用户管理")
+                .groupName("B-用户管理")
                 .pathMapping("/");
     }
 
@@ -129,8 +129,8 @@ public class SwaggerConfig {
     public Docket web_api_fund() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("资金管理API")
-                        .description("资金管理")
+                        .title("B-资金管理API")
+                        .description("B-资金管理")
                         .termsOfServiceUrl("")//这里可以是项目地址
                         .version("2.0.1")
                         .build())
@@ -138,7 +138,41 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/fund/**"))
                 .build()
-                .groupName("资金管理")
+                .groupName("B-资金管理")
+                .pathMapping("/");
+    }
+
+    @Bean
+    public Docket web_api_rwa() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("T-RWA交易管理API")
+                        .description("T-RWA交易管理")
+                        .termsOfServiceUrl("")//这里可以是项目地址
+                        .version("2.0.1")
+                        .build())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/rwa/**"))
+                .build()
+                .groupName("T-RWA交易管理")
+                .pathMapping("/");
+    }
+
+    @Bean
+    public Docket web_api_spot() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("T-现货交易管理API")
+                        .description("T-现货交易管理")
+                        .termsOfServiceUrl("")//这里可以是项目地址
+                        .version("2.0.1")
+                        .build())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/spot/**"))
+                .build()
+                .groupName("T-现货交易管理")
                 .pathMapping("/");
     }
 

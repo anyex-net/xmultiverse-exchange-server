@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.rwa.mapper.RwaCertInstInvestorMapper">
+    <!-- 基础列 -->
+    <sql id="rwaCertInstInvestorColumns">
+        a.id as id,
+        a.userId as userId,
+        a.agentName as agentName,
+        a.agentRegion as agentRegion,
+        a.agentPassportType as agentPassportType,
+        a.agentPassportNo as agentPassportNo,
+        a.agentPassportImg1 as agentPassportImg1,
+        a.agentPassportImg2 as agentPassportImg2,
+        a.agentPassportImg3 as agentPassportImg3,
+        a.agentEmail as agentEmail,
+        a.agentMobileNo as agentMobileNo,
+        a.agentAuthorizationFile as agentAuthorizationFile,
+        a.companyName as companyName,
+        a.companyType as companyType,
+        a.companyBusinessType as companyBusinessType,
+        a.companyRegistrNo as companyRegistrNo,
+        a.companyRegistrImg as companyRegistrImg,
+        a.companyCountry as companyCountry,
+        a.companyRegistrAddress as companyRegistrAddress,
+        a.companyFoundedDate as companyFoundedDate,
+        a.companyLicenseNumber as companyLicenseNumber,
+        a.companyRegulator as companyRegulator,
+        a.companyAmlCertificate as companyAmlCertificate,
+        a.state as state,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime,
+        a.checkBy as checkBy,
+        a.checkTime as checkTime
+    </sql>
+
+    <resultMap id="rwaCertInstInvestorResultMap" type="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="agentName" property="agentName"/>
+        <result column="agentRegion" property="agentRegion"/>
+        <result column="agentPassportType" property="agentPassportType"/>
+        <result column="agentPassportNo" property="agentPassportNo"/>
+        <result column="agentPassportImg1" property="agentPassportImg1"/>
+        <result column="agentPassportImg2" property="agentPassportImg2"/>
+        <result column="agentPassportImg3" property="agentPassportImg3"/>
+        <result column="agentEmail" property="agentEmail"/>
+        <result column="agentMobileNo" property="agentMobileNo"/>
+        <result column="agentAuthorizationFile" property="agentAuthorizationFile"/>
+        <result column="companyName" property="companyName"/>
+        <result column="companyType" property="companyType"/>
+        <result column="companyBusinessType" property="companyBusinessType"/>
+        <result column="companyRegistrNo" property="companyRegistrNo"/>
+        <result column="companyRegistrImg" property="companyRegistrImg"/>
+        <result column="companyCountry" property="companyCountry"/>
+        <result column="companyRegistrAddress" property="companyRegistrAddress"/>
+        <result column="companyFoundedDate" property="companyFoundedDate"/>
+        <result column="companyLicenseNumber" property="companyLicenseNumber"/>
+        <result column="companyRegulator" property="companyRegulator"/>
+        <result column="companyAmlCertificate" property="companyAmlCertificate"/>
+        <result column="state" property="state"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="checkBy" property="checkBy"/>
+        <result column="checkTime" property="checkTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        INSERT INTO RwaCertInstInvestor(
+            id ,
+            userId ,
+            agentName ,
+            agentRegion ,
+            agentPassportType ,
+            agentPassportNo ,
+            agentPassportImg1 ,
+            agentPassportImg2 ,
+            agentPassportImg3 ,
+            agentEmail ,
+            agentMobileNo ,
+            agentAuthorizationFile ,
+            companyName ,
+            companyType ,
+            companyBusinessType ,
+            companyRegistrNo ,
+            companyRegistrImg ,
+            companyCountry ,
+            companyRegistrAddress ,
+            companyFoundedDate ,
+            companyLicenseNumber ,
+            companyRegulator ,
+            companyAmlCertificate ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime ,
+            checkBy ,
+            checkTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{agentName} ,
+            #{agentRegion} ,
+            #{agentPassportType} ,
+            #{agentPassportNo} ,
+            #{agentPassportImg1} ,
+            #{agentPassportImg2} ,
+            #{agentPassportImg3} ,
+            #{agentEmail} ,
+            #{agentMobileNo} ,
+            #{agentAuthorizationFile} ,
+            #{companyName} ,
+            #{companyType} ,
+            #{companyBusinessType} ,
+            #{companyRegistrNo} ,
+            #{companyRegistrImg} ,
+            #{companyCountry} ,
+            #{companyRegistrAddress} ,
+            #{companyFoundedDate} ,
+            #{companyLicenseNumber} ,
+            #{companyRegulator} ,
+            #{companyAmlCertificate} ,
+            #{state} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} ,
+            #{checkBy} ,
+            #{checkTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM RwaCertInstInvestor WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE RwaCertInstInvestor SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        INSERT INTO RwaCertInstInvestor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="agentName != null">
+                agentName ,
+        </if>
+        <if test="agentRegion != null">
+                agentRegion ,
+        </if>
+        <if test="agentPassportType != null">
+                agentPassportType ,
+        </if>
+        <if test="agentPassportNo != null">
+                agentPassportNo ,
+        </if>
+        <if test="agentPassportImg1 != null">
+                agentPassportImg1 ,
+        </if>
+        <if test="agentPassportImg2 != null">
+                agentPassportImg2 ,
+        </if>
+        <if test="agentPassportImg3 != null">
+                agentPassportImg3 ,
+        </if>
+        <if test="agentEmail != null">
+                agentEmail ,
+        </if>
+        <if test="agentMobileNo != null">
+                agentMobileNo ,
+        </if>
+        <if test="agentAuthorizationFile != null">
+                agentAuthorizationFile ,
+        </if>
+        <if test="companyName != null">
+                companyName ,
+        </if>
+        <if test="companyType != null">
+                companyType ,
+        </if>
+        <if test="companyBusinessType != null">
+                companyBusinessType ,
+        </if>
+        <if test="companyRegistrNo != null">
+                companyRegistrNo ,
+        </if>
+        <if test="companyRegistrImg != null">
+                companyRegistrImg ,
+        </if>
+        <if test="companyCountry != null">
+                companyCountry ,
+        </if>
+        <if test="companyRegistrAddress != null">
+                companyRegistrAddress ,
+        </if>
+        <if test="companyFoundedDate != null">
+                companyFoundedDate ,
+        </if>
+        <if test="companyLicenseNumber != null">
+                companyLicenseNumber ,
+        </if>
+        <if test="companyRegulator != null">
+                companyRegulator ,
+        </if>
+        <if test="companyAmlCertificate != null">
+                companyAmlCertificate ,
+        </if>
+        <if test="state != null">
+                state ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime ,
+        </if>
+        <if test="checkBy != null">
+                checkBy ,
+        </if>
+        <if test="checkTime != null">
+                checkTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="agentName != null">
+                #{agentName} ,
+        </if>
+        <if test="agentRegion != null">
+                #{agentRegion} ,
+        </if>
+        <if test="agentPassportType != null">
+                #{agentPassportType} ,
+        </if>
+        <if test="agentPassportNo != null">
+                #{agentPassportNo} ,
+        </if>
+        <if test="agentPassportImg1 != null">
+                #{agentPassportImg1} ,
+        </if>
+        <if test="agentPassportImg2 != null">
+                #{agentPassportImg2} ,
+        </if>
+        <if test="agentPassportImg3 != null">
+                #{agentPassportImg3} ,
+        </if>
+        <if test="agentEmail != null">
+                #{agentEmail} ,
+        </if>
+        <if test="agentMobileNo != null">
+                #{agentMobileNo} ,
+        </if>
+        <if test="agentAuthorizationFile != null">
+                #{agentAuthorizationFile} ,
+        </if>
+        <if test="companyName != null">
+                #{companyName} ,
+        </if>
+        <if test="companyType != null">
+                #{companyType} ,
+        </if>
+        <if test="companyBusinessType != null">
+                #{companyBusinessType} ,
+        </if>
+        <if test="companyRegistrNo != null">
+                #{companyRegistrNo} ,
+        </if>
+        <if test="companyRegistrImg != null">
+                #{companyRegistrImg} ,
+        </if>
+        <if test="companyCountry != null">
+                #{companyCountry} ,
+        </if>
+        <if test="companyRegistrAddress != null">
+                #{companyRegistrAddress} ,
+        </if>
+        <if test="companyFoundedDate != null">
+                #{companyFoundedDate} ,
+        </if>
+        <if test="companyLicenseNumber != null">
+                #{companyLicenseNumber} ,
+        </if>
+        <if test="companyRegulator != null">
+                #{companyRegulator} ,
+        </if>
+        <if test="companyAmlCertificate != null">
+                #{companyAmlCertificate} ,
+        </if>
+        <if test="state != null">
+                #{state} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="checkBy != null">
+                #{checkBy} ,
+        </if>
+        <if test="checkTime != null">
+                #{checkTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        UPDATE RwaCertInstInvestor
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="agentName != null">
+                agentName = #{agentName} ,
+            </if>
+            <if test="agentRegion != null">
+                agentRegion = #{agentRegion} ,
+            </if>
+            <if test="agentPassportType != null">
+                agentPassportType = #{agentPassportType} ,
+            </if>
+            <if test="agentPassportNo != null">
+                agentPassportNo = #{agentPassportNo} ,
+            </if>
+            <if test="agentPassportImg1 != null">
+                agentPassportImg1 = #{agentPassportImg1} ,
+            </if>
+            <if test="agentPassportImg2 != null">
+                agentPassportImg2 = #{agentPassportImg2} ,
+            </if>
+            <if test="agentPassportImg3 != null">
+                agentPassportImg3 = #{agentPassportImg3} ,
+            </if>
+            <if test="agentEmail != null">
+                agentEmail = #{agentEmail} ,
+            </if>
+            <if test="agentMobileNo != null">
+                agentMobileNo = #{agentMobileNo} ,
+            </if>
+            <if test="agentAuthorizationFile != null">
+                agentAuthorizationFile = #{agentAuthorizationFile} ,
+            </if>
+            <if test="companyName != null">
+                companyName = #{companyName} ,
+            </if>
+            <if test="companyType != null">
+                companyType = #{companyType} ,
+            </if>
+            <if test="companyBusinessType != null">
+                companyBusinessType = #{companyBusinessType} ,
+            </if>
+            <if test="companyRegistrNo != null">
+                companyRegistrNo = #{companyRegistrNo} ,
+            </if>
+            <if test="companyRegistrImg != null">
+                companyRegistrImg = #{companyRegistrImg} ,
+            </if>
+            <if test="companyCountry != null">
+                companyCountry = #{companyCountry} ,
+            </if>
+            <if test="companyRegistrAddress != null">
+                companyRegistrAddress = #{companyRegistrAddress} ,
+            </if>
+            <if test="companyFoundedDate != null">
+                companyFoundedDate = #{companyFoundedDate} ,
+            </if>
+            <if test="companyLicenseNumber != null">
+                companyLicenseNumber = #{companyLicenseNumber} ,
+            </if>
+            <if test="companyRegulator != null">
+                companyRegulator = #{companyRegulator} ,
+            </if>
+            <if test="companyAmlCertificate != null">
+                companyAmlCertificate = #{companyAmlCertificate} ,
+            </if>
+            <if test="state != null">
+                state = #{state} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} ,
+            </if>
+            <if test="checkBy != null">
+                checkBy = #{checkBy} ,
+            </if>
+            <if test="checkTime != null">
+                checkTime = #{checkTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO RwaCertInstInvestor(
+            id ,
+            userId ,
+            agentName ,
+            agentRegion ,
+            agentPassportType ,
+            agentPassportNo ,
+            agentPassportImg1 ,
+            agentPassportImg2 ,
+            agentPassportImg3 ,
+            agentEmail ,
+            agentMobileNo ,
+            agentAuthorizationFile ,
+            companyName ,
+            companyType ,
+            companyBusinessType ,
+            companyRegistrNo ,
+            companyRegistrImg ,
+            companyCountry ,
+            companyRegistrAddress ,
+            companyFoundedDate ,
+            companyLicenseNumber ,
+            companyRegulator ,
+            companyAmlCertificate ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime ,
+            checkBy ,
+            checkTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.agentName} ,
+            #{item.agentRegion} ,
+            #{item.agentPassportType} ,
+            #{item.agentPassportNo} ,
+            #{item.agentPassportImg1} ,
+            #{item.agentPassportImg2} ,
+            #{item.agentPassportImg3} ,
+            #{item.agentEmail} ,
+            #{item.agentMobileNo} ,
+            #{item.agentAuthorizationFile} ,
+            #{item.companyName} ,
+            #{item.companyType} ,
+            #{item.companyBusinessType} ,
+            #{item.companyRegistrNo} ,
+            #{item.companyRegistrImg} ,
+            #{item.companyCountry} ,
+            #{item.companyRegistrAddress} ,
+            #{item.companyFoundedDate} ,
+            #{item.companyLicenseNumber} ,
+            #{item.companyRegulator} ,
+            #{item.companyAmlCertificate} ,
+            #{item.state} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} ,
+            #{item.checkBy} ,
+            #{item.checkTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE RwaCertInstInvestor SET
+            userId = #{item.userId} ,
+            agentName = #{item.agentName} ,
+            agentRegion = #{item.agentRegion} ,
+            agentPassportType = #{item.agentPassportType} ,
+            agentPassportNo = #{item.agentPassportNo} ,
+            agentPassportImg1 = #{item.agentPassportImg1} ,
+            agentPassportImg2 = #{item.agentPassportImg2} ,
+            agentPassportImg3 = #{item.agentPassportImg3} ,
+            agentEmail = #{item.agentEmail} ,
+            agentMobileNo = #{item.agentMobileNo} ,
+            agentAuthorizationFile = #{item.agentAuthorizationFile} ,
+            companyName = #{item.companyName} ,
+            companyType = #{item.companyType} ,
+            companyBusinessType = #{item.companyBusinessType} ,
+            companyRegistrNo = #{item.companyRegistrNo} ,
+            companyRegistrImg = #{item.companyRegistrImg} ,
+            companyCountry = #{item.companyCountry} ,
+            companyRegistrAddress = #{item.companyRegistrAddress} ,
+            companyFoundedDate = #{item.companyFoundedDate} ,
+            companyLicenseNumber = #{item.companyLicenseNumber} ,
+            companyRegulator = #{item.companyRegulator} ,
+            companyAmlCertificate = #{item.companyAmlCertificate} ,
+            state = #{item.state} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} ,
+            checkBy = #{item.checkBy} ,
+            checkTime = #{item.checkTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        UPDATE RwaCertInstInvestor SET
+            userId = #{userId} ,
+            agentName = #{agentName} ,
+            agentRegion = #{agentRegion} ,
+            agentPassportType = #{agentPassportType} ,
+            agentPassportNo = #{agentPassportNo} ,
+            agentPassportImg1 = #{agentPassportImg1} ,
+            agentPassportImg2 = #{agentPassportImg2} ,
+            agentPassportImg3 = #{agentPassportImg3} ,
+            agentEmail = #{agentEmail} ,
+            agentMobileNo = #{agentMobileNo} ,
+            agentAuthorizationFile = #{agentAuthorizationFile} ,
+            companyName = #{companyName} ,
+            companyType = #{companyType} ,
+            companyBusinessType = #{companyBusinessType} ,
+            companyRegistrNo = #{companyRegistrNo} ,
+            companyRegistrImg = #{companyRegistrImg} ,
+            companyCountry = #{companyCountry} ,
+            companyRegistrAddress = #{companyRegistrAddress} ,
+            companyFoundedDate = #{companyFoundedDate} ,
+            companyLicenseNumber = #{companyLicenseNumber} ,
+            companyRegulator = #{companyRegulator} ,
+            companyAmlCertificate = #{companyAmlCertificate} ,
+            state = #{state} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} ,
+            checkBy = #{checkBy} ,
+            checkTime = #{checkTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        SELECT <include refid="rwaCertInstInvestorColumns"/> FROM RwaCertInstInvestor a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        SELECT
+        <include refid="rwaCertInstInvestorColumns"/>
+        FROM RwaCertInstInvestor a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="agentName != null and agentName != ''">
+            AND a.agentName = #{agentName}
+        </if>
+        <if test="agentRegion != null and agentRegion != ''">
+            AND a.agentRegion = #{agentRegion}
+        </if>
+        <if test="agentPassportType != null and agentPassportType != ''">
+            AND a.agentPassportType = #{agentPassportType}
+        </if>
+        <if test="agentPassportNo != null and agentPassportNo != ''">
+            AND a.agentPassportNo = #{agentPassportNo}
+        </if>
+        <if test="agentPassportImg1 != null and agentPassportImg1 != ''">
+            AND a.agentPassportImg1 = #{agentPassportImg1}
+        </if>
+        <if test="agentPassportImg2 != null and agentPassportImg2 != ''">
+            AND a.agentPassportImg2 = #{agentPassportImg2}
+        </if>
+        <if test="agentPassportImg3 != null and agentPassportImg3 != ''">
+            AND a.agentPassportImg3 = #{agentPassportImg3}
+        </if>
+        <if test="agentEmail != null and agentEmail != ''">
+            AND a.agentEmail = #{agentEmail}
+        </if>
+        <if test="agentMobileNo != null and agentMobileNo != ''">
+            AND a.agentMobileNo = #{agentMobileNo}
+        </if>
+        <if test="agentAuthorizationFile != null and agentAuthorizationFile != ''">
+            AND a.agentAuthorizationFile = #{agentAuthorizationFile}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND a.companyName = #{companyName}
+        </if>
+        <if test="companyType != null and companyType != ''">
+            AND a.companyType = #{companyType}
+        </if>
+        <if test="companyBusinessType != null and companyBusinessType != ''">
+            AND a.companyBusinessType = #{companyBusinessType}
+        </if>
+        <if test="companyRegistrNo != null and companyRegistrNo != ''">
+            AND a.companyRegistrNo = #{companyRegistrNo}
+        </if>
+        <if test="companyRegistrImg != null and companyRegistrImg != ''">
+            AND a.companyRegistrImg = #{companyRegistrImg}
+        </if>
+        <if test="companyCountry != null and companyCountry != ''">
+            AND a.companyCountry = #{companyCountry}
+        </if>
+        <if test="companyRegistrAddress != null and companyRegistrAddress != ''">
+            AND a.companyRegistrAddress = #{companyRegistrAddress}
+        </if>
+        <if test="companyFoundedDate != null">
+            AND a.companyFoundedDate = #{companyFoundedDate}
+        </if>
+        <if test="companyLicenseNumber != null and companyLicenseNumber != ''">
+            AND a.companyLicenseNumber = #{companyLicenseNumber}
+        </if>
+        <if test="companyRegulator != null and companyRegulator != ''">
+            AND a.companyRegulator = #{companyRegulator}
+        </if>
+        <if test="companyAmlCertificate != null and companyAmlCertificate != ''">
+            AND a.companyAmlCertificate = #{companyAmlCertificate}
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state = #{state}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="checkBy != null and checkBy != ''">
+            AND a.checkBy = #{checkBy}
+        </if>
+        <if test="checkTime != null">
+            AND a.checkTime = #{checkTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        SELECT
+        <include refid="rwaCertInstInvestorColumns"/>
+        FROM RwaCertInstInvestor a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="agentName != null and agentName != ''">
+            AND a.agentName LIKE CONCAT('%',#{agentName}, '%')
+        </if>
+        <if test="agentRegion != null and agentRegion != ''">
+            AND a.agentRegion LIKE CONCAT('%',#{agentRegion}, '%')
+        </if>
+        <if test="agentPassportType != null and agentPassportType != ''">
+            AND a.agentPassportType LIKE CONCAT('%',#{agentPassportType}, '%')
+        </if>
+        <if test="agentPassportNo != null and agentPassportNo != ''">
+            AND a.agentPassportNo LIKE CONCAT('%',#{agentPassportNo}, '%')
+        </if>
+        <if test="agentPassportImg1 != null and agentPassportImg1 != ''">
+            AND a.agentPassportImg1 LIKE CONCAT('%',#{agentPassportImg1}, '%')
+        </if>
+        <if test="agentPassportImg2 != null and agentPassportImg2 != ''">
+            AND a.agentPassportImg2 LIKE CONCAT('%',#{agentPassportImg2}, '%')
+        </if>
+        <if test="agentPassportImg3 != null and agentPassportImg3 != ''">
+            AND a.agentPassportImg3 LIKE CONCAT('%',#{agentPassportImg3}, '%')
+        </if>
+        <if test="agentEmail != null and agentEmail != ''">
+            AND a.agentEmail LIKE CONCAT('%',#{agentEmail}, '%')
+        </if>
+        <if test="agentMobileNo != null and agentMobileNo != ''">
+            AND a.agentMobileNo LIKE CONCAT('%',#{agentMobileNo}, '%')
+        </if>
+        <if test="agentAuthorizationFile != null and agentAuthorizationFile != ''">
+            AND a.agentAuthorizationFile LIKE CONCAT('%',#{agentAuthorizationFile}, '%')
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND a.companyName LIKE CONCAT('%',#{companyName}, '%')
+        </if>
+        <if test="companyType != null and companyType != ''">
+            AND a.companyType LIKE CONCAT('%',#{companyType}, '%')
+        </if>
+        <if test="companyBusinessType != null and companyBusinessType != ''">
+            AND a.companyBusinessType LIKE CONCAT('%',#{companyBusinessType}, '%')
+        </if>
+        <if test="companyRegistrNo != null and companyRegistrNo != ''">
+            AND a.companyRegistrNo LIKE CONCAT('%',#{companyRegistrNo}, '%')
+        </if>
+        <if test="companyRegistrImg != null and companyRegistrImg != ''">
+            AND a.companyRegistrImg LIKE CONCAT('%',#{companyRegistrImg}, '%')
+        </if>
+        <if test="companyCountry != null and companyCountry != ''">
+            AND a.companyCountry LIKE CONCAT('%',#{companyCountry}, '%')
+        </if>
+        <if test="companyRegistrAddress != null and companyRegistrAddress != ''">
+            AND a.companyRegistrAddress LIKE CONCAT('%',#{companyRegistrAddress}, '%')
+        </if>
+        <if test="companyFoundedDate != null">
+            AND a.companyFoundedDate = #{companyFoundedDate}
+        </if>
+        <if test="companyLicenseNumber != null and companyLicenseNumber != ''">
+            AND a.companyLicenseNumber LIKE CONCAT('%',#{companyLicenseNumber}, '%')
+        </if>
+        <if test="companyRegulator != null and companyRegulator != ''">
+            AND a.companyRegulator LIKE CONCAT('%',#{companyRegulator}, '%')
+        </if>
+        <if test="companyAmlCertificate != null and companyAmlCertificate != ''">
+            AND a.companyAmlCertificate LIKE CONCAT('%',#{companyAmlCertificate}, '%')
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state LIKE CONCAT('%',#{state}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="checkBy != null and checkBy != ''">
+            AND a.checkBy LIKE CONCAT('%',#{checkBy}, '%')
+        </if>
+        <if test="checkTime != null">
+            AND a.checkTime = #{checkTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.rwa.entity.RwaCertInstInvestor">
+        SELECT
+        <include refid="rwaCertInstInvestorColumns"/>
+        FROM RwaCertInstInvestor a
+    </select>
+
+
+</mapper>
+

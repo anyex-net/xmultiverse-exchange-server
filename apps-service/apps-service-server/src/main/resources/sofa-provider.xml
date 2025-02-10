@@ -203,6 +203,61 @@
         </sofa:binding.bolt>
     </sofa:service>
 
+    <!-- RWA认证机构SPV发起人 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaCertInstSpvPromoterService" ref="rwaCertInstSpvPromoterServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA认证机构投资者 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaCertInstInvestorService" ref="rwaCertInstInvestorServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA账户余额 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaBalancesService" ref="rwaBalancesServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA账户交易历史 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaBalancesTransHistoryService" ref="rwaBalancesTransHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA机构SPV公司 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaInstSpvCompanyService" ref="rwaInstSpvCompanyServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA机构SPV产品 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaInstSpvProductService" ref="rwaInstSpvProductServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA机构SPV产品申购记录 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaInstSpvProductPurchaseService" ref="rwaInstSpvProductPurchaseServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA机构SPV产品分红记录 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaInstSpvProductDividendService" ref="rwaInstSpvProductDividendServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- RWA机构SPV产品赎回记录 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaInstSpvProductRedemptionService" ref="rwaInstSpvProductRedemptionServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImChatService" ref="openImChatServiceImpl">-->
 <!--        <sofa:binding.bolt>-->

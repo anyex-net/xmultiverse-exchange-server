@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.rwa.mapper.RwaInstSpvCompanyMapper">
+    <!-- 基础列 -->
+    <sql id="rwaInstSpvCompanyColumns">
+        a.id as id,
+        a.userId as userId,
+        a.instSpvPromoterId as instSpvPromoterId,
+        a.spvCompanyName as spvCompanyName,
+        a.spvCompanyType as spvCompanyType,
+        a.spvCompanyIndustry as spvCompanyIndustry,
+        a.spvCompanyRegistrNo as spvCompanyRegistrNo,
+        a.spvCompanyRegistrImg as spvCompanyRegistrImg,
+        a.spvCompanyCountry as spvCompanyCountry,
+        a.spvCompanyEmail as spvCompanyEmail,
+        a.spvCompanyMobileNo as spvCompanyMobileNo,
+        a.spvCompanyAddress as spvCompanyAddress,
+        a.spvCompanyDesc as spvCompanyDesc,
+        a.state as state,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime,
+        a.checkBy as checkBy,
+        a.checkTime as checkTime
+    </sql>
+
+    <resultMap id="rwaInstSpvCompanyResultMap" type="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="instSpvPromoterId" property="instSpvPromoterId"/>
+        <result column="spvCompanyName" property="spvCompanyName"/>
+        <result column="spvCompanyType" property="spvCompanyType"/>
+        <result column="spvCompanyIndustry" property="spvCompanyIndustry"/>
+        <result column="spvCompanyRegistrNo" property="spvCompanyRegistrNo"/>
+        <result column="spvCompanyRegistrImg" property="spvCompanyRegistrImg"/>
+        <result column="spvCompanyCountry" property="spvCompanyCountry"/>
+        <result column="spvCompanyEmail" property="spvCompanyEmail"/>
+        <result column="spvCompanyMobileNo" property="spvCompanyMobileNo"/>
+        <result column="spvCompanyAddress" property="spvCompanyAddress"/>
+        <result column="spvCompanyDesc" property="spvCompanyDesc"/>
+        <result column="state" property="state"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="checkBy" property="checkBy"/>
+        <result column="checkTime" property="checkTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        INSERT INTO RwaInstSpvCompany(
+            id ,
+            userId ,
+            instSpvPromoterId ,
+            spvCompanyName ,
+            spvCompanyType ,
+            spvCompanyIndustry ,
+            spvCompanyRegistrNo ,
+            spvCompanyRegistrImg ,
+            spvCompanyCountry ,
+            spvCompanyEmail ,
+            spvCompanyMobileNo ,
+            spvCompanyAddress ,
+            spvCompanyDesc ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime ,
+            checkBy ,
+            checkTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{instSpvPromoterId} ,
+            #{spvCompanyName} ,
+            #{spvCompanyType} ,
+            #{spvCompanyIndustry} ,
+            #{spvCompanyRegistrNo} ,
+            #{spvCompanyRegistrImg} ,
+            #{spvCompanyCountry} ,
+            #{spvCompanyEmail} ,
+            #{spvCompanyMobileNo} ,
+            #{spvCompanyAddress} ,
+            #{spvCompanyDesc} ,
+            #{state} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} ,
+            #{checkBy} ,
+            #{checkTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM RwaInstSpvCompany WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE RwaInstSpvCompany SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        INSERT INTO RwaInstSpvCompany
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="instSpvPromoterId != null">
+                instSpvPromoterId ,
+        </if>
+        <if test="spvCompanyName != null">
+                spvCompanyName ,
+        </if>
+        <if test="spvCompanyType != null">
+                spvCompanyType ,
+        </if>
+        <if test="spvCompanyIndustry != null">
+                spvCompanyIndustry ,
+        </if>
+        <if test="spvCompanyRegistrNo != null">
+                spvCompanyRegistrNo ,
+        </if>
+        <if test="spvCompanyRegistrImg != null">
+                spvCompanyRegistrImg ,
+        </if>
+        <if test="spvCompanyCountry != null">
+                spvCompanyCountry ,
+        </if>
+        <if test="spvCompanyEmail != null">
+                spvCompanyEmail ,
+        </if>
+        <if test="spvCompanyMobileNo != null">
+                spvCompanyMobileNo ,
+        </if>
+        <if test="spvCompanyAddress != null">
+                spvCompanyAddress ,
+        </if>
+        <if test="spvCompanyDesc != null">
+                spvCompanyDesc ,
+        </if>
+        <if test="state != null">
+                state ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime ,
+        </if>
+        <if test="checkBy != null">
+                checkBy ,
+        </if>
+        <if test="checkTime != null">
+                checkTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="instSpvPromoterId != null">
+                #{instSpvPromoterId} ,
+        </if>
+        <if test="spvCompanyName != null">
+                #{spvCompanyName} ,
+        </if>
+        <if test="spvCompanyType != null">
+                #{spvCompanyType} ,
+        </if>
+        <if test="spvCompanyIndustry != null">
+                #{spvCompanyIndustry} ,
+        </if>
+        <if test="spvCompanyRegistrNo != null">
+                #{spvCompanyRegistrNo} ,
+        </if>
+        <if test="spvCompanyRegistrImg != null">
+                #{spvCompanyRegistrImg} ,
+        </if>
+        <if test="spvCompanyCountry != null">
+                #{spvCompanyCountry} ,
+        </if>
+        <if test="spvCompanyEmail != null">
+                #{spvCompanyEmail} ,
+        </if>
+        <if test="spvCompanyMobileNo != null">
+                #{spvCompanyMobileNo} ,
+        </if>
+        <if test="spvCompanyAddress != null">
+                #{spvCompanyAddress} ,
+        </if>
+        <if test="spvCompanyDesc != null">
+                #{spvCompanyDesc} ,
+        </if>
+        <if test="state != null">
+                #{state} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="checkBy != null">
+                #{checkBy} ,
+        </if>
+        <if test="checkTime != null">
+                #{checkTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        UPDATE RwaInstSpvCompany
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="instSpvPromoterId != null">
+                instSpvPromoterId = #{instSpvPromoterId} ,
+            </if>
+            <if test="spvCompanyName != null">
+                spvCompanyName = #{spvCompanyName} ,
+            </if>
+            <if test="spvCompanyType != null">
+                spvCompanyType = #{spvCompanyType} ,
+            </if>
+            <if test="spvCompanyIndustry != null">
+                spvCompanyIndustry = #{spvCompanyIndustry} ,
+            </if>
+            <if test="spvCompanyRegistrNo != null">
+                spvCompanyRegistrNo = #{spvCompanyRegistrNo} ,
+            </if>
+            <if test="spvCompanyRegistrImg != null">
+                spvCompanyRegistrImg = #{spvCompanyRegistrImg} ,
+            </if>
+            <if test="spvCompanyCountry != null">
+                spvCompanyCountry = #{spvCompanyCountry} ,
+            </if>
+            <if test="spvCompanyEmail != null">
+                spvCompanyEmail = #{spvCompanyEmail} ,
+            </if>
+            <if test="spvCompanyMobileNo != null">
+                spvCompanyMobileNo = #{spvCompanyMobileNo} ,
+            </if>
+            <if test="spvCompanyAddress != null">
+                spvCompanyAddress = #{spvCompanyAddress} ,
+            </if>
+            <if test="spvCompanyDesc != null">
+                spvCompanyDesc = #{spvCompanyDesc} ,
+            </if>
+            <if test="state != null">
+                state = #{state} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} ,
+            </if>
+            <if test="checkBy != null">
+                checkBy = #{checkBy} ,
+            </if>
+            <if test="checkTime != null">
+                checkTime = #{checkTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO RwaInstSpvCompany(
+            id ,
+            userId ,
+            instSpvPromoterId ,
+            spvCompanyName ,
+            spvCompanyType ,
+            spvCompanyIndustry ,
+            spvCompanyRegistrNo ,
+            spvCompanyRegistrImg ,
+            spvCompanyCountry ,
+            spvCompanyEmail ,
+            spvCompanyMobileNo ,
+            spvCompanyAddress ,
+            spvCompanyDesc ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime ,
+            checkBy ,
+            checkTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.instSpvPromoterId} ,
+            #{item.spvCompanyName} ,
+            #{item.spvCompanyType} ,
+            #{item.spvCompanyIndustry} ,
+            #{item.spvCompanyRegistrNo} ,
+            #{item.spvCompanyRegistrImg} ,
+            #{item.spvCompanyCountry} ,
+            #{item.spvCompanyEmail} ,
+            #{item.spvCompanyMobileNo} ,
+            #{item.spvCompanyAddress} ,
+            #{item.spvCompanyDesc} ,
+            #{item.state} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} ,
+            #{item.checkBy} ,
+            #{item.checkTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE RwaInstSpvCompany SET
+            userId = #{item.userId} ,
+            instSpvPromoterId = #{item.instSpvPromoterId} ,
+            spvCompanyName = #{item.spvCompanyName} ,
+            spvCompanyType = #{item.spvCompanyType} ,
+            spvCompanyIndustry = #{item.spvCompanyIndustry} ,
+            spvCompanyRegistrNo = #{item.spvCompanyRegistrNo} ,
+            spvCompanyRegistrImg = #{item.spvCompanyRegistrImg} ,
+            spvCompanyCountry = #{item.spvCompanyCountry} ,
+            spvCompanyEmail = #{item.spvCompanyEmail} ,
+            spvCompanyMobileNo = #{item.spvCompanyMobileNo} ,
+            spvCompanyAddress = #{item.spvCompanyAddress} ,
+            spvCompanyDesc = #{item.spvCompanyDesc} ,
+            state = #{item.state} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} ,
+            checkBy = #{item.checkBy} ,
+            checkTime = #{item.checkTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        UPDATE RwaInstSpvCompany SET
+            userId = #{userId} ,
+            instSpvPromoterId = #{instSpvPromoterId} ,
+            spvCompanyName = #{spvCompanyName} ,
+            spvCompanyType = #{spvCompanyType} ,
+            spvCompanyIndustry = #{spvCompanyIndustry} ,
+            spvCompanyRegistrNo = #{spvCompanyRegistrNo} ,
+            spvCompanyRegistrImg = #{spvCompanyRegistrImg} ,
+            spvCompanyCountry = #{spvCompanyCountry} ,
+            spvCompanyEmail = #{spvCompanyEmail} ,
+            spvCompanyMobileNo = #{spvCompanyMobileNo} ,
+            spvCompanyAddress = #{spvCompanyAddress} ,
+            spvCompanyDesc = #{spvCompanyDesc} ,
+            state = #{state} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} ,
+            checkBy = #{checkBy} ,
+            checkTime = #{checkTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        SELECT <include refid="rwaInstSpvCompanyColumns"/> FROM RwaInstSpvCompany a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        SELECT
+        <include refid="rwaInstSpvCompanyColumns"/>
+        FROM RwaInstSpvCompany a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="instSpvPromoterId != null">
+            AND a.instSpvPromoterId = #{instSpvPromoterId}
+        </if>
+        <if test="spvCompanyName != null and spvCompanyName != ''">
+            AND a.spvCompanyName = #{spvCompanyName}
+        </if>
+        <if test="spvCompanyType != null and spvCompanyType != ''">
+            AND a.spvCompanyType = #{spvCompanyType}
+        </if>
+        <if test="spvCompanyIndustry != null and spvCompanyIndustry != ''">
+            AND a.spvCompanyIndustry = #{spvCompanyIndustry}
+        </if>
+        <if test="spvCompanyRegistrNo != null and spvCompanyRegistrNo != ''">
+            AND a.spvCompanyRegistrNo = #{spvCompanyRegistrNo}
+        </if>
+        <if test="spvCompanyRegistrImg != null and spvCompanyRegistrImg != ''">
+            AND a.spvCompanyRegistrImg = #{spvCompanyRegistrImg}
+        </if>
+        <if test="spvCompanyCountry != null and spvCompanyCountry != ''">
+            AND a.spvCompanyCountry = #{spvCompanyCountry}
+        </if>
+        <if test="spvCompanyEmail != null and spvCompanyEmail != ''">
+            AND a.spvCompanyEmail = #{spvCompanyEmail}
+        </if>
+        <if test="spvCompanyMobileNo != null and spvCompanyMobileNo != ''">
+            AND a.spvCompanyMobileNo = #{spvCompanyMobileNo}
+        </if>
+        <if test="spvCompanyAddress != null and spvCompanyAddress != ''">
+            AND a.spvCompanyAddress = #{spvCompanyAddress}
+        </if>
+        <if test="spvCompanyDesc != null and spvCompanyDesc != ''">
+            AND a.spvCompanyDesc = #{spvCompanyDesc}
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state = #{state}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="checkBy != null and checkBy != ''">
+            AND a.checkBy = #{checkBy}
+        </if>
+        <if test="checkTime != null">
+            AND a.checkTime = #{checkTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        SELECT
+        <include refid="rwaInstSpvCompanyColumns"/>
+        FROM RwaInstSpvCompany a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="instSpvPromoterId != null">
+            AND a.instSpvPromoterId = #{instSpvPromoterId}
+        </if>
+        <if test="spvCompanyName != null and spvCompanyName != ''">
+            AND a.spvCompanyName LIKE CONCAT('%',#{spvCompanyName}, '%')
+        </if>
+        <if test="spvCompanyType != null and spvCompanyType != ''">
+            AND a.spvCompanyType LIKE CONCAT('%',#{spvCompanyType}, '%')
+        </if>
+        <if test="spvCompanyIndustry != null and spvCompanyIndustry != ''">
+            AND a.spvCompanyIndustry LIKE CONCAT('%',#{spvCompanyIndustry}, '%')
+        </if>
+        <if test="spvCompanyRegistrNo != null and spvCompanyRegistrNo != ''">
+            AND a.spvCompanyRegistrNo LIKE CONCAT('%',#{spvCompanyRegistrNo}, '%')
+        </if>
+        <if test="spvCompanyRegistrImg != null and spvCompanyRegistrImg != ''">
+            AND a.spvCompanyRegistrImg LIKE CONCAT('%',#{spvCompanyRegistrImg}, '%')
+        </if>
+        <if test="spvCompanyCountry != null and spvCompanyCountry != ''">
+            AND a.spvCompanyCountry LIKE CONCAT('%',#{spvCompanyCountry}, '%')
+        </if>
+        <if test="spvCompanyEmail != null and spvCompanyEmail != ''">
+            AND a.spvCompanyEmail LIKE CONCAT('%',#{spvCompanyEmail}, '%')
+        </if>
+        <if test="spvCompanyMobileNo != null and spvCompanyMobileNo != ''">
+            AND a.spvCompanyMobileNo LIKE CONCAT('%',#{spvCompanyMobileNo}, '%')
+        </if>
+        <if test="spvCompanyAddress != null and spvCompanyAddress != ''">
+            AND a.spvCompanyAddress LIKE CONCAT('%',#{spvCompanyAddress}, '%')
+        </if>
+        <if test="spvCompanyDesc != null and spvCompanyDesc != ''">
+            AND a.spvCompanyDesc LIKE CONCAT('%',#{spvCompanyDesc}, '%')
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state LIKE CONCAT('%',#{state}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="checkBy != null and checkBy != ''">
+            AND a.checkBy LIKE CONCAT('%',#{checkBy}, '%')
+        </if>
+        <if test="checkTime != null">
+            AND a.checkTime = #{checkTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.rwa.entity.RwaInstSpvCompany">
+        SELECT
+        <include refid="rwaInstSpvCompanyColumns"/>
+        FROM RwaInstSpvCompany a
+    </select>
+
+
+</mapper>
+
