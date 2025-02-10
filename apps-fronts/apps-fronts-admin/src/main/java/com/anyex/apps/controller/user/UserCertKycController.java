@@ -46,10 +46,21 @@ public class UserCertKycController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("user:userCertKyc:data")
     @ApiOperation(value = "根据ID取用户认证个人KYC", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<UserCertKyc> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, userCertKycService.selectByPrimaryKey(id));
+    }
+
+    @PostMapping(value = "/data")
+    @RequiresPermissions("user:userCertKyc:data")
+    @ApiOperation(value = "查询用户认证个人KYC", httpMethod = "POST")
+    public JsonMessage<PaginateResult<UserCertKyc>> data(@ModelAttribute ReqUserCertKycPagination pagin) throws BusinessException
+    {
+        UserCertKyc entity = new UserCertKyc();
+        BeanUtils.copyProperties(pagin, entity);
+        PaginateResult<UserCertKyc> result = userCertKycService.search(pagin,entity);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
     @PostMapping(value = "/save")
@@ -65,7 +76,7 @@ public class UserCertKycController extends GenericController
             //
             if (null == info.getId())
             {
-            entity.setCreateTime(System.currentTimeMillis());
+                entity.setCreateTime(System.currentTimeMillis());
             }
             entity.setUpdateTime(System.currentTimeMillis());
             //
@@ -79,24 +90,13 @@ public class UserCertKycController extends GenericController
         return json;
     }
 
-    @PostMapping(value = "/data")
-    @RequiresPermissions("user:userCertKyc:data")
-    @ApiOperation(value = "查询用户认证个人KYC", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqUserCertKycPagination pagin) throws BusinessException
-    {
-        UserCertKyc entity = new UserCertKyc();
-        BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<UserCertKyc> result = userCertKycService.search(pagin,entity);
-        return getJsonMessage(CommonEnums.SUCCESS, result);
-    }
-
-    @PostMapping(value = "/del")
-    @RequiresPermissions("user:userCertKyc:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        userCertKycService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("user:userCertKyc:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        userCertKycService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

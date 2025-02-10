@@ -47,43 +47,16 @@ public class DepositAddressController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("fund:depositAddress:data")
     @ApiOperation(value = "根据ID取充值地址", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<DepositAddress> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, depositAddressService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("fund:depositAddress:operator")
-    @ApiOperation(value = "保存充值地址", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqDepositAddress info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            DepositAddress entity = new DepositAddress();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-            entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                depositAddressService.insert(entity);
-            } else {
-                depositAddressService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("fund:depositAddress:data")
     @ApiOperation(value = "查询充值地址", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqDepositAddressPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<DepositAddress>> data(@ModelAttribute ReqDepositAddressPagination pagin) throws BusinessException
     {
         DepositAddress entity = new DepositAddress();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class DepositAddressController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("fund:depositAddress:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        depositAddressService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("fund:depositAddress:operator")
+//    @ApiOperation(value = "保存充值地址", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqDepositAddress info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            DepositAddress entity = new DepositAddress();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                depositAddressService.insert(entity);
+//            } else {
+//                depositAddressService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("fund:depositAddress:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        depositAddressService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

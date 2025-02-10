@@ -46,10 +46,21 @@ public class UserController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("user:user:data")
     @ApiOperation(value = "根据ID取用户信息", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<User> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, userService.selectByPrimaryKey(id));
+    }
+
+    @PostMapping(value = "/data")
+    @RequiresPermissions("user:user:data")
+    @ApiOperation(value = "查询用户信息", httpMethod = "POST")
+    public JsonMessage<PaginateResult<User>> data(@ModelAttribute ReqUserPagination pagin) throws BusinessException
+    {
+        User entity = new User();
+        BeanUtils.copyProperties(pagin, entity);
+        PaginateResult<User> result = userService.search(pagin,entity);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
     @PostMapping(value = "/save")
@@ -65,7 +76,7 @@ public class UserController extends GenericController
             //
             if (null == info.getId())
             {
-            entity.setCreateTime(System.currentTimeMillis());
+                entity.setCreateTime(System.currentTimeMillis());
             }
             entity.setUpdateTime(System.currentTimeMillis());
             //
@@ -79,24 +90,13 @@ public class UserController extends GenericController
         return json;
     }
 
-    @PostMapping(value = "/data")
-    @RequiresPermissions("user:user:data")
-    @ApiOperation(value = "查询用户信息", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqUserPagination pagin) throws BusinessException
-    {
-        User entity = new User();
-        BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<User> result = userService.search(pagin,entity);
-        return getJsonMessage(CommonEnums.SUCCESS, result);
-    }
-
-    @PostMapping(value = "/del")
-    @RequiresPermissions("user:user:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        userService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("user:user:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        userService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

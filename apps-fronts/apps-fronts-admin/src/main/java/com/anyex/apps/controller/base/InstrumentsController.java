@@ -47,7 +47,7 @@ public class InstrumentsController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("base:instruments:data")
     @ApiOperation(value = "根据ID取平台交易产品", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<Instruments> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, instrumentsService.selectByPrimaryKey(id));
@@ -66,7 +66,7 @@ public class InstrumentsController extends GenericController
             //
             if (null == info.getId())
             {
-            entity.setCreateTime(System.currentTimeMillis());
+                entity.setCreateTime(System.currentTimeMillis());
             }
             entity.setUpdateTime(System.currentTimeMillis());
             //
@@ -83,7 +83,7 @@ public class InstrumentsController extends GenericController
     @PostMapping(value = "/data")
     @RequiresPermissions("base:instruments:data")
     @ApiOperation(value = "查询平台交易产品", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqInstrumentsPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<Instruments>> data(@ModelAttribute ReqInstrumentsPagination pagin) throws BusinessException
     {
         Instruments entity = new Instruments();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +91,13 @@ public class InstrumentsController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("base:instruments:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        instrumentsService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("base:instruments:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        instrumentsService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

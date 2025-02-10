@@ -576,14 +576,14 @@
                 <email.username>a928494847@163.com</email.username>
                 <email.password>hcj2019</email.password>
                 <database.sql.dialect>mysql</database.sql.dialect>
-                <master.jdbc.url>jdbc:mysql://112.14.45.72:3306/exchangebiz?failOverReadOnly=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;nullCatalogMeansCurrent=true</master.jdbc.url>
+                <master.jdbc.url>jdbc:mysql://47.97.165.115:3306/exchangev1?failOverReadOnly=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;nullCatalogMeansCurrent=true</master.jdbc.url>
                 <master.jdbc.poolname>HikariPool1</master.jdbc.poolname>
-                <master.jdbc.username>skyadmin</master.jdbc.username>
-                <master.jdbc.password>FrmnK9upBcKWPvkFvkUSkTkwQbIfhb3s+spaWHO4d4k=</master.jdbc.password>
+                <master.jdbc.username>root</master.jdbc.username>
+                <master.jdbc.password>B8RQuMP25CKZtsU9Z/xlcQ==</master.jdbc.password>
                 <slave1.jdbc.url>${master.jdbc.url}</slave1.jdbc.url>
                 <slave1.jdbc.poolname>HikariPool1</slave1.jdbc.poolname>
                 <slave1.jdbc.username>root</slave1.jdbc.username>
-                <slave1.jdbc.password>FrmnK9upBcKWPvkFvkUSkTkwQbIfhb3s+spaWHO4d4k=</slave1.jdbc.password>
+                <slave1.jdbc.password>B8RQuMP25CKZtsU9Z/xlcQ==</slave1.jdbc.password>
                 <zookeeper.address>zookeeper://127.0.0.1:2181</zookeeper.address>
                 <kafkaserver.url>127.0.0.1:9092</kafkaserver.url>
                 <mongodb.host>127.0.0.1</mongodb.host>

@@ -47,43 +47,16 @@ public class RwaBalancesTransHistoryController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaBalancesTransHistory:data")
     @ApiOperation(value = "根据ID取RWA账户交易历史", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<RwaBalancesTransHistory> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaBalancesTransHistoryService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("rwa:rwaBalancesTransHistory:operator")
-    @ApiOperation(value = "保存RWA账户交易历史", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqRwaBalancesTransHistory info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            RwaBalancesTransHistory entity = new RwaBalancesTransHistory();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-                entity.setCreateTime(System.currentTimeMillis());
-            }
-//            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                rwaBalancesTransHistoryService.insert(entity);
-            } else {
-                rwaBalancesTransHistoryService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("rwa:rwaBalancesTransHistory:data")
     @ApiOperation(value = "查询RWA账户交易历史", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqRwaBalancesTransHistoryPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaBalancesTransHistory>> data(@ModelAttribute ReqRwaBalancesTransHistoryPagination pagin) throws BusinessException
     {
         RwaBalancesTransHistory entity = new RwaBalancesTransHistory();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class RwaBalancesTransHistoryController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("rwa:rwaBalancesTransHistory:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        rwaBalancesTransHistoryService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("rwa:rwaBalancesTransHistory:operator")
+//    @ApiOperation(value = "保存RWA账户交易历史", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqRwaBalancesTransHistory info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            RwaBalancesTransHistory entity = new RwaBalancesTransHistory();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                rwaBalancesTransHistoryService.insert(entity);
+//            } else {
+//                rwaBalancesTransHistoryService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("rwa:rwaBalancesTransHistory:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        rwaBalancesTransHistoryService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

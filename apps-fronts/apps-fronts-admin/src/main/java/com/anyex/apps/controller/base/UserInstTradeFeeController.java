@@ -47,7 +47,7 @@ public class UserInstTradeFeeController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("base:userInstTradeFee:data")
     @ApiOperation(value = "根据ID取用户交易手续费费率", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<UserInstTradeFee> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, userInstTradeFeeService.selectByPrimaryKey(id));
@@ -66,7 +66,7 @@ public class UserInstTradeFeeController extends GenericController
             //
             if (null == info.getId())
             {
-            entity.setCreateTime(System.currentTimeMillis());
+                entity.setCreateTime(System.currentTimeMillis());
             }
             entity.setUpdateTime(System.currentTimeMillis());
             //
@@ -83,7 +83,7 @@ public class UserInstTradeFeeController extends GenericController
     @PostMapping(value = "/data")
     @RequiresPermissions("base:userInstTradeFee:data")
     @ApiOperation(value = "查询用户交易手续费费率", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqUserInstTradeFeePagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<UserInstTradeFee>> data(@ModelAttribute ReqUserInstTradeFeePagination pagin) throws BusinessException
     {
         UserInstTradeFee entity = new UserInstTradeFee();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +91,13 @@ public class UserInstTradeFeeController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("base:userInstTradeFee:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        userInstTradeFeeService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("base:userInstTradeFee:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        userInstTradeFeeService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

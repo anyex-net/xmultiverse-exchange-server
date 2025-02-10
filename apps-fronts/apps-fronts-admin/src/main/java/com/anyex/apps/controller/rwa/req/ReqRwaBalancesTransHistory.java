@@ -87,9 +87,9 @@ public class ReqRwaBalancesTransHistory extends GenericEntity
 	@ApiModelProperty(value = "备注", position = 12)
 	private java.lang.String remark;
 
-	/**创建时间*/
-	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 13, required = true)
-	private java.lang.Long createTime;
+//	/**创建时间*/
+//	@NotNull(message = "创建时间不可为空")
+//	@ApiModelProperty(value = "创建时间", position = 13, required = true)
+//	private java.lang.Long createTime;
 }
 

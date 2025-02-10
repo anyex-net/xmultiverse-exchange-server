@@ -51,8 +51,8 @@ public class ReqBalancesPagination extends Pagination
 	@ApiModelProperty(value = "备注", position = 6)
 	private java.lang.String remark;
 
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 7)
-	private java.lang.Long updateTime;
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 7)
+//	private java.lang.Long updateTime;
 }
 

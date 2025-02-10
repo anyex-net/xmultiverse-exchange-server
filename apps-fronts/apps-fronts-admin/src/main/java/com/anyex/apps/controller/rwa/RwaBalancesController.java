@@ -47,43 +47,16 @@ public class RwaBalancesController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaBalances:data")
     @ApiOperation(value = "根据ID取RWA账户余额", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<RwaBalances> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaBalancesService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("rwa:rwaBalances:operator")
-    @ApiOperation(value = "保存RWA账户余额", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqRwaBalances info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            RwaBalances entity = new RwaBalances();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-//                entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                rwaBalancesService.insert(entity);
-            } else {
-                rwaBalancesService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("rwa:rwaBalances:data")
     @ApiOperation(value = "查询RWA账户余额", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqRwaBalancesPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaBalances>> data(@ModelAttribute ReqRwaBalancesPagination pagin) throws BusinessException
     {
         RwaBalances entity = new RwaBalances();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class RwaBalancesController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("rwa:rwaBalances:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        rwaBalancesService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("rwa:rwaBalances:operator")
+//    @ApiOperation(value = "保存RWA账户余额", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqRwaBalances info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            RwaBalances entity = new RwaBalances();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                rwaBalancesService.insert(entity);
+//            } else {
+//                rwaBalancesService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("rwa:rwaBalances:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        rwaBalancesService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

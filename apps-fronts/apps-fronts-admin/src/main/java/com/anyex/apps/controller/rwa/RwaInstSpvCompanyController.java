@@ -47,43 +47,16 @@ public class RwaInstSpvCompanyController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaInstSpvCompany:data")
     @ApiOperation(value = "根据ID取RWA机构SPV公司", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<RwaInstSpvCompany> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvCompanyService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("rwa:rwaInstSpvCompany:operator")
-    @ApiOperation(value = "保存RWA机构SPV公司", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqRwaInstSpvCompany info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            RwaInstSpvCompany entity = new RwaInstSpvCompany();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-                entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                rwaInstSpvCompanyService.insert(entity);
-            } else {
-                rwaInstSpvCompanyService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("rwa:rwaInstSpvCompany:data")
     @ApiOperation(value = "查询RWA机构SPV公司", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqRwaInstSpvCompanyPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaInstSpvCompany>> data(@ModelAttribute ReqRwaInstSpvCompanyPagination pagin) throws BusinessException
     {
         RwaInstSpvCompany entity = new RwaInstSpvCompany();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class RwaInstSpvCompanyController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("rwa:rwaInstSpvCompany:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        rwaInstSpvCompanyService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("rwa:rwaInstSpvCompany:operator")
+//    @ApiOperation(value = "保存RWA机构SPV公司", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqRwaInstSpvCompany info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            RwaInstSpvCompany entity = new RwaInstSpvCompany();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                rwaInstSpvCompanyService.insert(entity);
+//            } else {
+//                rwaInstSpvCompanyService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("rwa:rwaInstSpvCompany:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        rwaInstSpvCompanyService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

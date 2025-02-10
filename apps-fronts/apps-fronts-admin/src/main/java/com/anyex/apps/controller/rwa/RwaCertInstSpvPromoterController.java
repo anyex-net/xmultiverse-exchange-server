@@ -47,43 +47,16 @@ public class RwaCertInstSpvPromoterController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaCertInstSpvPromoter:data")
     @ApiOperation(value = "根据ID取RWA认证机构SPV发起人", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<RwaCertInstSpvPromoter> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaCertInstSpvPromoterService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("rwa:rwaCertInstSpvPromoter:operator")
-    @ApiOperation(value = "保存RWA认证机构SPV发起人", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqRwaCertInstSpvPromoter info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            RwaCertInstSpvPromoter entity = new RwaCertInstSpvPromoter();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-                entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                rwaCertInstSpvPromoterService.insert(entity);
-            } else {
-                rwaCertInstSpvPromoterService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("rwa:rwaCertInstSpvPromoter:data")
     @ApiOperation(value = "查询RWA认证机构SPV发起人", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqRwaCertInstSpvPromoterPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaCertInstSpvPromoter>> data(@ModelAttribute ReqRwaCertInstSpvPromoterPagination pagin) throws BusinessException
     {
         RwaCertInstSpvPromoter entity = new RwaCertInstSpvPromoter();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class RwaCertInstSpvPromoterController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("rwa:rwaCertInstSpvPromoter:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        rwaCertInstSpvPromoterService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("rwa:rwaCertInstSpvPromoter:operator")
+//    @ApiOperation(value = "保存RWA认证机构SPV发起人", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqRwaCertInstSpvPromoter info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            RwaCertInstSpvPromoter entity = new RwaCertInstSpvPromoter();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                rwaCertInstSpvPromoterService.insert(entity);
+//            } else {
+//                rwaCertInstSpvPromoterService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("rwa:rwaCertInstSpvPromoter:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        rwaCertInstSpvPromoterService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

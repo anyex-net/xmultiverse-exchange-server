@@ -47,43 +47,16 @@ public class BalancesController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("fund:balances:data")
     @ApiOperation(value = "根据ID取资金账户余额", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<Balances> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, balancesService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("fund:balances:operator")
-    @ApiOperation(value = "保存资金账户余额", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqBalances info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            Balances entity = new Balances();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-//                entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                balancesService.insert(entity);
-            } else {
-                balancesService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("fund:balances:data")
     @ApiOperation(value = "查询资金账户余额", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqBalancesPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<Balances>> data(@ModelAttribute ReqBalancesPagination pagin) throws BusinessException
     {
         Balances entity = new Balances();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class BalancesController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("fund:balances:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        balancesService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("fund:balances:operator")
+//    @ApiOperation(value = "保存资金账户余额", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqBalances info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            Balances entity = new Balances();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                balancesService.insert(entity);
+//            } else {
+//                balancesService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("fund:balances:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        balancesService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

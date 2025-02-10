@@ -47,43 +47,16 @@ public class BalancesTransHistoryController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("fund:balancesTransHistory:data")
     @ApiOperation(value = "根据ID取资金账户交易历史", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<BalancesTransHistory> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, balancesTransHistoryService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("fund:balancesTransHistory:operator")
-    @ApiOperation(value = "保存资金账户交易历史", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqBalancesTransHistory info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            BalancesTransHistory entity = new BalancesTransHistory();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-                entity.setCreateTime(System.currentTimeMillis());
-            }
-//            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                balancesTransHistoryService.insert(entity);
-            } else {
-                balancesTransHistoryService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("fund:balancesTransHistory:data")
     @ApiOperation(value = "查询资金账户交易历史", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqBalancesTransHistoryPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<BalancesTransHistory>> data(@ModelAttribute ReqBalancesTransHistoryPagination pagin) throws BusinessException
     {
         BalancesTransHistory entity = new BalancesTransHistory();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class BalancesTransHistoryController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("fund:balancesTransHistory:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        balancesTransHistoryService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("fund:balancesTransHistory:operator")
+//    @ApiOperation(value = "保存资金账户交易历史", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqBalancesTransHistory info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            BalancesTransHistory entity = new BalancesTransHistory();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                balancesTransHistoryService.insert(entity);
+//            } else {
+//                balancesTransHistoryService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("fund:balancesTransHistory:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        balancesTransHistoryService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

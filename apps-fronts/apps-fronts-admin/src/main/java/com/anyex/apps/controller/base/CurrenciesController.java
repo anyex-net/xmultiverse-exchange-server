@@ -47,7 +47,7 @@ public class CurrenciesController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("base:currencies:data")
     @ApiOperation(value = "根据ID取平台币种", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<Currencies> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, currenciesService.selectByPrimaryKey(id));
@@ -66,7 +66,7 @@ public class CurrenciesController extends GenericController
             //
             if (null == info.getId())
             {
-            entity.setCreateTime(System.currentTimeMillis());
+                entity.setCreateTime(System.currentTimeMillis());
             }
             entity.setUpdateTime(System.currentTimeMillis());
             //
@@ -83,7 +83,7 @@ public class CurrenciesController extends GenericController
     @PostMapping(value = "/data")
     @RequiresPermissions("base:currencies:data")
     @ApiOperation(value = "查询平台币种", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqCurrenciesPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<Currencies>> data(@ModelAttribute ReqCurrenciesPagination pagin) throws BusinessException
     {
         Currencies entity = new Currencies();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +91,13 @@ public class CurrenciesController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("base:currencies:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        currenciesService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("base:currencies:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        currenciesService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

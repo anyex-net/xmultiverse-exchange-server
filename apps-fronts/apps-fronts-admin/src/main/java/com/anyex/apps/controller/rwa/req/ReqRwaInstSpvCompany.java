@@ -100,25 +100,25 @@ public class ReqRwaInstSpvCompany extends GenericEntity
 	@ApiModelProperty(value = "备注", position = 14)
 	private java.lang.String remark;
 
-	/**创建时间*/
-	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 15, required = true)
-	private java.lang.Long createTime;
-
-	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 16)
-	private java.lang.String updateBy;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 17)
-	private java.lang.Long updateTime;
-
-	/**复核人*/
-	@ApiModelProperty(value = "复核人", position = 18)
-	private java.lang.String checkBy;
-
-	/**复核时间*/
-	@ApiModelProperty(value = "复核时间", position = 19)
-	private java.lang.Long checkTime;
+//	/**创建时间*/
+//	@NotNull(message = "创建时间不可为空")
+//	@ApiModelProperty(value = "创建时间", position = 15, required = true)
+//	private java.lang.Long createTime;
+//
+//	/**更新人*/
+//	@ApiModelProperty(value = "更新人", position = 16)
+//	private java.lang.String updateBy;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 17)
+//	private java.lang.Long updateTime;
+//
+//	/**复核人*/
+//	@ApiModelProperty(value = "复核人", position = 18)
+//	private java.lang.String checkBy;
+//
+//	/**复核时间*/
+//	@ApiModelProperty(value = "复核时间", position = 19)
+//	private java.lang.Long checkTime;
 }
 

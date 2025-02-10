@@ -75,8 +75,8 @@ public class ReqRwaBalancesTransHistoryPagination extends Pagination
 	@ApiModelProperty(value = "备注", position = 12)
 	private java.lang.String remark;
 
-	/**创建时间*/
-	@ApiModelProperty(value = "创建时间", position = 13)
-	private java.lang.Long createTime;
+//	/**创建时间*/
+//	@ApiModelProperty(value = "创建时间", position = 13)
+//	private java.lang.Long createTime;
 }
 

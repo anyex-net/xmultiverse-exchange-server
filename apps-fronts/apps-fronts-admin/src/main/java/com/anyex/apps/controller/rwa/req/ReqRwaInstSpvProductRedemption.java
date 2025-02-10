@@ -70,17 +70,17 @@ public class ReqRwaInstSpvProductRedemption extends GenericEntity
 	@ApiModelProperty(value = "备注", position = 8)
 	private java.lang.String remark;
 
-	/**创建时间*/
-	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 9, required = true)
-	private java.lang.Long createTime;
-
-	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 10)
-	private java.lang.String updateBy;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 11)
-	private java.lang.Long updateTime;
+//	/**创建时间*/
+//	@NotNull(message = "创建时间不可为空")
+//	@ApiModelProperty(value = "创建时间", position = 9, required = true)
+//	private java.lang.Long createTime;
+//
+//	/**更新人*/
+//	@ApiModelProperty(value = "更新人", position = 10)
+//	private java.lang.String updateBy;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 11)
+//	private java.lang.Long updateTime;
 }
 

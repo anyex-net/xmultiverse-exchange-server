@@ -47,43 +47,16 @@ public class DepositTransHistoryController extends GenericController
     @GetMapping(value = "/findBy")
     @RequiresPermissions("fund:depositTransHistory:data")
     @ApiOperation(value = "根据ID取充值交易历史", httpMethod = "GET")
-    public JsonMessage findBy(Long id) throws BusinessException
+    public JsonMessage<DepositTransHistory> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, depositTransHistoryService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("fund:depositTransHistory:operator")
-    @ApiOperation(value = "保存充值交易历史", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqDepositTransHistory info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            DepositTransHistory entity = new DepositTransHistory();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-            entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                depositTransHistoryService.insert(entity);
-            } else {
-                depositTransHistoryService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
     @RequiresPermissions("fund:depositTransHistory:data")
     @ApiOperation(value = "查询充值交易历史", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqDepositTransHistoryPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<DepositTransHistory>> data(@ModelAttribute ReqDepositTransHistoryPagination pagin) throws BusinessException
     {
         DepositTransHistory entity = new DepositTransHistory();
         BeanUtils.copyProperties(pagin, entity);
@@ -91,13 +64,40 @@ public class DepositTransHistoryController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("fund:depositTransHistory:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        depositTransHistoryService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("fund:depositTransHistory:operator")
+//    @ApiOperation(value = "保存充值交易历史", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqDepositTransHistory info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            DepositTransHistory entity = new DepositTransHistory();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//                entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                depositTransHistoryService.insert(entity);
+//            } else {
+//                depositTransHistoryService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("fund:depositTransHistory:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        depositTransHistoryService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

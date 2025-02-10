@@ -128,17 +128,17 @@ public class ReqUser extends GenericEntity
 	@ApiModelProperty(value = "备注", position = 23)
 	private java.lang.String remark;
 
-	/**创建时间*/
-	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 26, required = true)
-	private java.lang.Long createTime;
-
-	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 27)
-	private java.lang.String updateBy;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 28)
-	private java.lang.Long updateTime;
+//	/**创建时间*/
+//	@NotNull(message = "创建时间不可为空")
+//	@ApiModelProperty(value = "创建时间", position = 26, required = true)
+//	private java.lang.Long createTime;
+//
+//	/**更新人*/
+//	@ApiModelProperty(value = "更新人", position = 27)
+//	private java.lang.String updateBy;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 28)
+//	private java.lang.Long updateTime;
 }
 
