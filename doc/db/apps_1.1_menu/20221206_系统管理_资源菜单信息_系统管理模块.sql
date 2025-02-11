@@ -21,11 +21,11 @@ VALUES (200000000009, 200000000008, 'system:role:operator', '操作权限', null
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (200000000010, 200000000008, 'system:role:data', '查询权限', null, true, null, null, 'role', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (200000000011, 200000000001, 'system:user:index', '用户管理', null, false, 'Icon30n', 4, 'user', '/system/user', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (200000000011, 200000000001, 'system:userInfo:index', '用户管理', null, false, 'Icon30n', 4, 'userInfo', '/system/userInfo', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (200000000012, 200000000011, 'system:user:operator', '操作权限', null, true, null, null, 'user', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (200000000012, 200000000011, 'system:userInfo:operator', '操作权限', null, true, null, null, 'userInfo', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (200000000013, 200000000011, 'system:user:data', '查询权限', null, true, null, null, 'user', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (200000000013, 200000000011, 'system:userInfo:data', '查询权限', null, true, null, null, 'userInfo', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (200000000014, 200000000001, 'system:cache:index', '缓存管理', null, false, 'Icon30n', 5, 'cache', '/system/cache', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)

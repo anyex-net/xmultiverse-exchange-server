@@ -662,15 +662,15 @@
                 <email.username>wivpalcs@gmail.com</email.username>
                 <email.password>rwxrrsftfoquktnv</email.password>
                 <database.sql.dialect>mysql</database.sql.dialect>
-                <master.jdbc.url>jdbc:mysql://112.14.45.72:3306/exchangebiz?failOverReadOnly=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;nullCatalogMeansCurrent=true</master.jdbc.url>
+                <master.jdbc.url>jdbc:mysql://127.0.0.1:3306/exchangev1?failOverReadOnly=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true&amp;allowMultiQueries=true&amp;nullCatalogMeansCurrent=true</master.jdbc.url>
                 <master.jdbc.poolname>HikariPool1</master.jdbc.poolname>
-                <master.jdbc.username>skyadmin</master.jdbc.username>
-                <master.jdbc.password>FrmnK9upBcKWPvkFvkUSkTkwQbIfhb3s+spaWHO4d4k=</master.jdbc.password>
+                <master.jdbc.username>root</master.jdbc.username>
+                <master.jdbc.password>B8RQuMP25CKZtsU9Z/xlcQ==</master.jdbc.password>
                 <slave1.jdbc.url>${master.jdbc.url}</slave1.jdbc.url>
                 <slave1.jdbc.poolname>HikariPool1</slave1.jdbc.poolname>
-                <slave1.jdbc.username>skyadmin</slave1.jdbc.username>
-                <slave1.jdbc.password>FrmnK9upBcKWPvkFvkUSkTkwQbIfhb3s+spaWHO4d4k=</slave1.jdbc.password>
-                <zookeeper.address>zookeeper://127.0.0.1:2183</zookeeper.address>
+                <slave1.jdbc.username>root</slave1.jdbc.username>
+                <slave1.jdbc.password>B8RQuMP25CKZtsU9Z/xlcQ==</slave1.jdbc.password>
+                <zookeeper.address>zookeeper://127.0.0.1:2181</zookeeper.address>
                 <kafkaserver.url>127.0.0.1:9092</kafkaserver.url>
                 <mongodb.host>127.0.0.1</mongodb.host>
                 <mongodb.port>27017</mongodb.port>
@@ -679,12 +679,8 @@
                 <cluster.nodes>127.0.0.1:6377,127.0.0.1:6378,127.0.0.1:6379</cluster.nodes>
                 <redis.host>127.0.0.1</redis.host>
                 <redis.timeout>5000</redis.timeout>
-                <redis.port>63279</redis.port>
-                <redis.password></redis.password>
-                <!--
-                <redis.port>6379</redis.port>
+                <redis.port>6389</redis.port>
                 <redis.password>XpVFvpTuo4T0q8P8JQWnRdTz2EymvnU08WAWvwbw</redis.password>
-                -->
                 <wivpay.payUrl>http://112.14.45.72:9182/gate-pay/unifiedorder/in</wivpay.payUrl>
                 <wivpay.payQueryUrl>http://112.14.45.72:9182/gate-pay/queryorder/in</wivpay.payQueryUrl>
                 <wivpay.notifyUrl>http://112.14.45.72:9992/api/payment/wivpay/in/notify</wivpay.notifyUrl>

@@ -51,7 +51,7 @@ public class SysUserInfoController extends GenericController
     private GlobalProperies properies;
     
     @GetMapping(value = "/user/findBy")
-    @RequiresPermissions("system:user:data")
+    @RequiresPermissions("system:userInfo:data")
     @ApiOperation(value = "根据ID取用户信息", httpMethod = "GET")
     public JsonMessage<SysUserInfo> findBy(@RequestParam("id") Long id) throws BusinessException
     {
@@ -60,7 +60,7 @@ public class SysUserInfoController extends GenericController
         return this.getJsonMessage(CommonEnums.SUCCESS, userInfo);
     }
 
-    @RequiresPermissions("system:user:operator")
+    @RequiresPermissions("system:userInfo:operator")
     @ApiOperation(value = "新增或更新用户信息", httpMethod = "POST")
     @RequestMapping(value = "/user/save", method = RequestMethod.POST)
     public JsonMessage save(@ModelAttribute ReqSysUserInfo info) throws BusinessException
@@ -80,7 +80,7 @@ public class SysUserInfoController extends GenericController
         return json;
     }
 
-//    @RequiresPermissions("system:user:operator")
+//    @RequiresPermissions("system:userInfo:operator")
 //    @ApiOperation(value = "保存用户数据信息", httpMethod = "POST")
 //    @RequestMapping(value = "/user/saveUserData", method = RequestMethod.POST)
 //    public JsonMessage saveUserData(Long userId, String orgIds) throws BusinessException
@@ -91,7 +91,7 @@ public class SysUserInfoController extends GenericController
 //        return getJsonMessage(CommonEnums.SUCCESS);
 //    }
 
-    @RequiresPermissions("system:user:operator")
+    @RequiresPermissions("system:userInfo:operator")
     @ApiOperation(value = "修改用户登录密码", httpMethod = "POST")
     @RequestMapping(value = "/user/changePwd", method = RequestMethod.POST)
     public JsonMessage changePwd(@RequestParam("oldPwd") String oldPwd, @RequestParam("newPwd") String newPwd) throws BusinessException
@@ -103,7 +103,7 @@ public class SysUserInfoController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS);
     }
 
-    @RequiresPermissions("system:user:operator")
+    @RequiresPermissions("system:userInfo:operator")
     @ApiOperation(value = "重置用户登录密码(默认)", httpMethod = "POST")
     @RequestMapping(value = "/user/resetDefaultPwd", method = RequestMethod.POST)
     public JsonMessage resetDefaultPwd(@RequestParam("id") Long id) throws BusinessException
@@ -114,7 +114,7 @@ public class SysUserInfoController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS);
     }
 
-    @RequiresPermissions("system:user:operator")
+    @RequiresPermissions("system:userInfo:operator")
     @ApiOperation(value = "重置用户登录密码(新密码)", httpMethod = "POST")
     @RequestMapping(value = "/user/resetNewPwd", method = RequestMethod.POST)
     public JsonMessage resetNewPwd(@RequestParam("id") Long id, @RequestParam("newPwd") String newPwd) throws BusinessException
@@ -125,7 +125,7 @@ public class SysUserInfoController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS);
     }
 
-    @RequiresPermissions("system:user:data")
+    @RequiresPermissions("system:userInfo:data")
     @ApiOperation(value = "查询用户信息列表", httpMethod = "POST")
     @RequestMapping(value = "/user/data", method = RequestMethod.POST)
     public JsonMessage<PaginateResult<SysUserInfo>> data(@Validated @ModelAttribute ReqSysUserInfoPagination reqSysUserInfoPagination) throws BusinessException
@@ -138,7 +138,7 @@ public class SysUserInfoController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @RequiresPermissions("system:user:operator")
+    @RequiresPermissions("system:userInfo:operator")
     @ApiOperation(value = "根据指定ID删除(逗号分隔)", httpMethod = "POST")
     @RequestMapping(value = "/user/del", method = RequestMethod.POST)
     public JsonMessage del(@RequestParam("ids") String ids) throws BusinessException
@@ -148,7 +148,7 @@ public class SysUserInfoController extends GenericController
     }
     
     @PostMapping(value = "/user/changeStatus")
-    @RequiresPermissions("system:user:operator")
+    @RequiresPermissions("system:userInfo:operator")
     @ApiOperation(value = "启用或停用用户", httpMethod = "POST")
     public JsonMessage changeStatus(@RequestParam("id") Long id) throws BusinessException
     {
@@ -161,7 +161,7 @@ public class SysUserInfoController extends GenericController
     }
 
 //    @PostMapping(value = "/user/list")
-//    @RequiresPermissions("system:user:operator")
+//    @RequiresPermissions("system:userInfo:operator")
 //    @ApiOperation(value = "机构下所有账户", httpMethod = "POST")
 //    public JsonMessage<List<SysUserInfo>> list(@ModelAttribute SysUserInfo entity, @ModelAttribute Pagination pagin) throws BusinessException
 //    {
