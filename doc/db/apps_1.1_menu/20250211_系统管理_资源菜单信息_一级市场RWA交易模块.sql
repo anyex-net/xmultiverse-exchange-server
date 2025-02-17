@@ -1,7 +1,7 @@
 delete from SysResources where id between 330000000001 and 339999999999;
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000001, null, 'rwa:index', 'RWA交易管理', null, false, 'Icon30n', 5, '/rwa', 'Layout', 200000000000, 1501467844534, 200000000000, 1572330046622);
+VALUES (330000000001, null, 'rwa:index', 'RWA交易管理', null, false, 'Icon30n', 5, '/rwaMgt', 'Layout', 200000000000, 1501467844534, 200000000000, 1572330046622);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (330000000002, 330000000001, 'rwa:rwaCertInstSpvPromoter:index', '机构SPV发起人认证', null, false, 'Icon30n', 1, 'rwaCertInstSpvPromoter', '/rwa/rwaCertInstSpvPromoter', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)

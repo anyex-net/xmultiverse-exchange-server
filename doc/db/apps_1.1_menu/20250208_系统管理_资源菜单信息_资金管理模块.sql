@@ -1,7 +1,7 @@
 delete from SysResources where id between 320000000001 and 329999999999;
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (320000000001, null, 'fund:index', '资金管理', null, false, 'Icon30n', 4, '/fund', 'Layout', 200000000000, 1501467844534, 200000000000, 1572320046622);
+VALUES (320000000001, null, 'fund:index', '资金管理', null, false, 'Icon30n', 4, '/fundMgt', 'Layout', 200000000000, 1501467844534, 200000000000, 1572320046622);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (320000000002, 320000000001, 'fund:balances:index', '资金账户余额', null, false, 'Icon30n', 1, 'balances', '/fund/balances', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)

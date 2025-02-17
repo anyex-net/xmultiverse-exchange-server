@@ -1,7 +1,7 @@
 delete from SysResources where id between 340000000001 and 349999999999;
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (340000000001, null, 'spot:index', '现货交易管理', null, false, 'Icon30n', 6, '/spot', 'Layout', 200000000000, 1501467844534, 200000000000, 1572340046622);
+VALUES (340000000001, null, 'spot:index', '现货交易管理', null, false, 'Icon30n', 6, '/spotMgt', 'Layout', 200000000000, 1501467844534, 200000000000, 1572340046622);
 --asset.list
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (340000000002, 340000000001, 'spot:spotAssetList:index', '现货资产币种', null, false, 'Icon30n', 1, 'spotAssetList', '/spot/spotAssetList', 200000000000, 1501467844534, 200000000000, 1501467844534);

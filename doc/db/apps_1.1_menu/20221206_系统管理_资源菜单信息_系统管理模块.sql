@@ -1,7 +1,7 @@
 delete from SysResources where id between 200000000001 and 219999999999;
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (200000000001, null, 'system:index', '系统管理', null, false, 'Icon7n', 0, '/system', 'Layout', 200000000000, 1501467844534, 200000000000, 1572240046622);
+VALUES (200000000001, null, 'system:index', '系统管理', null, false, 'Icon7n', 0, '/systemMgt', 'Layout', 200000000000, 1501467844534, 200000000000, 1572240046622);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (200000000002, 200000000001, 'system:organization:index', '机构管理', null, false, 'Icon30n', 1, 'organization', '/system/organization', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
@@ -49,7 +49,7 @@ VALUES (200000000019, 200000000017, 'system:frontModule:data', '查询权限', n
 */
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (210000000001, null, 'common:index', '公共管理', null, false, 'Icon21n', 1, '/common', 'Layout', 200000000000, 1571883511490, 200000000000, 1571884027177);
+VALUES (210000000001, null, 'common:index', '公共管理', null, false, 'Icon21n', 1, '/commonMgt', 'Layout', 200000000000, 1571883511490, 200000000000, 1571884027177);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (210000000002, 210000000001, 'common:region:index', '区域代码', null, false, 'Icon30n', 1, 'region', '/common/region', 200000000000, 1501467844534, 200000000000, 1571883572513);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)

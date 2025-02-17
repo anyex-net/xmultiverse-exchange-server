@@ -1,7 +1,7 @@
 delete from SysResources where id between 310000000001 and 319999999999;
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (310000000001, null, 'user:index', '用户管理', null, false, 'Icon30n', 3, '/user', 'Layout', 200000000000, 1501467844534, 200000000000, 1572310046622);
+VALUES (310000000001, null, 'user:index', '用户管理', null, false, 'Icon30n', 3, '/userMgt', 'Layout', 200000000000, 1501467844534, 200000000000, 1572310046622);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (310000000002, 310000000001, 'user:user:index', '用户管理', null, false, 'Icon30n', 1, 'user', '/user/user', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
