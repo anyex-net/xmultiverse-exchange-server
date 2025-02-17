@@ -458,24 +458,24 @@
 <!--        </sofa:binding.bolt>-->
 <!--    </sofa:service>-->
 
-<!--    &lt;!&ndash; 资讯 &ndash;&gt;-->
-<!--    <sofa:service interface="com.anyex.apps.news.service.NewsService" ref="newsServiceImpl">-->
-<!--        <sofa:binding.bolt>-->
-<!--            <sofa:global-attrs timeout="600000"/>-->
-<!--        </sofa:binding.bolt>-->
-<!--    </sofa:service>-->
-<!--    &lt;!&ndash; 资讯收藏 &ndash;&gt;-->
-<!--    <sofa:service interface="com.anyex.apps.news.service.NewsFavoriteService" ref="newsFavoriteServiceImpl">-->
-<!--        <sofa:binding.bolt>-->
-<!--            <sofa:global-attrs timeout="600000"/>-->
-<!--        </sofa:binding.bolt>-->
-<!--    </sofa:service>-->
-<!--    &lt;!&ndash; 资讯点赞 &ndash;&gt;-->
-<!--    <sofa:service interface="com.anyex.apps.news.service.NewsLikeService" ref="newsLikeServiceImpl">-->
-<!--        <sofa:binding.bolt>-->
-<!--            <sofa:global-attrs timeout="600000"/>-->
-<!--        </sofa:binding.bolt>-->
-<!--    </sofa:service>-->
+    <!-- 资讯 -->
+    <sofa:service interface="com.anyex.apps.news.service.NewsService" ref="newsServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- 资讯收藏 -->
+    <sofa:service interface="com.anyex.apps.news.service.NewsFavoriteService" ref="newsFavoriteServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <!-- 资讯点赞 -->
+    <sofa:service interface="com.anyex.apps.news.service.NewsLikeService" ref="newsLikeServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
 
 
 <!--    &lt;!&ndash;店铺管理&ndash;&gt;-->

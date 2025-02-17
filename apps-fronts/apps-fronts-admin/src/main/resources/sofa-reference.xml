@@ -450,24 +450,24 @@
 <!--        </sofa:binding.bolt>-->
 <!--    </sofa:reference>-->
 
-<!--    &lt;!&ndash; 资讯 &ndash;&gt;-->
-<!--    <sofa:reference id="newsService" interface="com.anyex.apps.news.service.NewsService" jvm-first="false">-->
-<!--        <sofa:binding.bolt>-->
-<!--            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>-->
-<!--        </sofa:binding.bolt>-->
-<!--    </sofa:reference>-->
-<!--    &lt;!&ndash; 资讯点赞 &ndash;&gt;-->
-<!--    <sofa:reference id="newsLikeService" interface="com.anyex.apps.news.service.NewsLikeService" jvm-first="false">-->
-<!--        <sofa:binding.bolt>-->
-<!--            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>-->
-<!--        </sofa:binding.bolt>-->
-<!--    </sofa:reference>-->
-<!--    &lt;!&ndash; 资讯收藏 &ndash;&gt;-->
-<!--    <sofa:reference id="newsFavoriteService" interface="com.anyex.apps.news.service.NewsFavoriteService" jvm-first="false">-->
-<!--        <sofa:binding.bolt>-->
-<!--            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>-->
-<!--        </sofa:binding.bolt>-->
-<!--    </sofa:reference>-->
+    <!-- 资讯 -->
+    <sofa:reference id="newsService" interface="com.anyex.apps.news.service.NewsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 资讯点赞 -->
+    <sofa:reference id="newsLikeService" interface="com.anyex.apps.news.service.NewsLikeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 资讯收藏 -->
+    <sofa:reference id="newsFavoriteService" interface="com.anyex.apps.news.service.NewsFavoriteService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
 
 
 <!--    &lt;!&ndash;店铺管理&ndash;&gt;-->

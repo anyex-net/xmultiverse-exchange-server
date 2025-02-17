@@ -19,9 +19,9 @@ VALUES (300000000007, 300000000005, 'base:instruments:data', '查询权限', nul
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (300000000008, 300000000001, 'base:instTradeFee:index', '平台交易费率', null, false, 'Icon30n', 3, 'instTradeFee', '/base/instTradeFee', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (300000000009, 300000000008, 'base:userCertInstInvestor:operator', '操作权限', null, true, null, null, 'instTradeFee', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (300000000009, 300000000008, 'base:instTradeFee:operator', '操作权限', null, true, null, null, 'instTradeFee', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (300000000010, 300000000008, 'base:userCertInstInvestor:data', '查询权限', null, true, null, null, 'instTradeFee', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (300000000010, 300000000008, 'base:instTradeFee:data', '查询权限', null, true, null, null, 'instTradeFee', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (300000000011, 300000000001, 'base:userInstTradeFee:index', '用户交易费率', null, false, 'Icon30n', 4, 'userInstTradeFee', '/base/userInstTradeFee', 200000000000, 1501467844534, 200000000000, 1501467844534);

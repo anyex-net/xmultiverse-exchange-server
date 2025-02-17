@@ -749,6 +749,5 @@
         FROM User a
     </select>
 
-
 </mapper>
 
