@@ -4,14 +4,18 @@
  */
 package com.anyex.apps.fund.entity;
 
-import com.anyex.apps.bean.GenericEntity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
+
+import com.anyex.apps.bean.SignableEntity;
+import com.anyex.apps.consts.CharsetConst;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * 充值地址 实体对象
@@ -26,7 +30,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "充值地址")
-public class DepositAddress extends GenericEntity
+public class DepositAddress extends SignableEntity
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -76,5 +80,12 @@ public class DepositAddress extends GenericEntity
 	/**更新时间*/
 	@ApiModelProperty(value = "更新时间", position = 12)
 	private java.lang.Long updateTime;
+
+	@Override
+	protected byte[] acquiresSignValue() throws UnsupportedEncodingException {
+		StringBuffer sign = new StringBuffer(String.valueOf(id));
+		sign.append(userId).append(currency).append(blockchain).append(depositAddress);
+		return sign.toString().getBytes(CharsetConst.CHARSET_UT);
+	}
 }
 
