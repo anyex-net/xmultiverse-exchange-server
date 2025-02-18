@@ -13,10 +13,7 @@ import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.model.Pagination;
-import com.anyex.apps.utils.CalendarUtils;
-import com.anyex.apps.utils.RedisUtils;
-import com.anyex.apps.utils.SerialnoUtils;
-import com.anyex.apps.utils.StringUtils;
+import com.anyex.apps.utils.*;
 import com.anyex.apps.common.consts.MessageConst;
 import com.anyex.apps.common.entity.SysMsgRecord;
 import com.anyex.apps.common.entity.SysMsgTemplate;
@@ -53,6 +50,12 @@ public class SysMsgRecordNoSqlServiceImpl extends GenericNoSqlImpl<SysMsgRecord>
 
     @Autowired(required = false)
     protected JavaMailSender sender;
+
+    /**
+     * 亚马逊邮件
+     */
+    @Autowired(required = false)
+    private AmazonSESUtils    amazonSESUtils;
 
 //    @Autowired(required = false)
 //    private SMSClientUtils smsClientUtils;
@@ -97,14 +100,19 @@ public class SysMsgRecordNoSqlServiceImpl extends GenericNoSqlImpl<SysMsgRecord>
         record.setCreateDate(CalendarUtils.getCurrentLong());
         new Thread(() -> {
             try {
-                // 阿里云短信通道
-                try {
-                    if (AliyunSmsUtils.sendSmsCode(phone, randNum)) {
-                        record.setStatus(Boolean.TRUE);
-                    }
-                } catch (ClientException e) {
-                    e.printStackTrace();
-                    record.setStatus(Boolean.FALSE);
+//                // 阿里云短信通道
+//                try {
+//                    if (AliyunSmsUtils.sendSmsCode(phone, randNum)) {
+//                        record.setStatus(Boolean.TRUE);
+//                    }
+//                } catch (ClientException e) {
+//                    e.printStackTrace();
+//                    record.setStatus(Boolean.FALSE);
+//                }
+                // ASW云短信通道
+                if (AmazonSNSUtils.sendSMS(phone, content))
+                {
+                    record.setStatus(Boolean.TRUE);
                 }
             } catch (BusinessException e) {
                 log.error(e.getLocalizedMessage());
@@ -168,18 +176,22 @@ public class SysMsgRecordNoSqlServiceImpl extends GenericNoSqlImpl<SysMsgRecord>
         //
         new Thread(() -> {
             try {
-                SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-                simpleMailMessage.setFrom(formMail);
-                simpleMailMessage.setTo(email);
-                simpleMailMessage.setSubject(template.getTitle());
-                simpleMailMessage.setText(content);
-                sender.send(simpleMailMessage);
+                // 亚马逊邮件推送服务
+                amazonSESUtils.sendMail(template.getTitle(), content, email);
+//                // 普通邮件推送服务
+//                SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+//                simpleMailMessage.setFrom(formMail);
+//                simpleMailMessage.setTo(email);
+//                simpleMailMessage.setSubject(template.getTitle());
+//                simpleMailMessage.setText(content);
+//                sender.send(simpleMailMessage);
                 //
                 record.setStatus(Boolean.TRUE);
             } catch (Exception e) {
                 log.error(e.getLocalizedMessage());
             } finally {
-                mongoTemplate.insert(record, "MsgRecord");
+                log.info("sendEmail record:{}", record);
+                // mongoTemplate.insert(record, "MsgRecord");
             }
         }).start();
         //

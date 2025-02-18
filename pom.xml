@@ -337,6 +337,14 @@
                 <artifactId>base64</artifactId>
                 <version>2.3.9</version>
             </dependency>
+            <!-- aws sdk -->
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-bom</artifactId>
+                <version>1.11.213</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- aliyun sdk -->
             <dependency>
                 <groupId>com.aliyun</groupId>

@@ -11,10 +11,7 @@ import com.anyex.apps.consts.CacheConst;
 import com.anyex.apps.consts.GlobalConst;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
-import com.anyex.apps.utils.CalendarUtils;
-import com.anyex.apps.utils.RedisUtils;
-import com.anyex.apps.utils.SerialnoUtils;
-import com.anyex.apps.utils.StringUtils;
+import com.anyex.apps.utils.*;
 import com.anyex.apps.common.consts.MessageConst;
 import com.anyex.apps.common.entity.SysMsgRecord;
 import com.anyex.apps.common.entity.SysMsgTemplate;
@@ -58,6 +55,12 @@ public class SysMsgRecordServiceImpl extends GenericServiceImpl<SysMsgRecord> im
     @Autowired(required = false)
     protected JavaMailSender  sender;
 
+    /**
+     * 亚马逊邮件
+     */
+    @Autowired(required = false)
+    private AmazonSESUtils    amazonSESUtils;
+
 //    @Autowired(required = false)
 //    private SMSClientUtils smsClientUtils;
 
@@ -100,22 +103,26 @@ public class SysMsgRecordServiceImpl extends GenericServiceImpl<SysMsgRecord> im
         new Thread(() -> {
             try
             {
-                /* 253短信通道
-                SMSResult result = smsClientUtils.sendIntSMS(phone, content);
-                if (StringUtils.isNotBlank(result.getMsgid()))
-                {// 表示发送成功
+//                // 253短信通道
+//                SMSResult result = smsClientUtils.sendIntSMS(phone, content);
+//                if (StringUtils.isNotBlank(result.getMsgid()))
+//                {// 表示发送成功
+//                    record.setStatus(Boolean.TRUE);
+//                }
+//                // 阿里云短信通道
+//                try {
+//                    if (AliyunSmsUtils.sendSmsCode(phone, randomKey))
+//                    {
+//                        record.setStatus(Boolean.TRUE);
+//                    }
+//                } catch (ClientException e) {
+//                    e.printStackTrace();
+//                    record.setStatus(Boolean.FALSE);
+//                }
+                // ASW云短信通道
+                if (AmazonSNSUtils.sendSMS(phone, content))
+                {
                     record.setStatus(Boolean.TRUE);
-                }
-                */
-                // 阿里云短信通道
-                try {
-                    if (AliyunSmsUtils.sendSmsCode(phone, randomKey))
-                    {
-                        record.setStatus(Boolean.TRUE);
-                    }
-                } catch (ClientException e) {
-                    e.printStackTrace();
-                    record.setStatus(Boolean.FALSE);
                 }
             }
             catch (BusinessException e)
@@ -159,22 +166,26 @@ public class SysMsgRecordServiceImpl extends GenericServiceImpl<SysMsgRecord> im
         new Thread(() -> {
             try
             {
-                /* 253短信通道
-                SMSResult result = smsClientUtils.sendIntSMS(phone, content);
-                if (StringUtils.isNotBlank(result.getMsgid()))
-                {// 表示发送成功
+//                // 253短信通道
+//                SMSResult result = smsClientUtils.sendIntSMS(phone, content);
+//                if (StringUtils.isNotBlank(result.getMsgid()))
+//                {// 表示发送成功
+//                    record.setStatus(Boolean.TRUE);
+//                }
+//                // 阿里云短信通道
+//                try {
+//                    if (AliyunSmsUtils.sendSmsCode(phone, level))
+//                    {
+//                        record.setStatus(Boolean.TRUE);
+//                    }
+//                } catch (ClientException e) {
+//                    e.printStackTrace();
+//                    record.setStatus(Boolean.FALSE);
+//                }
+                // ASW云短信通道
+                if (AmazonSNSUtils.sendSMS(phone, content))
+                {
                     record.setStatus(Boolean.TRUE);
-                }
-                */
-                // 阿里云短信通道
-                try {
-                    if (AliyunSmsUtils.sendSmsCode(phone, level))
-                    {
-                        record.setStatus(Boolean.TRUE);
-                    }
-                } catch (ClientException e) {
-                    e.printStackTrace();
-                    record.setStatus(Boolean.FALSE);
                 }
             }
             catch (BusinessException e)
@@ -265,12 +276,15 @@ public class SysMsgRecordServiceImpl extends GenericServiceImpl<SysMsgRecord> im
         //
         new Thread(() -> {
             try {
-                SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-                simpleMailMessage.setFrom(formMail);
-                simpleMailMessage.setTo(email);
-                simpleMailMessage.setSubject(template.getTitle());
-                simpleMailMessage.setText(content);
-                sender.send(simpleMailMessage);
+                // 亚马逊邮件推送服务
+                amazonSESUtils.sendMail(template.getTitle(), content, email);
+//                // 普通邮件推送服务
+//                SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+//                simpleMailMessage.setFrom(formMail);
+//                simpleMailMessage.setTo(email);
+//                simpleMailMessage.setSubject(template.getTitle());
+//                simpleMailMessage.setText(content);
+//                sender.send(simpleMailMessage);
                 //
                 record.setStatus(Boolean.TRUE);
             } catch (Exception e) {
@@ -320,6 +334,9 @@ public class SysMsgRecordServiceImpl extends GenericServiceImpl<SysMsgRecord> im
         //
         new Thread(() -> {
             try {
+//                // 亚马逊邮件推送服务
+//                amazonSESUtils.sendMail(template.getTitle(), content, email);
+                // 普通邮件推送服务
                 MimeMessage simpleMailMessage = sender.createMimeMessage();
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(simpleMailMessage, true);
                 mimeMessageHelper.setFrom(formMail);
