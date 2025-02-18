@@ -50,6 +50,7 @@ public class NewsLikeController extends GenericController
     public JsonMessage<NewsLike> findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        System.out.println("test");
         return this.getJsonMessage(CommonEnums.SUCCESS, newsLikeService.selectByPrimaryKey(id));
     }
 
