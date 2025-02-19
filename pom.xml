@@ -580,6 +580,18 @@
                 <sms.send.inthost>http://intapi.253.com/send/json</sms.send.inthost>
                 <sms.send.intuser>I25027</sms.send.intuser>
                 <sms.send.intpass>+yXK72yjjnJRVYhq</sms.send.intpass>
+                <email.provider>custom</email.provider>
+                <amazon.ses.host>email-smtp.eu-west-1.amazonaws.com</amazon.ses.host>
+                <amazon.ses.port>587</amazon.ses.port>
+                <amazon.ses.provider>biex</amazon.ses.provider>
+                <amazon.ses.biex.personal>BIEX Notifications</amazon.ses.biex.personal>
+                <amazon.ses.biex.username>v4ZlXDIxS/a0HhIGfI/TZEzUUpQINKxS</amazon.ses.biex.username>
+                <amazon.ses.biex.password>NEvS80wuPPefi475yUxdSyItLhk7Pez58XgwX6JlSmFrpsU33K8rzU5/jUUnrZGM</amazon.ses.biex.password>
+                <amazon.ses.biex.fromuser>service@biex.com</amazon.ses.biex.fromuser>
+                <amazon.ses.bitms.personal>BITMS Notifications</amazon.ses.bitms.personal>
+                <amazon.ses.bitms.username>82ZE1VpIeeHYiYQtXFeLVIb1wR50pNfl</amazon.ses.bitms.username>
+                <amazon.ses.bitms.password>JCZQOMh8fiSBuGabwwcb2KO2+M9UDvX3LI+wFVj8Ta3HCVV773zAWo140A9F4Of7</amazon.ses.bitms.password>
+                <amazon.ses.bitms.fromuser>service@bitms.com</amazon.ses.bitms.fromuser>
                 <email.host>smtp.163.com</email.host>
                 <email.username>a928494847@163.com</email.username>
                 <email.password>hcj2019</email.password>
@@ -666,6 +678,18 @@
                 <sms.send.inthost>http://intapi.253.com/send/json</sms.send.inthost>
                 <sms.send.intuser>I25027</sms.send.intuser>
                 <sms.send.intpass>+yXK72yjjnJRVYhq</sms.send.intpass>
+                <email.provider>custom</email.provider>
+                <amazon.ses.host>email-smtp.eu-west-1.amazonaws.com</amazon.ses.host>
+                <amazon.ses.port>587</amazon.ses.port>
+                <amazon.ses.provider>biex</amazon.ses.provider>
+                <amazon.ses.biex.personal>BIEX Notifications</amazon.ses.biex.personal>
+                <amazon.ses.biex.username>v4ZlXDIxS/a0HhIGfI/TZEzUUpQINKxS</amazon.ses.biex.username>
+                <amazon.ses.biex.password>NEvS80wuPPefi475yUxdSyItLhk7Pez58XgwX6JlSmFrpsU33K8rzU5/jUUnrZGM</amazon.ses.biex.password>
+                <amazon.ses.biex.fromuser>service@biex.com</amazon.ses.biex.fromuser>
+                <amazon.ses.bitms.personal>BITMS Notifications</amazon.ses.bitms.personal>
+                <amazon.ses.bitms.username>82ZE1VpIeeHYiYQtXFeLVIb1wR50pNfl</amazon.ses.bitms.username>
+                <amazon.ses.bitms.password>JCZQOMh8fiSBuGabwwcb2KO2+M9UDvX3LI+wFVj8Ta3HCVV773zAWo140A9F4Of7</amazon.ses.bitms.password>
+                <amazon.ses.bitms.fromuser>service@bitms.com</amazon.ses.bitms.fromuser>
                 <email.host>smtp.gmail.com</email.host>
                 <email.username>wivpalcs@gmail.com</email.username>
                 <email.password>rwxrrsftfoquktnv</email.password>
@@ -752,6 +776,18 @@
                 <sms.send.inthost>http://intapi.253.com/send/json</sms.send.inthost>
                 <sms.send.intuser>I25027</sms.send.intuser>
                 <sms.send.intpass>+yXK72yjjnJRVYhq</sms.send.intpass>
+                <email.provider>custom</email.provider>
+                <amazon.ses.host>email-smtp.eu-west-1.amazonaws.com</amazon.ses.host>
+                <amazon.ses.port>587</amazon.ses.port>
+                <amazon.ses.provider>biex</amazon.ses.provider>
+                <amazon.ses.biex.personal>BIEX Notifications</amazon.ses.biex.personal>
+                <amazon.ses.biex.username>v4ZlXDIxS/a0HhIGfI/TZEzUUpQINKxS</amazon.ses.biex.username>
+                <amazon.ses.biex.password>NEvS80wuPPefi475yUxdSyItLhk7Pez58XgwX6JlSmFrpsU33K8rzU5/jUUnrZGM</amazon.ses.biex.password>
+                <amazon.ses.biex.fromuser>service@biex.com</amazon.ses.biex.fromuser>
+                <amazon.ses.bitms.personal>BITMS Notifications</amazon.ses.bitms.personal>
+                <amazon.ses.bitms.username>82ZE1VpIeeHYiYQtXFeLVIb1wR50pNfl</amazon.ses.bitms.username>
+                <amazon.ses.bitms.password>JCZQOMh8fiSBuGabwwcb2KO2+M9UDvX3LI+wFVj8Ta3HCVV773zAWo140A9F4Of7</amazon.ses.bitms.password>
+                <amazon.ses.bitms.fromuser>service@bitms.com</amazon.ses.bitms.fromuser>
                 <email.host>smtp.gmail.com</email.host>
                 <email.username>wivpalcs@gmail.com</email.username>
                 <email.password>wivpal927a</email.password>

@@ -35,52 +35,48 @@ public class ReqBalancesTransHistoryPagination extends Pagination
 	@ApiModelProperty(value = "币种(BTC、ETH、USDT)", position = 2)
 	private java.lang.String currency;
 
-	/**区块链(BTC、ETH、TRON、BSC)*/
-	@ApiModelProperty(value = "区块链(BTC、ETH、TRON、BSC)", position = 3)
-	private java.lang.String blockchain;
-
 	/**类型(充值、提现、冻结、解冻、转入、转出)*/
-	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出)", position = 4)
+	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出)", position = 3)
 	private java.lang.String type;
 
 	/**前余额*/
-	@ApiModelProperty(value = "前余额", position = 5)
+	@ApiModelProperty(value = "前余额", position = 4)
 	private java.math.BigDecimal beforeBal;
 
 	/**发生数量*/
-	@ApiModelProperty(value = "发生数量", position = 6)
+	@ApiModelProperty(value = "发生数量", position = 5)
 	private java.math.BigDecimal changeAmt;
 
 	/**后余额*/
-	@ApiModelProperty(value = "后余额", position = 7)
+	@ApiModelProperty(value = "后余额", position = 6)
 	private java.math.BigDecimal afterBal;
 
 	/**原业务ID*/
-	@ApiModelProperty(value = "原业务ID", position = 8)
+	@ApiModelProperty(value = "原业务ID", position = 7)
 	private java.lang.String businessId;
 
 	/**转出账户*/
-	@ApiModelProperty(value = "转出账户", position = 9)
+	@ApiModelProperty(value = "转出账户", position = 8)
 	private java.lang.String fromAcct;
 
 	/**转入账户*/
-	@ApiModelProperty(value = "转入账户", position = 10)
+	@ApiModelProperty(value = "转入账户", position = 9)
 	private java.lang.String toAcct;
 
 	/**状态(成功success、处理中pending、失败failed)*/
-	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 11)
+	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 10)
 	private java.lang.String state;
 
 	/**交易描述*/
-	@ApiModelProperty(value = "交易描述", position = 12)
+	@ApiModelProperty(value = "交易描述", position = 11)
 	private java.lang.String transDesc;
 
 	/**备注*/
-	@ApiModelProperty(value = "备注", position = 13)
+	@ApiModelProperty(value = "备注", position = 12)
 	private java.lang.String remark;
 
 //	/**创建时间*/
-//	@ApiModelProperty(value = "创建时间", position = 14)
+//	@ApiModelProperty(value = "创建时间", position = 13)
 //	private java.lang.Long createTime;
 }
 

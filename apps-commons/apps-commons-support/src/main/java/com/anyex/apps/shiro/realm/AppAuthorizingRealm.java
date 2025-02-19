@@ -69,7 +69,50 @@ public class AppAuthorizingRealm extends AuthorizingRealm
     {
         AccountToken token = (AccountToken) authToken;
         log.info("accountToken:{}", token);
-        if (LoginEnums.EMAIL.getCode().equals(token.getLoginType()))
+
+        if (LoginEnums.EMAILPASS.getCode().equals(token.getLoginType()))
+        { // 邮箱 密码 登录 非邮箱验证码
+            Account account = accountService.findByEmail(token.getUsername());
+            if (null == account) throw new UnknownAccountException("The account does not exist!");
+            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
+            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
+            {// 密码连续错误
+                throw new IncorrectCredentialsException("The account or password is incorrect!");
+            }
+//            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
+//            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
+//            {// 短信验证，失败后直接将异常抛出
+//                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+//            }
+            // cleanOtherUsers(account.getId());
+            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+                    account.getAccountName(), account.getEmail(), account.getMobile());
+            log.info("userPrincipal:{}", userPrincipal);
+            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
+        }
+
+        else if (LoginEnums.MOBILEPASS.getCode().equals(token.getLoginType()))
+        { // 手机号 密码登录
+            Account account = accountService.findByMobile(token.getUsername());
+            if (null == account) throw new UnknownAccountException("The account does not exist!");
+            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
+            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
+            {// 密码连续错误
+                throw new IncorrectCredentialsException("The account or password is incorrect!");
+            }
+//            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
+//            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
+//            {// 短信验证，失败后直接将异常抛出
+//                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+//            }
+            // cleanOtherUsers(account.getId());
+            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+                    account.getAccountName(), account.getEmail(), account.getMobile());
+            log.info("userPrincipal:{}", userPrincipal);
+            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
+        }
+
+        else if (LoginEnums.EMAIL.getCode().equals(token.getLoginType()))
         { // 验证码登录
             Account account = accountService.findByEmail(token.getUsername());
             if (null == account) throw new UnknownAccountException("The account does not exist!");

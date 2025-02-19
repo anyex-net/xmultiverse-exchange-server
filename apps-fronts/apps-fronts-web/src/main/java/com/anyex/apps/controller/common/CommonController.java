@@ -2,10 +2,8 @@ package com.anyex.apps.controller.common;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.anyex.apps.controller.auth.req.ReqSendSms;
 import com.anyex.apps.account.service.AccountService;
 import com.anyex.apps.bean.GenericController;
-import com.anyex.apps.common.consts.MessageConst;
 import com.anyex.apps.common.entity.SysRegion;
 import com.anyex.apps.common.service.SysDictionaryService;
 import com.anyex.apps.common.service.SysMsgRecordService;
@@ -80,29 +78,29 @@ public class CommonController extends GenericController
 //        return json;
 //    }
 
-//    @PostMapping("/sendsms")
-//    @ApiOperation(value = "发送手机短信码", httpMethod = "POST")
-    public JsonMessage sendSMS(HttpServletRequest request, @RequestBody ReqSendSms reqSendSms) throws BusinessException
-    {
-        JsonMessage json = this.getJsonMessage(CommonEnums.SUCCESS);
-        //
-//        String ip = NetworkUtils.getIpAddr(request);
-//        StringBuffer key = new StringBuffer(MessageConst.SMS_VALID_OTHER).append(GlobalConst.SEPARATOR).append(ip);
-//        String captchaText = RedisUtils.get(key.toString());
-//        if (captchaText == null || !captchaText.equalsIgnoreCase(reqSendSms.getKaptcha()))
-//        {
-//            throw new BusinessException(CommonEnums.ERROR_VALID_CAPTCHA);
-//        }
-//        Account account = accountService.findByMobile(reqSendSms.getMobile());
-//        if (null == account)
-//        {
-//            throw new BusinessException(CommonEnums.ERROR_LOGIN_ACCOUNT);
-//        }
-        StringBuffer mobileNum = new StringBuffer(GlobalConst.DEFAULT_COUNTRY).append(reqSendSms.getMobile());
-        msgRecordService.sendSms(mobileNum.toString(), GlobalConst.DEFAULT_LANG, MessageConst.SMS_VALID_OTHER);
-        //
-        return json;
-    }
+////    @PostMapping("/sendsms")
+////    @ApiOperation(value = "发送手机短信码", httpMethod = "POST")
+//    public JsonMessage sendSMS(HttpServletRequest request, @RequestBody ReqSendSms reqSendSms) throws BusinessException
+//    {
+//        JsonMessage json = this.getJsonMessage(CommonEnums.SUCCESS);
+//        //
+////        String ip = NetworkUtils.getIpAddr(request);
+////        StringBuffer key = new StringBuffer(MessageConst.SMS_VALID_OTHER).append(GlobalConst.SEPARATOR).append(ip);
+////        String captchaText = RedisUtils.get(key.toString());
+////        if (captchaText == null || !captchaText.equalsIgnoreCase(reqSendSms.getKaptcha()))
+////        {
+////            throw new BusinessException(CommonEnums.ERROR_VALID_CAPTCHA);
+////        }
+////        Account account = accountService.findByMobile(reqSendSms.getMobile());
+////        if (null == account)
+////        {
+////            throw new BusinessException(CommonEnums.ERROR_LOGIN_ACCOUNT);
+////        }
+//        StringBuffer mobileNum = new StringBuffer(GlobalConst.DEFAULT_COUNTRY).append(reqSendSms.getMobile());
+//        msgRecordService.sendSms(mobileNum.toString(), GlobalConst.DEFAULT_LANG, MessageConst.SMS_VALID_OTHER);
+//        //
+//        return json;
+//    }
 
     @GetMapping(value = "/dict/code")
     @ApiOperation(value = "根据字典编码取字典项", httpMethod = "GET")

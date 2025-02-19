@@ -6,7 +6,6 @@
         a.id as id,
         a.userId as userId,
         a.currency as currency,
-        a.blockchain as blockchain,
         a.type as type,
         a.beforeBal as beforeBal,
         a.changeAmt as changeAmt,
@@ -24,7 +23,6 @@
         <id column="ID" property="id" />
         <result column="userId" property="userId"/>
         <result column="currency" property="currency"/>
-        <result column="blockchain" property="blockchain"/>
         <result column="type" property="type"/>
         <result column="beforeBal" property="beforeBal"/>
         <result column="changeAmt" property="changeAmt"/>
@@ -44,7 +42,6 @@
             id ,
             userId ,
             currency ,
-            blockchain ,
             type ,
             beforeBal ,
             changeAmt ,
@@ -60,7 +57,6 @@
             #{id} ,
             #{userId} ,
             #{currency} ,
-            #{blockchain} ,
             #{type} ,
             #{beforeBal} ,
             #{changeAmt} ,
@@ -97,9 +93,6 @@
         </if>
         <if test="currency != null">
                 currency ,
-        </if>
-        <if test="blockchain != null">
-                blockchain ,
         </if>
         <if test="type != null">
                 type ,
@@ -144,9 +137,6 @@
         </if>
         <if test="currency != null">
                 #{currency} ,
-        </if>
-        <if test="blockchain != null">
-                #{blockchain} ,
         </if>
         <if test="type != null">
                 #{type} ,
@@ -194,9 +184,6 @@
             <if test="currency != null">
                 currency = #{currency} ,
             </if>
-            <if test="blockchain != null">
-                blockchain = #{blockchain} ,
-            </if>
             <if test="type != null">
                 type = #{type} ,
             </if>
@@ -240,7 +227,6 @@
             id ,
             userId ,
             currency ,
-            blockchain ,
             type ,
             beforeBal ,
             changeAmt ,
@@ -258,7 +244,6 @@
             #{item.id} ,
             #{item.userId} ,
             #{item.currency} ,
-            #{item.blockchain} ,
             #{item.type} ,
             #{item.beforeBal} ,
             #{item.changeAmt} ,
@@ -280,7 +265,6 @@
             UPDATE BalancesTransHistory SET
             userId = #{item.userId} ,
             currency = #{item.currency} ,
-            blockchain = #{item.blockchain} ,
             type = #{item.type} ,
             beforeBal = #{item.beforeBal} ,
             changeAmt = #{item.changeAmt} ,
@@ -301,7 +285,6 @@
         UPDATE BalancesTransHistory SET
             userId = #{userId} ,
             currency = #{currency} ,
-            blockchain = #{blockchain} ,
             type = #{type} ,
             beforeBal = #{beforeBal} ,
             changeAmt = #{changeAmt} ,
@@ -331,9 +314,6 @@
         </if>
         <if test="currency != null and currency != ''">
             AND a.currency = #{currency}
-        </if>
-        <if test="blockchain != null and blockchain != ''">
-            AND a.blockchain = #{blockchain}
         </if>
         <if test="type != null and type != ''">
             AND a.type = #{type}
@@ -381,9 +361,6 @@
         </if>
         <if test="currency != null and currency != ''">
             AND a.currency LIKE CONCAT('%',#{currency}, '%')
-        </if>
-        <if test="blockchain != null and blockchain != ''">
-            AND a.blockchain LIKE CONCAT('%',#{blockchain}, '%')
         </if>
         <if test="type != null and type != ''">
             AND a.type LIKE CONCAT('%',#{type}, '%')

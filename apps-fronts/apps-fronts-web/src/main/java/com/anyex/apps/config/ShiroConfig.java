@@ -80,15 +80,6 @@ public class ShiroConfig
         return sessionManager;
     }
 
-//    @Bean
-//    public AppAuthorizingRealm appAuthorizingRealm(AccountService accountService, MsgRecordService msgRecordService)
-//    {
-//        AppAuthorizingRealm authorizingRealm = new AppAuthorizingRealm();
-//        authorizingRealm.setAccountService(accountService);
-//        authorizingRealm.setMsgRecordService(msgRecordService);
-//        return authorizingRealm;
-//    }
-
     @Bean
     public SecurityManager securityManager(AuthorizingRealm appAuthorizingRealm, SessionManager sessionManager)
     {
@@ -124,34 +115,34 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/auth/register/**", "anon");
         filterChainDefinitionMap.put("/auth/login/**", "anon");
         filterChainDefinitionMap.put("/auth/forget/**", "anon");
-        filterChainDefinitionMap.put("/auth/logoff/**", "anon");
+//        filterChainDefinitionMap.put("/auth/logoff/**", "anon");
         //
         filterChainDefinitionMap.put("/common/**", "anon");
         //
-        filterChainDefinitionMap.put("/openim/**", "anon");
-        // 支付回调
-        filterChainDefinitionMap.put("/payment/wivpay/in/notify**", "anon"); // wivpay 代收业务 支付状态回调
-        filterChainDefinitionMap.put("/payment/wivpay/in/redirect**", "anon"); // wivpay 代收业务 redirect
-        filterChainDefinitionMap.put("/payment/globalpay/out/notify**", "anon"); // globalpay 代付业务  支付状态回调
-        //
-        filterChainDefinitionMap.put("/operation/appDownloadInfo/downloadClick", "anon");
-        filterChainDefinitionMap.put("/operation/appActivationInfo/activation", "anon");
-
-        // 一元夺宝、半价购买
-        filterChainDefinitionMap.put("/business/luckybox/activity/activityTreasureHunt/data", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/activity/activityTreasureHunt/playerData", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/activity/activityTreasureHunt/findBy", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/activity/activityHotDeals/data", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/activity/activityHotDeals/playerData", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/activity/activityHotDeals/findBy", "anon");
-        // 游戏大转盘
-        filterChainDefinitionMap.put("/business/luckybox/game/game/gameList", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/game/game/gamePlayerData", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/game/gamePrize/findBy", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/game/gamePrize/gamePrizeList", "anon");
-        //
-        filterChainDefinitionMap.put("/business/luckybox/order/order4Activity/data", "anon");
-        filterChainDefinitionMap.put("/business/luckybox/order/order4Game/data", "anon");
+//        filterChainDefinitionMap.put("/openim/**", "anon");
+//        // 支付回调
+//        filterChainDefinitionMap.put("/payment/wivpay/in/notify**", "anon"); // wivpay 代收业务 支付状态回调
+//        filterChainDefinitionMap.put("/payment/wivpay/in/redirect**", "anon"); // wivpay 代收业务 redirect
+//        filterChainDefinitionMap.put("/payment/globalpay/out/notify**", "anon"); // globalpay 代付业务  支付状态回调
+//        //
+//        filterChainDefinitionMap.put("/operation/appDownloadInfo/downloadClick", "anon");
+//        filterChainDefinitionMap.put("/operation/appActivationInfo/activation", "anon");
+//
+//        // 一元夺宝、半价购买
+//        filterChainDefinitionMap.put("/business/luckybox/activity/activityTreasureHunt/data", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/activity/activityTreasureHunt/playerData", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/activity/activityTreasureHunt/findBy", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/activity/activityHotDeals/data", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/activity/activityHotDeals/playerData", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/activity/activityHotDeals/findBy", "anon");
+//        // 游戏大转盘
+//        filterChainDefinitionMap.put("/business/luckybox/game/game/gameList", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/game/game/gamePlayerData", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/game/gamePrize/findBy", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/game/gamePrize/gamePrizeList", "anon");
+//        //
+//        filterChainDefinitionMap.put("/business/luckybox/order/order4Activity/data", "anon");
+//        filterChainDefinitionMap.put("/business/luckybox/order/order4Game/data", "anon");
         //
         filterChainDefinitionMap.put("/*/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

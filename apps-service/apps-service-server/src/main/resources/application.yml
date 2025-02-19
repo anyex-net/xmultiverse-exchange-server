@@ -128,6 +128,21 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 com:
+  amazon:
+    ses:
+      host: @amazon.ses.host@
+      port: @amazon.ses.port@
+      provider: @amazon.ses.provider@
+      biex:
+        personal: @amazon.ses.biex.personal@
+        username: @amazon.ses.biex.username@
+        password: @amazon.ses.biex.password@
+        fromuser: @amazon.ses.biex.fromuser@
+      bitms:
+        personal: @amazon.ses.bitms.personal@
+        username: @amazon.ses.bitms.username@
+        password: @amazon.ses.bitms.password@
+        fromuser: @amazon.ses.bitms.fromuser@
   anyex:
     env: @env@
     withDrawInterfaceSwitch: @withdraw.interface.switch@
@@ -174,7 +189,6 @@ com:
       tracer:
         disableDigestLog: true #是否关闭所有集成 SOFATracer 组件摘要日志打印
         tracerGlobalLogReserveDay: 1 #SOFATracer 日志的保留天数
-
 openim:
   apiRoot: @openim.apiRoot@
   #  下面可以不配置，默认按以下规则生成 后续开发 请到Openimconfig文件中添加

@@ -71,7 +71,6 @@ com:
     sofa:
       rpc:
         registry-address: @zookeeper.address@
-
 openim:
   apiRoot: @openim.apiRoot@
   #  下面可以不配置，默认按以下规则生成 后续开发 请到Openimconfig文件中添加
@@ -83,3 +82,7 @@ openim:
   adminPwd: @openim.adminPwd@
   #预留功能，支持每个请求，自动带个header authKey参数
   authKey: @openim.authKey@
+  livekit:
+    server: @openim.livekit.server@
+    appkey: @openim.livekit.appkey@
+    appsecret: @openim.livekit.appsecret@

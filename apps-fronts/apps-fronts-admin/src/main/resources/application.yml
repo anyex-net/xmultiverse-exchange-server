@@ -78,3 +78,7 @@ openim:
   adminPwd: @openim.adminPwd@
   #预留功能，支持每个请求，自动带个header authKey参数
   authKey: @openim.authKey@
+  livekit:
+    server: @openim.livekit.server@
+    appkey: @openim.livekit.appkey@
+    appsecret: @openim.livekit.appsecret@
