@@ -9,6 +9,8 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,7 @@ public class CurrenciesController extends GenericController
     @ApiOperation(value = "保存平台币种", httpMethod = "POST")
     public JsonMessage save(@ModelAttribute ReqCurrencies info) throws BusinessException
     {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         if (beanValidator(json, info))
         {
@@ -74,7 +77,8 @@ public class CurrenciesController extends GenericController
             if(null == entity.getId()){
                 currenciesService.insert(entity);
             } else {
-                currenciesService.updateByPrimaryKey(entity);
+                entity.setUpdateBy(principal.getUserName());
+                currenciesService.updateByPrimaryKeySelective(entity);
             }
         }
         return json;
@@ -91,13 +95,13 @@ public class CurrenciesController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-//    @PostMapping(value = "/del")
-//    @RequiresPermissions("base:currencies:operator")
-//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-//    public JsonMessage del(String ids) throws BusinessException
-//    {
-//        currenciesService.removeBatch(ids.split(","));
-//        return getJsonMessage(CommonEnums.SUCCESS);
-//    }
+    @PostMapping(value = "/del")
+    @RequiresPermissions("base:currencies:operator")
+    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+    public JsonMessage del(String ids) throws BusinessException
+    {
+        currenciesService.removeBatch(ids.split(","));
+        return getJsonMessage(CommonEnums.SUCCESS);
+    }
 }

@@ -9,6 +9,8 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,7 @@ public class InstrumentsController extends GenericController
     @ApiOperation(value = "保存平台交易产品", httpMethod = "POST")
     public JsonMessage save(@ModelAttribute ReqInstruments info) throws BusinessException
     {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         if (beanValidator(json, info))
         {
@@ -74,7 +77,8 @@ public class InstrumentsController extends GenericController
             if(null == entity.getId()){
                 instrumentsService.insert(entity);
             } else {
-                instrumentsService.updateByPrimaryKey(entity);
+                entity.setUpdateBy(principal.getUserName());
+                instrumentsService.updateByPrimaryKeySelective(entity);
             }
         }
         return json;
@@ -91,13 +95,13 @@ public class InstrumentsController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-//    @PostMapping(value = "/del")
-//    @RequiresPermissions("base:instruments:operator")
-//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-//    public JsonMessage del(String ids) throws BusinessException
-//    {
-//        instrumentsService.removeBatch(ids.split(","));
-//        return getJsonMessage(CommonEnums.SUCCESS);
-//    }
+    @PostMapping(value = "/del")
+    @RequiresPermissions("base:instruments:operator")
+    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+    public JsonMessage del(String ids) throws BusinessException
+    {
+        instrumentsService.removeBatch(ids.split(","));
+        return getJsonMessage(CommonEnums.SUCCESS);
+    }
 }
