@@ -11,6 +11,8 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.controller.user.req.ReqUser;
 import com.anyex.apps.controller.user.req.ReqUserPagination;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,4 +101,30 @@ public class UserController extends GenericController
 //        userService.removeBatch(ids.split(","));
 //        return getJsonMessage(CommonEnums.SUCCESS);
 //    }
+
+    @PostMapping(value = "/frozenOrUnfrozen")
+    @RequiresPermissions("user:user:operator")
+    @ApiOperation(value = "冻结或解冻", httpMethod = "POST")
+    public JsonMessage frozenOrUnfrozen(Long id, String state) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        User user = userService.selectByPrimaryKey(id);
+        if (null == user) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        if ("1".equals(state)){
+            user.setState("0");//解冻
+            user.setThawTime(System.currentTimeMillis());
+        }
+        if ("0".equals(state)) {
+            user.setState("1");//冻结
+        }
+        user.setUpdateTime(System.currentTimeMillis());
+        if (principal != null) {
+            user.setUpdateBy(principal.getUserName());
+        }
+        userService.updateByPrimaryKeySelective(user);
+        return json;
+    }
+
+
 }

@@ -11,6 +11,9 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.controller.user.req.ReqUserCertKyc;
 import com.anyex.apps.controller.user.req.ReqUserCertKycPagination;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,4 +102,23 @@ public class UserCertKycController extends GenericController
 //        userCertKycService.removeBatch(ids.split(","));
 //        return getJsonMessage(CommonEnums.SUCCESS);
 //    }
+
+    @PostMapping(value = "/check")
+    @RequiresPermissions("user:userCertKyc:operator")
+    @ApiOperation(value = "审核", httpMethod = "POST")
+    public JsonMessage check(Long id, Integer state) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        UserCertKyc userCertKyc = userCertKycService.selectByPrimaryKey(id);
+        if (null == userCertKyc) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        userCertKyc.setState(state);
+        if (principal != null) {
+            userCertKyc.setUpdateBy(principal.getUserName());
+        }
+        userCertKyc.setUpdateTime(System.currentTimeMillis());
+        userCertKycService.updateByPrimaryKeySelective(userCertKyc);
+        return json;
+    }
+
 }
