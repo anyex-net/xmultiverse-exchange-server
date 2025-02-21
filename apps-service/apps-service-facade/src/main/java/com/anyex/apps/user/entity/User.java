@@ -81,7 +81,7 @@ public class User extends SignableEntity
 	/**状态(0:正常、1:冻结、2:注销)*/
 	@NotEmpty(message = "状态(0:正常、1:冻结、2:注销)不可为空")
 	@ApiModelProperty(value = "状态(0:正常、1:冻结、2:注销)", position = 11, required = true)
-	private java.lang.String state;
+	private java.lang.Integer state;
 
 	/**解冻时间*/
 	@ApiModelProperty(value = "解冻时间", position = 12)

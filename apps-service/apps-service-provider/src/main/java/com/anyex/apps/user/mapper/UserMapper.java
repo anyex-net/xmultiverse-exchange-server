@@ -7,6 +7,7 @@ package com.anyex.apps.user.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.user.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户信息 持久层接口
@@ -21,5 +22,46 @@ import com.anyex.apps.user.entity.User;
 @Mapper
 public interface UserMapper extends GenericMapper<User>
 {
+    /**
+     * 根据UNID得到唯一的用户数据
+     * @param unid
+     * @return
+     */
+    User findByUnid(Long unid);
 
+    /**
+     * 根据用户名取用户数据
+     * @param userName
+     * @return
+     */
+    User findByUserName(String userName);
+
+    /**
+     * 通过手机号获取用户数据
+     * @param mobileNo
+     * @return
+     */
+    User findByMobileNo(String mobileNo);
+
+    /**
+     * 根据邮件地址和手机号获取用户数据
+     * @param email
+     * @param mobileNo
+     * @return
+     */
+    User findByEmailAndMobileNo(@Param("email") String email, @Param("mobileNo") String mobileNo);
+
+    /**
+     * 根据用户名与状态获取用户数据
+     * @param userName
+     * @param state
+     * @return
+     */
+    User findByUserNameAndState(@Param("userName") String userName, @Param("country") String country, @Param("state") Integer state);
+
+    /**
+     * 取最大的UNID
+     * @return
+     */
+    Long getMaxUNID();
 }

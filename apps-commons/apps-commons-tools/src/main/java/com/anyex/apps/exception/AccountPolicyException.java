@@ -6,7 +6,7 @@ import lombok.Data;
 import org.apache.shiro.authc.AuthenticationException;
 
 /**
- * 帐户策略异常
+ * 帐户安全策略异常
  *
  * @author Playguy
  */

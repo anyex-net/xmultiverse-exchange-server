@@ -160,6 +160,11 @@
             <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
         </sofa:binding.bolt>
     </sofa:reference>
+    <sofa:reference id="userPolicyService" interface="com.anyex.apps.user.service.UserPolicyService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
     <!-- 用户认证个人KYC -->
     <sofa:reference id="userCertKycService" interface="com.anyex.apps.user.service.UserCertKycService" jvm-first="false">
         <sofa:binding.bolt>

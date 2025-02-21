@@ -13,7 +13,7 @@ create table User
     mobileNo                varchar(12)                       comment '手机号',
     gaAuthKey               varchar(64)                       comment 'Google验证器私钥',
     location                varchar(64)                       comment '注册所在地或IP',
-    state                   varchar(16)              not null comment '状态(0:正常、1:冻结、2:注销)',
+    state                   int                      not null comment '状态(0:正常、1:冻结、2:注销)',
     thawTime                bigint(13)                        comment '解冻时间',
     securityPolicy          int                     default 0 comment '安全验证策略',
     tradePolicy             int                     default 0 comment '交易验证策略',

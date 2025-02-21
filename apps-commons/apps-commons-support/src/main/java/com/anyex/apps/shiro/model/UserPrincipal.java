@@ -23,6 +23,12 @@ public class UserPrincipal implements Serializable
     
     /**主键编号*/
     private Long              id;
+
+    /**用户编号*/
+    private Long              unid;
+
+    /**国家地区*/
+    private String            country;
     
     /**语言标识*/
     private String            lang;
@@ -34,17 +40,24 @@ public class UserPrincipal implements Serializable
     private String            nickName;
     
     /**头像*/
-    private String            accountLogo;
+    private String            userLogo;
     
     /**手机号码*/
     private String            userMobile;
     
     /**电子邮箱*/
     private String            userMail;
+
+    /**google验证器私钥*/
+    private String            gaAuthKey;
+
+    /**认证状态*/
+    private Short             certification;
     
     /**角色和权限**/
     private List<SysRoleInfo> roles;
 
+    //IM
     private String            imToken;
     
     /**
@@ -64,12 +77,12 @@ public class UserPrincipal implements Serializable
         this.roles = roles;
     }
     
-    public UserPrincipal(Long id, String userName, String nickName, String accountLogo, List<SysRoleInfo> roles)
+    public UserPrincipal(Long id, String userName, String nickName, String userLogo, List<SysRoleInfo> roles)
     {
         this.id = id;
         this.userName = userName;
         this.nickName = nickName;
-        this.accountLogo = accountLogo;
+        this.userLogo = userLogo;
         this.roles = roles;
     }
 
@@ -90,5 +103,18 @@ public class UserPrincipal implements Serializable
         this.userMobile = userMobile;
         this.userMail = userMail;
         this.imToken = imToken;
+    }
+
+    public UserPrincipal(Long id, Long unid, String userName, String nickName, String userMobile, String userMail, String lang, String country, String gaAuthKey)
+    {
+        this.id = id;
+        this.unid = unid;
+        this.userName = userName;
+        this.nickName = nickName;
+        this.userMobile = userMobile;
+        this.userMail = userMail;
+        this.lang = lang;
+        this.country = country;
+        this.gaAuthKey = gaAuthKey;
     }
 }

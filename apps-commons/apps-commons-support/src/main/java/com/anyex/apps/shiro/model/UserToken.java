@@ -4,10 +4,10 @@ import com.anyex.apps.user.model.PolicyModel;
 import org.apache.shiro.authc.UsernamePasswordToken;
 
 /**
- *  登陆参数对象
- * <p>File： AccountToken.java </p>
- * <p>Title:  AccountToken </p>
- * <p>Description: AccountToken </p>
+ *  登录参数对象
+ * <p>File： UserToken.java </p>
+ * <p>Title:  UserToken </p>
+ * <p>Description: UserToken </p>
  * <p>Copyright: Copyright (c) 2017/8/2 </p>
  * <p>Company: AnyEx</p>
  *
@@ -31,7 +31,7 @@ public class UserToken extends UsernamePasswordToken
     private Integer           level;
 
     // 手机号
-    private String            mobNo;
+    private String            mobileNo;
 
     // GA码
     private String            gaCode;
@@ -123,14 +123,14 @@ public class UserToken extends UsernamePasswordToken
         this.level = level;
     }
     
-    public String getMobNo()
+    public String getMobileNo()
     {
-        return mobNo;
+        return mobileNo;
     }
     
-    public void setMobNo(String mobNo)
+    public void setMobileNo(String mobileNo)
     {
-        this.mobNo = mobNo;
+        this.mobileNo = mobileNo;
     }
     
     public String getGaCode()

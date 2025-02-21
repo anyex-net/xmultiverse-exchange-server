@@ -38,7 +38,7 @@ public class BusinessException extends RuntimeException
     /**
      * 错误描述
      */
-    private EnumDescribable error;
+    private EnumDescribable   error;
 
     /**
      * 目前业务异常非常多，业务异常代码未进行整理，

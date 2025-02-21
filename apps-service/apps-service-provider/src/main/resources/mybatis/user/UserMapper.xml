@@ -630,24 +630,24 @@
         <if test="stableCoinPreference != null and stableCoinPreference != ''">
             AND a.stableCoinPreference = #{stableCoinPreference}
         </if>
-        <if test="remark != null and remark != ''">
-            AND a.remark = #{remark}
-        </if>
-        <if test="sign != null and sign != ''">
-            AND a.sign = #{sign}
-        </if>
-        <if test="randomKey != null and randomKey != ''">
-            AND a.randomKey = #{randomKey}
-        </if>
-        <if test="createTime != null">
-            AND a.createTime = #{createTime}
-        </if>
-        <if test="updateBy != null and updateBy != ''">
-            AND a.updateBy = #{updateBy}
-        </if>
-        <if test="updateTime != null">
-            AND a.updateTime = #{updateTime}
-        </if>
+<!--        <if test="remark != null and remark != ''">-->
+<!--            AND a.remark = #{remark}-->
+<!--        </if>-->
+<!--        <if test="sign != null and sign != ''">-->
+<!--            AND a.sign = #{sign}-->
+<!--        </if>-->
+<!--        <if test="randomKey != null and randomKey != ''">-->
+<!--            AND a.randomKey = #{randomKey}-->
+<!--        </if>-->
+<!--        <if test="createTime != null">-->
+<!--            AND a.createTime = #{createTime}-->
+<!--        </if>-->
+<!--        <if test="updateBy != null and updateBy != ''">-->
+<!--            AND a.updateBy = #{updateBy}-->
+<!--        </if>-->
+<!--        <if test="updateTime != null">-->
+<!--            AND a.updateTime = #{updateTime}-->
+<!--        </if>-->
         limit 1
     </select>
 
@@ -722,24 +722,24 @@
         <if test="stableCoinPreference != null and stableCoinPreference != ''">
             AND a.stableCoinPreference LIKE CONCAT('%',#{stableCoinPreference}, '%')
         </if>
-        <if test="remark != null and remark != ''">
-            AND a.remark LIKE CONCAT('%',#{remark}, '%')
-        </if>
-        <if test="sign != null and sign != ''">
-            AND a.sign LIKE CONCAT('%',#{sign}, '%')
-        </if>
-        <if test="randomKey != null and randomKey != ''">
-            AND a.randomKey LIKE CONCAT('%',#{randomKey}, '%')
-        </if>
-        <if test="createTime != null">
-            AND a.createTime = #{createTime}
-        </if>
-        <if test="updateBy != null and updateBy != ''">
-            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
-        </if>
-        <if test="updateTime != null">
-            AND a.updateTime = #{updateTime}
-        </if>
+<!--        <if test="remark != null and remark != ''">-->
+<!--            AND a.remark LIKE CONCAT('%',#{remark}, '%')-->
+<!--        </if>-->
+<!--        <if test="sign != null and sign != ''">-->
+<!--            AND a.sign LIKE CONCAT('%',#{sign}, '%')-->
+<!--        </if>-->
+<!--        <if test="randomKey != null and randomKey != ''">-->
+<!--            AND a.randomKey LIKE CONCAT('%',#{randomKey}, '%')-->
+<!--        </if>-->
+<!--        <if test="createTime != null">-->
+<!--            AND a.createTime = #{createTime}-->
+<!--        </if>-->
+<!--        <if test="updateBy != null and updateBy != ''">-->
+<!--            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')-->
+<!--        </if>-->
+<!--        <if test="updateTime != null">-->
+<!--            AND a.updateTime = #{updateTime}-->
+<!--        </if>-->
     </select>
 
     <!-- 查询所有 -->
@@ -747,6 +747,52 @@
         SELECT
         <include refid="userColumns"/>
         FROM User a
+    </select>
+
+    <select id="getMaxUNID" resultType="java.lang.Long">
+        SELECT MAX(a.uid) FROM User a WHERE 1 = 1
+    </select>
+
+    <select id="findByUnid" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a WHERE 1 = 1
+        and a.uid = #{unid} and a.state = 0
+    </select>
+
+    <select id="findByUserName" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a WHERE 1 = 1
+        AND (a.mobileNo = #{userName} OR a.email = #{userName})
+    </select>
+
+    <select id="findByMobileNo" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a WHERE 1 = 1
+        and a.mobileNo = #{mobileNo}
+    </select>
+
+    <select id="findByEmailAndMobileNo" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a
+        WHERE 1 = 1
+        and a.email = #{email}
+        and a.mobileNo = #{mobileNo}
+        and a.state= 0
+    </select>
+
+    <select id="findByUserNameAndState" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM Account a WHERE 1 = 1
+        AND (a.mobileNo = #{userName} OR a.email = #{userName})
+        AND a.state = #{state}
+        <if test="country != null ">
+            and a.country = #{country}
+        </if>
     </select>
 
 </mapper>
