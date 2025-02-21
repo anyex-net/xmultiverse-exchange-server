@@ -9,6 +9,7 @@ import com.anyex.apps.common.service.SysDictionaryService;
 import com.anyex.apps.common.service.SysMsgRecordService;
 import com.anyex.apps.common.service.SysRegionService;
 import com.anyex.apps.consts.GlobalConst;
+import com.anyex.apps.controller.common.req.ReqGoogleRecaptchaV3;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
@@ -133,16 +134,16 @@ public class CommonController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, currentTime.toString());
     }
 
-
+    // google recaptcha V3 您将获得一个site key和一个secret key。
+    // https://developers.google.com/recaptcha/docs/verify?hl=zh-cn
     private static final String RECAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";
     private static final String SECRET_KEY = "6LcHUs0qAAAAANB2TBcbKpOKyEEzyaQKW-vt6CNN";
-
-    @PostMapping("/recaptcha/verify")
-    @ApiOperation(value = "googleRecaptchaVerify", httpMethod = "POST")
-    public JsonMessage verifyRecaptcha(@RequestParam("recaptchaToken") String token) throws Exception {
+    @PostMapping("/googleRecaptchaV3Verify")
+    @ApiOperation(value = "googleRecaptchaV3Verify", httpMethod = "POST")
+    public JsonMessage googleRecaptchaV3Verify(HttpServletRequest request, @RequestBody ReqGoogleRecaptchaV3 reqGoogleRecaptcha) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost post = new HttpPost(RECAPTCHA_URL);
-        String json = "{\"secret\":\"" + SECRET_KEY + "\",\"response\":\"" + token + "\"}";
+        String json = "{\"secret\":\"" + SECRET_KEY + "\",\"response\":\"" + reqGoogleRecaptcha.getRecaptchaToken() + "\"}";
         StringEntity entity = new StringEntity(json);
         post.setEntity(entity);
         post.setHeader("Accept", "application/json");

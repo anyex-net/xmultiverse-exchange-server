@@ -41,7 +41,7 @@ public interface UserMapper extends GenericMapper<User>
      * @param mobileNo
      * @return
      */
-    User findByMobileNo(String mobileNo);
+    User findByMobileNoAndCountry(String mobileNo, String country);
 
     /**
      * 根据邮件地址和手机号获取用户数据
@@ -57,7 +57,7 @@ public interface UserMapper extends GenericMapper<User>
      * @param state
      * @return
      */
-    User findByUserNameAndState(@Param("userName") String userName, @Param("country") String country, @Param("state") Integer state);
+    User findByUserNameAndState(@Param("userName") String userName, @Param("state") Integer state, @Param("country") String country);
 
     /**
      * 取最大的UNID

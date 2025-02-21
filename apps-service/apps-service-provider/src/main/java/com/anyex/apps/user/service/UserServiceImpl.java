@@ -61,12 +61,12 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     @Override
     public User findByUserNameAndNormal(String userName, String country) throws BusinessException {
         if (StringUtils.isBlank(userName)) return null;
-        return userMapper.findByUserNameAndState(userName, country, UserConsts.USER_STATUS_NORMAL);
+        return userMapper.findByUserNameAndState(userName, UserConsts.USER_STATUS_NORMAL, country);
     }
 
     @Override
-    public User findByMobileNo(String mobileNo) throws BusinessException {
-        return userMapper.findByMobileNo(mobileNo);
+    public User findByMobileNoAndCountry(String mobileNo, String country) throws BusinessException {
+        return userMapper.findByMobileNoAndCountry(mobileNo, country);
     }
 
     @Override

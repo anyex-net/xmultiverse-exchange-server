@@ -55,7 +55,7 @@ public interface UserService extends GenericService<User>
      * @param mobileNo
      * @return
      */
-    User findByMobileNo(String mobileNo) throws BusinessException;
+    User findByMobileNoAndCountry(String mobileNo, String country) throws BusinessException;
 
     /**
      * 根据邮件地址和手机号获取用户数据

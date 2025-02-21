@@ -594,7 +594,7 @@
         <if test="location != null and location != ''">
             AND a.location = #{location}
         </if>
-        <if test="state != null and state != ''">
+        <if test="state != null">
             AND a.state = #{state}
         </if>
         <if test="thawTime != null">
@@ -686,8 +686,8 @@
         <if test="location != null and location != ''">
             AND a.location LIKE CONCAT('%',#{location}, '%')
         </if>
-        <if test="state != null and state != ''">
-            AND a.state LIKE CONCAT('%',#{state}, '%')
+        <if test="state != null">
+            AND a.state = #{state}
         </if>
         <if test="thawTime != null">
             AND a.thawTime = #{thawTime}
@@ -767,23 +767,6 @@
         AND (a.mobileNo = #{userName} OR a.email = #{userName})
     </select>
 
-    <select id="findByMobileNo" resultType="com.anyex.apps.user.entity.User">
-        SELECT
-        <include refid="userColumns"/>
-        FROM User a WHERE 1 = 1
-        and a.mobileNo = #{mobileNo}
-    </select>
-
-    <select id="findByEmailAndMobileNo" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
-        SELECT
-        <include refid="userColumns"/>
-        FROM User a
-        WHERE 1 = 1
-        and a.email = #{email}
-        and a.mobileNo = #{mobileNo}
-        and a.state= 0
-    </select>
-
     <select id="findByUserNameAndState" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
         SELECT
         <include refid="userColumns"/>
@@ -793,6 +776,24 @@
         <if test="country != null ">
             and a.country = #{country}
         </if>
+    </select>
+
+    <select id="findByMobileNoAndCountry" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a WHERE 1 = 1
+        and a.mobileNo = #{mobileNo}
+        and a.country = #{country}
+    </select>
+
+    <select id="findByEmailAndMobileNo" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a
+        WHERE 1 = 1
+        and a.email = #{email}
+        and a.mobileNo = #{mobileNo}
+        and a.state = 0
     </select>
 
 </mapper>
