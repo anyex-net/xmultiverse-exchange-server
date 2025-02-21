@@ -16,7 +16,7 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.TreeModel;
 import com.anyex.apps.shiro.model.UserPrincipal;
-import com.anyex.apps.shiro.model.UserToken;
+import com.anyex.apps.shiro.model.UserInfoToken;
 import com.anyex.apps.system.entity.SysResources;
 import com.anyex.apps.system.entity.SysUserInfo;
 import com.anyex.apps.system.service.SysResourcesService;
@@ -86,7 +86,7 @@ public class AuthController extends GenericController
                 throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
             }
             //
-            UserToken token = new UserToken(reqLogin.getUsername(), reqLogin.getPassword());
+            UserInfoToken token = new UserInfoToken(reqLogin.getUsername(), reqLogin.getPassword());
             //
             token.setHost(NetworkUtils.getIpAddr(request));
             subject.login(token);

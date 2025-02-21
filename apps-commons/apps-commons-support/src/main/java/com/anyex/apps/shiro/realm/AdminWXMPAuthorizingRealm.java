@@ -3,7 +3,6 @@ package com.anyex.apps.shiro.realm;
 import com.anyex.apps.exception.AccountPolicyException;
 import com.anyex.apps.google.Authenticator;
 import com.anyex.apps.shiro.WebSessionManager;
-import com.anyex.apps.system.entity.SysFrontModule;
 import com.anyex.apps.system.entity.SysResources;
 import com.anyex.apps.system.entity.SysRoleInfo;
 import com.anyex.apps.system.entity.SysUserInfo;
@@ -15,7 +14,7 @@ import com.anyex.apps.utils.ListUtils;
 import com.anyex.apps.utils.StringUtils;
 import com.anyex.apps.shiro.UserCredentialsMatcher;
 import com.anyex.apps.shiro.model.UserPrincipal;
-import com.anyex.apps.shiro.model.UserToken;
+import com.anyex.apps.shiro.model.UserInfoToken;
 import com.anyex.apps.shiro.session.RedisSessionDAO;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +73,7 @@ public class AdminWXMPAuthorizingRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authToken) throws AuthenticationException
     {
-        UserToken token = (UserToken) authToken;
+        UserInfoToken token = (UserInfoToken) authToken;
         log.info("token.getUsername():{}", token.getUsername());
         if (StringUtils.isBlank(token.getUsername())) throw new UnknownAccountException("用户不存在！");
         SysUserInfo userInfo = userInfoService.findByUserName(token.getUsername());

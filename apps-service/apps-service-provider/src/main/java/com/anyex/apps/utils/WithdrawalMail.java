@@ -31,7 +31,7 @@
 // * <p>Title: WithdrawalMail </p>
 // * <p>Description:WithdrawalMail </p>
 // * <p>Copyright: Copyright (c) May 26, 2015</p>
-// * <p>Company: BloCain</p>
+// * <p>Company: AnyEx</p>
 // * @author Playguy
 // * @version 1.0
 // */

@@ -17,7 +17,7 @@ import java.util.Properties;
  * <p>File：AmazonSESUtils.java</p>
  * <p>Description: AmazonSESUtils</p>
  * <p>Copyright: Copyright (c) 2018/4/26</p>
- * <p>Company: BloCain</p>
+ * <p>Company: AnyEx</p>
  *
  * @author Playguy
  * @version 1.0

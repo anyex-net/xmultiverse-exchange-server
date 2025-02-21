@@ -5,7 +5,7 @@ import com.anyex.apps.google.Authenticator;
 import com.anyex.apps.shiro.UserCredentialsMatcher;
 import com.anyex.apps.shiro.WebSessionManager;
 import com.anyex.apps.shiro.model.UserPrincipal;
-import com.anyex.apps.shiro.model.UserToken;
+import com.anyex.apps.shiro.model.UserInfoToken;
 import com.anyex.apps.shiro.session.RedisSessionDAO;
 import com.anyex.apps.system.entity.SysResources;
 import com.anyex.apps.system.entity.SysRoleInfo;
@@ -73,7 +73,7 @@ public class AdminAuthorizingRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authToken) throws AuthenticationException
     {
-        UserToken token = (UserToken) authToken;
+        UserInfoToken token = (UserInfoToken) authToken;
         log.info("token.getUsername():{}", token.getUsername());
         if (StringUtils.isBlank(token.getUsername())) throw new UnknownAccountException("用户不存在！");
         SysUserInfo userInfo = userInfoService.findByUserName(token.getUsername());

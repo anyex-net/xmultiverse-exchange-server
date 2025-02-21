@@ -210,8 +210,9 @@ public class SysMsgRecordServiceImpl extends GenericServiceImpl<SysMsgRecord> im
                 .append(GlobalConst.SEPARATOR).append(phone)//
                 .toString();
         String sysCode = RedisUtils.get(cacheKey);
-        boolean flag = StringUtils.equalsIgnoreCase(validCode, sysCode) ? true : false;
-        return flag;
+        log.info("validSMSCode cacheKey:{} randNum:{}", cacheKey, sysCode);
+        //
+        return StringUtils.equalsIgnoreCase(validCode, sysCode) ? true : false;
     }
 
     /**
@@ -308,11 +309,9 @@ public class SysMsgRecordServiceImpl extends GenericServiceImpl<SysMsgRecord> im
                 .append(GlobalConst.SEPARATOR).append(email)//
                 .toString();
         String sysCode = RedisUtils.get(cacheKey);
-        log.info("cacheKey:{} randNum:{}", cacheKey, sysCode);
+        log.info("validEmailCode cacheKey:{} randNum:{}", cacheKey, sysCode);
         //
-        boolean flag = StringUtils.equalsIgnoreCase(emailCode, sysCode);
-        //
-        return flag;
+        return StringUtils.equalsIgnoreCase(emailCode, sysCode);
     }
 
     @Override

@@ -17,7 +17,7 @@
 // * <p>Title: SMSClient</p>
 // * <p>Description: SMSClient</p>
 // * <p>Copyright: Copyright (c) 2017/7/5</p>
-// * <p>Company: BloCain</p>
+// * <p>Company: AnyEx</p>
 // *
 // * @author Playguy
 // * @version 1.0

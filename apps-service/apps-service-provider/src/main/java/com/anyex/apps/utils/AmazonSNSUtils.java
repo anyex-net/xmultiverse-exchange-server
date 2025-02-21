@@ -23,7 +23,7 @@ import java.util.Map;
  * <p>Title: AmazonSNSUtils </p>
  * <p>Description: AmazonSNSUtils </p>
  * <p>Copyright: Copyright (c) 2019-03-27</p>
- * <p>Company: BloCain</p>
+ * <p>Company: AnyEx</p>
  *
  * @author Playguy
  * @version 1.0

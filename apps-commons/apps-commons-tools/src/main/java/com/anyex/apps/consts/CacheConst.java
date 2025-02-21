@@ -124,6 +124,16 @@ public class CacheConst
 
     public static final String  APP_COOKIE_ID              = "aid";
 
+    /**
+     * 锁标识
+     */
+    public static final String  LOCK_PERFIX                = "lock:";
+
+    /**
+     * 安全策略
+     */
+    public static final String  POLICY_PERFIX              = "policy:";
+
 
     // 以下业务相关
     /**
