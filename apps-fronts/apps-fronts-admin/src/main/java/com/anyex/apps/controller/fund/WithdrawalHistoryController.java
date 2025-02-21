@@ -9,6 +9,8 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import com.anyex.apps.fund.entity.WithdrawalHistory;
 import com.anyex.apps.fund.service.WithdrawalHistoryService;
 
-import com.anyex.apps.controller.fund.req.ReqWithdrawalHistory;
 import com.anyex.apps.controller.fund.req.ReqWithdrawalHistoryPagination;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 
@@ -62,6 +62,23 @@ public class WithdrawalHistoryController extends GenericController
         BeanUtils.copyProperties(pagin, entity);
         PaginateResult<WithdrawalHistory> result = withdrawalHistoryService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/check")
+    @RequiresPermissions("fund:withdrawalHistory:check")
+    @ApiOperation(value = "提现复核", httpMethod = "POST")
+    public JsonMessage check(Long id) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        WithdrawalHistory withdrawalHistory = withdrawalHistoryService.selectByPrimaryKey(id);
+        if (principal != null) {
+            withdrawalHistory.setCheckBy(principal.getUserName());
+        }
+        withdrawalHistory.setCheckTime(System.currentTimeMillis());
+        withdrawalHistory.setState("checked");
+        withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistory);
+        return json;
     }
 
 //    @PostMapping(value = "/save")

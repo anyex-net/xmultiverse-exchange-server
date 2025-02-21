@@ -23,7 +23,6 @@ import com.anyex.apps.user.entity.UserCertKyc;
 import com.anyex.apps.user.service.UserCertKycService;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 
@@ -104,7 +103,7 @@ public class UserCertKycController extends GenericController
 //    }
 
     @PostMapping(value = "/check")
-    @RequiresPermissions("user:userCertKyc:operator")
+    @RequiresPermissions("user:userCertKyc:check")
     @ApiOperation(value = "审核", httpMethod = "POST")
     public JsonMessage check(Long id, Integer state) throws BusinessException
     {
@@ -115,8 +114,10 @@ public class UserCertKycController extends GenericController
         userCertKyc.setState(state);
         if (principal != null) {
             userCertKyc.setUpdateBy(principal.getUserName());
+            userCertKyc.setCheckBy(principal.getUserName());
         }
         userCertKyc.setUpdateTime(System.currentTimeMillis());
+        userCertKyc.setCheckTime(System.currentTimeMillis());
         userCertKycService.updateByPrimaryKeySelective(userCertKyc);
         return json;
     }
