@@ -22,7 +22,6 @@ import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 
@@ -105,26 +104,23 @@ public class UserController extends GenericController
     @PostMapping(value = "/frozenOrUnfrozen")
     @RequiresPermissions("user:user:operator")
     @ApiOperation(value = "冻结或解冻", httpMethod = "POST")
-    public JsonMessage frozenOrUnfrozen(Long id, String state) throws BusinessException
+    public JsonMessage frozenOrUnfrozen(Long id, Integer state) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         User user = userService.selectByPrimaryKey(id);
         if (null == user) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        if ("1".equals(state)){
-            user.setState("0");//解冻
+        //
+        if (state.intValue() == 0) {
+            user.setState(1); //冻结
+        } else if (state.intValue() == 1){
+            user.setState(0); //解冻
             user.setThawTime(System.currentTimeMillis());
         }
-        if ("0".equals(state)) {
-            user.setState("1");//冻结
-        }
+        user.setUpdateBy(principal.getUserName());
         user.setUpdateTime(System.currentTimeMillis());
-        if (principal != null) {
-            user.setUpdateBy(principal.getUserName());
-        }
         userService.updateByPrimaryKeySelective(user);
         return json;
     }
-
 
 }
