@@ -9,6 +9,8 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,23 @@ public class RwaInstSpvCompanyController extends GenericController
         BeanUtils.copyProperties(pagin, entity);
         PaginateResult<RwaInstSpvCompany> result = rwaInstSpvCompanyService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/check")
+    @RequiresPermissions("rwa:rwaInstSpvCompany:check")
+    @ApiOperation(value = "复核", httpMethod = "POST")
+    public JsonMessage check(Long id, String state) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        RwaInstSpvCompany rwaInstSpvCompany = rwaInstSpvCompanyService.selectByPrimaryKey(id);
+        rwaInstSpvCompany.setState(state);
+        if (principal != null) {
+            rwaInstSpvCompany.setCheckBy(principal.getUserName());
+        }
+        rwaInstSpvCompany.setCheckTime(System.currentTimeMillis());
+        rwaInstSpvCompanyService.updateByPrimaryKeySelective(rwaInstSpvCompany);
+        return json;
     }
 
 //    @PostMapping(value = "/save")

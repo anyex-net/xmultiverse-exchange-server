@@ -9,6 +9,8 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,25 @@ public class RwaCertInstInvestorController extends GenericController
         PaginateResult<RwaCertInstInvestor> result = rwaCertInstInvestorService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
+
+    @PostMapping(value = "/check")
+    @RequiresPermissions("rwa:rwaCertInstInvestor:check")
+    @ApiOperation(value = "复核", httpMethod = "POST")
+    public JsonMessage check(Long id, String state) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        RwaCertInstInvestor rwaCertInstInvestor = rwaCertInstInvestorService.selectByPrimaryKey(id);
+        if (null == rwaCertInstInvestor) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        rwaCertInstInvestor.setState(state);
+        if (principal != null) {
+            rwaCertInstInvestor.setCheckBy(principal.getUserName());
+        }
+        rwaCertInstInvestor.setCheckTime(System.currentTimeMillis());
+        rwaCertInstInvestorService.updateByPrimaryKeySelective(rwaCertInstInvestor);
+        return json;
+    }
+
 
 //    @PostMapping(value = "/save")
 //    @RequiresPermissions("rwa:rwaCertInstInvestor:operator")

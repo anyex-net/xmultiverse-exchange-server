@@ -113,10 +113,10 @@ public class UserCertKycController extends GenericController
         if (null == userCertKyc) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         userCertKyc.setState(state);
         if (principal != null) {
-            userCertKyc.setUpdateBy(principal.getUserName());
+//            userCertKyc.setUpdateBy(principal.getUserName());
             userCertKyc.setCheckBy(principal.getUserName());
         }
-        userCertKyc.setUpdateTime(System.currentTimeMillis());
+//        userCertKyc.setUpdateTime(System.currentTimeMillis());
         userCertKyc.setCheckTime(System.currentTimeMillis());
         userCertKycService.updateByPrimaryKeySelective(userCertKyc);
         return json;
