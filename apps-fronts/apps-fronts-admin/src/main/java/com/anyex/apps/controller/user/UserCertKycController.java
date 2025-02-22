@@ -12,7 +12,6 @@ import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.controller.user.req.ReqUserCertKyc;
 import com.anyex.apps.controller.user.req.ReqUserCertKycPagination;
 import com.anyex.apps.shiro.model.UserPrincipal;
-import com.anyex.apps.user.entity.User;
 import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -112,11 +111,7 @@ public class UserCertKycController extends GenericController
         UserCertKyc userCertKyc = userCertKycService.selectByPrimaryKey(id);
         if (null == userCertKyc) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         userCertKyc.setState(state);
-        if (principal != null) {
-//            userCertKyc.setUpdateBy(principal.getUserName());
-            userCertKyc.setCheckBy(principal.getUserName());
-        }
-//        userCertKyc.setUpdateTime(System.currentTimeMillis());
+        userCertKyc.setCheckBy(principal.getUserName());
         userCertKyc.setCheckTime(System.currentTimeMillis());
         userCertKycService.updateByPrimaryKeySelective(userCertKyc);
         return json;
