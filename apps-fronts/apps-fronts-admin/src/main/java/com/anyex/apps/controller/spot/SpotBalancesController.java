@@ -1,6 +1,8 @@
 package com.anyex.apps.controller.spot;
-
-
+/*
+ * Copyright 2024 Apps, Inc. All rights reserved. com.anyex
+ * PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 import com.alibaba.fastjson.JSONObject;
 import com.anyex.exchange.viabtc.req.ReqAssetBalanceQuery;
 import com.anyex.apps.enums.CommonEnums;
@@ -11,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +28,7 @@ public class SpotBalancesController {
     @PostMapping(value = "/data")
     @RequiresPermissions("spot:spotBalances:data")
     @ApiOperation(value = "现货账户余额", httpMethod = "POST")
-    public JsonMessage<JSONObject> data(@ModelAttribute ReqAssetBalanceQuery reqAssetBalanceQuery) throws BusinessException {
+    public JsonMessage<JSONObject> data(@Validated @ModelAttribute ReqAssetBalanceQuery reqAssetBalanceQuery) throws BusinessException {
         JSONObject jsonObject = ViabtcAssetApi.balanceQuery(reqAssetBalanceQuery);
         return new JsonMessage<>(CommonEnums.SUCCESS,jsonObject);
     }
