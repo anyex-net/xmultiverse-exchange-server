@@ -38,8 +38,8 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0
  */
 @Slf4j
-@RestController
-@RequestMapping("/auth/forget")
+//@RestController
+//@RequestMapping("/auth/forget")
 @Api(tags = "账户忘记密码")
 public class ForgetPassNewController extends GenericController
 {

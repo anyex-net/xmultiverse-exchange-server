@@ -39,8 +39,8 @@ import java.math.BigDecimal;
  * @version 1.0
  */
 @Slf4j
-@RestController
-@RequestMapping("/auth/register")
+//@RestController
+//@RequestMapping("/auth/register")
 @Api(tags = "账户注册")
 public class RegisterNewController extends GenericController
 {

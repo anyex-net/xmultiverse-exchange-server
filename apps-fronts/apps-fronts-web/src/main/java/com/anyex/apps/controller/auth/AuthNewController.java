@@ -45,8 +45,8 @@ import java.io.Serializable;
  * @version 1.0
  */
 @Slf4j
-@RestController
-@RequestMapping("/auth")
+//@RestController
+//@RequestMapping("/auth")
 @Api(tags = "账户登录")
 public class AuthNewController extends GenericController
 {

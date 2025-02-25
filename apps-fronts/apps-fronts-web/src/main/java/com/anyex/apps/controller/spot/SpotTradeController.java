@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/spotTrade")
+@RequestMapping("/spot/trade")
 @Api(tags = "现货交易SpotTrade")
 public class SpotTradeController extends GenericController
 {
@@ -39,7 +39,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderPutLimit")
     @ApiOperation(value = "下单限价单", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderPutLimit(@Validated @RequestBody ReqTradeOrderPutLimit reqTradeOrderPutLimit) throws BusinessException
+    public JsonMessage<JSONObject> orderPutLimit(@Validated @RequestBody ReqTradeOrderPutLimit reqTradeOrderPutLimit) throws BusinessException
     {
         log.info("tradeOrderPutLimit reqTradeOrderPutLimit:{}", reqTradeOrderPutLimit);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderPutLimit(reqTradeOrderPutLimit);
@@ -51,7 +51,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderPutMarket")
     @ApiOperation(value = "下单市价单", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderPutMarket(@Validated @RequestBody ReqTradeOrderPutMarket reqTradeOrderPutMarket) throws BusinessException
+    public JsonMessage<JSONObject> orderPutMarket(@Validated @RequestBody ReqTradeOrderPutMarket reqTradeOrderPutMarket) throws BusinessException
     {
         log.info("tradeOrderPutMarket reqTradeOrderPutMarket:{}", reqTradeOrderPutMarket);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderPutMarket(reqTradeOrderPutMarket);
@@ -63,7 +63,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderCancel")
     @ApiOperation(value = "撤单", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderCancel(@Validated @RequestBody ReqTradeOrderCancel reqTradeOrderCancel) throws BusinessException
+    public JsonMessage<JSONObject> orderCancel(@Validated @RequestBody ReqTradeOrderCancel reqTradeOrderCancel) throws BusinessException
     {
         log.info("tradeOrderCancel reqTradeOrderCancel:{}", reqTradeOrderCancel);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderCancel(reqTradeOrderCancel);
@@ -75,7 +75,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderDeals")
     @ApiOperation(value = "某订单对应成交记录列表", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderDeals(@Validated @RequestBody ReqTradeOrderDeals reqTradeOrderDeals) throws BusinessException
+    public JsonMessage<JSONObject> orderDeals(@Validated @RequestBody ReqTradeOrderDeals reqTradeOrderDeals) throws BusinessException
     {
         log.info("tradeOrderDeals reqTradeOrderDeals:{}", reqTradeOrderDeals);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderDeals(reqTradeOrderDeals);
@@ -87,7 +87,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/userDeals")
     @ApiOperation(value = "用户成交记录", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> marketUserDeals(@Validated @RequestBody ReqMarketUserDeals reqMarketUserDeals) throws BusinessException
+    public JsonMessage<JSONObject> userDeals(@Validated @RequestBody ReqMarketUserDeals reqMarketUserDeals) throws BusinessException
     {
         log.info("marketUserDeals reqMarketUserDeals:{}", reqMarketUserDeals);
         JSONObject respJsonObject = ViabtcMarketApi.marketUserDeals(reqMarketUserDeals);
@@ -99,7 +99,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderPending")
     @ApiOperation(value = "在途订单", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderPending(@Validated @RequestBody ReqTradeOrderPending reqTradeOrderPending) throws BusinessException
+    public JsonMessage<JSONObject> orderPending(@Validated @RequestBody ReqTradeOrderPending reqTradeOrderPending) throws BusinessException
     {
         log.info("tradeOrderPending reqTradeOrderPending:{}", reqTradeOrderPending);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderPending(reqTradeOrderPending);
@@ -111,7 +111,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderPendingDetail")
     @ApiOperation(value = "某在途订单明细", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderPendingDetail(@Validated @RequestBody ReqTradeOrderPendingDetail reqTradeOrderPendingDetail) throws BusinessException
+    public JsonMessage<JSONObject> orderPendingDetail(@Validated @RequestBody ReqTradeOrderPendingDetail reqTradeOrderPendingDetail) throws BusinessException
     {
         log.info("tradeOrderPendingDetail reqTradeOrderPendingDetail:{}", reqTradeOrderPendingDetail);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderPendingDetail(reqTradeOrderPendingDetail);
@@ -123,7 +123,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderFinished")
     @ApiOperation(value = "完成订单", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderFinished(@Validated @RequestBody ReqTradeOrderFinished reqTradeOrderFinished) throws BusinessException
+    public JsonMessage<JSONObject> orderFinished(@Validated @RequestBody ReqTradeOrderFinished reqTradeOrderFinished) throws BusinessException
     {
         log.info("tradeOrderFinished reqTradeOrderFinished:{}", reqTradeOrderFinished);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderFinished(reqTradeOrderFinished);
@@ -135,7 +135,7 @@ public class SpotTradeController extends GenericController
     @PostMapping(value = "/orderFinishedDetail")
     @ApiOperation(value = "某完成订单明细", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
-    public JsonMessage<JSONObject> tradeOrderFinishedDetail(@Validated @RequestBody ReqTradeOrderFinishedDetail reqTradeOrderFinishedDetail) throws BusinessException
+    public JsonMessage<JSONObject> orderFinishedDetail(@Validated @RequestBody ReqTradeOrderFinishedDetail reqTradeOrderFinishedDetail) throws BusinessException
     {
         log.info("tradeOrderFinishedDetail reqTradeOrderFinished:{}", reqTradeOrderFinishedDetail);
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderFinishedDetail(reqTradeOrderFinishedDetail);

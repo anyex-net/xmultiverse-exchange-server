@@ -63,8 +63,8 @@ public class AppVersionController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, map);
     }
 
-    @GetMapping(value = "/getAndroidAppVersion")
-    @ApiOperation(value = "获取Android对应App最低可用版本号", httpMethod = "GET")
+//    @GetMapping(value = "/getAndroidAppVersion")
+//    @ApiOperation(value = "获取Android对应App最低可用版本号", httpMethod = "GET")
     public JsonMessage<SysAppVersion> getAndroidAppVersion() throws BusinessException
     {
         //
