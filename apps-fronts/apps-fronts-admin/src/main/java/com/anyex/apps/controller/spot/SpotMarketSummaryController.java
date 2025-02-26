@@ -1,20 +1,17 @@
 package com.anyex.apps.controller.spot;
-/*
- * Copyright 2024 Apps, Inc. All rights reserved. com.anyex
- * PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
+
+
 import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.bean.GenericController;
-import com.anyex.exchange.viabtc.req.ReqAssetBalanceQuery;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
-import com.anyex.exchange.viabtc.api.ViabtcAssetApi;
+import com.anyex.exchange.viabtc.api.ViabtcMarketApi;
+import com.anyex.exchange.viabtc.req.ReqMarketSummary;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,15 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/spot/spotBalances")
-@Api(tags = "现货账户余额")
-public class SpotBalancesController extends GenericController {
+@RequestMapping("/spot/spotMarketSummary")
+@Api(tags = "现货市场总览")
+public class SpotMarketSummaryController extends GenericController {
 
     @PostMapping(value = "/data")
-    @RequiresPermissions("spot:spotBalances:data")
-    @ApiOperation(value = "现货账户余额", httpMethod = "POST")
-    public JsonMessage<JSONObject> data(@Validated @ModelAttribute ReqAssetBalanceQuery reqAssetBalanceQuery) throws BusinessException {
-        JSONObject jsonObject = ViabtcAssetApi.balanceQuery(reqAssetBalanceQuery);
+    @RequiresPermissions("spot:spotMarketSummary:data")
+    @ApiOperation(value = "现货市场总览", httpMethod = "POST")
+    public JsonMessage<JSONObject> data(@ModelAttribute ReqMarketSummary reqMarketSummary) throws BusinessException {
+        JSONObject jsonObject = ViabtcMarketApi.marketSummary(reqMarketSummary);
         return new JsonMessage<>(CommonEnums.SUCCESS,jsonObject);
     }
 }
