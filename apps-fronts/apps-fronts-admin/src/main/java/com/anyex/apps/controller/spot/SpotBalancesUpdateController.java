@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "现货账户调整")
 public class SpotBalancesUpdateController extends GenericController {
 
-    @PostMapping(value = "/data")
-    @RequiresPermissions("spot:spotBalancesUpdate:data")
+    @PostMapping(value = "/update")
+    @RequiresPermissions("spot:spotBalancesUpdate:operator")
     @ApiOperation(value = "现货账户调整", httpMethod = "POST")
-    public JsonMessage<JSONObject> data(@ModelAttribute ReqAssetBalanceUpdate reqAssetBalanceUpdate) throws BusinessException {
+    public JsonMessage<JSONObject> update(@ModelAttribute ReqAssetBalanceUpdate reqAssetBalanceUpdate) throws BusinessException {
         JSONObject jsonObject = ViabtcAssetApi.balanceUpdate(reqAssetBalanceUpdate);
         return new JsonMessage<>(CommonEnums.SUCCESS,jsonObject);
     }
