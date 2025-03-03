@@ -1,6 +1,7 @@
 package com.anyex.apps.controller.spot;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
@@ -27,6 +28,12 @@ public class SpotBalancesUpdateController extends GenericController {
     @RequiresPermissions("spot:spotBalancesUpdate:operator")
     @ApiOperation(value = "现货账户调整", httpMethod = "POST")
     public JsonMessage<JSONObject> update(@ModelAttribute ReqAssetBalanceUpdate reqAssetBalanceUpdate) throws BusinessException {
+        if (null == reqAssetBalanceUpdate.getDetail()){
+            // 更新明细说明Json对象
+            JSONObject detailJsonObject = new JSONObject();
+            detailJsonObject.put("detail", JSON.toJSONString(reqAssetBalanceUpdate));
+            reqAssetBalanceUpdate.setDetail(detailJsonObject);
+        }
         JSONObject jsonObject = ViabtcAssetApi.balanceUpdate(reqAssetBalanceUpdate);
         return new JsonMessage<>(CommonEnums.SUCCESS,jsonObject);
     }
