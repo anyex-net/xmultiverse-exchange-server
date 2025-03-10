@@ -8,12 +8,15 @@ import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.user.consts.UserConsts;
 import com.anyex.apps.utils.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.mapper.UserMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户信息 服务实现类
@@ -25,6 +28,7 @@ import com.anyex.apps.user.mapper.UserMapper;
  * @author Playguy
  * @version 1.0
  */
+@Slf4j
 @Service
 public class UserServiceImpl extends GenericServiceImpl<User> implements UserService
 {
@@ -35,6 +39,12 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     {
         super(userMapper);
         this.userMapper = userMapper;
+    }
+
+    @Override
+    public Long getMaxUNID() throws BusinessException
+    {
+        return userMapper.getMaxUNID();
     }
 
     @Override
@@ -83,5 +93,24 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     @Override
     public User selectByPrimaryKeyNoCheck(Long id) throws BusinessException {
         return super.selectByPrimaryKey(id);
+    }
+
+    @Override
+    @Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void register(User user) throws BusinessException
+    {
+        log.info("register user:{}", user);
+        user.setUid(userMapper.getMaxUNID());
+        user.setInviteCode(String.valueOf(user.getUid())); //邀请码
+        user.setState(0);
+        user.setSecurityPolicy(0);
+        user.setTradePolicy(0);
+        user.setRiskEvaluation(0);
+        user.setCertState(0);
+        user.setLang("en_US");
+        user.setLocalCurrency("USD");
+        user.setCreateTime(System.currentTimeMillis());
+        log.info("register user insert:{}", user);
+        userMapper.insert(user);
     }
 }

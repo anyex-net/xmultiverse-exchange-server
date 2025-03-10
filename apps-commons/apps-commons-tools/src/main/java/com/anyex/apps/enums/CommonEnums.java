@@ -32,11 +32,16 @@ public enum CommonEnums implements EnumDescribable
     //
     RISK_TRADE_OFF(1200, "The service suspend trading, please try again later"), // 暂停交易
     //
+    ERROR_QRCODE_NOTSCANNED(1996, "QR code app not scanned"), // 二维码APP未扫描
+    ERROR_QRCODE_NOTCONFIRM(1997, "QR code app not confirm"), // 二维码APP已扫描未确认
+    ERROR_QRCODE_INVAILID(1998, "QR code is invalid"), // 二维码已经失效
+    ERROR_NEED_QRCODE(1999, "Need QR code"), // 需要传入qrCode
     USER_NOT_LOGIN(2000, "The account is not logged in"), // 账户未登录
     NEED_POLICY_CHECK(2001, "Security Verification Policy"), // 安全验证策略
     ERROR_DATA_VALID(2002, "Data verification failed"), //数据校验失败
     ERROR_PARAMS_VALID(2003, "Parameter validation error"), // 参数验证错误
     ERROR_ACCOUNT_NOT_EXIST(2004, "The account does not exist"), // 账户不存在(用户或密码错误)
+    ERROR_FROZEN_ACCOUNT(2004, "Login Exception,Please contact us."), // 账户被冻结
     ERROR_LOGIN_PASSWORD(2005, "Wrong password"), // 密码错误
     ERROR_LOGIN_TIMEOUT(2006, "Session timed out"), // 会话超时
     ERROR_VALID_CAPTCHA(2007, "The verification code is incorrect"), // 验证码错误

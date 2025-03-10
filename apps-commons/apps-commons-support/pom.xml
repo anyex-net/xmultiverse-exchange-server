@@ -98,6 +98,11 @@
             <artifactId>aliyun-sdk-oss</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>captcha20230305</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>cz.mallat.uasparser</groupId>
             <artifactId>uasparser</artifactId>
         </dependency>

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.anyex.apps.bean.SignableEntity;
 import com.anyex.apps.consts.CharsetConst;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -50,11 +51,13 @@ public class User extends SignableEntity
 	private java.lang.String avatar;
 
 	/**登录密码*/
+	@JsonIgnore
 	@NotEmpty(message = "登录密码不可为空")
 	@ApiModelProperty(value = "登录密码", position = 4, required = true)
 	private java.lang.String loginPwd;
 
 	/**交易密码*/
+	@JsonIgnore
 	@ApiModelProperty(value = "交易密码", position = 5)
 	private java.lang.String tradePwd;
 

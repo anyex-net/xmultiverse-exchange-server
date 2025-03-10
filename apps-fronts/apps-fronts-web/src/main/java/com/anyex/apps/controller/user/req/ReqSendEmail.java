@@ -28,9 +28,9 @@ public class ReqSendEmail implements Serializable
     private String            email;
 
     /**
-     * google recaptchaToken
+     * 随机验证码
      */
-    @NotEmpty(message = "google recaptchaToken is NotEmpty")
-    @ApiModelProperty(value = "google recaptchaToken", required = true)
-    private String            googleRecaptchaToken;
+    @NotEmpty(message = "随机验证码不可为空")
+    @ApiModelProperty(value = "随机验证码", required = true)
+    private String            captcha;
 }

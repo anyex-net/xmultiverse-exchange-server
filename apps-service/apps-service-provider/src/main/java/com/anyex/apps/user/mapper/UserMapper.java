@@ -23,6 +23,12 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper extends GenericMapper<User>
 {
     /**
+     * 取最大的UNID
+     * @return
+     */
+    Long getMaxUNID();
+
+    /**
      * 根据UNID得到唯一的用户数据
      * @param unid
      * @return
@@ -58,10 +64,4 @@ public interface UserMapper extends GenericMapper<User>
      * @return
      */
     User findByUserNameAndState(@Param("userName") String userName, @Param("state") Integer state, @Param("country") String country);
-
-    /**
-     * 取最大的UNID
-     * @return
-     */
-    Long getMaxUNID();
 }

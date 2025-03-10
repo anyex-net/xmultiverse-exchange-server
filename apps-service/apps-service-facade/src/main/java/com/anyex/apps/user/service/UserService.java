@@ -21,6 +21,13 @@ import com.anyex.apps.user.entity.User;
 public interface UserService extends GenericService<User>
 {
     /**
+     * 取最大的UNID
+     * @return
+     * @throws BusinessException
+     */
+    Long getMaxUNID() throws BusinessException;
+
+    /**
      * 根据UNID得到唯一的用户数据
      * @param unid
      * @return {@link User}
@@ -73,4 +80,11 @@ public interface UserService extends GenericService<User>
      * @throws BusinessException
      */
     User selectByPrimaryKeyNoCheck(Long id) throws BusinessException;
+
+    /**
+     * 用户注册
+     * @param user
+     * @throws BusinessException
+     */
+    void register(User user) throws BusinessException;
 }

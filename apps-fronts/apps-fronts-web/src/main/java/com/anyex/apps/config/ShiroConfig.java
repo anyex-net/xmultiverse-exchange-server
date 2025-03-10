@@ -112,6 +112,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/styles/**", "anon");
         filterChainDefinitionMap.put("/error/**", "anon");
+        filterChainDefinitionMap.put("/auth/captcha", "anon");
         filterChainDefinitionMap.put("/auth/register/**", "anon");
         filterChainDefinitionMap.put("/auth/login/**", "anon");
         filterChainDefinitionMap.put("/auth/forget/**", "anon");
@@ -144,6 +145,8 @@ public class ShiroConfig
 //        filterChainDefinitionMap.put("/business/luckybox/order/order4Activity/data", "anon");
 //        filterChainDefinitionMap.put("/business/luckybox/order/order4Game/data", "anon");
         //
+        filterChainDefinitionMap.put("/common/user/auth", "authc");
+        filterChainDefinitionMap.put("/common/user/sign", "authc");
         filterChainDefinitionMap.put("/*/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

@@ -99,6 +99,21 @@ public class CacheConst
     public static final String  CACHE_EXPIRE_SMS_PERFIX    = "message:expire";
 
     /**
+     * 操作次数记数
+     */
+    public static final String  OPERATION_COUNT_PREFIX     = "operator:count";
+
+    /**
+     * 安全重置密码
+     */
+    public static final String  RESET_SECURITY_PREFIX      = "security:reset";
+
+    /**
+     * 用户锁定
+     */
+    public static final String  USER_LOCK_PREFIX           = "user:lock";
+
+    /**
      * ADMIN会话对象
      */
     public static final String  ADMIN_SHIRO_CACHE_PREFIX   = "session:admin";
@@ -120,7 +135,8 @@ public class CacheConst
 
     public static final String  WEB_COOKIE_ID              = "sid";
 
-    public static final String  WEB_IM_ID                  = "token";
+    //public static final String  WEB_IM_ID                  = "token";
+    public static final String  WEB_IM_ID                  = "Authorization";
 
     public static final String  APP_COOKIE_ID              = "aid";
 

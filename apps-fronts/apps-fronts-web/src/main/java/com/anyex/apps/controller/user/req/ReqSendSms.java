@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -36,9 +35,9 @@ public class ReqSendSms implements Serializable
     private String            mobileNo;
 
     /**
-     * google recaptchaToken
+     * 随机验证码
      */
-    @NotEmpty(message = "google recaptchaToken is NotEmpty")
-    @ApiModelProperty(value = "google recaptchaToken", required = true)
-    private String            googleRecaptchaToken;
+    @NotEmpty(message = "随机验证码不可为空")
+    @ApiModelProperty(value = "随机验证码", required = true)
+    private String            captcha;
 }

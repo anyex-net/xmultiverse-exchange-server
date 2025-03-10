@@ -200,4 +200,69 @@ public class GlobalConst
     // GP代付业务异常 交易暂缓20分钟
     public static final Integer  PAYMENT_CHANNEL_GLOBALPAY_SYS_ERROR_LOCKTIME       = 1200;
 
+
+
+    /**
+     * 操作频率限制
+     * 默认30次
+     */
+    public static final Integer  LOCK_INTERVAL_COUNT            = 30;
+
+    /**
+     * 操作标识
+     */
+    public static final String   OP                             = "op";
+
+    /**
+     * 消息
+     */
+    public static final String   MESSAGE                        = "message";
+
+    /**
+     * 登陆操作
+     */
+    public static final String   OP_LOGIN                       = "login";
+
+    /**
+     * 找回密码操作
+     */
+    public static final String   OP_FINDPWD                     = "findpwd";
+
+    /**
+     * 帐户模块
+     */
+    public static final String   OP_ACCOUNT_BIND_PHONE          = "account:bindPhone";
+
+    public static final String   OP_ACCOUNT_BIND_EMAIL          = "account:bindEmail";
+
+    /**
+     * 强增强减模块
+     */
+    public static final String   OP_FUND_ADJUST                 = "fundAdjust";
+
+    /**
+     * 撮合交易模块
+     */
+    public static final String   OP_ENTRUSTVCOOINMONEY          = "entrustVcoinMoney";
+
+    /**
+     * 资金流水模块
+     */
+    public static final String   OP_FUND_CURRENT                = "fundCurrent";
+
+    /**
+     * 帳戶資產
+     */
+    public static final String   OP_FUND_ASSET                  = "fundAsset";
+
+    /**
+     * 提币申请模块-用于短信或GA次数判定
+     */
+    public static final String   OP_RAISE_DO_RAISE              = "raise:doRaise";
+
+    /**
+     * 内部行情撮合成交价--用于计算行情涨跌幅
+     */
+    public static final String   OP_RTQUOTATIONINFO             = "RtQuotationInfo";
+
 }

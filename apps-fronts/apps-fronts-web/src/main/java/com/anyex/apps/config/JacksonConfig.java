@@ -52,7 +52,7 @@ public class JacksonConfig {
         // 全局配置序列化返回 JSON 处理
         SimpleModule simpleModule = new SimpleModule();
         //JSON Long ==> String
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+        //simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         objectMapper.registerModule(simpleModule);
         return objectMapper;
     }
