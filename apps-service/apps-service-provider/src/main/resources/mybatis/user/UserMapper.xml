@@ -770,7 +770,7 @@
     <select id="findByUserNameAndState" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
         SELECT
         <include refid="userColumns"/>
-        FROM Account a WHERE 1 = 1
+        FROM User a WHERE 1 = 1
         AND (a.mobileNo = #{userName} OR a.email = #{userName})
         AND a.state = #{state}
         <if test="country != null ">

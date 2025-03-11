@@ -60,34 +60,34 @@ public class CaptchaController extends GenericController
         //
         String ip = NetworkUtils.getIpAddr(request);
         StringBuffer key = new StringBuffer();
-//        // SMS
-//        if (MessageConst.SMS_VALID_LOGIN.equals(scene))
-//        {
-//            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_LOGIN).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
-//                    CacheConst.ONE_MINUTE_CACHE_TIME);
-//        }
-//        else if (MessageConst.SMS_VALID_FORGETPASS.equals(scene))
-//        {
-//            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_FORGETPASS).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
-//                    CacheConst.ONE_MINUTE_CACHE_TIME);
-//        }
-//        else if (MessageConst.SMS_VALID_MODIFYPASS.equals(scene))
-//        {
-//            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_MODIFYPASS).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
-//                    CacheConst.ONE_MINUTE_CACHE_TIME);
-//        }
-//        else if (MessageConst.SMS_VALID_REGISTER.equals(scene))
-//        {
-//            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_REGISTER).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
-//                    CacheConst.ONE_MINUTE_CACHE_TIME);
-//        }
-//        else if (MessageConst.SMS_VALID_OTHER.equals(scene))
-//        {
-//            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_OTHER).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
-//                    CacheConst.ONE_MINUTE_CACHE_TIME);
-//        }
+        // SMS
+        if (MessageConst.SMS_VALID_LOGIN.equals(scene))
+        {
+            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_LOGIN).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
+                    CacheConst.ONE_MINUTE_CACHE_TIME);
+        }
+        else if (MessageConst.SMS_VALID_FORGETPASS.equals(scene))
+        {
+            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_FORGETPASS).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
+                    CacheConst.ONE_MINUTE_CACHE_TIME);
+        }
+        else if (MessageConst.SMS_VALID_MODIFYPASS.equals(scene))
+        {
+            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_MODIFYPASS).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
+                    CacheConst.ONE_MINUTE_CACHE_TIME);
+        }
+        else if (MessageConst.SMS_VALID_REGISTER.equals(scene))
+        {
+            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_REGISTER).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
+                    CacheConst.ONE_MINUTE_CACHE_TIME);
+        }
+        else if (MessageConst.SMS_VALID_OTHER.equals(scene))
+        {
+            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_OTHER).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
+                    CacheConst.ONE_MINUTE_CACHE_TIME);
+        }
         // Email
-        if (MessageConst.EMAIL_VALID_LOGIN.equals(scene))
+        else if (MessageConst.EMAIL_VALID_LOGIN.equals(scene))
         {
             RedisUtils.putObject(key.append(MessageConst.EMAIL_VALID_LOGIN).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
                     CacheConst.ONE_MINUTE_CACHE_TIME);

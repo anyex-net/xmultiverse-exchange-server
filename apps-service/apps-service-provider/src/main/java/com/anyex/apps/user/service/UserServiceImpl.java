@@ -7,6 +7,8 @@ package com.anyex.apps.user.service;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.user.consts.UserConsts;
+import com.anyex.apps.utils.EncryptUtils;
+import com.anyex.apps.utils.SerialnoUtils;
 import com.anyex.apps.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -100,7 +102,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     public void register(User user) throws BusinessException
     {
         log.info("register user:{}", user);
-        user.setUid(userMapper.getMaxUNID());
+        user.setId(SerialnoUtils.buildPrimaryKey());
+        user.setUid(userMapper.getMaxUNID() + 1);
         user.setInviteCode(String.valueOf(user.getUid())); //邀请码
         user.setState(0);
         user.setSecurityPolicy(0);
@@ -109,6 +112,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         user.setCertState(0);
         user.setLang("en_US");
         user.setLocalCurrency("USD");
+        user.setStableCoinPreference("USDT");
         user.setCreateTime(System.currentTimeMillis());
         log.info("register user insert:{}", user);
         userMapper.insert(user);

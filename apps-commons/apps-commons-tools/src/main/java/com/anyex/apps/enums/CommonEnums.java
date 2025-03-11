@@ -66,7 +66,7 @@ public enum CommonEnums implements EnumDescribable
     ERROR_GT_DAY_MAX_AMT(2024, "The maximum limit for the day has been exceeded"), // 已超过当天最大限额
     ERROR_GT_MAX_AMT(2025, "The maximum limit has been exceeded"), // 已超过最大限额
     ERROR_GA_NOT_BIND(2026, "GA is not bound"), //GA未绑定
-    ERROR_REGISTER_EXIST(2027, "The account has been registered"), //账号已被注册
+    ERROR_REGISTER_EXIST(2027, "The user has been registered"), //账号已被注册
     WAIT_ONE_MINUTE(2028, "Review in a minute"), //一分钟后再评论
     WAIT_ONE_HOUR(2029, "Newly registered users will review in 1 hour"), //新注册用户1小时后再评论
     SWITCH_ROLES(2030, "Requires the administrator to switch roles when working on Admin and Website"), //要求管理员在Admin和Website操作时角色切换

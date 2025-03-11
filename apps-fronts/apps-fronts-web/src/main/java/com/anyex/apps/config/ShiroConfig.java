@@ -113,6 +113,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/styles/**", "anon");
         filterChainDefinitionMap.put("/error/**", "anon");
         filterChainDefinitionMap.put("/auth/captcha", "anon");
+        filterChainDefinitionMap.put("/auth/emailRegister/**", "anon");
+        filterChainDefinitionMap.put("/auth/mobileRegister/**", "anon");
         filterChainDefinitionMap.put("/auth/register/**", "anon");
         filterChainDefinitionMap.put("/auth/login/**", "anon");
         filterChainDefinitionMap.put("/auth/forget/**", "anon");

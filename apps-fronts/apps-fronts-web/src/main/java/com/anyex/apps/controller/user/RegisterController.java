@@ -47,7 +47,7 @@ public class RegisterController extends GenericController
     UserService userService;
 
     @Autowired(required = false)
-    SysMsgRecordService msgRecordService;
+    SysMsgRecordService sysMsgRecordService;
 
     /**
      * 邮箱注册验证码发送
@@ -59,7 +59,7 @@ public class RegisterController extends GenericController
     @ResponseBody
     @ApiOperation(value = "邮箱注册验证码发送", httpMethod = "POST")
     @RequestMapping(value = "/emailRegister/sendCode", method = RequestMethod.POST)
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
+    @AccessLimit(limit = 1, timeScope = 5, isLogin = false) // 未登录情况下限制5秒内最多请求1次
     public JsonMessage emailRegisterSendCode(HttpServletRequest request, @Validated @RequestBody ReqSendEmail reqSendEmail) throws BusinessException
     {
         log.info("emailRegisterSendCode reqSendEmail:{}", reqSendEmail);
@@ -83,7 +83,7 @@ public class RegisterController extends GenericController
             return this.getJsonMessage(CommonEnums.ERROR_REGISTER_EXIST);
         }
         //
-        msgRecordService.sendEmail(reqSendEmail.getEmail(), GlobalConst.DEFAULT_LANG, MessageConst.TEMPLATE_EMAIL_REGISTERCODE);
+        sysMsgRecordService.sendEmail(reqSendEmail.getEmail(), GlobalConst.DEFAULT_LANG, MessageConst.TEMPLATE_EMAIL_REGISTERCODE);
         //
         return getJsonMessage(CommonEnums.SUCCESS);
     }
@@ -97,7 +97,7 @@ public class RegisterController extends GenericController
     @ResponseBody
     @ApiOperation(value = "邮箱注册提交", httpMethod = "POST")
     @RequestMapping(value = "/emailRegister/submit", method = RequestMethod.POST)
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
+    @AccessLimit(limit = 1, timeScope = 5, isLogin = false) // 未登录情况下限制5秒内最多请求1次
     public JsonMessage emailRegisterSubmit(HttpServletRequest request, @Validated @RequestBody ReqEmailRegister reqEmailRegister) throws BusinessException
     {
         JsonMessage json = this.getJsonMessage(CommonEnums.SUCCESS);
@@ -111,7 +111,7 @@ public class RegisterController extends GenericController
         {// 限制密规则
             throw new BusinessException(CommonEnums.ERROR_PASSWORD_TYPE);
         }
-        if (!msgRecordService.validEmailCode(reqEmailRegister.getEmail(), reqEmailRegister.getEmailCode(), MessageConst.TEMPLATE_EMAIL_REGISTERCODE))
+        if (!sysMsgRecordService.validEmailCode(reqEmailRegister.getEmail(), reqEmailRegister.getEmailCode(), MessageConst.TEMPLATE_EMAIL_REGISTERCODE))
         {// 验证邮箱码
             return getJsonMessage(CommonEnums.ERROR_EMAILCODE_VALID_FAILED);
         }
@@ -134,48 +134,19 @@ public class RegisterController extends GenericController
         //
         User user = new User();
         BeanUtils.copyProperties(reqEmailRegister, user);
+        user.setUid(0L);
+        user.setAvatar("avatar");
+        user.setUserName("userName");
+        user.setLoginPwd(EncryptUtils.entryptPassword(reqEmailRegister.getLoginPwd()));
         user.setInviteCode(null);
         user.setReferralCode(reqEmailRegister.getInviteCode());
+        user.setState(0);
+        user.setCreateTime(System.currentTimeMillis());
         log.info("emailRegisterSubmit user:{}", user);
-
-//            Long maxUID = userService.getMaxUNID();
-//            account = new Account();
-//            account.setId(SerialnoUtils.buildPrimaryKey());
-//            account.setUnid(maxUID + 1);
-//            account.setCountry(GlobalConst.DEFAULT_COUNTRY);
-//            //account.setMobile();
-//            //account.setAccountName();
-//            //account.setRealName();
-//            //account.setCnic();
-//            account.setLoginPwd(EncryptUtils.entryptPassword(reqAccountRegister.getLoginPwd()));
-//            account.setHeadUrl("headUrl");
-//            account.setEmail(reqAccountRegister.getEmail());
-//            //account.setBirth();
-//            //account.setGender();
-//            account.setInvitationCode(String.valueOf(account.getUnid()));
-//            account.setReferralCode(reqAccountRegister.getReferralCode());
-//            account.setDeviceId(reqAccountRegister.getDeviceId());
-//            account.setIp(NetworkUtils.getIpAddr(request));
-//            account.setLat(reqAccountRegister.getLat());
-//            account.setLng(reqAccountRegister.getLng());
-//            account.setSource(reqAccountRegister.getSource());
-//            account.setStatus(AccountConst.ACCOUNT_STATUS_NORMAL);
-//            account.setRemark("newAccountRegister");
-//            account.setCreateTime(System.currentTimeMillis());
-//            log.info("accountRegister account:{}", account.toString());
-//
-//            //
-//            WalletAsset walletAsset = new WalletAsset();
-//            walletAsset.setAccountId(account.getId());
-//            walletAsset.setCurrency(GlobalConst.CURRENCY_PKR);
-//            walletAsset.setBalance(BigDecimal.ZERO);
-//            walletAsset.setFrozenBal(BigDecimal.ZERO);
-//            walletAsset.setUpdateTime(System.currentTimeMillis());
-//            walletAsset.setRemark("walletAsset init");
-//            log.info("accountRegister walletAsset init:{}", walletAsset);
-//
-//            //
+        if (beanValidator(json, user))
+        {
             userService.register(user);
+        }
         //
         return json;
     }
@@ -190,7 +161,7 @@ public class RegisterController extends GenericController
     @ResponseBody
     @ApiOperation(value = "手机注册短信码发送", httpMethod = "POST")
     @RequestMapping(value = "/mobileRegister/sendSms", method = RequestMethod.POST)
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
+    @AccessLimit(limit = 1, timeScope = 5, isLogin = false) // 未登录情况下限制5秒内最多请求1次
     public JsonMessage mobileRegisterSendSMS(HttpServletRequest request, @Validated @RequestBody ReqSendSms reqSendSms) throws BusinessException
     {
         log.info("mobileRegisterSendSMS reqSendSms:{}", reqSendSms);
@@ -210,7 +181,7 @@ public class RegisterController extends GenericController
         }
         //
         StringBuffer mobileNum = new StringBuffer(reqSendSms.getCountry()).append(reqSendSms.getMobileNo());
-        msgRecordService.sendSms(mobileNum.toString(), GlobalConst.DEFAULT_LANG, MessageConst.SMS_VALID_REGISTER);
+        sysMsgRecordService.sendSms(mobileNum.toString(), GlobalConst.DEFAULT_LANG, MessageConst.SMS_VALID_REGISTER);
         //
         return this.getJsonMessage(CommonEnums.SUCCESS);
     }
@@ -224,7 +195,7 @@ public class RegisterController extends GenericController
     @ResponseBody
     @ApiOperation(value = "手机注册提交", httpMethod = "POST")
     @RequestMapping(value = "/mobileRegister/submit", method = RequestMethod.POST)
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
+    @AccessLimit(limit = 1, timeScope = 5, isLogin = false) // 未登录情况下限制5秒内最多请求1次
     public JsonMessage mobileRegisterSubmit(HttpServletRequest request, @Validated @RequestBody ReqSmsRegister reqSmsRegister) throws BusinessException
     {
         JsonMessage json = this.getJsonMessage(CommonEnums.SUCCESS);
@@ -235,7 +206,7 @@ public class RegisterController extends GenericController
             throw new BusinessException(CommonEnums.ERROR_PASSWORD_TYPE);
         }
         StringBuffer mobileNo = new StringBuffer(reqSmsRegister.getCountry()).append(reqSmsRegister.getMobileNo());
-        if (!msgRecordService.validSMSCode(mobileNo.toString(), reqSmsRegister.getSmsCode(), MessageConst.SMS_VALID_REGISTER))
+        if (!sysMsgRecordService.validSMSCode(mobileNo.toString(), reqSmsRegister.getSmsCode(), MessageConst.SMS_VALID_REGISTER))
         {// 验证短信码
             return getJsonMessage(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
         }
@@ -259,48 +230,19 @@ public class RegisterController extends GenericController
         //
         User user = new User();
         BeanUtils.copyProperties(reqSmsRegister, user);
+        user.setUid(0L);
+        user.setAvatar("avatar");
+        user.setUserName("userName");
+        user.setLoginPwd(EncryptUtils.entryptPassword(reqSmsRegister.getLoginPwd()));
         user.setInviteCode(null);
         user.setReferralCode(reqSmsRegister.getInviteCode());
+        user.setState(0);
+        user.setCreateTime(System.currentTimeMillis());
         log.info("mobileRegisterSubmit user:{}", user);
-
-//            Long maxUID = userService.getMaxUNID();
-//            account = new Account();
-//            account.setId(SerialnoUtils.buildPrimaryKey());
-//            account.setUnid(maxUID + 1);
-//            account.setCountry(GlobalConst.DEFAULT_COUNTRY);
-//            //account.setMobile();
-//            //account.setAccountName();
-//            //account.setRealName();
-//            //account.setCnic();
-//            account.setLoginPwd(EncryptUtils.entryptPassword(reqAccountRegister.getLoginPwd()));
-//            account.setHeadUrl("headUrl");
-//            account.setEmail(reqAccountRegister.getEmail());
-//            //account.setBirth();
-//            //account.setGender();
-//            account.setInvitationCode(String.valueOf(account.getUnid()));
-//            account.setReferralCode(reqAccountRegister.getReferralCode());
-//            account.setDeviceId(reqAccountRegister.getDeviceId());
-//            account.setIp(NetworkUtils.getIpAddr(request));
-//            account.setLat(reqAccountRegister.getLat());
-//            account.setLng(reqAccountRegister.getLng());
-//            account.setSource(reqAccountRegister.getSource());
-//            account.setStatus(AccountConst.ACCOUNT_STATUS_NORMAL);
-//            account.setRemark("newAccountRegister");
-//            account.setCreateTime(System.currentTimeMillis());
-//            log.info("accountRegister account:{}", account.toString());
-//
-//            //
-//            WalletAsset walletAsset = new WalletAsset();
-//            walletAsset.setAccountId(account.getId());
-//            walletAsset.setCurrency(GlobalConst.CURRENCY_PKR);
-//            walletAsset.setBalance(BigDecimal.ZERO);
-//            walletAsset.setFrozenBal(BigDecimal.ZERO);
-//            walletAsset.setUpdateTime(System.currentTimeMillis());
-//            walletAsset.setRemark("walletAsset init");
-//            log.info("accountRegister walletAsset init:{}", walletAsset);
-//
-//            //
+        if (beanValidator(json, user))
+        {
             userService.register(user);
+        }
         //
         return json;
     }
