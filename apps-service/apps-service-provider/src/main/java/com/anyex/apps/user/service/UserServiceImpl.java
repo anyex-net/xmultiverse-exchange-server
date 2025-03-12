@@ -7,7 +7,6 @@ package com.anyex.apps.user.service;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.user.consts.UserConsts;
-import com.anyex.apps.utils.EncryptUtils;
 import com.anyex.apps.utils.SerialnoUtils;
 import com.anyex.apps.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -82,6 +81,17 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     }
 
     @Override
+    public User findByEmail(String email) throws BusinessException {
+        if (StringUtils.isBlank(email)) return null;
+        User user = userMapper.findByEmail(email);
+        if (null != user && !user.verifySignature())
+        { // 校验数据
+            throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
+        }
+        return user;
+    }
+
+    @Override
     public User findByEmailAndMobileNo(String email, String mobileNo) throws BusinessException {
         if (StringUtils.isBlank(email) || StringUtils.isBlank(mobileNo)) return null;
         User user = userMapper.findByEmailAndMobileNo(email, mobileNo);
@@ -101,20 +111,19 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     @Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void register(User user) throws BusinessException
     {
-        log.info("register user:{}", user);
         user.setId(SerialnoUtils.buildPrimaryKey());
         user.setUid(userMapper.getMaxUNID() + 1);
         user.setInviteCode(String.valueOf(user.getUid())); //邀请码
-        user.setState(0);
-        user.setSecurityPolicy(0);
-        user.setTradePolicy(0);
+        user.setState(0); // 状态正常
+        user.setSecurityPolicy(0); // 默认安全验证策略PWD
+        user.setTradePolicy(0); // 默认交易验证策略
         user.setRiskEvaluation(0);
-        user.setCertState(0);
+        user.setCertState(0); // 未认证
         user.setLang("en_US");
         user.setLocalCurrency("USD");
         user.setStableCoinPreference("USDT");
         user.setCreateTime(System.currentTimeMillis());
-        log.info("register user insert:{}", user);
+        log.info("register user:{}", user);
         userMapper.insert(user);
     }
 }

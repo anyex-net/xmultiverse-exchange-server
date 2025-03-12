@@ -16,18 +16,18 @@ import com.anyex.apps.enums.CommonEnums;
  */
 public enum UserEnums implements EnumDescribable
 {
-    ACCOUNT_PHONE_TIPS(30000, "Please enter your phone number"), // 请输入手机号
-    /*ACCOUNT_NAME_NOTEXITS(30001, "Username cannot be blank"), // 帐户名称不能为空*/
-    ACCOUNT_PASSWORD_ERROR(30002, "Incorrect password"), // 密碼錯誤
-    ACCOUNT_SMSCODE_ERROR(30003, "SMS code error"), // 手机验证码错误
-    ACCOUNT_EMAILCODE_ERROR(30009, "email code error"), // 手机验证码错误
-    ACCOUNT_GACODE_ERROR(30004, "Google auth code error"), // 谷歌验证码错误
-    ACCOUNT_PHONE_NOTBIND(30005, "Please enable Phone Verification first."), // 手机号未绑定
-    ACCOUNT_EMAIL_NOTBIND(30009, "Please enable Email Verification first."), // 邮箱未绑定
-    ACCOUNT_PHONE_HAS_BIND(30006, "The phone number has bound"), // 手机号已绑定
-    ACCOUNT_EMAIL_HAS_BIND(30006, "The email has bound"), // 邮箱已绑定
-    ACCOUNT_WALLET_ASSET_NOTEXITS(30007, "The wallet account does not exist"), // 钱包账户不存在
-    ACCOUNT_WALLET_ASSET_INSUFFICIENT_BAL(30008, "The balance of the wallet account is insufficient")// 钱包账户余额不足 insufficient Balance
+    USER_PHONE_TIPS(30000, "Please enter your phone number"), // 请输入手机号
+    USER_NAME_NOTEXITS(30001, "Username cannot be blank"), // 帐户名称不能为空
+    USER_PASSWORD_ERROR(30002, "Incorrect password"), // 密碼錯誤
+    USER_SMSCODE_ERROR(30003, "SMS code error"), // 手机验证码错误
+    USER_EMAILCODE_ERROR(30009, "email code error"), // 手机验证码错误
+    USER_GACODE_ERROR(30004, "Google auth code error"), // 谷歌验证码错误
+    USER_PHONE_NOTBIND(30005, "Please enable Phone Verification first."), // 手机号未绑定
+    USER_EMAIL_NOTBIND(30009, "Please enable Email Verification first."), // 邮箱未绑定
+    USER_PHONE_HAS_BIND(30006, "The phone number has bound"), // 手机号已绑定
+    USER_EMAIL_HAS_BIND(30006, "The email has bound"), // 邮箱已绑定
+    USER_WALLET_ASSET_NOTEXITS(30007, "The wallet account does not exist"), // 钱包账户不存在
+    USER_WALLET_ASSET_INSUFFICIENT_BAL(30008, "The balance of the wallet account is insufficient")// 钱包账户余额不足 insufficient Balance
     ;
     public Integer code;
 

@@ -45,7 +45,7 @@ public enum CommonEnums implements EnumDescribable
     ERROR_LOGIN_PASSWORD(2005, "Wrong password"), // 密码错误
     ERROR_LOGIN_TIMEOUT(2006, "Session timed out"), // 会话超时
     ERROR_VALID_CAPTCHA(2007, "The verification code is incorrect"), // 验证码错误
-    ERROR_LOGIN_LOCK(2008, "The account is locked"), // 帐户已锁
+    ERROR_LOGIN_LOCK(2008, "The user is locked"), // 帐户已锁
     ERROR_CSRF_VALID(2009, "CSRF verification failed"), // CSRF验证失败
     ERROR_EMAIL_EXIST(2010, "The mailbox already exists"), // 邮箱已存在
     ERROR_ILLEGAL_REQUEST(2011, "Illegal Requests"), // 非法请求

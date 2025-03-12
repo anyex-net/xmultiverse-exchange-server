@@ -3,7 +3,7 @@ package com.anyex.apps.controller.user.req;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -23,7 +23,7 @@ public class ReqCaptcha implements Serializable
     /**
      * 场景scene
      */
-    @NotNull(message = "场景scene不可为空")
-    @ApiModelProperty(value = "场景scene(email_register|email_login|email_forgetpass)", required = true)
+    @NotEmpty(message = "场景scene不可为空")
+    @ApiModelProperty(value = "场景scene(email_register|email_login|email_forgetpass|email_modifypass|sms_register|sms_login|sms_forgetpass|sms_modifypass)", required = true)
     private String            scene;
 }

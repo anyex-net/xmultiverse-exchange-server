@@ -17,11 +17,11 @@ import com.anyex.apps.enums.CommonEnums;
 public enum SecurityPolicyEnums implements EnumDescribable
 {
     // 验证安全策略
-    SECURITY_POLICY_DEFAULT(0, "Default security policy"), // 默认安全验证策略
+    SECURITY_POLICY_DEFAULT(0, "Default security policy [PWD]"), // 默认安全验证策略PWD
     SECURITY_POLICY_NEEDGA(1, "Security policy [GA]"), // 安全验证策略启用GA
     SECURITY_POLICY_NEEDSMS(2, "Security policy [SMS]"), // 安全验证策略启用SMS
-    SECURITY_POLICY_NEEDGAANDSMS(3, "Security.policy [GA+SMS]"), // 安全验证策略启用SMS和GA
-    SECURITY_POLICY_NEEDGAORSMS(4, "Security.policy [GA/SMS]"), // 安全验证策略启用SMS或GA
+    SECURITY_POLICY_NEEDGAORSMS(3, "Security.policy [GA/SMS]"), // 安全验证策略启用SMS或GA
+    SECURITY_POLICY_NEEDGAANDSMS(4, "Security.policy [GA+SMS]"), // 安全验证策略启用SMS和GA
     ;
     public Integer code;
     

@@ -136,7 +136,7 @@ public class ForgetPassController extends GenericController
             { return this.getJsonMessage(CommonEnums.ERROR_PARAMS_VALID); }
             if (!userPolicyService.validGaCode(userDB.getGaAuthKey(), param.getGaCode()))
             {// 判断验证码
-                return getJsonMessage(UserEnums.ACCOUNT_GACODE_ERROR);
+                return getJsonMessage(UserEnums.USER_GACODE_ERROR);
             }
         }
         // request.getSession().setAttribute("check_status", "true");

@@ -147,7 +147,7 @@ public class UserController extends GenericController
 //                userService.modifyAccountStatusToFrozen(OnLineUserUtils.getId(), AccountConsts.FROZEN_REASON_CHANGE_PASSWORD);
                 SecurityUtils.getSubject().logout(); // 冻结用户后退出当前会话
             }
-            return getJsonMessage(UserEnums.ACCOUNT_PASSWORD_ERROR);
+            return getJsonMessage(UserEnums.USER_PASSWORD_ERROR);
         }
         if (null != userDB && !userDB.verifySignature())
         {// 校验数据
@@ -275,7 +275,7 @@ public class UserController extends GenericController
 //                userService.modifyAccountStatusToFrozen(OnLineUserUtils.getId(), UserConsts.FROZEN_REASON_BIND_PHONE);
                 SecurityUtils.getSubject().logout(); // 冻结用户后登陆当前会话
             }
-            return getJsonMessage(UserEnums.ACCOUNT_SMSCODE_ERROR);
+            return getJsonMessage(UserEnums.USER_SMSCODE_ERROR);
         }
 //        if (userService.checkBindPhone(phone))
 //        {// 一个手机号只能绑定一个帐号
@@ -367,7 +367,7 @@ public class UserController extends GenericController
 //                userService.modifyAccountStatusToFrozen(OnLineUserUtils.getId(), UserConsts.FROZEN_REASON_BIND_EMAIL);
                 SecurityUtils.getSubject().logout(); // 冻结用户后登陆当前会话
             }
-            return getJsonMessage(UserEnums.ACCOUNT_SMSCODE_ERROR);
+            return getJsonMessage(UserEnums.USER_SMSCODE_ERROR);
         }
         StringBuffer cacheKey = new StringBuffer(GlobalConst.MESSAGE).append(GlobalConst.SEPARATOR).append(userDB.getId());
         EmailModel model = (EmailModel) RedisUtils.getObject(cacheKey.toString());
@@ -383,7 +383,7 @@ public class UserController extends GenericController
 //                userService.modifyAccountStatusToFrozen(OnLineUserUtils.getId(), UserConsts.FROZEN_REASON_BIND_EMAIL);
                 SecurityUtils.getSubject().logout(); // 冻结用户后登陆当前会话
             }
-            return getJsonMessage(UserEnums.ACCOUNT_EMAILCODE_ERROR);
+            return getJsonMessage(UserEnums.USER_EMAILCODE_ERROR);
         }
 //        if (userService.valiEmail(email))
 //        {// 一个邮箱只能绑定一个帐号
@@ -427,7 +427,7 @@ public class UserController extends GenericController
         }
         if (!authenticator.checkCode(secretKey, Long.valueOf(gaCode)))
         {// 判断验证码
-            return getJsonMessage(UserEnums.ACCOUNT_GACODE_ERROR);
+            return getJsonMessage(UserEnums.USER_GACODE_ERROR);
         }
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
@@ -435,7 +435,7 @@ public class UserController extends GenericController
         StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
         if (!sysMsgRecordService.validSMSCode(buffer.toString(), validCode, "类型"))
         {// 手机验证码判断
-            return getJsonMessage(UserEnums.ACCOUNT_SMSCODE_ERROR);
+            return getJsonMessage(UserEnums.USER_SMSCODE_ERROR);
         }
         String cacheKey = new StringBuffer(CacheConst.GOOGLE_CODE_PERFIX)// 加入缓存前缀
                 .append(GlobalConst.SEPARATOR).append(GlobalConst.OP_ACCOUNT_BIND_PHONE)// 加入模块标识
@@ -501,18 +501,18 @@ public class UserController extends GenericController
         }
         if (!authenticator.checkCode(secretKey, Long.valueOf(gaCode)))
         {// 判断验证码
-            return getJsonMessage(UserEnums.ACCOUNT_GACODE_ERROR);
+            return getJsonMessage(UserEnums.USER_GACODE_ERROR);
         }
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         User userDB = userService.selectByPrimaryKey(principal.getId());
         if (StringUtils.isEmpty(userDB.getEmail()))
         {// 判断邮箱是否绑定
-            return getJsonMessage(UserEnums.ACCOUNT_EMAIL_NOTBIND);
+            return getJsonMessage(UserEnums.USER_EMAIL_NOTBIND);
         }
         if (StringUtils.isEmpty(userDB.getMobileNo()))
         {// 判断手机是否绑定
-            return getJsonMessage(UserEnums.ACCOUNT_PHONE_NOTBIND);
+            return getJsonMessage(UserEnums.USER_PHONE_NOTBIND);
         }
         if (StringUtils.isNotBlank(userDB.getGaAuthKey()))
         {// 判断GA是否已绑定过
@@ -521,7 +521,7 @@ public class UserController extends GenericController
         StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
         if (!sysMsgRecordService.validSMSCode(buffer.toString(), validCode, "类型"))
         {// 手机验证码判断
-            return getJsonMessage(UserEnums.ACCOUNT_SMSCODE_ERROR);
+            return getJsonMessage(UserEnums.USER_SMSCODE_ERROR);
         }
         // 账户实体类更新
         userDB.setGaAuthKey(EncryptUtils.desEncrypt(secretKey));

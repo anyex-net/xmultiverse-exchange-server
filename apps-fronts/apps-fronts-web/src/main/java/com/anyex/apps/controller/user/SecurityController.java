@@ -142,12 +142,12 @@ public class SecurityController extends GenericController
         }
         if (UserConsts.SECURITY_POLICY_NEEDSMS == level)
         {// 判断是否已绑定SMS
-            if (StringUtils.isBlank(userDB.getMobileNo())) throw new BusinessException(UserEnums.ACCOUNT_PHONE_NOTBIND);
+            if (StringUtils.isBlank(userDB.getMobileNo())) throw new BusinessException(UserEnums.USER_PHONE_NOTBIND);
         }
         if (UserConsts.SECURITY_POLICY_NEEDGAANDSMS == level)
         {// 判断是否已绑定SMS和GA
             if (StringUtils.isBlank(userDB.getGaAuthKey())) throw new BusinessException(CommonEnums.ERROR_GA_NOT_BIND);
-            if (StringUtils.isBlank(userDB.getMobileNo())) throw new BusinessException(UserEnums.ACCOUNT_PHONE_NOTBIND);
+            if (StringUtils.isBlank(userDB.getMobileNo())) throw new BusinessException(UserEnums.USER_PHONE_NOTBIND);
         }
         userPolicyService.validSecurityPolicy(userDB, policy);
         userDB.setSecurityPolicy(level);

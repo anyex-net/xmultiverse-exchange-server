@@ -30,6 +30,9 @@ public class UserToken extends UsernamePasswordToken
     // 策略用户
     private Integer           level;
 
+    // 邮箱
+    private String            email;
+
     // 手机号
     private String            mobileNo;
 
@@ -121,6 +124,16 @@ public class UserToken extends UsernamePasswordToken
     public void setLevel(Integer level)
     {
         this.level = level;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
     
     public String getMobileNo()

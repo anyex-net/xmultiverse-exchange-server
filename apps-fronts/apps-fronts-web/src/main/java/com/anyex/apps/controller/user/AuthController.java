@@ -1,13 +1,16 @@
 package com.anyex.apps.controller.user;
 
 import com.anyex.apps.bean.GenericController;
+import com.anyex.apps.common.consts.MessageConst;
 import com.anyex.apps.common.service.SysMsgRecordService;
 import com.anyex.apps.config.GlobalProperies;
 import com.anyex.apps.consts.CacheConst;
 import com.anyex.apps.consts.GlobalConst;
+import com.anyex.apps.controller.user.req.ReqUserLogin;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.AccountPolicyException;
 import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.exception.UserPolicyException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.RedisSessionManager;
 import com.anyex.apps.shiro.model.UserPrincipal;
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,15 +78,15 @@ public class AuthController extends GenericController
     /**
      * 用户登录认证
      * @param request
-     * @param userToken
-     * @param model
+     * @param reqUserLogin
+     * @param //model
      * @return {@link JsonMessage}
      * @throws BusinessException
      */
     @ResponseBody
     @RequestMapping("/login/submit")
-    @ApiOperation(value = "登录(用户密码)", httpMethod = "POST")
-    public JsonMessage loginSubmit(HttpServletRequest request, @Validated @RequestBody UserToken userToken/*, @ModelAttribute AliyunModel model*/) throws BusinessException
+    @ApiOperation(value = "用户登录", httpMethod = "POST")
+    public JsonMessage loginSubmit(HttpServletRequest request, @Validated @RequestBody ReqUserLogin reqUserLogin /*, @ModelAttribute AliyunModel model*/) throws BusinessException
     {
         if (SecurityUtils.getSubject().isAuthenticated())
         {// 如果登陆过就直接进入后台
@@ -99,18 +103,52 @@ public class AuthController extends GenericController
 //                return this.getJsonMessage(CommonEnums.ERROR_LOGIN_CAPTCHA, result);
 //            }
 //        }
-        User user = userService.findByUserName(userToken.getUsername().toLowerCase());
-        if (null == user) { throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST); }
-        if (user == null || user.getState().intValue() == UserConsts.USER_STATUS_CLOSE.intValue())
+        //
+        String ip = NetworkUtils.getIpAddr(request);
+        StringBuffer captchaKey = null;
+        if(reqUserLogin.getLoginType().equals("email")){
+            captchaKey = new StringBuffer(MessageConst.EMAIL_VALID_LOGIN).append(GlobalConst.SEPARATOR).append(ip);
+        } else if(reqUserLogin.getLoginType().equals("mobile")){
+            captchaKey = new StringBuffer(MessageConst.SMS_VALID_LOGIN).append(GlobalConst.SEPARATOR).append(ip);
+        } else {
+            throw new BusinessException(CommonEnums.ERROR_ILLEGAL_REQUEST);
+        }
+        String captchaText = RedisUtils.get(captchaKey.toString());
+        if (captchaText == null || !captchaText.equalsIgnoreCase(reqUserLogin.getCaptcha()))
+        {// 验证码检验
+            throw new BusinessException(CommonEnums.ERROR_VALID_CAPTCHA);
+        }
+        //
+        User userDB = null;
+        if(reqUserLogin.getLoginType().equals("email")){
+            userDB = userService.findByEmail(reqUserLogin.getEmail());
+        } else if(reqUserLogin.getLoginType().equals("mobile")){
+            userDB = userService.findByMobileNoAndCountry(reqUserLogin.getMobileNo(), reqUserLogin.getCountry());
+        }
+        //
+        if (null == userDB) { throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST); }
+        if (null == userDB || userDB.getState().intValue() == UserConsts.USER_STATUS_CLOSE.intValue())
         { throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST); }
-        if (user.getState().intValue() == UserConsts.USER_STATUS_FROZEN.intValue())
+        if (userDB.getState().intValue() == UserConsts.USER_STATUS_FROZEN.intValue())
         { throw new BusinessException(CommonEnums.ERROR_FROZEN_USER); }
-        if (null != user && !user.verifySignature())
+        if (null != userDB && !userDB.verifySignature())
         {// 校验数据
             log.error("用户信息 数据校验失败");
             throw new BusinessException(CommonEnums.ERROR_LOGIN_LOCK);
         }
+        //
+        UserToken userToken = new UserToken();
         userToken.setHost(NetworkUtils.getIpAddr(request));
+        userToken.setPassword(reqUserLogin.getPassword());
+        if(reqUserLogin.getLoginType().equals("email")){
+            userToken.setUsername(reqUserLogin.getEmail());
+            userToken.setEmail(reqUserLogin.getEmail());
+        } else if(reqUserLogin.getLoginType().equals("mobile")){
+            userToken.setUsername(reqUserLogin.getCountry()+reqUserLogin.getMobileNo());
+            userToken.setMobileNo(reqUserLogin.getMobileNo());
+            userToken.setCountry(reqUserLogin.getCountry());
+        }
+        //
         Subject subject = SecurityUtils.getSubject();
         try
         {
@@ -153,7 +191,7 @@ public class AuthController extends GenericController
             result.put("showCaptcha", null != showCaptcha && showCaptcha > 2 ? true : false);
             return this.getJsonMessage(CommonEnums.ERROR_LOGIN_TIMEOUT, result);
         }
-        catch (AccountPolicyException ape)
+        catch (UserPolicyException ape)
         {
             redisSessionManager.remove(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
             Serializable sId = subject.getSession().getId();
@@ -170,9 +208,9 @@ public class AuthController extends GenericController
                 mobileNo = "****" + userToken.getMobileNo().substring(userToken.getMobileNo().length() - 3);
             }
             Map<String, Object> result = new HashMap();
-            result.put("sid", sId);
-            log.info("AccountPolicyException sId :{}", sId);
-            result.put("checkType", StringUtils.isNotEmpty(user.getGaAuthKey())? "ga":"sms");
+            result.put("Authorization", sId);
+            log.info("UserPolicyException sId :{}", sId);
+            result.put("checkType", StringUtils.isNotEmpty(userDB.getGaAuthKey())? "ga":"sms");
             result.put("mobileNo", mobileNo);
             result.put("showCaptcha", false);
             //
@@ -206,7 +244,7 @@ public class AuthController extends GenericController
 //        }
         //返回成功并且返回sid
         Map<String, Object> result = new HashMap();
-        result.put("sid", subject.getSession().getId());
+        result.put("Authorization", subject.getSession().getId());
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
@@ -217,9 +255,9 @@ public class AuthController extends GenericController
      * @return {@link JsonMessage}
      * @throws BusinessException
      */
-    @ResponseBody
-    @RequestMapping("/login/submit/qrcode")
-    @ApiOperation(value = "登录(二维码扫码)", httpMethod = "POST")
+//    @ResponseBody
+//    @RequestMapping("/login/submit/qrcode")
+//    @ApiOperation(value = "登录(二维码扫码)", httpMethod = "POST")
     public JsonMessage loginSubmitQRCode(HttpServletRequest request, @Validated @RequestBody UserToken userToken) throws BusinessException
     {
         log.info("loginSubmitQrcode ip:{}", NetworkUtils.getIpAddr(request));
@@ -323,7 +361,7 @@ public class AuthController extends GenericController
                 mobileNo = "****" + token.getMobileNo().substring(token.getMobileNo().length() - 3);
             }
             Map<String, Object> result = new HashMap();
-            result.put("sid", sId);
+            result.put("Authorization", sId);
             log.info("AccountPolicyException sid :{}", sId);
             result.put("checkType", token.isGa()? "ga":"sms");
             result.put("mobileNo", mobileNo);
@@ -359,12 +397,12 @@ public class AuthController extends GenericController
 //        }
         //返回成功并且返回sid
         Map<String, Object> result = new HashMap();
-        result.put("sid", subject.getSession().getId());
+        result.put("Authorization", subject.getSession().getId());
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
     
     /**
-     * 用户登录认证
+     * 用户登录二次认证
      * @param request
      * @param policy
      * @return {@link JsonMessage}
@@ -372,7 +410,7 @@ public class AuthController extends GenericController
      */
     @ResponseBody
     @RequestMapping("/login/check/submit")
-    @ApiOperation(value = "登录二次确认", httpMethod = "POST")
+    @ApiOperation(value = "用户登录二次认证", httpMethod = "POST")
     public JsonMessage checkSubmit(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody PolicyModel policy) throws BusinessException
     {
         log.info("set-cookie:" + response.getHeader("set-cookie"));
@@ -382,7 +420,8 @@ public class AuthController extends GenericController
         // Subject subject = SecurityUtils.getSubject();
         // StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(subject.getSession().getId());
         //
-        String sId = CookieUtils.get(request, CacheConst.WEB_COOKIE_ID);
+        // String sId = CookieUtils.get(request, CacheConst.WEB_COOKIE_ID);
+        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
         log.info("checkSubmit sId:{}", sId);
 
         StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
@@ -443,7 +482,7 @@ public class AuthController extends GenericController
 //        }
         //
         Map<String, Object> result = new HashMap();
-        result.put("sid", subject.getSession().getId());
+        result.put("Authorization", subject.getSession().getId());
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
     
@@ -453,7 +492,7 @@ public class AuthController extends GenericController
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping(GlobalConst.COMMON + "/logout")
+    @RequestMapping("/logout")
     @ApiOperation(value = "用户退出", httpMethod = "POST")
     public JsonMessage logout(HttpServletRequest request) throws Exception
     {

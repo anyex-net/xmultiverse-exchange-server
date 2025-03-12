@@ -26,7 +26,7 @@ public class UserConsts
     // 注销
     public static final Integer USER_STATUS_CLOSE               = 2;
     
-    // 默认安全验证策略
+    // 默认安全验证策略PWD
     public static final Integer SECURITY_POLICY_DEFAULT         = 0;
     
     // 安全验证策略启用SMS
@@ -35,10 +35,10 @@ public class UserConsts
     // 安全验证策略启用GA
     public static final Integer SECURITY_POLICY_NEEDGA          = 2;
     
-    // 安全验证策略启用SMS或GA
+    // 安全验证策略启用SMS/GA
     public static final Integer SECURITY_POLICY_NEEDGAORSMS     = 3;
     
-    // 安全验证策略启用SMS和GA
+    // 安全验证策略启用SMS+GA
     public static final Integer SECURITY_POLICY_NEEDGAANDSMS    = 4;
     
     // 默认交易验证策略

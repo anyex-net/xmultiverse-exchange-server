@@ -1,13 +1,14 @@
 package com.anyex.apps.config;
 
-import com.anyex.apps.account.service.AccountService;
 import com.anyex.apps.common.service.SysMsgRecordService;
 import com.anyex.apps.consts.CacheConst;
 import com.anyex.apps.shiro.ShiroSessionManager;
 import com.anyex.apps.shiro.WebSessionManager;
 import com.anyex.apps.shiro.filter.FormFilter;
-import com.anyex.apps.shiro.realm.WebAuthorizingRealm;
+import com.anyex.apps.shiro.realm.WebExAuthorizingRealm;
 import com.anyex.apps.shiro.session.RedisSessionDAO;
+import com.anyex.apps.user.service.UserPolicyService;
+import com.anyex.apps.user.service.UserService;
 import com.google.common.collect.Maps;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -33,17 +34,21 @@ public class ShiroConfig
     private GlobalProperies globalProperies;
 
     @Autowired(required = false)
-    private AccountService  accountService;
+    private UserService userService;
 
     @Autowired(required = false)
-    private SysMsgRecordService msgRecordService;
+    private UserPolicyService userPolicyService;
+
+    @Autowired(required = false)
+    private SysMsgRecordService sysMsgRecordService;
 
     @Bean
-    public WebAuthorizingRealm authorizingRealm()
+    public WebExAuthorizingRealm authorizingRealm()
     {
-        WebAuthorizingRealm authorizingRealm = new WebAuthorizingRealm();
-        authorizingRealm.setAccountService(accountService);
-        authorizingRealm.setMsgRecordService(msgRecordService);
+        WebExAuthorizingRealm authorizingRealm = new WebExAuthorizingRealm();
+        authorizingRealm.setUserService(userService);
+        authorizingRealm.setUserPolicyService(userPolicyService);
+        // authorizingRealm.setSysMsgRecordService(sysMsgRecordService);
         return authorizingRealm;
     }
 
@@ -59,7 +64,7 @@ public class ShiroConfig
     @Bean
     public SimpleCookie cookie()
     {
-        SimpleCookie cookie = new SimpleCookie(CacheConst.WEB_IM_ID);
+        SimpleCookie cookie = new SimpleCookie(CacheConst.WEB_IM_ID); // 会话ID:Authorization
         cookie.setDomain(globalProperies.getDomainName());
         cookie.setPath(globalProperies.getCookiePath());
         cookie.setSecure(globalProperies.getCookieSecure());

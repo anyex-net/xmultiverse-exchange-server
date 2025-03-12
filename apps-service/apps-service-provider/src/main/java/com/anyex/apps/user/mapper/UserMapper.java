@@ -50,6 +50,13 @@ public interface UserMapper extends GenericMapper<User>
     User findByMobileNoAndCountry(String mobileNo, String country);
 
     /**
+     * 根据邮件地址获取用户数据
+     * @param email
+     * @return
+     */
+    User findByEmail(@Param("email") String email);
+
+    /**
      * 根据邮件地址和手机号获取用户数据
      * @param email
      * @param mobileNo

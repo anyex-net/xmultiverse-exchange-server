@@ -765,6 +765,7 @@
         <include refid="userColumns"/>
         FROM User a WHERE 1 = 1
         AND (a.mobileNo = #{userName} OR a.email = #{userName})
+        and a.state = 0
     </select>
 
     <select id="findByUserNameAndState" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
@@ -784,6 +785,16 @@
         FROM User a WHERE 1 = 1
         and a.mobileNo = #{mobileNo}
         and a.country = #{country}
+        and a.state = 0
+    </select>
+
+    <select id="findByEmail" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM User a
+        WHERE 1 = 1
+        and a.email = #{email}
+        and a.state = 0
     </select>
 
     <select id="findByEmailAndMobileNo" parameterType="hashmap" resultType="com.anyex.apps.user.entity.User">
