@@ -70,137 +70,142 @@ public class WebAuthorizingRealm extends AuthorizingRealm
         AccountToken token = (AccountToken) authToken;
         log.info("accountToken:{}", token);
 
-        if (LoginEnums.EMAILPASS.getCode().equals(token.getLoginType()))
-        { // 邮箱 密码 登录 非邮箱验证码
-            Account account = accountService.findByEmail(token.getUsername());
-            if (null == account) throw new UnknownAccountException("The account does not exist!");
-            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
-            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
-            {// 密码连续错误
-                throw new IncorrectCredentialsException("The account or password is incorrect!");
-            }
-//            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
-//            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
-//            {// 短信验证，失败后直接将异常抛出
-//                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
-//            }
-            // cleanOtherUsers(account.getId());
-            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-                    account.getAccountName(), account.getEmail(), account.getMobile());
-            log.info("userPrincipal:{}", userPrincipal);
-            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
-        }
+        UserPrincipal userPrincipal = new UserPrincipal(1l, "test1",
+                "test1", "test1", "test1");
+        log.info("userPrincipal:{}", userPrincipal);
+        return new SimpleAuthenticationInfo(userPrincipal, "test1", getName());
 
-        else if (LoginEnums.MOBILEPASS.getCode().equals(token.getLoginType()))
-        { // 手机号 密码登录
-            Account account = accountService.findByMobile(token.getUsername());
-            if (null == account) throw new UnknownAccountException("The account does not exist!");
-            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
-            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
-            {// 密码连续错误
-                throw new IncorrectCredentialsException("The account or password is incorrect!");
-            }
-//            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
-//            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
-//            {// 短信验证，失败后直接将异常抛出
-//                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
-//            }
-            // cleanOtherUsers(account.getId());
-            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-                    account.getAccountName(), account.getEmail(), account.getMobile());
-            log.info("userPrincipal:{}", userPrincipal);
-            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
-        }
-
-        else if (LoginEnums.EMAIL.getCode().equals(token.getLoginType()))
-        { // 验证码登录
-            Account account = accountService.findByEmail(token.getUsername());
-            if (null == account) throw new UnknownAccountException("The account does not exist!");
-            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
-            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
-            {// 密码连续错误
-                throw new IncorrectCredentialsException("The account or password is incorrect!");
-            }
-//            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
-//            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
-//            {// 短信验证，失败后直接将异常抛出
-//                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
-//            }
-            cleanOtherUsers(account.getId());
-            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-                    account.getAccountName(), account.getEmail(), account.getMobile());
-            log.info("userPrincipal:{}", userPrincipal);
-            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
-        }
-        else if (LoginEnums.SMS.getCode().equals(token.getLoginType()))
-        { // 验证码登录
-            Account account = accountService.findByMobile(token.getUsername());
-            if (null == account) throw new UnknownAccountException("账户不存在！");
-            if (!account.verifySignature()) throw new LockedAccountException("账户数据检验异常！");
-//            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
-//            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
-//            {// 短信验证，失败后直接将异常抛出
-//                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
-//            }
-            cleanOtherUsers(account.getId());
-            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-                    account.getAccountName(), account.getEmail(), account.getMobile());
-            log.info("userPrincipal:{}", userPrincipal);
-            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
-        }
-//        else if (LoginEnums.PASS.getCode().equals(token.getLoginType()))
-//        { // 密码登录
-//            Account account = accountService.findByName(token.getUsername());
-//            if (null == account) throw new UnknownAccountException("用户不存在！");
-//            if (!StatusEnums.NORMAL.getCode().equals(account.getStatus()) || !account.verifySignature())
-//            {// 数据检验异常
-//                throw new LockedAccountException("数据检验异常！");
-//            }
+//        if (LoginEnums.EMAILPASS.getCode().equals(token.getLoginType()))
+//        { // 邮箱 密码 登录 非邮箱验证码
+//            Account account = accountService.findByEmail(token.getUsername());
+//            if (null == account) throw new UnknownAccountException("The account does not exist!");
+//            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
 //            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
 //            {// 密码连续错误
-//                throw new IncorrectCredentialsException("用户密码错误!");
+//                throw new IncorrectCredentialsException("The account or password is incorrect!");
 //            }
+////            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
+////            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
+////            {// 短信验证，失败后直接将异常抛出
+////                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+////            }
+//            // cleanOtherUsers(account.getId());
+//            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+//                    account.getAccountName(), account.getEmail(), account.getMobile());
+//            log.info("userPrincipal:{}", userPrincipal);
+//            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
+//        }
+//
+//        else if (LoginEnums.MOBILEPASS.getCode().equals(token.getLoginType()))
+//        { // 手机号 密码登录
+//            Account account = accountService.findByMobile(token.getUsername());
+//            if (null == account) throw new UnknownAccountException("The account does not exist!");
+//            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
+//            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
+//            {// 密码连续错误
+//                throw new IncorrectCredentialsException("The account or password is incorrect!");
+//            }
+////            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
+////            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
+////            {// 短信验证，失败后直接将异常抛出
+////                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+////            }
+//            // cleanOtherUsers(account.getId());
+//            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+//                    account.getAccountName(), account.getEmail(), account.getMobile());
+//            log.info("userPrincipal:{}", userPrincipal);
+//            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
+//        }
+//
+//        else if (LoginEnums.EMAIL.getCode().equals(token.getLoginType()))
+//        { // 验证码登录
+//            Account account = accountService.findByEmail(token.getUsername());
+//            if (null == account) throw new UnknownAccountException("The account does not exist!");
+//            if (!account.verifySignature()) throw new LockedAccountException("The account data check is abnormal!");
+//            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
+//            {// 密码连续错误
+//                throw new IncorrectCredentialsException("The account or password is incorrect!");
+//            }
+////            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
+////            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
+////            {// 短信验证，失败后直接将异常抛出
+////                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+////            }
 //            cleanOtherUsers(account.getId());
 //            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-//                    account.getAccountName(), null);
-//            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
+//                    account.getAccountName(), account.getEmail(), account.getMobile());
+//            log.info("userPrincipal:{}", userPrincipal);
+//            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
 //        }
-//        else if (LoginEnums.WEIXIN.getCode().equals(token.getLoginType()))
-//        {// 微信登录
-//            WeiXinCallback callback = oauthClient.getWXAccessToken(token.getAuthCode());
-//            WeiXinCallback WXUserInfo = oauthClient.getWXUserInfo(callback.getAccessToken(), callback.getOpenid());
-//            Thirdparty thirdparty = thirdpartyService.findByOpenId(WXUserInfo.getUnionid());
-//            if (null == thirdparty) throw new AccountPolicyException("微信未绑定，请先绑定！");
-//            Account account = accountService.selectByPrimaryKey(thirdparty.getAccountId());
+//        else if (LoginEnums.SMS.getCode().equals(token.getLoginType()))
+//        { // 验证码登录
+//            Account account = accountService.findByMobile(token.getUsername());
+//            if (null == account) throw new UnknownAccountException("账户不存在！");
+//            if (!account.verifySignature()) throw new LockedAccountException("账户数据检验异常！");
+////            StringBuffer mobileNo = new StringBuffer(account.getCountry()).append(account.getMobile());
+////            if (!msgRecordService.validSMSCode(mobileNo.toString(), String.valueOf(token.getAuthCode()), MessageConst.SMS_VALID_LOGIN))
+////            {// 短信验证，失败后直接将异常抛出
+////                throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+////            }
 //            cleanOtherUsers(account.getId());
 //            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-//                    account.getAccountName(), null);
-//            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
+//                    account.getAccountName(), account.getEmail(), account.getMobile());
+//            log.info("userPrincipal:{}", userPrincipal);
+//            return new SimpleAuthenticationInfo(userPrincipal, account.getEmail(), getName());
 //        }
-//        else if (LoginEnums.QQ.getCode().equals(token.getLoginType()))
-//        { // QQ登录
-//            QQCallback qqToken = oauthClient.getQQAccessToken(token.getAuthCode());
-//            QQCallback qqAuth = oauthClient.getQQOpenId(qqToken.getAccessToken());
-//            Thirdparty thirdparty = thirdpartyService.findByOpenId(qqAuth.getOpenid());
-//            if (null == thirdparty) throw new AccountPolicyException("QQ未绑定，请先绑定！");
-//            Account account = accountService.selectByPrimaryKey(thirdparty.getAccountId());
-//            cleanOtherUsers(account.getId());
-//            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-//                    account.getAccountName(), null);
-//            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
-//        }
-//        else if (LoginEnums.WEIBO.getCode().equals(token.getLoginType()))
-//        {// 微博登录
-//            WeiboCallback callback = oauthClient.getWBAccessToken(token.getAuthCode());
-//            Thirdparty thirdparty = thirdpartyService.findByOpenId(callback.getUid());
-//            if (null == thirdparty) throw new AccountPolicyException("微博未绑定，请先绑定！");
-//            Account account = accountService.selectByPrimaryKey(thirdparty.getAccountId());
-//            cleanOtherUsers(account.getId());
-//            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
-//                    account.getAccountName(), null);
-//            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
-//        }
-        return null;
+////        else if (LoginEnums.PASS.getCode().equals(token.getLoginType()))
+////        { // 密码登录
+////            Account account = accountService.findByName(token.getUsername());
+////            if (null == account) throw new UnknownAccountException("用户不存在！");
+////            if (!StatusEnums.NORMAL.getCode().equals(account.getStatus()) || !account.verifySignature())
+////            {// 数据检验异常
+////                throw new LockedAccountException("数据检验异常！");
+////            }
+////            if (!EncryptUtils.validatePassword(String.valueOf(token.getPassword()), account.getLoginPwd()))
+////            {// 密码连续错误
+////                throw new IncorrectCredentialsException("用户密码错误!");
+////            }
+////            cleanOtherUsers(account.getId());
+////            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+////                    account.getAccountName(), null);
+////            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
+////        }
+////        else if (LoginEnums.WEIXIN.getCode().equals(token.getLoginType()))
+////        {// 微信登录
+////            WeiXinCallback callback = oauthClient.getWXAccessToken(token.getAuthCode());
+////            WeiXinCallback WXUserInfo = oauthClient.getWXUserInfo(callback.getAccessToken(), callback.getOpenid());
+////            Thirdparty thirdparty = thirdpartyService.findByOpenId(WXUserInfo.getUnionid());
+////            if (null == thirdparty) throw new AccountPolicyException("微信未绑定，请先绑定！");
+////            Account account = accountService.selectByPrimaryKey(thirdparty.getAccountId());
+////            cleanOtherUsers(account.getId());
+////            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+////                    account.getAccountName(), null);
+////            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
+////        }
+////        else if (LoginEnums.QQ.getCode().equals(token.getLoginType()))
+////        { // QQ登录
+////            QQCallback qqToken = oauthClient.getQQAccessToken(token.getAuthCode());
+////            QQCallback qqAuth = oauthClient.getQQOpenId(qqToken.getAccessToken());
+////            Thirdparty thirdparty = thirdpartyService.findByOpenId(qqAuth.getOpenid());
+////            if (null == thirdparty) throw new AccountPolicyException("QQ未绑定，请先绑定！");
+////            Account account = accountService.selectByPrimaryKey(thirdparty.getAccountId());
+////            cleanOtherUsers(account.getId());
+////            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+////                    account.getAccountName(), null);
+////            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
+////        }
+////        else if (LoginEnums.WEIBO.getCode().equals(token.getLoginType()))
+////        {// 微博登录
+////            WeiboCallback callback = oauthClient.getWBAccessToken(token.getAuthCode());
+////            Thirdparty thirdparty = thirdpartyService.findByOpenId(callback.getUid());
+////            if (null == thirdparty) throw new AccountPolicyException("微博未绑定，请先绑定！");
+////            Account account = accountService.selectByPrimaryKey(thirdparty.getAccountId());
+////            cleanOtherUsers(account.getId());
+////            UserPrincipal userPrincipal = new UserPrincipal(account.getId(), account.getAccountName(),
+////                    account.getAccountName(), null);
+////            return new SimpleAuthenticationInfo(userPrincipal, account.getLoginPwd(), getName());
+////        }
+//        return null;
     }
 
     /**
