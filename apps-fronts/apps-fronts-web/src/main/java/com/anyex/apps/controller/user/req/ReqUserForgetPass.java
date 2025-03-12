@@ -7,10 +7,10 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
- * 用户登录请求对象
- * <p>File：ReqUserLogin.java</p>
- * <p>Title: ReqUserLogin</p>
- * <p>Description: ReqUserLogin</p>
+ * 用户忘记密码请求对象
+ * <p>File：ReqUserForgetPass.java</p>
+ * <p>Title: ReqUserForgetPass</p>
+ * <p>Description: ReqUserForgetPass</p>
  * <p>Copyright: Copyright (c) 2017/7/5</p>
  * <p>Company: AnyEx</p>
  *
@@ -18,14 +18,14 @@ import java.io.Serializable;
  * @version 1.0
  */
 @Data
-public class ReqUserLogin implements Serializable
+public class ReqUserForgetPass implements Serializable
 {
     /**
-     * 登录类型
+     * 忘记密码找回类型
      */
-    @NotEmpty(message = "登录类型不可为空")
-    @ApiModelProperty(value = "登录类型(email | mobile)", required = true)
-    private String            loginType;
+    @NotEmpty(message = "忘记密码找回类型不可为空")
+    @ApiModelProperty(value = "忘记密码找回类型(email | mobile)", required = true)
+    private String            findType;
 
     /**
      * 邮箱
@@ -44,13 +44,6 @@ public class ReqUserLogin implements Serializable
      */
     @ApiModelProperty(value = "手机号")
     private String            mobileNo;
-
-    /**
-     * 密码
-     */
-    @NotEmpty(message = "密码不可为空")
-    @ApiModelProperty(value = "密码", required = true)
-    private char[]            password;
 
     /**
      * 随机验证码

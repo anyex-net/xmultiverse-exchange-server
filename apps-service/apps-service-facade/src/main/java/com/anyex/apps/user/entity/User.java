@@ -91,7 +91,7 @@ public class User extends SignableEntity
 	private java.lang.Long thawTime;
 
 	/**安全验证策略*/
-	@ApiModelProperty(value = "安全验证策略", position = 13)
+	@ApiModelProperty(value = "安全验证策略(0密码、1短信、2GA、3短信或GA)", position = 13)
 	private java.lang.Integer securityPolicy;
 
 	/**交易验证策略*/
