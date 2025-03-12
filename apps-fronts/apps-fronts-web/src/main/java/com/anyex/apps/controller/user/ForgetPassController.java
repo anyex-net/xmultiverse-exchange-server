@@ -75,7 +75,7 @@ public class ForgetPassController extends GenericController
         if (null == userDB)
         {// 判断帐户是否存在
             errorCounter(request);
-            return this.getJsonMessage(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+            return this.getJsonMessage(CommonEnums.ERROR_USER_NOT_EXIST);
         }
         // request.getSession().setAttribute("accountId", account.getId());
         User userReturn = new User();

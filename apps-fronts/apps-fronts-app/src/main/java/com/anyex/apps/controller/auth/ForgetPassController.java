@@ -69,7 +69,7 @@ public class ForgetPassController extends GenericController
         Account account = accountService.findByEmail(reqSendEmail.getEmail());
         if (null == account)
         {
-            throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+            throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST);
         }
         //
         msgRecordService.sendEmail(reqSendEmail.getEmail(), GlobalConst.DEFAULT_LANG, MessageConst.TEMPLATE_EMAIL_FORGETPASSCODE);

@@ -110,7 +110,7 @@ public class AuthController extends GenericController
             }
             catch (UnknownAccountException uae)
             {
-                return this.getJsonMessage(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+                return this.getJsonMessage(CommonEnums.ERROR_USER_NOT_EXIST);
             }
             catch (ExcessiveAttemptsException eae)
             {

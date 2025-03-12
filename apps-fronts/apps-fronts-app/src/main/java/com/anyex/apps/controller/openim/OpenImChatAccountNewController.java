@@ -124,7 +124,7 @@ public class OpenImChatAccountNewController extends GenericController {
         {
             Account account = accountService.findByMobile(req.getPhoneNumber());
             if (null == account) {
-                throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+                throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST);
             }
             if (!ValidateUtils.isMobileFormat(req.getPhoneNumber(), true, 64)) {
                 throw new BusinessException(CommonEnums.ERROR_MOBILE_VALID_FAILED);
@@ -135,7 +135,7 @@ public class OpenImChatAccountNewController extends GenericController {
         {
             Account account = accountService.findByEmail(req.getEmail());
             if (null == account) {
-                throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+                throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST);
             }
             act = req.getEmail();
 
@@ -299,7 +299,7 @@ public class OpenImChatAccountNewController extends GenericController {
         } catch (IncorrectCredentialsException ice) {
             throw new BusinessException(CommonEnums.ERROR_LOGIN_PASSWORD);
         } catch (UnknownAccountException uae) {
-            throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+            throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST);
         } catch (ExcessiveAttemptsException eae) {
             throw new BusinessException(CommonEnums.ERROR_LOGIN_TIMEOUT);
         } catch (AccountPolicyException gae) {

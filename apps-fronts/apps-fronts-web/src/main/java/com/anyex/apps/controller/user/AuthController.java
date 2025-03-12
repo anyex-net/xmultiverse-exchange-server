@@ -8,7 +8,6 @@ import com.anyex.apps.consts.GlobalConst;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.AccountPolicyException;
 import com.anyex.apps.exception.BusinessException;
-import com.anyex.apps.model.AliyunModel;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.RedisSessionManager;
 import com.anyex.apps.shiro.model.UserPrincipal;
@@ -101,10 +100,11 @@ public class AuthController extends GenericController
 //            }
 //        }
         User user = userService.findByUserName(userToken.getUsername().toLowerCase());
-        if (null == user) { throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST); }
+        if (null == user) { throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST); }
         if (user == null || user.getState().intValue() == UserConsts.USER_STATUS_CLOSE.intValue())
-            throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
-        if (user.getState().intValue() == UserConsts.USER_STATUS_FROZEN.intValue()) throw new BusinessException(CommonEnums.ERROR_FROZEN_ACCOUNT);
+        { throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST); }
+        if (user.getState().intValue() == UserConsts.USER_STATUS_FROZEN.intValue())
+        { throw new BusinessException(CommonEnums.ERROR_FROZEN_USER); }
         if (null != user && !user.verifySignature())
         {// 校验数据
             log.error("用户信息 数据校验失败");
@@ -133,7 +133,7 @@ public class AuthController extends GenericController
             log.error("UnknownAccountException:{}", uae.getLocalizedMessage());
             Map<String, Object> result = new HashMap();
             result.put("showCaptcha", null != showCaptcha && showCaptcha > 2 ? true : false);
-            return this.getJsonMessage(CommonEnums.ERROR_ACCOUNT_NOT_EXIST, result);
+            return this.getJsonMessage(CommonEnums.ERROR_USER_NOT_EXIST, result);
         }
         catch (LockedAccountException lae)
         {
@@ -283,7 +283,7 @@ public class AuthController extends GenericController
             log.error("UnknownAccountException:{}", uae.getLocalizedMessage());
             Map<String, Object> result = new HashMap();
             result.put("showCaptcha", null != showCaptcha && showCaptcha > 2 ? true : false);
-            return this.getJsonMessage(CommonEnums.ERROR_ACCOUNT_NOT_EXIST, result);
+            return this.getJsonMessage(CommonEnums.ERROR_USER_NOT_EXIST, result);
         }
         catch (LockedAccountException lae)
         {
@@ -448,13 +448,13 @@ public class AuthController extends GenericController
     }
     
     /**
-     * 退出认证
+     * 用户退出认证
      * @return {@link String}
      * @throws Exception
      */
     @ResponseBody
     @RequestMapping(GlobalConst.COMMON + "/logout")
-    @ApiOperation(value = "退出", httpMethod = "POST")
+    @ApiOperation(value = "用户退出", httpMethod = "POST")
     public JsonMessage logout(HttpServletRequest request) throws Exception
     {
         Subject subject = SecurityUtils.getSubject();

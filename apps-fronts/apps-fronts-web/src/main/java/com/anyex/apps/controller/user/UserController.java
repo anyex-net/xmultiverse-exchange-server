@@ -211,7 +211,7 @@ public class UserController extends GenericController
             if (count >= 10)
             {// 操作频率达到10次时,锁定用户
 //                userService.modifyAccountStatusToFrozen(userDB.getId(), UserConsts.FROZEN_REASON_CHANGE_FUNDPWD);
-                return getJsonMessage(CommonEnums.ERROR_FROZEN_ACCOUNT);
+                return getJsonMessage(CommonEnums.ERROR_FROZEN_USER);
             }
             throw e;
         }

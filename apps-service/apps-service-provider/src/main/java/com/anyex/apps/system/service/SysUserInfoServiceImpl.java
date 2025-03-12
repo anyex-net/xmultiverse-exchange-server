@@ -143,7 +143,7 @@ public class SysUserInfoServiceImpl extends GenericServiceImpl<SysUserInfo> impl
     public void changePassword(Long userId, String oldPwd, String newPwd) {
         SysUserInfo entity = userInfoMapper.selectByPrimaryKey(userId);
         if (null == entity) {
-            throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+            throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST);
         }
         if (!EncryptUtils.validatePassword(String.valueOf(oldPwd), entity.getPassWord())) {// 验证帐户密码
             throw new BusinessException(CommonEnums.ERROR_LOGIN_PASSWORD);
@@ -159,7 +159,7 @@ public class SysUserInfoServiceImpl extends GenericServiceImpl<SysUserInfo> impl
     public void resetPassword(Long userId, String newPwd) {
         SysUserInfo entity = userInfoMapper.selectByPrimaryKey(userId);
         if (null == entity) {
-            throw new BusinessException(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+            throw new BusinessException(CommonEnums.ERROR_USER_NOT_EXIST);
         }
 //        if (!PasswordUtil.checkPassword(newPwd))
 //            throw new BusinessException(2002, "密码长度大于等于8且包含至少包含3种字符");

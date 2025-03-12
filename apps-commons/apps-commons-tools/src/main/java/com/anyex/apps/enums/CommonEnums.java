@@ -36,12 +36,12 @@ public enum CommonEnums implements EnumDescribable
     ERROR_QRCODE_NOTCONFIRM(1997, "QR code app not confirm"), // 二维码APP已扫描未确认
     ERROR_QRCODE_INVAILID(1998, "QR code is invalid"), // 二维码已经失效
     ERROR_NEED_QRCODE(1999, "Need QR code"), // 需要传入qrCode
-    USER_NOT_LOGIN(2000, "The account is not logged in"), // 账户未登录
+    USER_NOT_LOGIN(2000, "The user is not logged in"), // 账户未登录
     NEED_POLICY_CHECK(2001, "Security Verification Policy"), // 安全验证策略
     ERROR_DATA_VALID(2002, "Data verification failed"), //数据校验失败
     ERROR_PARAMS_VALID(2003, "Parameter validation error"), // 参数验证错误
-    ERROR_ACCOUNT_NOT_EXIST(2004, "The account does not exist"), // 账户不存在(用户或密码错误)
-    ERROR_FROZEN_ACCOUNT(2004, "Login Exception,Please contact us."), // 账户被冻结
+    ERROR_USER_NOT_EXIST(2004, "The user does not exist"), // 账户不存在(用户或密码错误)
+    ERROR_FROZEN_USER(2004, "Login Exception,Please contact us."), // 账户被冻结
     ERROR_LOGIN_PASSWORD(2005, "Wrong password"), // 密码错误
     ERROR_LOGIN_TIMEOUT(2006, "Session timed out"), // 会话超时
     ERROR_VALID_CAPTCHA(2007, "The verification code is incorrect"), // 验证码错误
@@ -110,7 +110,7 @@ public enum CommonEnums implements EnumDescribable
 
 
     ERROR_MOBILE_VALID_FAILED(9001, "The phone number verification failed"),
-    ERROR_USER_NOT_EXIST(9002, "The account is not exist"),
+//    ERROR_USER_NOT_EXIST(9002, "The account is not exist"),
     FOLLOW_SELF_ERR(9003, "flowed yourself error"),
     NO_AUTH_OR_DELETED(9004, "NO AUTHRIZED OR DELETED"),
 
