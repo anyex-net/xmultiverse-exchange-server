@@ -2,8 +2,7 @@ package com.anyex.apps.controller.user;
 
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.common.consts.MessageConst;
-import com.anyex.apps.common.model.EmailModel;
-import com.anyex.apps.common.service.SysMsgRecordNoSqlService;
+import com.anyex.apps.common.service.SysMsgRecordService;
 import com.anyex.apps.consts.CacheConst;
 import com.anyex.apps.consts.GlobalConst;
 import com.anyex.apps.controller.user.req.ReqUserForgetPass;
@@ -15,7 +14,6 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.interceptor.AccessLimit;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.user.entity.User;
-import com.anyex.apps.user.enums.UserEnums;
 import com.anyex.apps.controller.user.req.ReqUserResetPassCheck;
 import com.anyex.apps.user.service.UserPolicyService;
 import com.anyex.apps.user.service.UserService;
@@ -54,7 +52,7 @@ public class ForgetPassController extends GenericController
     UserPolicyService userPolicyService;
 
     @Autowired(required = false)
-    SysMsgRecordNoSqlService sysMsgRecordService;
+    SysMsgRecordService sysMsgRecordService;
 
     /**
      * 确认用户是否存在
@@ -117,7 +115,7 @@ public class ForgetPassController extends GenericController
         //
         // request.getSession().setAttribute("accountId", account.getId());
         RespUserForgetPass respUserForgetPass = new RespUserForgetPass();
-        respUserForgetPass.setUserId(userDB.getId());
+        respUserForgetPass.setUserId(String.valueOf(userDB.getId()));
         respUserForgetPass.setSecurityPolicy(userDB.getSecurityPolicy());
         respUserForgetPass.setEmail(userDB.getEmail());
         respUserForgetPass.setMobileNo(userDB.getMobileNo());
