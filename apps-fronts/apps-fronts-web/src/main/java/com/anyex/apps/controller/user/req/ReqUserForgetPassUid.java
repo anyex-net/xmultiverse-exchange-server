@@ -3,7 +3,7 @@ package com.anyex.apps.controller.user.req;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -23,7 +23,7 @@ public class ReqUserForgetPassUid implements Serializable
     /**
      * 用户Id
      */
-    @NotEmpty(message = "用户Id不可为空")
+    @NotNull(message = "用户Id不可为空")
     @ApiModelProperty(value = "用户Id", required = true)
     private Long            userId;
 }

@@ -9,6 +9,7 @@ import com.anyex.apps.consts.GlobalConst;
 import com.anyex.apps.controller.user.req.ReqUserForgetPass;
 import com.anyex.apps.controller.user.req.ReqUserForgetPassUid;
 import com.anyex.apps.controller.user.req.ReqUserResetPassSubmit;
+import com.anyex.apps.controller.user.resp.RespUserForgetPass;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.interceptor.AccessLimit;
@@ -66,7 +67,7 @@ public class ForgetPassController extends GenericController
     @RequestMapping("/forgetPass/submit")
     @ApiOperation(value = "1确认用户是否存在", httpMethod = "POST")
     @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
-    public JsonMessage submit(HttpServletRequest request, @Validated @RequestBody ReqUserForgetPass reqUserForgetPass /*@ModelAttribute AliyunModel model*/) throws BusinessException
+    public JsonMessage<RespUserForgetPass> submit(HttpServletRequest request, @Validated @RequestBody ReqUserForgetPass reqUserForgetPass /*@ModelAttribute AliyunModel model*/) throws BusinessException
     {
         log.info("submit reqUserForgetPass:{}", reqUserForgetPass);
         if(reqUserForgetPass.getFindType().equals("email")){
@@ -113,16 +114,18 @@ public class ForgetPassController extends GenericController
             log.error("Illegal Requests");
             return this.getJsonMessage(CommonEnums.ERROR_ILLEGAL_REQUEST);
         }
+        //
         // request.getSession().setAttribute("accountId", account.getId());
-        User userReturn = new User();
-        userReturn.setId(userDB.getId());
-        // userReturn.setSecurityPolicy(userDB.getSecurityPolicy());
-        userReturn.setEmail(userDB.getEmail());
-        userReturn.setMobileNo(userDB.getMobileNo());
-        userReturn.setCountry(userDB.getCountry());
-        userReturn.setGaAuthKey(null == userDB.getGaAuthKey() ? null : "*****");
-        log.info("userReturn:{}", userReturn);
-        return getJsonMessage(CommonEnums.SUCCESS, userReturn);
+        RespUserForgetPass respUserForgetPass = new RespUserForgetPass();
+        respUserForgetPass.setUserId(userDB.getId());
+        respUserForgetPass.setSecurityPolicy(userDB.getSecurityPolicy());
+        respUserForgetPass.setEmail(userDB.getEmail());
+        respUserForgetPass.setMobileNo(userDB.getMobileNo());
+        respUserForgetPass.setCountry(userDB.getCountry());
+        respUserForgetPass.setGaAuthKey(null == userDB.getGaAuthKey() ? null : "*****");
+        log.info("respUserForgetPass:{}", respUserForgetPass);
+        //
+        return getJsonMessage(CommonEnums.SUCCESS, respUserForgetPass);
     }
 
     /**
@@ -203,37 +206,37 @@ public class ForgetPassController extends GenericController
             return this.getJsonMessage(CommonEnums.ERROR_ILLEGAL_REQUEST);
         }
         //
-        if (StringUtils.isNotBlank(userDB.getEmail()))
+        if (StringUtils.isNotEmpty(userDB.getEmail()))
         { // 验证邮箱
-            if (StringUtils.isBlank(reqUserResetPassCheck.getEmailCode()))
+            if (StringUtils.isEmpty(reqUserResetPassCheck.getEmailCode()))
             { return this.getJsonMessage(CommonEnums.ERROR_PARAMS_VALID); }
-            StringBuffer cacheKey = new StringBuffer(GlobalConst.MESSAGE).append(GlobalConst.SEPARATOR).append(userDB.getId());
-            EmailModel model = (EmailModel) RedisUtils.getObject(cacheKey.toString());
-            if (!StringUtils.equals(reqUserResetPassCheck.getEmailCode(), model.getRandomKey()))
-            {// 判断验证码
-                errorCounter(request);
-                return this.getJsonMessage(CommonEnums.ERROR_EMAIL_VALID_FAILED);
-            }
+//            StringBuffer cacheKey = new StringBuffer(GlobalConst.MESSAGE).append(GlobalConst.SEPARATOR).append(userDB.getId());
+//            EmailModel model = (EmailModel) RedisUtils.getObject(cacheKey.toString());
+//            if (!StringUtils.equals(reqUserResetPassCheck.getEmailCode(), model.getRandomKey()))
+//            {// 判断验证码
+//                errorCounter(request);
+//                return this.getJsonMessage(CommonEnums.ERROR_EMAIL_VALID_FAILED);
+//            }
         }
-        if (StringUtils.isNotBlank(userDB.getMobileNo()))
+        if (StringUtils.isNotEmpty(userDB.getMobileNo()))
         {// 验证手机
-            if (StringUtils.isBlank(reqUserResetPassCheck.getSmsCode()))
+            if (StringUtils.isEmpty(reqUserResetPassCheck.getSmsCode()))
             { return this.getJsonMessage(CommonEnums.ERROR_PARAMS_VALID); }
-            StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
-            if (!sysMsgRecordService.validSMSCode(buffer.toString(), reqUserResetPassCheck.getSmsCode(), "类型"))
-            {// 判断用户输入的验证码与缓存中的验证码
-                errorCounter(request);
-                return this.getJsonMessage(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
-            }
+//            StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
+//            if (!sysMsgRecordService.validSMSCode(buffer.toString(), reqUserResetPassCheck.getSmsCode(), "类型"))
+//            {// 判断用户输入的验证码与缓存中的验证码
+//                errorCounter(request);
+//                return this.getJsonMessage(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+//            }
         }
-        if (StringUtils.isNotBlank(userDB.getGaAuthKey()))
+        if (StringUtils.isNotEmpty(userDB.getGaAuthKey()))
         {// 验证GA
-            if (StringUtils.isBlank(reqUserResetPassCheck.getGaCode()))
+            if (StringUtils.isEmpty(reqUserResetPassCheck.getGaCode()))
             { return this.getJsonMessage(CommonEnums.ERROR_PARAMS_VALID); }
-            if (!userPolicyService.validGaCode(userDB.getGaAuthKey(), reqUserResetPassCheck.getGaCode()))
-            {// 判断验证码
-                return getJsonMessage(UserEnums.USER_GACODE_ERROR);
-            }
+//            if (!userPolicyService.validGaCode(userDB.getGaAuthKey(), reqUserResetPassCheck.getGaCode()))
+//            {// 判断验证码
+//                return getJsonMessage(UserEnums.USER_GACODE_ERROR);
+//            }
         }
         // request.getSession().setAttribute("check_status", "true");
         // 返回一个随机码 用于真正重置密码时验证
