@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration status="error">
+    <appenders>
+        <!-- 输出控制台配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!-- 控制台只输出debug及以上级别的信息 -->
+            <ThresholdFilter level="warn" />
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method-%L] - %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="RollingFileInfo" fileName="logs/rpcserver-viabtcex-tradehistory.log" filePattern="logs/rpcserver-viabtcex-tradehistory-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method-%L] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="15">
+                <Delete basePath="logs" maxDepth="1">
+                    <IfFileName glob="rpcserver-viabtcex-tradehistory*.log" />
+                    <IfLastModified age="15d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="RollingFileError" fileName="logs/rpcserver-viabtcex-tradehistory_error.log" filePattern="logs/rpcserver-viabtcex-tradehistory_error-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出warn及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method-%L] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="15">
+                <Delete basePath="logs" maxDepth="1">
+                    <IfFileName glob="rpcserver-viabtcex-tradehistory*.log" />
+                    <IfLastModified age="15d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </appenders>
+    <loggers>
+        <!-- 过滤掉无用的框架DEBUG信息 -->
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="org.mybatis" level="INFO"/>
+        <root level="all">
+            <!-- 定义对日志信息如何处理 -->
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileError"/>
+        </root>
+    </loggers>
+</configuration>
