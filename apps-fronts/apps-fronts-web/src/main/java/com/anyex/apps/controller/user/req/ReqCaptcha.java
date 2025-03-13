@@ -24,6 +24,6 @@ public class ReqCaptcha implements Serializable
      * 场景scene
      */
     @NotEmpty(message = "场景scene不可为空")
-    @ApiModelProperty(value = "场景scene(email_register|email_login|email_forgetpass|email_modifypass|sms_register|sms_login|sms_forgetpass|sms_modifypass)", required = true)
+    @ApiModelProperty(value = "场景scene(email_register、email_login、email_forgetpass、email_modifypass、sms_register、sms_login、sms_forgetpass、sms_modifypass)", required = true)
     private String            scene;
 }

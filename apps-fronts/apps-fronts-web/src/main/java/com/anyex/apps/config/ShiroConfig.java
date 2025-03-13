@@ -127,6 +127,9 @@ public class ShiroConfig
         //
         filterChainDefinitionMap.put("/common/**", "anon");
         //
+        filterChainDefinitionMap.put("/spot/market/**", "anon");
+        filterChainDefinitionMap.put("/spot/market/**/**", "anon");
+        //
 //        filterChainDefinitionMap.put("/openim/**", "anon");
 //        // 支付回调
 //        filterChainDefinitionMap.put("/payment/wivpay/in/notify**", "anon"); // wivpay 代收业务 支付状态回调

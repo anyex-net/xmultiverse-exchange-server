@@ -24,7 +24,7 @@ public class ReqUserForgetPass implements Serializable
      * 忘记密码找回类型
      */
     @NotEmpty(message = "忘记密码找回类型不可为空")
-    @ApiModelProperty(value = "忘记密码找回类型(email | mobile)", required = true)
+    @ApiModelProperty(value = "忘记密码找回类型(email、mobile)", required = true)
     private String            findType;
 
     /**

@@ -59,13 +59,15 @@ public enum CommonEnums implements EnumDescribable
     ERROR_PHONE_FORMAT_FAILED(2018, "The number format is incorrect"), //号码格式错误
     ERROR_EMAIL_FORMAT_FAILED(2019, "The mailbox is malformed"), // 邮箱格式错误
     ERROR_GA_VALID_FAILED(2020, "Google verification failed"), // 谷歌验证失败
-    ERROR_WALLET_VALID_FAILED(2021, "Failed to verify the fund password"), // 资金密码验证失败
-    ERROR_WALLET_VALID_NOEXIST(2022, "No fund password is set"), // 未设置资金密码
+    ERROR_TRADEPWD_VALID_FAILED(2021, "Failed to verify the trade password"), // 资金密码验证失败
+    ERROR_TRADEPWD_VALID_NOEXIST(2022, "No trade password is set"), // 未设置资金密码
     ERROR_SESSION_TIME_OUT(2023, "The session has expired"), // 会话已过期
     ERROR_SESSION_TIME_OUT2(2023, "The login has expired, please log in again"), // 登录已失效,请重新登录
     ERROR_GT_DAY_MAX_AMT(2024, "The maximum limit for the day has been exceeded"), // 已超过当天最大限额
     ERROR_GT_MAX_AMT(2025, "The maximum limit has been exceeded"), // 已超过最大限额
+    ERROR_MOBILE_NOT_BIND(2026, "mobile is not bound"), //手机未绑定
     ERROR_GA_NOT_BIND(2026, "GA is not bound"), //GA未绑定
+    ERROR_MOBILEORGA_NOT_BIND(2026, "mobile or GA is not bound"), //手机或GA未绑定
     ERROR_REGISTER_EXIST(2027, "The user has been registered"), //账号已被注册
     WAIT_ONE_MINUTE(2028, "Review in a minute"), //一分钟后再评论
     WAIT_ONE_HOUR(2029, "Newly registered users will review in 1 hour"), //新注册用户1小时后再评论

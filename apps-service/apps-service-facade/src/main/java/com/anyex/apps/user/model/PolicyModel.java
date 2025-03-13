@@ -32,15 +32,15 @@ public class PolicyModel implements Serializable
     private static final long serialVersionUID = 1L;
     
     /**
-     * 登陆密码
+     * 登录密码
      */
-    @ApiModelProperty(value = "登陆密码")
+    @ApiModelProperty(value = "登录密码")
     private String            pwd;
     
     /**
-     * GOOGLE验证码
+     * GA验证码
      */
-    @ApiModelProperty(value = "GOOGLE验证码")
+    @ApiModelProperty(value = "GA验证码")
     private String            ga;
     
     /**

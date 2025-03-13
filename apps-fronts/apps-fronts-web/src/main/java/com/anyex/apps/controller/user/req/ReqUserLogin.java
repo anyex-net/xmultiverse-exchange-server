@@ -24,7 +24,7 @@ public class ReqUserLogin implements Serializable
      * 登录类型
      */
     @NotEmpty(message = "登录类型不可为空")
-    @ApiModelProperty(value = "登录类型(email | mobile)", required = true)
+    @ApiModelProperty(value = "登录类型(email、mobile)", required = true)
     private String            loginType;
 
     /**

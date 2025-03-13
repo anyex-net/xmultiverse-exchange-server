@@ -3,10 +3,8 @@
 //import com.anyex.apps.account.enums.LoginEnums;
 //import com.anyex.apps.account.service.AccountService;
 //import com.anyex.apps.bean.GenericController;
-//import com.anyex.apps.common.consts.MessageConst;
 //import com.anyex.apps.common.service.SysAppDeviceService;
 //import com.anyex.apps.common.service.SysMsgRecordService;
-//import com.anyex.apps.consts.GlobalConst;
 //import com.anyex.apps.controller.auth.reqnew.ReqAccountTokenNew;
 //import com.anyex.apps.enums.CommonEnums;
 //import com.anyex.apps.exception.AccountPolicyException;
@@ -14,8 +12,6 @@
 //import com.anyex.apps.model.JsonMessage;
 //import com.anyex.apps.shiro.model.AccountToken;
 //import com.anyex.apps.utils.NetworkUtils;
-//import com.anyex.apps.utils.RedisUtils;
-//import com.anyex.apps.utils.ValidateUtils;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;
 //import lombok.extern.slf4j.Slf4j;
@@ -34,10 +30,10 @@
 //import java.io.Serializable;
 //
 ///**
-// * AuthController
-// * <p>File：AuthController.java</p>
-// * <p>Title: AuthController</p>
-// * <p>Description: AuthController</p>
+// * AuthNewController
+// * <p>File：AuthNewController.java</p>
+// * <p>Title: AuthNewController</p>
+// * <p>Description: AuthNewController</p>
 // * <p>Copyright: Copyright (c) 2019/10/23</p>
 // * <p>Company: AnyEx</p>
 // *
@@ -48,7 +44,7 @@
 //@RestController
 //@RequestMapping("/auth")
 //@Api(tags = "账户登录")
-//public class Auth2Controller extends GenericController
+//public class AuthNewController extends GenericController
 //{
 //    @Autowired(required = false)
 //    private AccountService accountService;
@@ -108,7 +104,7 @@
 //            }
 //            catch (UnknownAccountException uae)
 //            {
-//                return this.getJsonMessage(CommonEnums.ERROR_ACCOUNT_NOT_EXIST);
+//                return this.getJsonMessage(CommonEnums.ERROR_USER_NOT_EXIST);
 //            }
 //            catch (ExcessiveAttemptsException eae)
 //            {

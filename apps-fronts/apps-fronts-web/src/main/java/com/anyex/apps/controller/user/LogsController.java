@@ -47,7 +47,7 @@ public class LogsController extends GenericController
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 //        List<AccountLog> result = accountLogNoSql.findLastTenLoginLogs(principal.getId());
 //        return this.getJsonMessage(CommonEnums.SUCCESS, result);
-        return null;
+        return this.getJsonMessage(CommonEnums.SUCCESS, null);
     }
     
     /**
@@ -64,6 +64,6 @@ public class LogsController extends GenericController
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 //        List<AccountLog> result = accountLogNoSql.findLastTenSettingLogs(principal.getId());
 //        return this.getJsonMessage(CommonEnums.SUCCESS, result);
-        return null;
+        return this.getJsonMessage(CommonEnums.SUCCESS, null);
     }
 }
