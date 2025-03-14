@@ -554,5 +554,10 @@
 <!--            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>-->
 <!--        </sofa:binding.bolt>-->
 <!--    </sofa:reference>-->
+    <sofa:reference id="balanceHistoryService" interface="com.anyex.apps.spot.service.BalanceHistoryService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
 
 </beans>

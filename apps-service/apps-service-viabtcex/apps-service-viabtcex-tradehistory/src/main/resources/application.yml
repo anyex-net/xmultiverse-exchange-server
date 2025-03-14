@@ -32,10 +32,9 @@ spring:
         max-wait: 10000
   datasource:
     master:
-      jdbc-url: @master.jdbc.url@
-      pool-name: @master.jdbc.poolname@
-      username: @master.jdbc.username@
-      password: @master.jdbc.password@
+      jdbc-url: jdbc:mysql://112.14.45.72:3306/trade_history?useSSL=false&serverTimezone=UTC
+      username: skyadmin
+      password: FrmnK9upBcKWPvkFvkUSkTkwQbIfhb3s+spaWHO4d4k=
       min-idle: 2
       idle-timeout: 600000
       max-lifetime: 1800000

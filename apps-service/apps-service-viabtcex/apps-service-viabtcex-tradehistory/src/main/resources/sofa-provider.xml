@@ -10,6 +10,12 @@
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
+
+    <sofa:service interface="com.anyex.apps.spot.service.BalanceHistoryService" ref="balanceHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
     
 
 </beans>
