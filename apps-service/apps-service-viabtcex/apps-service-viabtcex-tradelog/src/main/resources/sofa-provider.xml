@@ -3,13 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sofa="http://sofastack.io/schema/sofaboot"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://sofastack.io/schema/sofaboot http://sofastack.io/schema/sofaboot.xsd">
-    <!-- 系统管理服务 -->
-    <!-- 机构管理 -->
-    <sofa:service interface="com.anyex.apps.system.service.SysOrganizationService" ref="sysOrganizationServiceImpl">
-        <sofa:binding.bolt>
-            <sofa:global-attrs timeout="600000"/>
-        </sofa:binding.bolt>
-    </sofa:service>
-    
+    <!-- 业务服务 -->
+
 
 </beans>
