@@ -122,6 +122,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/auth/mobileRegister/**", "anon");
         filterChainDefinitionMap.put("/auth/register/**", "anon");
         filterChainDefinitionMap.put("/auth/login/**", "anon");
+        filterChainDefinitionMap.put("/auth/forgetPass/**", "anon");
         filterChainDefinitionMap.put("/auth/forget/**", "anon");
 //        filterChainDefinitionMap.put("/auth/logoff/**", "anon");
         //
