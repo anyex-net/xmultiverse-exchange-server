@@ -54,10 +54,14 @@ public abstract class MessageConst
     // 修改密码短信码
     public static final String SMS_VALID_MODIFYPASS             = "sms_modifypass";
 
+    // 绑定手机短信码
+    public static final String SMS_VALID_BINDMOBILE             = "sms_bindmobile";
+
     // 其它类型短信码
     public static final String SMS_VALID_OTHER                  = "sms_other";
 
 
+    // 下面是模版
     // 邮箱注册
     public static final String TEMPLATE_EMAIL_REGISTERCODE      = "tpl_email_send_register_code";
 

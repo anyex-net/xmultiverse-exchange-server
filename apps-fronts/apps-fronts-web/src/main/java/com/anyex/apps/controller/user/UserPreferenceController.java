@@ -8,19 +8,21 @@ import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
-import com.anyex.apps.utils.*;
+import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 用户信息 控制器
- * <p>File：UserController.java </p>
- * <p>Title: UserController </p>
- * <p>Description:UserController </p>
+ * 用户偏好设置 控制器
+ * <p>File：UserPreferenceController.java </p>
+ * <p>Title: UserPreferenceController </p>
+ * <p>Description:UserPreferenceController </p>
  * <p>Copyright: Copyright (c) May 26, 2015 </p>
  * <p>Company: AnyEx</p>
  * @author Playguy
@@ -29,8 +31,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Controller
 @RequestMapping(GlobalConst.USER)
-@Api(tags = "用户信息")
-public class UserController extends GenericController
+@Api(tags = "用户偏好设置")
+public class UserPreferenceController extends GenericController
 {
     @Autowired(required = false)
     UserService userService;

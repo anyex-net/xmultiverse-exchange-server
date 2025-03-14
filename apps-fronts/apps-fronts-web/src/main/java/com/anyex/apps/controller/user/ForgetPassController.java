@@ -215,26 +215,32 @@ public class ForgetPassController extends GenericController
 //                errorCounter(request);
 //                return this.getJsonMessage(CommonEnums.ERROR_EMAIL_VALID_FAILED);
 //            }
+            //
+            if (!sysMsgRecordService.validEmailCode(userDB.getEmail(), reqUserResetPassCheck.getEmailCode(), MessageConst.SMS_VALID_FORGETPASS))
+            {// 验证邮箱码
+                return getJsonMessage(CommonEnums.ERROR_EMAILCODE_VALID_FAILED);
+            }
+            //
         }
         if (StringUtils.isNotEmpty(userDB.getMobileNo()))
         {// 验证手机
             if (StringUtils.isEmpty(reqUserResetPassCheck.getSmsCode()))
             { return this.getJsonMessage(CommonEnums.ERROR_PARAMS_VALID); }
-//            StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
-//            if (!sysMsgRecordService.validSMSCode(buffer.toString(), reqUserResetPassCheck.getSmsCode(), "类型"))
-//            {// 判断用户输入的验证码与缓存中的验证码
-//                errorCounter(request);
-//                return this.getJsonMessage(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
-//            }
+            StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
+            if (!sysMsgRecordService.validSMSCode(buffer.toString(), reqUserResetPassCheck.getSmsCode(), MessageConst.SMS_VALID_FORGETPASS))
+            {// 判断用户输入的验证码与缓存中的验证码
+                errorCounter(request);
+                return this.getJsonMessage(CommonEnums.ERROR_SMSCODE_VALID_FAILED);
+            }
         }
         if (StringUtils.isNotEmpty(userDB.getGaAuthKey()))
         {// 验证GA
             if (StringUtils.isEmpty(reqUserResetPassCheck.getGaCode()))
             { return this.getJsonMessage(CommonEnums.ERROR_PARAMS_VALID); }
-//            if (!userPolicyService.validGaCode(userDB.getGaAuthKey(), reqUserResetPassCheck.getGaCode()))
-//            {// 判断验证码
-//                return getJsonMessage(UserEnums.USER_GACODE_ERROR);
-//            }
+            if (!userPolicyService.validGaCode(userDB.getGaAuthKey(), reqUserResetPassCheck.getGaCode()))
+            {// 判断验证码
+                return getJsonMessage(CommonEnums.ERROR_GA_VALID_FAILED);
+            }
         }
         // request.getSession().setAttribute("check_status", "true");
         // 返回一个随机码 用于真正重置密码时验证
@@ -277,6 +283,9 @@ public class ForgetPassController extends GenericController
         }
         userDB.setLoginPwd(EncryptUtils.entryptPassword(reqUserResetPassSubmit.getPassword()));
         userService.save(userDB);
+        //
+        RedisUtils.del(cacheKey); // 删除对应的缓存防止重置提交
+        //
         // request.getSession().removeAttribute("userId");
         // request.getSession().removeAttribute("check_status");
         return getJsonMessage(CommonEnums.SUCCESS);
