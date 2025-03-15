@@ -3,8 +3,28 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sofa="http://sofastack.io/schema/sofaboot"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://sofastack.io/schema/sofaboot http://sofastack.io/schema/sofaboot.xsd">
-    <!-- 业务服务 -->
+
     <sofa:service interface="com.anyex.apps.spot.service.BalanceHistoryService" ref="balanceHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.spot.service.DealHistoryService" ref="dealHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.spot.service.OrderDetailService" ref="orderDetailServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.spot.service.OrderHistoryService" ref="orderHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.spot.service.UserDealHistoryService" ref="userDealHistoryServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>

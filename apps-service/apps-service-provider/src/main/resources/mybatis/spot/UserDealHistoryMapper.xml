@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.spot.mapper.UserDealHistoryMapper">
+    <!-- 基础列 -->
+    <sql id="UserDealHistoryColumns">
+        a.id as id,
+        a.time as time,
+        a.user_id as userId,
+        a.market as market,
+        a.deal_id as dealId,
+        a.order_id as orderId,
+        a.deal_order_id as dealOrderId,
+        a.side as side,
+        a.role as role,
+        a.price as price,
+        a.amount as amount,
+        a.deal as deal,
+        a.fee as fee,
+        a.deal_fee as dealFee
+    </sql>
+
+    <resultMap id="UserDealHistoryResultMap" type="com.anyex.apps.spot.entity.UserDealHistory">
+        <id column="ID" property="id" />
+        <result column="time" property="time"/>
+        <result column="user_id" property="userId"/>
+        <result column="market" property="market"/>
+        <result column="deal_id" property="dealId"/>
+        <result column="order_id" property="orderId"/>
+        <result column="deal_order_id" property="dealOrderId"/>
+        <result column="side" property="side"/>
+        <result column="role" property="role"/>
+        <result column="price" property="price"/>
+        <result column="amount" property="amount"/>
+        <result column="deal" property="deal"/>
+        <result column="fee" property="fee"/>
+        <result column="deal_fee" property="dealFee"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.spot.entity.UserDealHistory">
+        INSERT INTO user_deal_history_example(
+            id ,
+            time ,
+            user_id ,
+            market ,
+            deal_id ,
+            order_id ,
+            deal_order_id ,
+            side ,
+            role ,
+            price ,
+            amount ,
+            deal ,
+            fee ,
+            deal_fee 
+        ) VALUES (
+            #{id} ,
+            #{time} ,
+            #{userId} ,
+            #{market} ,
+            #{dealId} ,
+            #{orderId} ,
+            #{dealOrderId} ,
+            #{side} ,
+            #{role} ,
+            #{price} ,
+            #{amount} ,
+            #{deal} ,
+            #{fee} ,
+            #{dealFee} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM user_deal_history_example WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE user_deal_history_example SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.spot.entity.UserDealHistory">
+        INSERT INTO user_deal_history_example
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="time != null">
+                time ,
+        </if>
+        <if test="userId != null">
+                user_id ,
+        </if>
+        <if test="market != null">
+                market ,
+        </if>
+        <if test="dealId != null">
+                deal_id ,
+        </if>
+        <if test="orderId != null">
+                order_id ,
+        </if>
+        <if test="dealOrderId != null">
+                deal_order_id ,
+        </if>
+        <if test="side != null">
+                side ,
+        </if>
+        <if test="role != null">
+                role ,
+        </if>
+        <if test="price != null">
+                price ,
+        </if>
+        <if test="amount != null">
+                amount ,
+        </if>
+        <if test="deal != null">
+                deal ,
+        </if>
+        <if test="fee != null">
+                fee ,
+        </if>
+        <if test="dealFee != null">
+                deal_fee 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="time != null">
+                #{time} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="market != null">
+                #{market} ,
+        </if>
+        <if test="dealId != null">
+                #{dealId} ,
+        </if>
+        <if test="orderId != null">
+                #{orderId} ,
+        </if>
+        <if test="dealOrderId != null">
+                #{dealOrderId} ,
+        </if>
+        <if test="side != null">
+                #{side} ,
+        </if>
+        <if test="role != null">
+                #{role} ,
+        </if>
+        <if test="price != null">
+                #{price} ,
+        </if>
+        <if test="amount != null">
+                #{amount} ,
+        </if>
+        <if test="deal != null">
+                #{deal} ,
+        </if>
+        <if test="fee != null">
+                #{fee} ,
+        </if>
+        <if test="dealFee != null">
+                #{dealFee} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.spot.entity.UserDealHistory">
+        UPDATE user_deal_history_example
+           <set>
+            <if test="time != null">
+                time = #{time} ,
+            </if>
+            <if test="userId != null">
+                user_id = #{userId} ,
+            </if>
+            <if test="market != null">
+                market = #{market} ,
+            </if>
+            <if test="dealId != null">
+                deal_id = #{dealId} ,
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId} ,
+            </if>
+            <if test="dealOrderId != null">
+                deal_order_id = #{dealOrderId} ,
+            </if>
+            <if test="side != null">
+                side = #{side} ,
+            </if>
+            <if test="role != null">
+                role = #{role} ,
+            </if>
+            <if test="price != null">
+                price = #{price} ,
+            </if>
+            <if test="amount != null">
+                amount = #{amount} ,
+            </if>
+            <if test="deal != null">
+                deal = #{deal} ,
+            </if>
+            <if test="fee != null">
+                fee = #{fee} ,
+            </if>
+            <if test="dealFee != null">
+                deal_fee = #{dealFee} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO user_deal_history_example(
+            id ,
+            time ,
+            user_id ,
+            market ,
+            deal_id ,
+            order_id ,
+            deal_order_id ,
+            side ,
+            role ,
+            price ,
+            amount ,
+            deal ,
+            fee ,
+            deal_fee 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.time} ,
+            #{item.userId} ,
+            #{item.market} ,
+            #{item.dealId} ,
+            #{item.orderId} ,
+            #{item.dealOrderId} ,
+            #{item.side} ,
+            #{item.role} ,
+            #{item.price} ,
+            #{item.amount} ,
+            #{item.deal} ,
+            #{item.fee} ,
+            #{item.dealFee} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE user_deal_history_example SET
+            time = #{item.time} ,
+            user_id = #{item.userId} ,
+            market = #{item.market} ,
+            deal_id = #{item.dealId} ,
+            order_id = #{item.orderId} ,
+            deal_order_id = #{item.dealOrderId} ,
+            side = #{item.side} ,
+            role = #{item.role} ,
+            price = #{item.price} ,
+            amount = #{item.amount} ,
+            deal = #{item.deal} ,
+            fee = #{item.fee} ,
+            deal_fee = #{item.dealFee} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.spot.entity.UserDealHistory">
+        UPDATE user_deal_history_example SET
+            time = #{time} ,
+            user_id = #{userId} ,
+            market = #{market} ,
+            deal_id = #{dealId} ,
+            order_id = #{orderId} ,
+            deal_order_id = #{dealOrderId} ,
+            side = #{side} ,
+            role = #{role} ,
+            price = #{price} ,
+            amount = #{amount} ,
+            deal = #{deal} ,
+            fee = #{fee} ,
+            deal_fee = #{dealFee} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.spot.entity.UserDealHistory">
+        SELECT <include refid="UserDealHistoryColumns"/> FROM user_deal_history_example a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.spot.entity.UserDealHistory">
+        SELECT
+        <include refid="UserDealHistoryColumns"/>
+        FROM user_deal_history_example a WHERE 1 = 1
+        <if test="time != null">
+            AND a.time = #{time}
+        </if>
+        <if test="userId != null">
+            AND a.user_id = #{userId}
+        </if>
+        <if test="market != null and market != ''">
+            AND a.market = #{market}
+        </if>
+        <if test="dealId != null">
+            AND a.deal_id = #{dealId}
+        </if>
+        <if test="orderId != null">
+            AND a.order_id = #{orderId}
+        </if>
+        <if test="dealOrderId != null">
+            AND a.deal_order_id = #{dealOrderId}
+        </if>
+        <if test="side != null">
+            AND a.side = #{side}
+        </if>
+        <if test="role != null">
+            AND a.role = #{role}
+        </if>
+        <if test="price != null">
+            AND a.price = #{price}
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="deal != null">
+            AND a.deal = #{deal}
+        </if>
+        <if test="fee != null">
+            AND a.fee = #{fee}
+        </if>
+        <if test="dealFee != null">
+            AND a.deal_fee = #{dealFee}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.spot.entity.UserDealHistory">
+        SELECT
+        <include refid="UserDealHistoryColumns"/>
+        FROM user_deal_history_example a WHERE 1 = 1
+        <if test="time != null">
+            AND a.time = #{time}
+        </if>
+        <if test="userId != null">
+            AND a.user_id = #{userId}
+        </if>
+        <if test="market != null and market != ''">
+            AND a.market LIKE CONCAT('%',#{market}, '%')
+        </if>
+        <if test="dealId != null">
+            AND a.deal_id = #{dealId}
+        </if>
+        <if test="orderId != null">
+            AND a.order_id = #{orderId}
+        </if>
+        <if test="dealOrderId != null">
+            AND a.deal_order_id = #{dealOrderId}
+        </if>
+        <if test="side != null">
+            AND a.side = #{side}
+        </if>
+        <if test="role != null">
+            AND a.role = #{role}
+        </if>
+        <if test="price != null">
+            AND a.price = #{price}
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="deal != null">
+            AND a.deal = #{deal}
+        </if>
+        <if test="fee != null">
+            AND a.fee = #{fee}
+        </if>
+        <if test="dealFee != null">
+            AND a.deal_fee = #{dealFee}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.spot.entity.UserDealHistory">
+        SELECT
+        <include refid="UserDealHistoryColumns"/>
+        FROM user_deal_history_example a
+    </select>
+
+
+</mapper>
+
