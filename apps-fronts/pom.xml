@@ -13,10 +13,10 @@
     <packaging>pom</packaging>
     <modules>
         <module>apps-fronts-admin</module>
-        <module>apps-fronts-app</module>
         <module>apps-fronts-web</module>
-        <module>apps-fronts-socket</module>
         <!--
+        <module>apps-fronts-app</module>
+        <module>apps-fronts-socket</module>
         <module>apps-fronts-api</module>
         -->
     </modules>

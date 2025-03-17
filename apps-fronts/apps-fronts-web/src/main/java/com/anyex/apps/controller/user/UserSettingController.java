@@ -132,13 +132,14 @@ public class UserSettingController extends GenericController
 
     /**
      * 修改交易密码
+     * @param reqUserModifyPwd
      * @return {@link JsonMessage}
      * @throws BusinessException
      */
     @ResponseBody
     @ApiOperation(value = "修改交易密码", httpMethod = "POST")
     @RequestMapping(value = "/setting/modifyTradePwd", method = RequestMethod.POST)
-    public JsonMessage modifyTradePwd(String tradePwd, @ModelAttribute PolicyModel policy) throws BusinessException
+    public JsonMessage modifyTradePwd(@Validated @RequestBody ReqUserModifyPwd reqUserModifyPwd) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
@@ -149,34 +150,21 @@ public class UserSettingController extends GenericController
             throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
         }
         //
-        try
-        {
-            if (StringUtils.isNotBlank(userDB.getMobileNo()) && UserConsts.SECURITY_POLICY_DEFAULT.equals(userDB.getSecurityPolicy()))
-            {
-                StringBuffer mobile = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
-                if (!sysMsgRecordService.validSMSCode(mobile.toString(), policy.getSms(), "类型"))
-                { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
-            }
-            else
-            {
-                userPolicyService.validSecurityPolicy(userDB, policy);
-            }
-        }
-        catch (BusinessException e)
-        {
+        if (!EncryptUtils.validatePassword(reqUserModifyPwd.getOldPass(), userDB.getTradePwd()))
+        {// 检验原始密码
             String opCountKey = new StringBuffer(CacheConst.OPERATION_COUNT_PREFIX)// 加入缓存前缀
                     .append(GlobalConst.SEPARATOR).append("modifyTradePwd")// 加入模块标识
-                    .append(GlobalConst.SEPARATOR).append(userDB.getId()).toString();
+                    .append(GlobalConst.SEPARATOR).append(OnLineUserUtils.getId()).toString();
             int count = userPolicyService.errorOperatorCounter(opCountKey);
             if (count >= 10)
             {// 操作频率达到10次时,锁定用户
-//                userService.modifyAccountStatusToFrozen(userDB.getId(), UserConsts.FROZEN_REASON_CHANGE_FUNDPWD);
-                return getJsonMessage(CommonEnums.ERROR_FROZEN_USER);
+//                userService.modifyAccountStatusToFrozen(OnLineUserUtils.getId(), AccountConsts.FROZEN_REASON_CHANGE_PASSWORD);
+                SecurityUtils.getSubject().logout(); // 冻结用户后退出当前会话
             }
-            throw e;
+            return getJsonMessage(UserEnums.USER_PASSWORD_ERROR);
         }
-        userDB.setTradePolicy(UserConsts.TRADE_POLICY_TWOHOUR);
-        userDB.setTradePwd(EncryptUtils.entryptPassword(tradePwd));
+        userDB.setTradePwd(EncryptUtils.entryptPassword(reqUserModifyPwd.getNewPass()));
+        userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         /*
          * if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
@@ -185,19 +173,88 @@ public class UserSettingController extends GenericController
          * {// 确保手机已绑定过
          * String vagueMobile = StringUtils.vagueMobile(principal.getUserMobile());
          * String mobile = new StringBuffer(principal.getCountry()).append(principal.getUserMobile()).toString();
-         * msgRecordService.sendRemindSMS(mobile, MessageConst.REMIND_CHANGE_FUNDPASS_PHONE, principal.getLang(), vagueMobile,
+         * msgRecordService.sendRemindSMS(mobile, MessageConst.REMIND_CHANGE_LOGINPASS_PHONE, principal.getLang(), vagueMobile,
          * CalendarUtils.getCurrentDate(DateConst.DATE_FORMAT_YMDHMS));
          * }
          * }
          */
 //        if (BitmsConst.REMIND_EMAIL_SWITCH.equals(GlobalConst.SWITCH_ENABLE))
 //        {// 邮件提醒
-//            msgRecordService.sendRemindEmail(principal.getUserMail(), MessageConst.REMIND_CHANGE_FUNDPASS_EMAIL, "en_US", BitmsConst.HOST_EMAIL_LOGO_URL,
+//            msgRecordService.sendRemindEmail(principal.getUserMail(), MessageConst.REMIND_CHANGE_LOGINPASS_EMAIL, "en_US", BitmsConst.HOST_EMAIL_LOGO_URL,
 //                    principal.getUserMail(), CalendarUtils.getCurrentDate(DateConst.DATE_FORMAT_YMDHMS));
 //        }
         saveOperationLogs(principal, "modify trade password");
         return this.getJsonMessage(CommonEnums.SUCCESS);
     }
+
+//    /**
+//     * 修改交易密码
+//     * @return {@link JsonMessage}
+//     * @throws BusinessException
+//     */
+//    @ResponseBody
+//    @ApiOperation(value = "修改交易密码", httpMethod = "POST")
+//    @RequestMapping(value = "/setting/modifyTradePwd", method = RequestMethod.POST)
+//    public JsonMessage modifyTradePwd(String tradePwd, @ModelAttribute PolicyModel policy) throws BusinessException
+//    {
+//        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+//        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+//        //
+//        User userDB = userService.selectByPrimaryKey(principal.getId());
+//        if (null != userDB && !userDB.verifySignature())
+//        {// 校验数据
+//            throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
+//        }
+//        //
+//        try
+//        {
+//            if (StringUtils.isNotBlank(userDB.getMobileNo()) && UserConsts.SECURITY_POLICY_DEFAULT.equals(userDB.getSecurityPolicy()))
+//            {
+//                StringBuffer mobile = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
+//                if (!sysMsgRecordService.validSMSCode(mobile.toString(), policy.getSms(), "类型"))
+//                { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
+//            }
+//            else
+//            {
+//                userPolicyService.validSecurityPolicy(userDB, policy);
+//            }
+//        }
+//        catch (BusinessException e)
+//        {
+//            String opCountKey = new StringBuffer(CacheConst.OPERATION_COUNT_PREFIX)// 加入缓存前缀
+//                    .append(GlobalConst.SEPARATOR).append("modifyTradePwd")// 加入模块标识
+//                    .append(GlobalConst.SEPARATOR).append(userDB.getId()).toString();
+//            int count = userPolicyService.errorOperatorCounter(opCountKey);
+//            if (count >= 10)
+//            {// 操作频率达到10次时,锁定用户
+////                userService.modifyAccountStatusToFrozen(userDB.getId(), UserConsts.FROZEN_REASON_CHANGE_FUNDPWD);
+//                return getJsonMessage(CommonEnums.ERROR_FROZEN_USER);
+//            }
+//            throw e;
+//        }
+//        userDB.setTradePolicy(UserConsts.TRADE_POLICY_TWOHOUR);
+//        userDB.setTradePwd(EncryptUtils.entryptPassword(tradePwd));
+//        userService.updateByPrimaryKeySelective(userDB);
+//        /*
+//         * if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
+//         * {// 短信提醒
+//         * if (StringUtils.isNotBlank(principal.getUserMobile()))
+//         * {// 确保手机已绑定过
+//         * String vagueMobile = StringUtils.vagueMobile(principal.getUserMobile());
+//         * String mobile = new StringBuffer(principal.getCountry()).append(principal.getUserMobile()).toString();
+//         * msgRecordService.sendRemindSMS(mobile, MessageConst.REMIND_CHANGE_FUNDPASS_PHONE, principal.getLang(), vagueMobile,
+//         * CalendarUtils.getCurrentDate(DateConst.DATE_FORMAT_YMDHMS));
+//         * }
+//         * }
+//         */
+////        if (BitmsConst.REMIND_EMAIL_SWITCH.equals(GlobalConst.SWITCH_ENABLE))
+////        {// 邮件提醒
+////            msgRecordService.sendRemindEmail(principal.getUserMail(), MessageConst.REMIND_CHANGE_FUNDPASS_EMAIL, "en_US", BitmsConst.HOST_EMAIL_LOGO_URL,
+////                    principal.getUserMail(), CalendarUtils.getCurrentDate(DateConst.DATE_FORMAT_YMDHMS));
+////        }
+//        saveOperationLogs(principal, "modify trade password");
+//        return this.getJsonMessage(CommonEnums.SUCCESS);
+//    }
 
     /**
      * 绑定邮箱发送邮件
@@ -228,6 +285,15 @@ public class UserSettingController extends GenericController
 //            throw new BusinessException(UserEnums.ACCOUNT_EMAIL_HAS_BIND);
 //        }
 //        sysMsgRecordService.sendBindEmail(email, principal.getId(), "en_US", ipAddr);
+        //
+        String ip = NetworkUtils.getIpAddr(request);
+        StringBuffer key = new StringBuffer(MessageConst.EMAIL_VALID_BINDEMAIL).append(GlobalConst.SEPARATOR).append(ip);
+        String captchaText = RedisUtils.get(key.toString());
+        if (captchaText == null || !captchaText.equalsIgnoreCase(reqSendEmail.getCaptcha()))
+        {// 验证码检验
+            throw new BusinessException(CommonEnums.ERROR_VALID_CAPTCHA);
+        }
+        //
         sysMsgRecordService.sendEmail(reqSendEmail.getEmail(), GlobalConst.DEFAULT_LANG, MessageConst.TEMPLATE_EMAIL_BINDSENDCODE);
         //
         return getJsonMessage(CommonEnums.SUCCESS);
@@ -520,8 +586,8 @@ public class UserSettingController extends GenericController
      */
     @ResponseBody
     @ApiOperation(value = "绑定谷歌认证", httpMethod = "POST")
-    @RequestMapping(value = "/setting/bindGoogleGA", method = RequestMethod.POST)
-    public JsonMessage bindGoogleGA(String secretKey, String gaCode, String validCode) throws BusinessException
+    @RequestMapping(value = "/setting/bindGA", method = RequestMethod.POST)
+    public JsonMessage bindGA(String secretKey, String gaCode, String validCode) throws BusinessException
     {
         Authenticator authenticator = new Authenticator();
         if (StringUtils.isBlank(validCode) || StringUtils.isBlank(gaCode) || StringUtils.isBlank(secretKey))
