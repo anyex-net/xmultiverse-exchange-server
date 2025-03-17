@@ -12,7 +12,9 @@
     <artifactId>apps-backend</artifactId>
     <packaging>pom</packaging>
     <modules>
+        <!--
         <module>apps-backend-quartz</module>
+        -->
     </modules>
 
 </project>
