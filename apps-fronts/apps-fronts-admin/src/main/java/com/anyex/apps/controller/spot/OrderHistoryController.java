@@ -37,7 +37,7 @@ import org.springframework.beans.BeanUtils;
  */
 @Slf4j
 @RestController
-@RequestMapping("/spot/orderHistoryExample")
+@RequestMapping("/spot/orderHistory")
 @Api(description = "order_history_example")
 public class OrderHistoryController extends GenericController
 {
@@ -45,7 +45,7 @@ public class OrderHistoryController extends GenericController
     private OrderHistoryService orderHistoryExampleService;
 
     @GetMapping(value = "/findBy")
-    @RequiresPermissions("spot:orderHistoryExample:data")
+    @RequiresPermissions("spot:orderHistory:data")
     @ApiOperation(value = "根据ID取order_history_example", httpMethod = "GET")
     public JsonMessage findBy(Long id) throws BusinessException
     {
@@ -54,23 +54,13 @@ public class OrderHistoryController extends GenericController
     }
 
     @PostMapping(value = "/data")
-    @RequiresPermissions("spot:orderHistoryExample:data")
-    @ApiOperation(value = "查询order_history_example", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqOrderHistoryPagination pagin) throws BusinessException
+    @RequiresPermissions("spot:orderHistory:data")
+    @ApiOperation(value = "查询order_history", httpMethod = "POST")
+    public JsonMessage data(@ModelAttribute ReqOrderHistoryPagination pagin,String tableName) throws BusinessException
     {
         OrderHistory entity = new OrderHistory();
         BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<OrderHistory> result = orderHistoryExampleService.search(pagin,entity);
+        PaginateResult<OrderHistory> result = orderHistoryExampleService.selectList(pagin,entity,tableName);
         return getJsonMessage(CommonEnums.SUCCESS, result);
-    }
-
-    @PostMapping(value = "/del")
-    @RequiresPermissions("spot:orderHistoryExample:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        orderHistoryExampleService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
     }
 }

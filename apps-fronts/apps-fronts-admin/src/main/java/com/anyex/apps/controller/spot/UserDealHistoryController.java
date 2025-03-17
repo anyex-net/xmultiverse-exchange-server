@@ -36,16 +36,16 @@ import org.springframework.beans.BeanUtils;
  */
 @Slf4j
 @RestController
-@RequestMapping("/spot/userDealHistoryExample")
-@Api(description = "user_deal_history_example")
+@RequestMapping("/spot/userDealHistory")
+@Api(description = "user_deal_history")
 public class UserDealHistoryController extends GenericController
 {
     @Autowired(required = false)
     private UserDealHistoryService userDealHistoryExampleService;
 
     @GetMapping(value = "/findBy")
-    @RequiresPermissions("spot:userDealHistoryExample:data")
-    @ApiOperation(value = "根据ID取user_deal_history_example", httpMethod = "GET")
+    @RequiresPermissions("spot:userDealHistory:data")
+    @ApiOperation(value = "根据ID取user_deal_history", httpMethod = "GET")
     public JsonMessage findBy(Long id) throws BusinessException
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
@@ -54,23 +54,14 @@ public class UserDealHistoryController extends GenericController
 
 
     @PostMapping(value = "/data")
-    @RequiresPermissions("spot:userDealHistoryExample:data")
-    @ApiOperation(value = "查询user_deal_history_example", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqUserDealHistoryPagination pagin) throws BusinessException
+    @RequiresPermissions("spot:userDealHistory:data")
+    @ApiOperation(value = "查询user_deal_history", httpMethod = "POST")
+    public JsonMessage data(@ModelAttribute ReqUserDealHistoryPagination pagin,String tableName) throws BusinessException
     {
         UserDealHistory entity = new UserDealHistory();
         BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<UserDealHistory> result = userDealHistoryExampleService.search(pagin,entity);
+        PaginateResult<UserDealHistory> result = userDealHistoryExampleService.selectList(pagin,entity,tableName);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("spot:userDealHistoryExample:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        userDealHistoryExampleService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
 }

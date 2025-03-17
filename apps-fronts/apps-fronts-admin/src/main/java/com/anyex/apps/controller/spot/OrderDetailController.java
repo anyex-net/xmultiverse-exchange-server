@@ -37,15 +37,15 @@ import org.springframework.beans.BeanUtils;
  */
 @Slf4j
 @RestController
-@RequestMapping("/spot/orderDetailExample")
-@Api(description = "order_detail_example")
+@RequestMapping("/spot/orderDetail")
+@Api(description = "order_detail")
 public class OrderDetailController extends GenericController
 {
     @Autowired(required = false)
     private OrderDetailService orderDetailExampleService;
 
     @GetMapping(value = "/findBy")
-    @RequiresPermissions("spot:orderDetailExample:data")
+    @RequiresPermissions("spot:orderDetail:data")
     @ApiOperation(value = "根据ID取order_detail_example", httpMethod = "GET")
     public JsonMessage findBy(Long id) throws BusinessException
     {
@@ -53,51 +53,14 @@ public class OrderDetailController extends GenericController
         return this.getJsonMessage(CommonEnums.SUCCESS, orderDetailExampleService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("spot:orderDetailExample:operator")
-    @ApiOperation(value = "保存order_detail_example", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqOrderDetail info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            OrderDetail entity = new OrderDetail();
-            BeanUtils.copyProperties(info, entity);
-            //
-//            if (null == info.getId())
-//            {
-//            entity.setCreateTime(System.currentTimeMillis());
-//            }
-//            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                orderDetailExampleService.insert(entity);
-            } else {
-                orderDetailExampleService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
-
     @PostMapping(value = "/data")
-    @RequiresPermissions("spot:orderDetailExample:data")
-    @ApiOperation(value = "查询order_detail_example", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqOrderDetailPagination pagin) throws BusinessException
+    @RequiresPermissions("spot:orderDetail:data")
+    @ApiOperation(value = "查询order_detail", httpMethod = "POST")
+    public JsonMessage data(@ModelAttribute ReqOrderDetailPagination pagin,String tableName) throws BusinessException
     {
         OrderDetail entity = new OrderDetail();
         BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<OrderDetail> result = orderDetailExampleService.search(pagin,entity);
+        PaginateResult<OrderDetail> result = orderDetailExampleService.selectList(pagin,entity,tableName);
         return getJsonMessage(CommonEnums.SUCCESS, result);
-    }
-
-    @PostMapping(value = "/del")
-    @RequiresPermissions("spot:orderDetailExample:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        orderDetailExampleService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
     }
 }

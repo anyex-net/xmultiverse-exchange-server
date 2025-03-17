@@ -404,6 +404,50 @@
         FROM user_deal_history_example a
     </select>
 
+    <select id="selectList" resultType="com.anyex.apps.spot.entity.UserDealHistory">
+        SELECT
+        <include refid="UserDealHistoryColumns"/>
+        FROM ${tableName} a WHERE 1 = 1
+        <if test="userDealHistory.time != null">
+            AND a.time = #{userDealHistory.time}
+        </if>
+        <if test="userDealHistory.userId != null">
+            AND a.user_id = #{userDealHistory.userId}
+        </if>
+        <if test="userDealHistory.market != null and userDealHistory.market != ''">
+            AND a.market LIKE CONCAT('%',#{userDealHistory.market}, '%')
+        </if>
+        <if test="userDealHistory.dealId != null">
+            AND a.deal_id = #{userDealHistory.dealId}
+        </if>
+        <if test="userDealHistory.orderId != null">
+            AND a.order_id = #{userDealHistory.orderId}
+        </if>
+        <if test="userDealHistory.dealOrderId != null">
+            AND a.deal_order_id = #{userDealHistory.dealOrderId}
+        </if>
+        <if test="userDealHistory.side != null">
+            AND a.side = #{userDealHistory.side}
+        </if>
+        <if test="userDealHistory.role != null">
+            AND a.role = #{userDealHistory.role}
+        </if>
+        <if test="userDealHistory.price != null">
+            AND a.price = #{userDealHistory.price}
+        </if>
+        <if test="userDealHistory.amount != null">
+            AND a.amount = #{userDealHistory.amount}
+        </if>
+        <if test="userDealHistory.deal != null">
+            AND a.deal = #{userDealHistory.deal}
+        </if>
+        <if test="userDealHistory.fee != null">
+            AND a.fee = #{userDealHistory.fee}
+        </if>
+        <if test="userDealHistory.dealFee != null">
+            AND a.deal_fee = #{userDealHistory.dealFee}
+        </if>
+    </select>
 
 </mapper>
 

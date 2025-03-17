@@ -5,6 +5,8 @@
 package com.anyex.apps.spot.service;
 
 import com.anyex.apps.bean.GenericService;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
 import com.anyex.apps.spot.entity.UserDealHistory;
 
 /**
@@ -19,5 +21,5 @@ import com.anyex.apps.spot.entity.UserDealHistory;
  */
 public interface UserDealHistoryService extends GenericService<UserDealHistory>
 {
-
+    PaginateResult<UserDealHistory> selectList(Pagination pagin, UserDealHistory userDealHistory, String tableName);
 }

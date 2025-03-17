@@ -8,6 +8,9 @@ package com.anyex.apps.spot.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import com.anyex.apps.spot.entity.OrderHistory;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * order_history_example 持久层接口
@@ -22,5 +25,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderHistoryMapper extends GenericMapper<OrderHistory>
 {
-
+    List<OrderHistory> selectList(OrderHistory orderHistory, @Param("tableName") String tableName);
 }

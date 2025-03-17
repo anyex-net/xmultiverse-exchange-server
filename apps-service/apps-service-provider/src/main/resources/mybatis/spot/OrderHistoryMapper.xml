@@ -427,6 +427,54 @@
         FROM order_history_example a
     </select>
 
+    <select id="selectList" resultType="com.anyex.apps.spot.entity.OrderHistory">
+        SELECT
+        <include refid="OrderHistoryColumns"/>
+        FROM ${tableName} a WHERE 1 = 1
+        <if test="orderHistory.createTime != null">
+            AND a.create_time = #{orderHistory.createTime}
+        </if>
+        <if test="orderHistory.finishTime != null">
+            AND a.finish_time = #{orderHistory.finishTime}
+        </if>
+        <if test="orderHistory.userId != null">
+            AND a.user_id = #{orderHistory.userId}
+        </if>
+        <if test="orderHistory.market != null and orderHistory.market != ''">
+            AND a.market LIKE CONCAT('%',#{orderHistory.market}, '%')
+        </if>
+        <if test="orderHistory.source != null and orderHistory.source != ''">
+            AND a.source LIKE CONCAT('%',#{orderHistory.source}, '%')
+        </if>
+        <if test="orderHistory.t != null">
+            AND a.t = #{orderHistory.t}
+        </if>
+        <if test="orderHistory.side != null">
+            AND a.side = #{orderHistory.side}
+        </if>
+        <if test="orderHistory.price != null">
+            AND a.price = #{orderHistory.price}
+        </if>
+        <if test="orderHistory.amount != null">
+            AND a.amount = #{orderHistory.amount}
+        </if>
+        <if test="orderHistory.takerFee != null">
+            AND a.taker_fee = #{orderHistory.takerFee}
+        </if>
+        <if test="orderHistory.makerFee != null">
+            AND a.maker_fee = #{orderHistory.makerFee}
+        </if>
+        <if test="orderHistory.dealStock != null">
+            AND a.deal_stock = #{orderHistory.dealStock}
+        </if>
+        <if test="orderHistory.dealMoney != null">
+            AND a.deal_money = #{orderHistory.dealMoney}
+        </if>
+        <if test="orderHistory.dealFee != null">
+            AND a.deal_fee = #{orderHistory.dealFee}
+        </if>
+    </select>
+
 
 </mapper>
 

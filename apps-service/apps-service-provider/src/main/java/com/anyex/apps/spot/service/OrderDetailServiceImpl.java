@@ -4,8 +4,14 @@
  */
 package com.anyex.apps.spot.service;
 
+import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
+import com.anyex.apps.spot.entity.DealHistory;
 import com.anyex.apps.spot.entity.OrderDetail;
 import com.anyex.apps.spot.mapper.OrderDetailMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,5 +37,15 @@ public class OrderDetailServiceImpl extends GenericServiceImpl<OrderDetail> impl
     {
         super(orderDetailExampleMapper);
         this.orderDetailExampleMapper = orderDetailExampleMapper;
+    }
+
+    @Override
+    public PaginateResult<OrderDetail> selectList(Pagination pagin, OrderDetail orderDetail, String tableName) throws BusinessException
+    {
+        PageHelper.startPage(pagin.getCurrent(), pagin.getSize());
+        PageInfo<OrderDetail> pageInfo = PageInfo.of(orderDetailExampleMapper.selectList(orderDetail,tableName));
+        pagin.setTotal(pageInfo.getTotal());
+        pagin.setCurrent(pageInfo.getPageNum());
+        return new PaginateResult<>(pagin, pageInfo.getList());
     }
 }

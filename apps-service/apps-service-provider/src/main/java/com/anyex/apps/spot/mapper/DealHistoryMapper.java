@@ -8,6 +8,9 @@ package com.anyex.apps.spot.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import com.anyex.apps.spot.entity.DealHistory;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -23,5 +26,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DealHistoryMapper extends GenericMapper<DealHistory>
 {
-
+    List<DealHistory> selectList(DealHistory dealHistory, @Param("tableName") String tableName);
 }

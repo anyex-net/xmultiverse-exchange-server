@@ -358,6 +358,45 @@
         FROM deal_history_example a
     </select>
 
+    <select id="selectList" resultType="com.anyex.apps.spot.entity.DealHistory">
+        SELECT
+        <include refid="DealHistoryColumns"/>
+        FROM ${tableName} a WHERE 1 = 1
+        <if test="dealHistory.time != null">
+            AND a.time = #{dealHistory.time}
+        </if>
+        <if test="dealHistory.userId != null">
+            AND a.user_id = #{dealHistory.userId}
+        </if>
+        <if test="dealHistory.dealId != null">
+            AND a.deal_id = #{dealHistory.dealId}
+        </if>
+        <if test="dealHistory.orderId != null">
+            AND a.order_id = #{dealHistory.orderId}
+        </if>
+        <if test="dealHistory.dealOrderId != null">
+            AND a.deal_order_id = #{dealHistory.dealOrderId}
+        </if>
+        <if test="dealHistory.role != null">
+            AND a.role = #{dealHistory.role}
+        </if>
+        <if test="dealHistory.price != null">
+            AND a.price = #{dealHistory.price}
+        </if>
+        <if test="dealHistory.amount != null">
+            AND a.amount = #{dealHistory.amount}
+        </if>
+        <if test="dealHistory.deal != null">
+            AND a.deal = #{dealHistory.deal}
+        </if>
+        <if test="dealHistory.fee != null">
+            AND a.fee = #{dealHistory.fee}
+        </if>
+        <if test="dealHistory.dealFee != null">
+            AND a.deal_fee = #{dealHistory.dealFee}
+        </if>
+    </select>
+
 
 </mapper>
 

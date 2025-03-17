@@ -427,6 +427,54 @@
         FROM order_detail_example a
     </select>
 
+    <select id="selectList" resultType="com.anyex.apps.spot.entity.OrderDetail">
+        SELECT
+        <include refid="OrderDetailColumns"/>
+        FROM ${tableName} a WHERE 1 = 1
+        <if test="orderDetail.createTime != null">
+            AND a.create_time = #{orderDetail.createTime}
+        </if>
+        <if test="orderDetail.finishTime != null">
+            AND a.finish_time = #{orderDetail.finishTime}
+        </if>
+        <if test="orderDetail.userId != null">
+            AND a.user_id = #{orderDetail.userId}
+        </if>
+        <if test="orderDetail.market != null and orderDetail.market != ''">
+            AND a.market LIKE CONCAT('%',#{orderDetail.market}, '%')
+        </if>
+        <if test="orderDetail.source != null and orderDetail.source != ''">
+            AND a.source LIKE CONCAT('%',#{orderDetail.source}, '%')
+        </if>
+        <if test="orderDetail.t != null">
+            AND a.t = #{orderDetail.t}
+        </if>
+        <if test="orderDetail.side != null">
+            AND a.side = #{orderDetail.side}
+        </if>
+        <if test="orderDetail.price != null">
+            AND a.price = #{orderDetail.price}
+        </if>
+        <if test="orderDetail.amount != null">
+            AND a.amount = #{orderDetail.amount}
+        </if>
+        <if test="orderDetail.takerFee != null">
+            AND a.taker_fee = #{orderDetail.takerFee}
+        </if>
+        <if test="orderDetail.makerFee != null">
+            AND a.maker_fee = #{orderDetail.makerFee}
+        </if>
+        <if test="orderDetail.dealStock != null">
+            AND a.deal_stock = #{orderDetail.dealStock}
+        </if>
+        <if test="orderDetail.dealMoney != null">
+            AND a.deal_money = #{orderDetail.dealMoney}
+        </if>
+        <if test="orderDetail.dealFee != null">
+            AND a.deal_fee = #{orderDetail.dealFee}
+        </if>
+    </select>
+
 
 </mapper>
 

@@ -8,6 +8,9 @@ package com.anyex.apps.spot.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import com.anyex.apps.spot.entity.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * order_detail_example 持久层接口
@@ -22,5 +25,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderDetailMapper extends GenericMapper<OrderDetail>
 {
+    List<OrderDetail> selectList(OrderDetail orderDetail, @Param("tableName") String tableName);
 
 }
