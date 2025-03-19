@@ -6,19 +6,24 @@ import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.UserLog;
+import com.anyex.apps.user.service.UserLogService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
- * 日志控制器 Introduce
- * <p>File：LogsController.java</p>
- * <p>Title: LogsController</p>
- * <p>Description: LogsController</p>
+ * 用户日志控制器 Introduce
+ * <p>File：UserLogsController.java</p>
+ * <p>Title: UserLogsController</p>
+ * <p>Description: UserLogsController</p>
  * <p>Copyright: Copyright (c) 2017/8/3</p>
  * <p>Company: AnyEx</p>
  *
@@ -27,27 +32,33 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(GlobalConst.USER)
-@Api(tags = "日志信息")
-public class LogsController extends GenericController
+@Api(tags = "用户日志")
+public class UserLogsController extends GenericController
 {
 //    @Autowired(required = false)
 //    AccountLogNoSql accountLogNoSql;
-    
+
+    @Autowired(required = false)
+    UserLogService userLogService;
+
     /**
      * 登陆日志
      * @return {@link JsonMessage}
      * @throws BusinessException
      */
     @ResponseBody
-    @RequestMapping(value = "/logs/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/userLog/login", method = RequestMethod.GET)
     @ApiOperation(value = "登录日志", httpMethod = "GET")
-    public JsonMessage loginLog() throws BusinessException
+    public JsonMessage<List<UserLog>> loginLog() throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
-//        List<AccountLog> result = accountLogNoSql.findLastTenLoginLogs(principal.getId());
-//        return this.getJsonMessage(CommonEnums.SUCCESS, result);
-        return this.getJsonMessage(CommonEnums.SUCCESS, null);
+        //
+        UserLog userLogSearch = new UserLog();
+        userLogSearch.setUserId(principal.getId());
+        userLogSearch.setOpType("login");
+        List<UserLog> result = userLogService.findList(userLogSearch);
+        return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
     
     /**
@@ -56,14 +67,17 @@ public class LogsController extends GenericController
      * @throws BusinessException
      */
     @ResponseBody
-    @RequestMapping(value = "/logs/setting", method = RequestMethod.GET)
+    @RequestMapping(value = "/userLog/setting", method = RequestMethod.GET)
     @ApiOperation(value = "操作日志", httpMethod = "GET")
-    public JsonMessage settingLog() throws BusinessException
+    public JsonMessage<List<UserLog>> settingLog() throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
-//        List<AccountLog> result = accountLogNoSql.findLastTenSettingLogs(principal.getId());
-//        return this.getJsonMessage(CommonEnums.SUCCESS, result);
-        return this.getJsonMessage(CommonEnums.SUCCESS, null);
+        //
+        UserLog userLogSearch = new UserLog();
+        userLogSearch.setUserId(principal.getId());
+        userLogSearch.setOpType("setting");
+        List<UserLog> result = userLogService.findList(userLogSearch);
+        return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
 }
