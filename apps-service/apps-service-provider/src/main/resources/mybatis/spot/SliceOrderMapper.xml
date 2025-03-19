@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.spot.mapper.SliceOrderMapper">
+    <!-- 基础列 -->
+    <sql id="sliceOrderExampleColumns">
+        a.id as id,
+        a.t as t,
+        a.side as side,
+        a.create_time as createTime,
+        a.update_time as updateTime,
+        a.user_id as userId,
+        a.market as market,
+        a.price as price,
+        a.amount as amount,
+        a.taker_fee as takerFee,
+        a.maker_fee as makerFee,
+        a.left as left,
+        a.freeze as freeze,
+        a.deal_stock as dealStock,
+        a.deal_money as dealMoney,
+        a.deal_fee as dealFee
+    </sql>
+
+    <resultMap id="sliceOrderExampleResultMap" type="com.anyex.apps.spot.entity.SliceOrder">
+        <id column="ID" property="id" />
+        <result column="t" property="t"/>
+        <result column="side" property="side"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="user_id" property="userId"/>
+        <result column="market" property="market"/>
+        <result column="price" property="price"/>
+        <result column="amount" property="amount"/>
+        <result column="taker_fee" property="takerFee"/>
+        <result column="maker_fee" property="makerFee"/>
+        <result column="left" property="left"/>
+        <result column="freeze" property="freeze"/>
+        <result column="deal_stock" property="dealStock"/>
+        <result column="deal_money" property="dealMoney"/>
+        <result column="deal_fee" property="dealFee"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.spot.entity.SliceOrder">
+        INSERT INTO slice_order_example(
+            id ,
+            t ,
+            side ,
+            create_time ,
+            update_time ,
+            user_id ,
+            market ,
+            price ,
+            amount ,
+            taker_fee ,
+            maker_fee ,
+            left ,
+            freeze ,
+            deal_stock ,
+            deal_money ,
+            deal_fee 
+        ) VALUES (
+            #{id} ,
+            #{t} ,
+            #{side} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{userId} ,
+            #{market} ,
+            #{price} ,
+            #{amount} ,
+            #{takerFee} ,
+            #{makerFee} ,
+            #{left} ,
+            #{freeze} ,
+            #{dealStock} ,
+            #{dealMoney} ,
+            #{dealFee} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM slice_order_example WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE slice_order_example SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.spot.entity.SliceOrder">
+        INSERT INTO slice_order_example
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="t != null">
+                t ,
+        </if>
+        <if test="side != null">
+                side ,
+        </if>
+        <if test="createTime != null">
+                create_time ,
+        </if>
+        <if test="updateTime != null">
+                update_time ,
+        </if>
+        <if test="userId != null">
+                user_id ,
+        </if>
+        <if test="market != null">
+                market ,
+        </if>
+        <if test="price != null">
+                price ,
+        </if>
+        <if test="amount != null">
+                amount ,
+        </if>
+        <if test="takerFee != null">
+                taker_fee ,
+        </if>
+        <if test="makerFee != null">
+                maker_fee ,
+        </if>
+        <if test="left != null">
+                left ,
+        </if>
+        <if test="freeze != null">
+                freeze ,
+        </if>
+        <if test="dealStock != null">
+                deal_stock ,
+        </if>
+        <if test="dealMoney != null">
+                deal_money ,
+        </if>
+        <if test="dealFee != null">
+                deal_fee 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="t != null">
+                #{t} ,
+        </if>
+        <if test="side != null">
+                #{side} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="market != null">
+                #{market} ,
+        </if>
+        <if test="price != null">
+                #{price} ,
+        </if>
+        <if test="amount != null">
+                #{amount} ,
+        </if>
+        <if test="takerFee != null">
+                #{takerFee} ,
+        </if>
+        <if test="makerFee != null">
+                #{makerFee} ,
+        </if>
+        <if test="left != null">
+                #{left} ,
+        </if>
+        <if test="freeze != null">
+                #{freeze} ,
+        </if>
+        <if test="dealStock != null">
+                #{dealStock} ,
+        </if>
+        <if test="dealMoney != null">
+                #{dealMoney} ,
+        </if>
+        <if test="dealFee != null">
+                #{dealFee} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.spot.entity.SliceOrder">
+        UPDATE slice_order_example
+           <set>
+            <if test="t != null">
+                t = #{t} ,
+            </if>
+            <if test="side != null">
+                side = #{side} ,
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime} ,
+            </if>
+            <if test="userId != null">
+                user_id = #{userId} ,
+            </if>
+            <if test="market != null">
+                market = #{market} ,
+            </if>
+            <if test="price != null">
+                price = #{price} ,
+            </if>
+            <if test="amount != null">
+                amount = #{amount} ,
+            </if>
+            <if test="takerFee != null">
+                taker_fee = #{takerFee} ,
+            </if>
+            <if test="makerFee != null">
+                maker_fee = #{makerFee} ,
+            </if>
+            <if test="left != null">
+                left = #{left} ,
+            </if>
+            <if test="freeze != null">
+                freeze = #{freeze} ,
+            </if>
+            <if test="dealStock != null">
+                deal_stock = #{dealStock} ,
+            </if>
+            <if test="dealMoney != null">
+                deal_money = #{dealMoney} ,
+            </if>
+            <if test="dealFee != null">
+                deal_fee = #{dealFee} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO slice_order_example(
+            id ,
+            t ,
+            side ,
+            create_time ,
+            update_time ,
+            user_id ,
+            market ,
+            price ,
+            amount ,
+            taker_fee ,
+            maker_fee ,
+            left ,
+            freeze ,
+            deal_stock ,
+            deal_money ,
+            deal_fee 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.t} ,
+            #{item.side} ,
+            #{item.createTime} ,
+            #{item.updateTime} ,
+            #{item.userId} ,
+            #{item.market} ,
+            #{item.price} ,
+            #{item.amount} ,
+            #{item.takerFee} ,
+            #{item.makerFee} ,
+            #{item.left} ,
+            #{item.freeze} ,
+            #{item.dealStock} ,
+            #{item.dealMoney} ,
+            #{item.dealFee} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE slice_order_example SET
+            t = #{item.t} ,
+            side = #{item.side} ,
+            create_time = #{item.createTime} ,
+            update_time = #{item.updateTime} ,
+            user_id = #{item.userId} ,
+            market = #{item.market} ,
+            price = #{item.price} ,
+            amount = #{item.amount} ,
+            taker_fee = #{item.takerFee} ,
+            maker_fee = #{item.makerFee} ,
+            left = #{item.left} ,
+            freeze = #{item.freeze} ,
+            deal_stock = #{item.dealStock} ,
+            deal_money = #{item.dealMoney} ,
+            deal_fee = #{item.dealFee} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.spot.entity.SliceOrder">
+        UPDATE slice_order_example SET
+            t = #{t} ,
+            side = #{side} ,
+            create_time = #{createTime} ,
+            update_time = #{updateTime} ,
+            user_id = #{userId} ,
+            market = #{market} ,
+            price = #{price} ,
+            amount = #{amount} ,
+            taker_fee = #{takerFee} ,
+            maker_fee = #{makerFee} ,
+            left = #{left} ,
+            freeze = #{freeze} ,
+            deal_stock = #{dealStock} ,
+            deal_money = #{dealMoney} ,
+            deal_fee = #{dealFee} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.spot.entity.SliceOrder">
+        SELECT <include refid="sliceOrderExampleColumns"/> FROM slice_order_example a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.spot.entity.SliceOrder">
+        SELECT
+        <include refid="sliceOrderExampleColumns"/>
+        FROM slice_order_example a WHERE 1 = 1
+        <if test="t != null">
+            AND a.t = #{t}
+        </if>
+        <if test="side != null">
+            AND a.side = #{side}
+        </if>
+        <if test="createTime != null">
+            AND a.create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.update_time = #{updateTime}
+        </if>
+        <if test="userId != null">
+            AND a.user_id = #{userId}
+        </if>
+        <if test="market != null and market != ''">
+            AND a.market = #{market}
+        </if>
+        <if test="price != null">
+            AND a.price = #{price}
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="takerFee != null">
+            AND a.taker_fee = #{takerFee}
+        </if>
+        <if test="makerFee != null">
+            AND a.maker_fee = #{makerFee}
+        </if>
+        <if test="left != null">
+            AND a.left = #{left}
+        </if>
+        <if test="freeze != null">
+            AND a.freeze = #{freeze}
+        </if>
+        <if test="dealStock != null">
+            AND a.deal_stock = #{dealStock}
+        </if>
+        <if test="dealMoney != null">
+            AND a.deal_money = #{dealMoney}
+        </if>
+        <if test="dealFee != null">
+            AND a.deal_fee = #{dealFee}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.spot.entity.SliceOrder">
+        SELECT
+        <include refid="sliceOrderExampleColumns"/>
+        FROM slice_order_example a WHERE 1 = 1
+        <if test="t != null">
+            AND a.t = #{t}
+        </if>
+        <if test="side != null">
+            AND a.side = #{side}
+        </if>
+        <if test="createTime != null">
+            AND a.create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.update_time = #{updateTime}
+        </if>
+        <if test="userId != null">
+            AND a.user_id = #{userId}
+        </if>
+        <if test="market != null and market != ''">
+            AND a.market LIKE CONCAT('%',#{market}, '%')
+        </if>
+        <if test="price != null">
+            AND a.price = #{price}
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="takerFee != null">
+            AND a.taker_fee = #{takerFee}
+        </if>
+        <if test="makerFee != null">
+            AND a.maker_fee = #{makerFee}
+        </if>
+        <if test="left != null">
+            AND a.left = #{left}
+        </if>
+        <if test="freeze != null">
+            AND a.freeze = #{freeze}
+        </if>
+        <if test="dealStock != null">
+            AND a.deal_stock = #{dealStock}
+        </if>
+        <if test="dealMoney != null">
+            AND a.deal_money = #{dealMoney}
+        </if>
+        <if test="dealFee != null">
+            AND a.deal_fee = #{dealFee}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.spot.entity.SliceOrder">
+        SELECT
+        <include refid="sliceOrderExampleColumns"/>
+        FROM slice_order_example a
+    </select>
+
+
+</mapper>
+

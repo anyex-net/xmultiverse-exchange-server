@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.spot.mapper.SliceBalanceMapper">
+    <!-- 基础列 -->
+    <sql id="sliceBalanceExampleColumns">
+        a.id as id,
+        a.user_id as userId,
+        a.asset as asset,
+        a.t as t,
+        a.balance as balance
+    </sql>
+
+    <resultMap id="sliceBalanceExampleResultMap" type="com.anyex.apps.spot.entity.SliceBalance">
+        <id column="ID" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="asset" property="asset"/>
+        <result column="t" property="t"/>
+        <result column="balance" property="balance"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.spot.entity.SliceBalance">
+        INSERT INTO slice_balance_example(
+            id ,
+            user_id ,
+            asset ,
+            t ,
+            balance 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{asset} ,
+            #{t} ,
+            #{balance} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM slice_balance_example WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE slice_balance_example SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.spot.entity.SliceBalance">
+        INSERT INTO slice_balance_example
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                user_id ,
+        </if>
+        <if test="asset != null">
+                asset ,
+        </if>
+        <if test="t != null">
+                t ,
+        </if>
+        <if test="balance != null">
+                balance 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="asset != null">
+                #{asset} ,
+        </if>
+        <if test="t != null">
+                #{t} ,
+        </if>
+        <if test="balance != null">
+                #{balance} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.spot.entity.SliceBalance">
+        UPDATE slice_balance_example
+           <set>
+            <if test="userId != null">
+                user_id = #{userId} ,
+            </if>
+            <if test="asset != null">
+                asset = #{asset} ,
+            </if>
+            <if test="t != null">
+                t = #{t} ,
+            </if>
+            <if test="balance != null">
+                balance = #{balance} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO slice_balance_example(
+            id ,
+            user_id ,
+            asset ,
+            t ,
+            balance 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.asset} ,
+            #{item.t} ,
+            #{item.balance} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE slice_balance_example SET
+            user_id = #{item.userId} ,
+            asset = #{item.asset} ,
+            t = #{item.t} ,
+            balance = #{item.balance} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.spot.entity.SliceBalance">
+        UPDATE slice_balance_example SET
+            user_id = #{userId} ,
+            asset = #{asset} ,
+            t = #{t} ,
+            balance = #{balance} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.spot.entity.SliceBalance">
+        SELECT <include refid="sliceBalanceExampleColumns"/> FROM slice_balance_example a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.spot.entity.SliceBalance">
+        SELECT
+        <include refid="sliceBalanceExampleColumns"/>
+        FROM slice_balance_example a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.user_id = #{userId}
+        </if>
+        <if test="asset != null and asset != ''">
+            AND a.asset = #{asset}
+        </if>
+        <if test="t != null">
+            AND a.t = #{t}
+        </if>
+        <if test="balance != null">
+            AND a.balance = #{balance}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.spot.entity.SliceBalance">
+        SELECT
+        <include refid="sliceBalanceExampleColumns"/>
+        FROM slice_balance_example a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.user_id = #{userId}
+        </if>
+        <if test="asset != null and asset != ''">
+            AND a.asset LIKE CONCAT('%',#{asset}, '%')
+        </if>
+        <if test="t != null">
+            AND a.t = #{t}
+        </if>
+        <if test="balance != null">
+            AND a.balance = #{balance}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.spot.entity.SliceBalance">
+        SELECT
+        <include refid="sliceBalanceExampleColumns"/>
+        FROM slice_balance_example a
+    </select>
+
+
+</mapper>
+
