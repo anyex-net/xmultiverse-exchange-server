@@ -82,6 +82,11 @@ public class CaptchaController extends GenericController
             RedisUtils.putObject(key.append(MessageConst.SMS_VALID_REGISTER).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
                     CacheConst.ONE_MINUTE_CACHE_TIME);
         }
+        else if (MessageConst.SMS_VALID_BINDMOBILE.equals(scene))
+        {
+            RedisUtils.putObject(key.append(MessageConst.SMS_VALID_BINDMOBILE).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
+                    CacheConst.ONE_MINUTE_CACHE_TIME);
+        }
         else if (MessageConst.SMS_VALID_OTHER.equals(scene))
         {
             RedisUtils.putObject(key.append(MessageConst.SMS_VALID_OTHER).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
@@ -106,6 +111,11 @@ public class CaptchaController extends GenericController
         else if (MessageConst.EMAIL_VALID_REGISTER.equals(scene))
         {
             RedisUtils.putObject(key.append(MessageConst.EMAIL_VALID_REGISTER).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
+                    CacheConst.ONE_MINUTE_CACHE_TIME);
+        }
+        else if (MessageConst.EMAIL_VALID_BINDEMAIL.equals(scene))
+        {
+            RedisUtils.putObject(key.append(MessageConst.EMAIL_VALID_BINDEMAIL).append(GlobalConst.SEPARATOR).append(ip).toString(), captchaText,
                     CacheConst.ONE_MINUTE_CACHE_TIME);
         }
         else if (MessageConst.EMAIL_VALID_LOGOFF.equals(scene))

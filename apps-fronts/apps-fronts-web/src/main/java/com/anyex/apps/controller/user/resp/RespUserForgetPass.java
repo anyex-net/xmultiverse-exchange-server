@@ -4,15 +4,12 @@
  */
 package com.anyex.apps.controller.user.resp;
 
-import com.anyex.apps.consts.CharsetConst;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 
 /**
  * 用户信息 实体对象

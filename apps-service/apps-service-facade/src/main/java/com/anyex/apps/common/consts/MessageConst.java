@@ -37,7 +37,7 @@ public abstract class MessageConst
     public static final String EMAIL_VALID_MODIFYPASS           = "email_modifypass";
 
     // 绑定邮箱邮箱码
-    public static final String EMAIL_VALID_BINDEMAIL           = "email_bindemail";
+    public static final String EMAIL_VALID_BINDEMAIL            = "email_bindemail";
 
     // 注销类邮箱码
     public static final String EMAIL_VALID_LOGOFF               = "email_logoff";

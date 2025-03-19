@@ -131,6 +131,63 @@ public class UserSettingController extends GenericController
     }
 
     /**
+     * 设置交易密码
+     * @param reqUserSetPwd
+     * @return {@link JsonMessage}
+     * @throws BusinessException
+     */
+    @ResponseBody
+    @ApiOperation(value = "设置交易密码", httpMethod = "POST")
+    @RequestMapping(value = "/setting/setTradePwd", method = RequestMethod.POST)
+    public JsonMessage setTradePwd(@Validated @RequestBody ReqUserSetPwd reqUserSetPwd) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
+        User userDB = userService.selectByPrimaryKey(principal.getId());
+        if (null != userDB && !userDB.verifySignature())
+        {// 校验数据
+            throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
+        }
+        //
+//        if (!EncryptUtils.validatePassword(reqUserModifyPwd.getOldPass(), userDB.getTradePwd()))
+//        {// 检验原始密码
+//            String opCountKey = new StringBuffer(CacheConst.OPERATION_COUNT_PREFIX)// 加入缓存前缀
+//                    .append(GlobalConst.SEPARATOR).append("modifyTradePwd")// 加入模块标识
+//                    .append(GlobalConst.SEPARATOR).append(OnLineUserUtils.getId()).toString();
+//            int count = userPolicyService.errorOperatorCounter(opCountKey);
+//            if (count >= 10)
+//            {// 操作频率达到10次时,锁定用户
+////                userService.modifyAccountStatusToFrozen(OnLineUserUtils.getId(), AccountConsts.FROZEN_REASON_CHANGE_PASSWORD);
+//                SecurityUtils.getSubject().logout(); // 冻结用户后退出当前会话
+//            }
+//            return getJsonMessage(UserEnums.USER_PASSWORD_ERROR);
+//        }
+        userDB.setTradePwd(EncryptUtils.entryptPassword(reqUserSetPwd.getPassword()));
+        userDB.setUpdateTime(System.currentTimeMillis());
+        userService.updateByPrimaryKeySelective(userDB);
+        /*
+         * if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
+         * {// 短信提醒
+         * if (StringUtils.isNotBlank(principal.getUserMobile()))
+         * {// 确保手机已绑定过
+         * String vagueMobile = StringUtils.vagueMobile(principal.getUserMobile());
+         * String mobile = new StringBuffer(principal.getCountry()).append(principal.getUserMobile()).toString();
+         * msgRecordService.sendRemindSMS(mobile, MessageConst.REMIND_CHANGE_LOGINPASS_PHONE, principal.getLang(), vagueMobile,
+         * CalendarUtils.getCurrentDate(DateConst.DATE_FORMAT_YMDHMS));
+         * }
+         * }
+         */
+//        if (BitmsConst.REMIND_EMAIL_SWITCH.equals(GlobalConst.SWITCH_ENABLE))
+//        {// 邮件提醒
+//            msgRecordService.sendRemindEmail(principal.getUserMail(), MessageConst.REMIND_CHANGE_LOGINPASS_EMAIL, "en_US", BitmsConst.HOST_EMAIL_LOGO_URL,
+//                    principal.getUserMail(), CalendarUtils.getCurrentDate(DateConst.DATE_FORMAT_YMDHMS));
+//        }
+        saveOperationLogs(principal, "set trade password");
+        return this.getJsonMessage(CommonEnums.SUCCESS);
+    }
+
+    /**
      * 修改交易密码
      * @param reqUserModifyPwd
      * @return {@link JsonMessage}
