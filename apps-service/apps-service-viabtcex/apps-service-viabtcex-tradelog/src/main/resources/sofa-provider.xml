@@ -4,6 +4,27 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://sofastack.io/schema/sofaboot http://sofastack.io/schema/sofaboot.xsd">
     <!-- 业务服务 -->
+    <sofa:service interface="com.anyex.apps.spot.service.OperlogService" ref="operlogServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.spot.service.SliceBalanceService" ref="sliceBalanceServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.spot.service.SliceHistoryService" ref="sliceHistoryServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.spot.service.SliceOrderService" ref="sliceOrderServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+
 
 
 </beans>

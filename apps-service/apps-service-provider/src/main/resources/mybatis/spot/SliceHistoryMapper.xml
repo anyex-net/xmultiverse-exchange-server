@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.spot.mapper.SliceHistoryMapper">
+    <!-- 基础列 -->
+    <sql id="sliceHistoryColumns">
+        a.id as id,
+        a.time as time,
+        a.end_oper_id as endOperId,
+        a.end_order_id as endOrderId,
+        a.end_deals_id as endDealsId
+    </sql>
+
+    <resultMap id="sliceHistoryResultMap" type="com.anyex.apps.spot.entity.SliceHistory">
+        <id column="ID" property="id" />
+        <result column="time" property="time"/>
+        <result column="end_oper_id" property="endOperId"/>
+        <result column="end_order_id" property="endOrderId"/>
+        <result column="end_deals_id" property="endDealsId"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.spot.entity.SliceHistory">
+        INSERT INTO slice_history(
+            id ,
+            time ,
+            end_oper_id ,
+            end_order_id ,
+            end_deals_id 
+        ) VALUES (
+            #{id} ,
+            #{time} ,
+            #{endOperId} ,
+            #{endOrderId} ,
+            #{endDealsId} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM slice_history WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE slice_history SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.spot.entity.SliceHistory">
+        INSERT INTO slice_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="time != null">
+                time ,
+        </if>
+        <if test="endOperId != null">
+                end_oper_id ,
+        </if>
+        <if test="endOrderId != null">
+                end_order_id ,
+        </if>
+        <if test="endDealsId != null">
+                end_deals_id 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="time != null">
+                #{time} ,
+        </if>
+        <if test="endOperId != null">
+                #{endOperId} ,
+        </if>
+        <if test="endOrderId != null">
+                #{endOrderId} ,
+        </if>
+        <if test="endDealsId != null">
+                #{endDealsId} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.spot.entity.SliceHistory">
+        UPDATE slice_history
+           <set>
+            <if test="time != null">
+                time = #{time} ,
+            </if>
+            <if test="endOperId != null">
+                end_oper_id = #{endOperId} ,
+            </if>
+            <if test="endOrderId != null">
+                end_order_id = #{endOrderId} ,
+            </if>
+            <if test="endDealsId != null">
+                end_deals_id = #{endDealsId} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO slice_history(
+            id ,
+            time ,
+            end_oper_id ,
+            end_order_id ,
+            end_deals_id 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.time} ,
+            #{item.endOperId} ,
+            #{item.endOrderId} ,
+            #{item.endDealsId} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE slice_history SET
+            time = #{item.time} ,
+            end_oper_id = #{item.endOperId} ,
+            end_order_id = #{item.endOrderId} ,
+            end_deals_id = #{item.endDealsId} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.spot.entity.SliceHistory">
+        UPDATE slice_history SET
+            time = #{time} ,
+            end_oper_id = #{endOperId} ,
+            end_order_id = #{endOrderId} ,
+            end_deals_id = #{endDealsId} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.spot.entity.SliceHistory">
+        SELECT <include refid="sliceHistoryColumns"/> FROM slice_history a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.spot.entity.SliceHistory">
+        SELECT
+        <include refid="sliceHistoryColumns"/>
+        FROM slice_history a WHERE 1 = 1
+        <if test="time != null">
+            AND a.time = #{time}
+        </if>
+        <if test="endOperId != null">
+            AND a.end_oper_id = #{endOperId}
+        </if>
+        <if test="endOrderId != null">
+            AND a.end_order_id = #{endOrderId}
+        </if>
+        <if test="endDealsId != null">
+            AND a.end_deals_id = #{endDealsId}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.spot.entity.SliceHistory">
+        SELECT
+        <include refid="sliceHistoryColumns"/>
+        FROM slice_history a WHERE 1 = 1
+        <if test="time != null">
+            AND a.time = #{time}
+        </if>
+        <if test="endOperId != null">
+            AND a.end_oper_id = #{endOperId}
+        </if>
+        <if test="endOrderId != null">
+            AND a.end_order_id = #{endOrderId}
+        </if>
+        <if test="endDealsId != null">
+            AND a.end_deals_id = #{endDealsId}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.spot.entity.SliceHistory">
+        SELECT
+        <include refid="sliceHistoryColumns"/>
+        FROM slice_history a
+    </select>
+
+
+</mapper>
+
