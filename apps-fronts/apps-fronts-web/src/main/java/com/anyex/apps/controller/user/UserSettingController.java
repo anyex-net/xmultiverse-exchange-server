@@ -14,13 +14,16 @@ import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.user.consts.UserConsts;
 import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.entity.UserLog;
 import com.anyex.apps.user.enums.UserEnums;
 import com.anyex.apps.user.model.PolicyModel;
 import com.anyex.apps.user.service.UserCertKycService;
+import com.anyex.apps.user.service.UserLogService;
 import com.anyex.apps.user.service.UserPolicyService;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.*;
 import com.google.common.collect.Maps;
+import com.maxmind.geoip.Location;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +63,9 @@ public class UserSettingController extends GenericController
 
 //    @Autowired(required = false)
 //    AccountLogNoSql             accountLogNoSql;
+
+    @Autowired(required = false)
+    UserLogService userLogService;
 
     @Autowired(required = false)
     SysMsgRecordService sysMsgRecordService;
@@ -830,46 +836,46 @@ public class UserSettingController extends GenericController
      */
     void saveOperationLogs(UserPrincipal principal, String content)
     {
-//        try
-//        {
-//            if (null == principal) principal = OnLineUserUtils.getPrincipal();
-//            HttpServletRequest request = ServletsUtils.getRequest();
-//            AccountLog accountLog = new AccountLog();
-//            accountLog.setContent(content);
-//            accountLog.setSystemName(BitmsConst.BITMS_PROJECT_NAME);
-//            accountLog.setAccountId(principal.getId());
-//            accountLog.setUrl(request.getRequestURI());
-//            accountLog.setOpType(AccountLogConsts.LOG_TYPE_SETTING);
-//            accountLog.setAccountName(principal.getTrueName());
-//            accountLog.setIpAddr(IPUtil.getOriginalIpAddr(request));
-//            accountLog.setCreateDate(CalendarUtils.getCurrentLong());
-//            if (null != accountLog.getIpAddr())
-//            {
-//                String rigonName = "Unknown address";
-//                String[] ipArray = accountLog.getIpAddr().split(",");
-//                for (String ip : ipArray)
-//                {
-//                    Location location = GeoIPUtils.getInstance().getLocation(ip);
-//                    if (null != location)
-//                    {
-//                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
-//                    }
-//                    break;
-//                }
-//                accountLog.setRigonName(rigonName);
-//            }
-//            accountLogNoSql.insert(accountLog);
-//        }
-//        catch (RuntimeException e)
-//        {
-//            log.error("操作日志记录失败：{}", e.getCause());
-//        }
-//        finally
-//        {
-//            Long endTime = System.currentTimeMillis() + 86400000;
-//            StringBuffer key = new StringBuffer(CacheConst.POLICY_PERFIX).append("uplocktime_Widthdraw_").append(principal.getId());
-//            RedisUtils.putObject(key.toString(), endTime, CacheConst.TWENTYFOUR_HOUR_CACHE_TIME);
-//        }
+        try
+        {
+            if (null == principal) principal = OnLineUserUtils.getPrincipal();
+            HttpServletRequest request = ServletsUtils.getRequest();
+            UserLog userLog = new UserLog();
+            userLog.setUserId(principal.getId());
+            userLog.setUserName(principal.getUserName());
+            userLog.setSystemName("exchange-web");
+            userLog.setOpType("setting");
+            userLog.setUrl(request.getRequestURI());
+            userLog.setContent(content);
+            userLog.setIpAddr(NetworkUtils.getIpAddr(request));
+            userLog.setCreateTime(CalendarUtils.getCurrentLong());
+            if (null != userLog.getIpAddr())
+            {
+                String rigonName = "Unknown address";
+                String[] ipArray = userLog.getIpAddr().split(",");
+                for (String ip : ipArray)
+                {
+                    Location location = GeoIPUtils.getInstance().getLocation(ip);
+                    if (null != location)
+                    {
+                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
+                    }
+                    break;
+                }
+                userLog.setRigonName(rigonName);
+            }
+            userLogService.insert(userLog);
+        }
+        catch (RuntimeException e)
+        {
+            log.error("操作日志记录失败：{}", e.getCause());
+        }
+        finally
+        {
+            Long endTime = System.currentTimeMillis() + 86400000;
+            StringBuffer key = new StringBuffer(CacheConst.POLICY_PERFIX).append("uplocktime_Widthdraw_").append(principal.getId());
+            RedisUtils.putObject(key.toString(), endTime, CacheConst.TWENTYFOUR_HOUR_CACHE_TIME);
+        }
     }
 
 //    /**

@@ -17,10 +17,13 @@ import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.shiro.model.UserToken;
 import com.anyex.apps.user.consts.UserConsts;
 import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.entity.UserLog;
 import com.anyex.apps.user.model.PolicyModel;
 import com.anyex.apps.user.model.UserScanLoginModel;
+import com.anyex.apps.user.service.UserLogService;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.*;
+import com.maxmind.geoip.Location;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +69,9 @@ public class AuthController extends GenericController
     
 //    @Autowired(required = false)
 //    AccountLogNoSql     accountLogNoSql;
+
+    @Autowired(required = false)
+    UserLogService userLogService;
     
     @Autowired(required = false)
     SysMsgRecordService sysMsgRecordService;
@@ -153,7 +159,7 @@ public class AuthController extends GenericController
         try
         {
             subject.login(userToken);
-            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "登录");
+            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "login");
         }
         catch (IncorrectCredentialsException ice)
         {
@@ -299,7 +305,7 @@ public class AuthController extends GenericController
                 // 登录成功后 清除Redis缓存
                 RedisUtils.del(userToken.getQrCode());
                 // 记录日志
-                saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "二维码登录");
+                saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "login QRCode");
             } else {
                 log.error("非法请求");
                 return this.getJsonMessage(CommonEnums.ERROR_ILLEGAL_REQUEST);
@@ -499,7 +505,7 @@ public class AuthController extends GenericController
         Subject subject = SecurityUtils.getSubject();
         if (null != subject)
         {
-            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "登出");
+            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "logout");
             subject.logout();
         }
         JsonMessage jsonMessage = new JsonMessage();
@@ -516,39 +522,39 @@ public class AuthController extends GenericController
      */
     void saveOperationLogs(HttpServletRequest request, UserPrincipal principal, String content)
     {
-//        try
-//        {
-//            if (null == principal) return;
-//            AccountLog accountLog = new AccountLog();
-//            accountLog.setContent(content);
-//            accountLog.setAccountId(principal.getId());
-//            accountLog.setUrl(request.getRequestURI());
-//            accountLog.setSystemName(properies.getProjectName());
-//            accountLog.setOpType(AccountLogConsts.LOG_TYPE_LOGIN);
-//            accountLog.setAccountName(principal.getTrueName());
-//            accountLog.setIpAddr(IPUtil.getOriginalIpAddr(request));
-//            accountLog.setCreateDate(CalendarUtils.getCurrentLong());
-//            if (null != accountLog.getIpAddr())
-//            {
-//                String rigonName = "Unknown address";
-//                String[] ipArray = accountLog.getIpAddr().split(",");
-//                for (String ip : ipArray)
-//                {
-//                    Location location = GeoIPUtils.getInstance().getLocation(ip);
-//                    if (null != location)
-//                    {
-//                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
-//                    }
-//                    break;
-//                }
-//                accountLog.setRigonName(rigonName);
-//            }
-//            accountLogNoSql.insert(accountLog);
-//        }
-//        catch (RuntimeException e)
-//        {
-//            log.error("操作日志记录失败：{}", e.getCause());
-//        }
+        try
+        {
+            if (null == principal) return;
+            UserLog userLog = new UserLog();
+            userLog.setUserId(principal.getId());
+            userLog.setUserName(principal.getUserName());
+            userLog.setSystemName("exchange-web");
+            userLog.setOpType("login");
+            userLog.setContent(content);
+            userLog.setUrl(request.getRequestURI());
+            userLog.setIpAddr(NetworkUtils.getIpAddr(request));
+            userLog.setCreateTime(CalendarUtils.getCurrentLong());
+            if (null != userLog.getIpAddr())
+            {
+                String rigonName = "Unknown address";
+                String[] ipArray = userLog.getIpAddr().split(",");
+                for (String ip : ipArray)
+                {
+                    Location location = GeoIPUtils.getInstance().getLocation(ip);
+                    if (null != location)
+                    {
+                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
+                    }
+                    break;
+                }
+                userLog.setRigonName(rigonName);
+            }
+            userLogService.insert(userLog);
+        }
+        catch (RuntimeException e)
+        {
+            log.error("操作日志记录失败：{}", e.getCause());
+        }
     }
     
     /**

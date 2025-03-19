@@ -34,6 +34,23 @@ create table User
     constraint index_User unique (uid)
 ) comment '用户信息';
 
+--用户日志
+drop table if exists UserLog;
+create table UserLog
+(
+    id                bigint(20)               not null comment 'ID' primary key,
+    userId            bigint(20)               not null comment '用户ID',
+    userName          varchar(64)                       comment '用户名字',
+    systemName        varchar(32)              not null comment '系统名称',
+    opType            varchar(32)              not null comment '操作类型(login登录、setting安全设置)',
+    ipAddr            varchar(64)              not null comment 'IP地址',
+    rigonName         varchar(64)                       comment '证件号码',
+    url               varchar(64)                       comment 'URL地址',
+    content           varchar(256)                      comment '内容',
+    remark            varchar(64)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间'
+) comment '用户日志';
+
 --用户认证个人KYC
 drop table if exists UserCertKyc;
 create table UserCertKyc
