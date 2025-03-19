@@ -88,7 +88,8 @@ public class AccessLimitHandlerInterceptor extends HandlerInterceptorAdapter
                     // 需要登录账户就直接基于特殊限流配置进行基于IP、账户的限流
                     // String token = request.getHeader("token");
                     // String token = request.getHeader("sid");
-                    if(StringUtils.isEmpty(request.getHeader("token")) && StringUtils.isEmpty(request.getHeader("bid"))
+                    if(StringUtils.isEmpty(request.getHeader("Authorization")) &&
+                            StringUtils.isEmpty(request.getHeader("token")) && StringUtils.isEmpty(request.getHeader("bid"))
                             && StringUtils.isEmpty(request.getHeader("sid")) && StringUtils.isEmpty(request.getHeader("aid")))
                     {
                         log.error("Access is prohibited when the user is not logged in");

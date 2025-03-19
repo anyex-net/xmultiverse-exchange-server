@@ -520,6 +520,7 @@ public class UserSettingController extends GenericController
      * @return {@link JsonMessage}
      * @throws BusinessException
      */
+    @ResponseBody
     @PostMapping(value = "/setting/bindGA/buildGASecretKey")
     @ApiOperation(value = "绑定谷歌认证生成GASecretKey", httpMethod = "POST")
     public JsonMessage buildGASecretKey() throws BusinessException
@@ -634,49 +635,95 @@ public class UserSettingController extends GenericController
 //        return this.getJsonMessage(CommonEnums.SUCCESS);
 //    }
 
+//    /**
+//     * 绑定谷歌认证(一步到位控制器入口)
+//     * @param secretKey
+//     * @param gaCode
+//     * @return {@link JsonMessage}
+//     * @throws BusinessException
+//     */
+//    @ResponseBody
+//    @ApiOperation(value = "绑定谷歌认证", httpMethod = "POST")
+//    @RequestMapping(value = "/setting/bindGA", method = RequestMethod.POST)
+//    public JsonMessage bindGA(String secretKey, String gaCode, String validCode) throws BusinessException
+//    {
+//        Authenticator authenticator = new Authenticator();
+//        if (StringUtils.isBlank(validCode) || StringUtils.isBlank(gaCode) || StringUtils.isBlank(secretKey))
+//        {// 参数需要验证
+//            return getJsonMessage(CommonEnums.ERROR_PARAMS_VALID);
+//        }
+//        if (!authenticator.checkCode(secretKey, Long.valueOf(gaCode)))
+//        {// 判断验证码
+//            return getJsonMessage(UserEnums.USER_GACODE_ERROR);
+//        }
+//        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+//        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+//        User userDB = userService.selectByPrimaryKey(principal.getId());
+//        if (StringUtils.isEmpty(userDB.getEmail()))
+//        {// 判断邮箱是否绑定
+//            return getJsonMessage(UserEnums.USER_EMAIL_NOTBIND);
+//        }
+//        if (StringUtils.isEmpty(userDB.getMobileNo()))
+//        {// 判断手机是否绑定
+//            return getJsonMessage(UserEnums.USER_PHONE_NOTBIND);
+//        }
+//        if (StringUtils.isNotBlank(userDB.getGaAuthKey()))
+//        {// 判断GA是否已绑定过
+//            return getJsonMessage(CommonEnums.ERROR_ILLEGAL_REQUEST);
+//        }
+//        StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
+//        if (!sysMsgRecordService.validSMSCode(buffer.toString(), validCode, "类型"))
+//        {// 手机验证码判断
+//            return getJsonMessage(UserEnums.USER_SMSCODE_ERROR);
+//        }
+//        // 账户实体类更新
+//        userDB.setGaAuthKey(EncryptUtils.desEncrypt(secretKey));
+//        userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGA); // 安全策略
+//        userService.updateByPrimaryKeySelective(userDB);
+//        saveOperationLogs(principal, "bind Google Auth");
+//        return this.getJsonMessage(CommonEnums.SUCCESS);
+//    }
+
     /**
      * 绑定谷歌认证(一步到位控制器入口)
-     * @param secretKey
-     * @param gaCode
+     * @param reqUserBindGA
      * @return {@link JsonMessage}
      * @throws BusinessException
      */
     @ResponseBody
     @ApiOperation(value = "绑定谷歌认证", httpMethod = "POST")
     @RequestMapping(value = "/setting/bindGA", method = RequestMethod.POST)
-    public JsonMessage bindGA(String secretKey, String gaCode, String validCode) throws BusinessException
+    public JsonMessage bindGA(@Validated @RequestBody ReqUserBindGA reqUserBindGA) throws BusinessException
     {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
         Authenticator authenticator = new Authenticator();
-        if (StringUtils.isBlank(validCode) || StringUtils.isBlank(gaCode) || StringUtils.isBlank(secretKey))
-        {// 参数需要验证
-            return getJsonMessage(CommonEnums.ERROR_PARAMS_VALID);
-        }
-        if (!authenticator.checkCode(secretKey, Long.valueOf(gaCode)))
+        if (!authenticator.checkCode(reqUserBindGA.getGaSecretKey(), Long.valueOf(reqUserBindGA.getGaCode())))
         {// 判断验证码
             return getJsonMessage(UserEnums.USER_GACODE_ERROR);
         }
-        UserPrincipal principal = OnLineUserUtils.getPrincipal();
-        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
         User userDB = userService.selectByPrimaryKey(principal.getId());
         if (StringUtils.isEmpty(userDB.getEmail()))
         {// 判断邮箱是否绑定
             return getJsonMessage(UserEnums.USER_EMAIL_NOTBIND);
         }
-        if (StringUtils.isEmpty(userDB.getMobileNo()))
-        {// 判断手机是否绑定
-            return getJsonMessage(UserEnums.USER_PHONE_NOTBIND);
-        }
-        if (StringUtils.isNotBlank(userDB.getGaAuthKey()))
+//        if (StringUtils.isEmpty(userDB.getMobileNo()))
+//        {// 判断手机是否绑定
+//            return getJsonMessage(UserEnums.USER_PHONE_NOTBIND);
+//        }
+        if (StringUtils.isNotEmpty(userDB.getGaAuthKey()))
         {// 判断GA是否已绑定过
             return getJsonMessage(CommonEnums.ERROR_ILLEGAL_REQUEST);
         }
-        StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
-        if (!sysMsgRecordService.validSMSCode(buffer.toString(), validCode, "类型"))
-        {// 手机验证码判断
-            return getJsonMessage(UserEnums.USER_SMSCODE_ERROR);
-        }
+//        StringBuffer buffer = new StringBuffer(userDB.getCountry()).append(userDB.getMobileNo());
+//        if (!sysMsgRecordService.validSMSCode(buffer.toString(), validCode, "类型"))
+//        {// 手机验证码判断
+//            return getJsonMessage(UserEnums.USER_SMSCODE_ERROR);
+//        }
         // 账户实体类更新
-        userDB.setGaAuthKey(EncryptUtils.desEncrypt(secretKey));
+        userDB.setGaAuthKey(EncryptUtils.desEncrypt(reqUserBindGA.getGaSecretKey()));
         userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGA); // 安全策略
         userService.updateByPrimaryKeySelective(userDB);
         saveOperationLogs(principal, "bind Google Auth");
