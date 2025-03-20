@@ -91,27 +91,27 @@ public class UserPolicyServiceImpl implements UserPolicyService
         }
         if (UserConsts.SECURITY_POLICY_NEEDGA.equals(user.getSecurityPolicy()))
         {// GA验证
-            if (!validGaCode(user.getGaAuthKey(), policy.getGa()))
+            if (!validGaCode(user.getGaAuthKey(), policy.getGaCode()))
             { throw new BusinessException(CommonEnums.ERROR_GA_VALID_FAILED); }
         }
         if (UserConsts.SECURITY_POLICY_NEEDSMS.equals(user.getSecurityPolicy()))
         {// 短信验证
             StringBuffer mobile = new StringBuffer(user.getCountry()).append(user.getMobileNo());
-            if (!validSMSCode(mobile.toString(), policy.getSms()))
+            if (!validSMSCode(mobile.toString(), policy.getSmsCode()))
             { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
         }
         if (UserConsts.SECURITY_POLICY_NEEDGAANDSMS.equals(user.getSecurityPolicy()))
         {// GA和短信验证
             StringBuffer mobile = new StringBuffer(user.getCountry()).append(user.getMobileNo());
-            if (!validSMSCode(mobile.toString(), policy.getSms()))
+            if (!validSMSCode(mobile.toString(), policy.getSmsCode()))
             { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
-            if (!validGaCode(user.getGaAuthKey(), policy.getGa()))
+            if (!validGaCode(user.getGaAuthKey(), policy.getGaCode()))
             { throw new BusinessException(CommonEnums.ERROR_GA_VALID_FAILED); }
         }
         if (UserConsts.SECURITY_POLICY_NEEDGAORSMS.equals(user.getSecurityPolicy()))
         {// GA或短信验证
             StringBuffer mobile = new StringBuffer(user.getCountry()).append(user.getMobileNo());
-            boolean flag = validSMSCode(mobile.toString(), policy.getSms()) || validGaCode(user.getGaAuthKey(), policy.getGa());
+            boolean flag = validSMSCode(mobile.toString(), policy.getSmsCode()) || validGaCode(user.getGaAuthKey(), policy.getGaCode());
             if (!flag)
             { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
         }

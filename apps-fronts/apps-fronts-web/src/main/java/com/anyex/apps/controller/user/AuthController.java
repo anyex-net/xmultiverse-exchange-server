@@ -8,7 +8,6 @@ import com.anyex.apps.consts.CacheConst;
 import com.anyex.apps.consts.GlobalConst;
 import com.anyex.apps.controller.user.req.ReqUserLogin;
 import com.anyex.apps.enums.CommonEnums;
-import com.anyex.apps.exception.AccountPolicyException;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.exception.UserPolicyException;
 import com.anyex.apps.model.JsonMessage;
@@ -40,7 +39,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -197,14 +195,16 @@ public class AuthController extends GenericController
             result.put("showCaptcha", null != showCaptcha && showCaptcha > 2 ? true : false);
             return this.getJsonMessage(CommonEnums.ERROR_LOGIN_TIMEOUT, result);
         }
-        catch (UserPolicyException ape)
+        catch (UserPolicyException upe)
         {
             redisSessionManager.remove(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
             Serializable sId = subject.getSession().getId();
+            log.info("UserPolicyException sId :{}", sId);
             StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
-            log.info("AccountPolicyException key :{}", key.toString());
+            log.info("UserPolicyException key :{}", key.toString());
+            userToken.setUsername(null);
             RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
-            log.error("AccountPolicyException:{}", ape.getLocalizedMessage());
+            log.error("UserPolicyException upe:{}", upe.getLocalizedMessage());
             //
             //
             String mobileNo = "";
@@ -215,8 +215,7 @@ public class AuthController extends GenericController
             }
             Map<String, Object> result = new HashMap();
             result.put("Authorization", sId);
-            log.info("UserPolicyException sId :{}", sId);
-            result.put("checkType", StringUtils.isNotEmpty(userDB.getGaAuthKey())? "ga":"sms");
+            result.put("checkType", StringUtils.isNotEmpty(userDB.getGaAuthKey())? "gaCheck":"smsCheck");
             result.put("mobileNo", mobileNo);
             result.put("showCaptcha", false);
             //
@@ -347,18 +346,20 @@ public class AuthController extends GenericController
             result.put("showCaptcha", null != showCaptcha && showCaptcha > 2 ? true : false);
             return this.getJsonMessage(CommonEnums.ERROR_LOGIN_TIMEOUT, result);
         }
-        catch (AccountPolicyException ape)
+        catch (UserPolicyException upe)
         {
             redisSessionManager.remove(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
             Serializable sId = subject.getSession().getId();
+            log.info("UserPolicyException sid :{}", sId);
             //
             StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
-            log.info("AccountPolicyException key :{}", key.toString());
+            log.info("UserPolicyException key :{}", key.toString());
+            userToken.setUsername(null);
             RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
-            log.error("AccountPolicyException:{}", ape.getLocalizedMessage());
+            log.error("UserPolicyException:{}", upe.getLocalizedMessage());
             //
             // 需要赋值一下
-            UserToken token = (UserToken)ape.getObject();
+            UserToken token = (UserToken)upe.getObject();
             //
             String mobileNo = "";
             if (token != null && StringUtils.isNotBlank(token.getMobileNo()))
@@ -368,8 +369,7 @@ public class AuthController extends GenericController
             }
             Map<String, Object> result = new HashMap();
             result.put("Authorization", sId);
-            log.info("AccountPolicyException sid :{}", sId);
-            result.put("checkType", token.isGa()? "ga":"sms");
+            result.put("checkType", token.isGa()? "gaCheck":"smsCheck");
             result.put("mobileNo", mobileNo);
             result.put("showCaptcha", false);
             //
@@ -438,6 +438,8 @@ public class AuthController extends GenericController
         if (null == userToken) return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
         if (null == policy) return this.getJsonMessage(CommonEnums.NEED_POLICY_CHECK);
         validErrGaCount(userToken.getId());// 检查用户ga输错次数
+        //
+        //
         userToken.setPolicy(policy);
         userToken.setHost(NetworkUtils.getIpAddr(request));
         //
@@ -446,7 +448,7 @@ public class AuthController extends GenericController
         {
             subject.login(userToken);
         }
-        catch (AccountPolicyException gae)
+        catch (UserPolicyException upe)
         {
             //  累计ga错误次数，错误超过10次 退出登录
             if (logLoginGaTimes(userToken.getId()) > 9)
@@ -574,17 +576,17 @@ public class AuthController extends GenericController
     
     /**
      * 判断二次登录ga验证出错次数
-     * @param accountId
+     * @param userId
      * @return
      */
-    boolean validErrGaCount(Long accountId) throws BusinessException
+    boolean validErrGaCount(Long userId) throws BusinessException
     {
-        Integer count = (Integer) RedisUtils.getObject(loginGaErrCnt + accountId);
+        Integer count = (Integer) RedisUtils.getObject(loginGaErrCnt + userId);
         return null != count && count > 9 ? true : false;
     }
     
     /**
-     * 记录登陆出错的次数
+     * 记录登录出错的次数
      * @param request
      */
     void logLoginTimes(HttpServletRequest request)
@@ -592,11 +594,11 @@ public class AuthController extends GenericController
         Integer count = redisSessionManager.getInteger(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
         if (null == count) count = 0; // 默认为0
         redisSessionManager.put(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA, count + 1, CacheConst.DEFAULT_CACHE_TIME);
-        log.info("记录登陆出错的次数：" + (count + 1) );
+        log.info("记录登录出错的次数：" + (count + 1) );
     }
     
     /**
-     * 判断有无登陆出错数
+     * 判断有无登录出错数
      * @param request
      * @return
      */

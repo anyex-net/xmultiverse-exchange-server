@@ -27,7 +27,7 @@ public class UserToken extends UsernamePasswordToken
     // 策略对象
     private PolicyModel       policy;
 
-    // 策略用户
+    // 策略等级
     private Integer           level;
 
     // 邮箱

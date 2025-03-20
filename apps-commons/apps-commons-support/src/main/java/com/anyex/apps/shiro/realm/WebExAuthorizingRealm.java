@@ -102,7 +102,9 @@ public class WebExAuthorizingRealm extends AuthorizingRealm
         {   // 唯一二维码串登录
             User userDB = userService.selectByPrimaryKeyNoCheck(token.getId());
             if (null == userDB)
-            { throw new UnknownAccountException("User not exists!"); }
+            {
+                throw new UnknownAccountException("User not exists!");
+            }
             if (userDB.getState().intValue() != UserConsts.USER_STATUS_NORMAL.intValue() || !userDB.verifySignature())
             { // 加入冻结的用户筛选
                 throw new LockedAccountException("User data error!");

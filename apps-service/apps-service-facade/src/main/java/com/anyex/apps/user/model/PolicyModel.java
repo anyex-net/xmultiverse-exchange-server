@@ -41,17 +41,17 @@ public class PolicyModel implements Serializable
      * GA验证码
      */
     @ApiModelProperty(value = "GA验证码")
-    private String            ga;
+    private String            gaCode;
     
     /**
      * 短信验证码
      */
     @ApiModelProperty(value = "短信验证码")
-    private String            sms;
+    private String            smsCode;
     
-    public PolicyModel(String ga, String sms)
+    public PolicyModel(String gaCode, String smsCode)
     {
-        this.ga = ga;
-        this.sms = sms;
+        this.gaCode = gaCode;
+        this.smsCode = smsCode;
     }
 }
