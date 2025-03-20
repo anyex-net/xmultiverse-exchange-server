@@ -10,6 +10,7 @@ import com.anyex.apps.controller.user.req.ReqUserLogin;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.exception.UserPolicyException;
+import com.anyex.apps.interceptor.AccessLimit;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.RedisSessionManager;
 import com.anyex.apps.shiro.model.UserPrincipal;
@@ -202,7 +203,6 @@ public class AuthController extends GenericController
             log.info("UserPolicyException sId :{}", sId);
             StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
             log.info("UserPolicyException key :{}", key.toString());
-            userToken.setUsername(null);
             RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
             log.error("UserPolicyException upe:{}", upe.getLocalizedMessage());
             //
@@ -354,7 +354,7 @@ public class AuthController extends GenericController
             //
             StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
             log.info("UserPolicyException key :{}", key.toString());
-            userToken.setUsername(null);
+            userToken.setUsername(null); // 非用户名密码登录
             RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
             log.error("UserPolicyException:{}", upe.getLocalizedMessage());
             //
@@ -406,9 +406,36 @@ public class AuthController extends GenericController
         result.put("Authorization", subject.getSession().getId());
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
-    
+
     /**
-     * 用户登录二次认证
+     * 用户登录二次认证前发送短信码
+     * @param request
+     * @return {@link JsonMessage}
+     * @throws BusinessException
+     */
+    @ResponseBody
+    @ApiOperation(value = "用户登录二次认证前发送短信码", httpMethod = "POST")
+    @RequestMapping(value = "/login/check/sendSms", method = RequestMethod.POST)
+    @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
+    public JsonMessage checkSubmitSendSMS(HttpServletRequest request) throws BusinessException
+    {
+        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
+        log.info("checkSubmit sId:{}", sId);
+        //
+        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
+        log.info("checkSubmit key:{}", key.toString());
+        UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        log.info("checkSubmit userToken:{}", userToken);
+        if (null == userToken) return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
+        //
+        StringBuffer mobileNum = new StringBuffer(userToken.getCountry()).append(userToken.getMobileNo());
+        sysMsgRecordService.sendSms(mobileNum.toString(), GlobalConst.DEFAULT_LANG, MessageConst.SMS_VALID_LOGIN);
+        //
+        return this.getJsonMessage(CommonEnums.SUCCESS);
+    }
+
+    /**
+     * 用户登录二次认证提交
      * @param request
      * @param policy
      * @return {@link JsonMessage}
@@ -416,7 +443,7 @@ public class AuthController extends GenericController
      */
     @ResponseBody
     @RequestMapping("/login/check/submit")
-    @ApiOperation(value = "用户登录二次认证", httpMethod = "POST")
+    @ApiOperation(value = "用户登录二次认证提交", httpMethod = "POST")
     public JsonMessage checkSubmit(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody PolicyModel policy) throws BusinessException
     {
         log.info("set-cookie:" + response.getHeader("set-cookie"));
@@ -440,8 +467,9 @@ public class AuthController extends GenericController
         validErrGaCount(userToken.getId());// 检查用户ga输错次数
         //
         //
-        userToken.setPolicy(policy);
         userToken.setHost(NetworkUtils.getIpAddr(request));
+        policy.setSmsScene(MessageConst.SMS_VALID_LOGIN); // 登录场景
+        userToken.setPolicy(policy);
         //
         Subject subject = SecurityUtils.getSubject();
         try

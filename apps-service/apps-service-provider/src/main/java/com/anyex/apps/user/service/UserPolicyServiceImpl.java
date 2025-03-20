@@ -1,5 +1,6 @@
 package com.anyex.apps.user.service;
 
+import com.anyex.apps.common.consts.MessageConst;
 import com.anyex.apps.common.service.SysMsgRecordService;
 import com.anyex.apps.consts.CacheConst;
 import com.anyex.apps.enums.CommonEnums;
@@ -31,7 +32,7 @@ import org.springframework.stereotype.Service;
 public class UserPolicyServiceImpl implements UserPolicyService
 {
     @Autowired(required = false)
-    private SysMsgRecordService msgRecordService;
+    private SysMsgRecordService sysMsgRecordService;
     
     @Override
     public boolean validPassword(String plainPassword, String password)
@@ -47,9 +48,9 @@ public class UserPolicyServiceImpl implements UserPolicyService
     }
     
     @Override
-    public boolean validSMSCode(String phone, String validCode)
+    public boolean validSMSCode(String phone, String validCode, String type)
     {
-        return msgRecordService.validSMSCode(phone, validCode, "类型");
+        return sysMsgRecordService.validSMSCode(phone, validCode, type);
     }
     
     @Override
@@ -76,7 +77,7 @@ public class UserPolicyServiceImpl implements UserPolicyService
     @Override
     public boolean validEmailCode(String email, String validCode)
     {
-        return msgRecordService.validEmailCode(email, validCode, "模版");
+        return sysMsgRecordService.validEmailCode(email, validCode, MessageConst.TEMPLATE_EMAIL_LOGINCODE);
     }
     
     @Override
@@ -97,13 +98,13 @@ public class UserPolicyServiceImpl implements UserPolicyService
         if (UserConsts.SECURITY_POLICY_NEEDSMS.equals(user.getSecurityPolicy()))
         {// 短信验证
             StringBuffer mobile = new StringBuffer(user.getCountry()).append(user.getMobileNo());
-            if (!validSMSCode(mobile.toString(), policy.getSmsCode()))
+            if (!validSMSCode(mobile.toString(), policy.getSmsCode(), policy.getSmsScene()))
             { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
         }
         if (UserConsts.SECURITY_POLICY_NEEDGAANDSMS.equals(user.getSecurityPolicy()))
         {// GA和短信验证
             StringBuffer mobile = new StringBuffer(user.getCountry()).append(user.getMobileNo());
-            if (!validSMSCode(mobile.toString(), policy.getSmsCode()))
+            if (!validSMSCode(mobile.toString(), policy.getSmsCode(), policy.getSmsScene()))
             { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
             if (!validGaCode(user.getGaAuthKey(), policy.getGaCode()))
             { throw new BusinessException(CommonEnums.ERROR_GA_VALID_FAILED); }
@@ -111,7 +112,7 @@ public class UserPolicyServiceImpl implements UserPolicyService
         if (UserConsts.SECURITY_POLICY_NEEDGAORSMS.equals(user.getSecurityPolicy()))
         {// GA或短信验证
             StringBuffer mobile = new StringBuffer(user.getCountry()).append(user.getMobileNo());
-            boolean flag = validSMSCode(mobile.toString(), policy.getSmsCode()) || validGaCode(user.getGaAuthKey(), policy.getGaCode());
+            boolean flag = validSMSCode(mobile.toString(), policy.getSmsCode(), policy.getSmsScene()) || validGaCode(user.getGaAuthKey(), policy.getGaCode());
             if (!flag)
             { throw new BusinessException(CommonEnums.ERROR_SMSCODE_VALID_FAILED); }
         }

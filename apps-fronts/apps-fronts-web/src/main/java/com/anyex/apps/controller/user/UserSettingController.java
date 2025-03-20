@@ -446,7 +446,7 @@ public class UserSettingController extends GenericController
     @ResponseBody
     @ApiOperation(value = "绑定手机发送短信码", httpMethod = "POST")
     @RequestMapping(value = "/setting/bindMobile/sendSms", method = RequestMethod.POST)
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = true) // 未登录情况下限制60秒内最多请求1次
+    @AccessLimit(limit = 1, timeScope = 60, isLogin = true) // 登录情况下限制60秒内最多请求1次
     public JsonMessage bindMobileSendSMS(HttpServletRequest request, @Validated @RequestBody ReqSendSms reqSendSms) throws BusinessException
     {
         log.info("bindMobileSendSMS reqSendSms:{}", reqSendSms);
@@ -515,6 +515,7 @@ public class UserSettingController extends GenericController
         } else {
             userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDSMS);
         }
+        userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         saveOperationLogs(principal, "bind mobile");
         //
@@ -754,12 +755,13 @@ public class UserSettingController extends GenericController
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         User userDB = userService.selectByPrimaryKey(principal.getId());
         userPolicyService.validSecurityPolicy(userDB, policy);
-        if (!userPolicyService.validSMSCode(new StringBuffer(location).append(phone).toString(), validCode))
+        if (!userPolicyService.validSMSCode(new StringBuffer(location).append(phone).toString(), validCode, MessageConst.SMS_VALID_BINDMOBILE))
         {// 新手机校验失败
             throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         }
         userDB.setMobileNo(phone);
         userDB.setCountry(location);
+        userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         /*
          * if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
@@ -807,6 +809,7 @@ public class UserSettingController extends GenericController
             userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDSMS);
         }
         userDB.setGaAuthKey(null);// 请空GOOGLE密匙
+        userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         /*
          * if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))

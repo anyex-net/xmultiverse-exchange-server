@@ -1,5 +1,6 @@
 package com.anyex.apps.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "策略对象")
+@ApiModel(description = "安全策略对象")
 public class PolicyModel implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -42,16 +43,17 @@ public class PolicyModel implements Serializable
      */
     @ApiModelProperty(value = "GA验证码")
     private String            gaCode;
-    
+
+    /**
+     * 短信场景
+     */
+    @JsonIgnore
+    @ApiModelProperty(value = "短信场景(sms_register、sms_login、sms_forgetpass、sms_modifypass、sms_bindmobile)")
+    private String            smsScene;
+
     /**
      * 短信验证码
      */
     @ApiModelProperty(value = "短信验证码")
     private String            smsCode;
-    
-    public PolicyModel(String gaCode, String smsCode)
-    {
-        this.gaCode = gaCode;
-        this.smsCode = smsCode;
-    }
 }

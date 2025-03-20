@@ -32,9 +32,10 @@ public interface UserPolicyService
      * 验证手机验证码
      * @param phone 手机号码
      * @param validCode 验证码
+     * @param type 类型
      * @return {@link Boolean}
      */
-    boolean validSMSCode(String phone, String validCode);
+    boolean validSMSCode(String phone, String validCode, String type);
     
     /**
      * 验证GA码
