@@ -1,5 +1,6 @@
 package com.anyex.apps.controller.user;
 
+import com.alibaba.fastjson.JSON;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.common.consts.MessageConst;
 import com.anyex.apps.common.service.SysMsgRecordService;
@@ -148,6 +149,8 @@ public class AuthController extends GenericController
         if(reqUserLogin.getLoginType().equals("email")){
             userToken.setUsername(reqUserLogin.getEmail());
             userToken.setEmail(reqUserLogin.getEmail());
+            userToken.setMobileNo(userDB.getMobileNo());
+            userToken.setCountry(userDB.getCountry());
         } else if(reqUserLogin.getLoginType().equals("mobile")){
             userToken.setUsername(reqUserLogin.getCountry()+reqUserLogin.getMobileNo());
             userToken.setMobileNo(reqUserLogin.getMobileNo());
@@ -203,7 +206,8 @@ public class AuthController extends GenericController
             log.info("UserPolicyException sId :{}", sId);
             StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
             log.info("UserPolicyException key :{}", key.toString());
-            RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
+            // RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
+            RedisUtils.putObject(key.toString(), JSON.toJSONString(userToken), CacheConst.DEFAULT_CACHE_TIME);
             log.error("UserPolicyException upe:{}", upe.getLocalizedMessage());
             //
             //
@@ -220,7 +224,8 @@ public class AuthController extends GenericController
             result.put("showCaptcha", false);
             //
             //
-            return this.getJsonMessage(CommonEnums.NEED_POLICY_CHECK, result);
+            // return this.getJsonMessage(CommonEnums.NEED_POLICY_CHECK, result);
+            return this.getJsonMessage(CommonEnums.SUCCESS, result);
         }
         redisSessionManager.remove(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
         // if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
@@ -298,7 +303,8 @@ public class AuthController extends GenericController
                 log.error("二维码APP已扫描未确认");
                 return this.getJsonMessage(CommonEnums.ERROR_QRCODE_NOTCONFIRM);
             } // APP确认登录
-            else if(2 == userScanLoginModel.getStatus().intValue()){
+            else if(2 == userScanLoginModel.getStatus().intValue())
+            {
                 userToken.setId(userScanLoginModel.getUserId()); //用户ID
                 subject.login(userToken);
                 // 登录成功后 清除Redis缓存
@@ -416,15 +422,24 @@ public class AuthController extends GenericController
     @ResponseBody
     @ApiOperation(value = "用户登录二次认证前发送短信码", httpMethod = "POST")
     @RequestMapping(value = "/login/check/sendSms", method = RequestMethod.POST)
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
+    // @AccessLimit(limit = 1, timeScope = 45, isLogin = true) // 未登录情况下限制45秒内最多请求1次
     public JsonMessage checkSubmitSendSMS(HttpServletRequest request) throws BusinessException
     {
-        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
+//        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
+        Subject subject = SecurityUtils.getSubject();
+        Serializable sId = subject.getSession().getId();
         log.info("checkSubmit sId:{}", sId);
         //
         StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
         log.info("checkSubmit key:{}", key.toString());
-        UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        //UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        String jsonString = (String) RedisUtils.getObject(key.toString());
+        UserToken userToken;
+        if(StringUtils.isNotEmpty(jsonString)){
+            userToken = JSON.parseObject(jsonString, UserToken.class);
+        } else {
+            return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
+        }
         log.info("checkSubmit userToken:{}", userToken);
         if (null == userToken) return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
         //
@@ -446,21 +461,27 @@ public class AuthController extends GenericController
     @ApiOperation(value = "用户登录二次认证提交", httpMethod = "POST")
     public JsonMessage checkSubmit(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody PolicyModel policy) throws BusinessException
     {
-        log.info("set-cookie:" + response.getHeader("set-cookie"));
-        response.setHeader("set-cookie", "");
-        response.setHeader("Set-Cookie", "");
-        log.info("重置set-cookie后:" + response.getHeader("set-cookie"));
-        // Subject subject = SecurityUtils.getSubject();
-        // StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(subject.getSession().getId());
-        //
-        // String sId = CookieUtils.get(request, CacheConst.WEB_COOKIE_ID);
-        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
-        log.info("checkSubmit sId:{}", sId);
+//        log.info("set-cookie:" + response.getHeader("set-cookie"));
+//        response.setHeader("set-cookie", "");
+//        response.setHeader("Set-Cookie", "");
+//        log.info("重置set-cookie后:" + response.getHeader("set-cookie"));
+//        // String sId = CookieUtils.get(request, CacheConst.WEB_COOKIE_ID);
+//        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
+//        log.info("checkSubmit sId:{}", sId);
+//        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
 
-        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
+        Subject subject = SecurityUtils.getSubject();
+        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(subject.getSession().getId());
         log.info("checkSubmit key:{}", key.toString());
 
-        UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        // UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        String jsonString = (String) RedisUtils.getObject(key.toString());
+        UserToken userToken;
+        if(StringUtils.isNotEmpty(jsonString)){
+            userToken = JSON.parseObject(jsonString, UserToken.class);
+        } else {
+            return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
+        }
         log.info("checkSubmit userToken:{}", userToken);
         if (null == userToken) return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
         if (null == policy) return this.getJsonMessage(CommonEnums.NEED_POLICY_CHECK);
@@ -471,7 +492,7 @@ public class AuthController extends GenericController
         policy.setSmsScene(MessageConst.SMS_VALID_LOGIN); // 登录场景
         userToken.setPolicy(policy);
         //
-        Subject subject = SecurityUtils.getSubject();
+        // Subject subject = SecurityUtils.getSubject();
         try
         {
             subject.login(userToken);

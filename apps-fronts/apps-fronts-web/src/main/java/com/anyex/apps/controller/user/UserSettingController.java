@@ -428,7 +428,7 @@ public class UserSettingController extends GenericController
         }
         //
         userDB.setEmail(reqUserBindEmail.getEmail());
-        // userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGAORSMS);
+        // userDB.setSecurityPolicy("安全策略不变");
         userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         saveOperationLogs(principal, "bind email");
@@ -539,7 +539,7 @@ public class UserSettingController extends GenericController
         }
         if (StringUtils.isEmpty(principal.getUserMail()))
         {// 用户邮箱如果没绑定的话 要先绑定邮箱
-            throw new BusinessException("email unbind please first bind email");
+            return getJsonMessage(UserEnums.USER_EMAIL_NOTBIND);
         }
 //        if (StringUtils.isBlank(principal.getUserMail()))
 //        {// 避免用户通过手机号注册之后邮箱未绑定的前提下，重新查数据库
@@ -731,7 +731,11 @@ public class UserSettingController extends GenericController
 //        }
         // 账户实体类更新
         userDB.setGaAuthKey(EncryptUtils.desEncrypt(reqUserBindGA.getGaSecretKey()));
-        userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGA); // 安全策略
+        if(StringUtils.isNotEmpty(userDB.getMobileNo())){ // 安全策略
+            userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGAORSMS);
+        } else {
+            userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGA);
+        }
         userService.updateByPrimaryKeySelective(userDB);
         saveOperationLogs(principal, "bind Google Auth");
         return this.getJsonMessage(CommonEnums.SUCCESS);

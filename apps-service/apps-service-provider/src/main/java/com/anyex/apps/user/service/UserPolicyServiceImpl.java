@@ -86,7 +86,7 @@ public class UserPolicyServiceImpl implements UserPolicyService
         if (null == policy)
         { throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID); }
         if (UserConsts.SECURITY_POLICY_DEFAULT.equals(user.getSecurityPolicy()))
-        {// 验证登陆密码
+        {// 验证登录密码
             if (!validPassword(policy.getPwd(), user.getLoginPwd()))
             { throw new BusinessException(CommonEnums.ERROR_LOGIN_PASSWORD); }
         }

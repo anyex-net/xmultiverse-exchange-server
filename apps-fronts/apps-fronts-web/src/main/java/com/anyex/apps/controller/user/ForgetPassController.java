@@ -216,7 +216,7 @@ public class ForgetPassController extends GenericController
 //                return this.getJsonMessage(CommonEnums.ERROR_EMAIL_VALID_FAILED);
 //            }
             //
-            if (!sysMsgRecordService.validEmailCode(userDB.getEmail(), reqUserResetPassCheck.getEmailCode(), MessageConst.SMS_VALID_FORGETPASS))
+            if (!sysMsgRecordService.validEmailCode(userDB.getEmail(), reqUserResetPassCheck.getEmailCode(), MessageConst.TEMPLATE_EMAIL_FORGETPASSCODE))
             {// 验证邮箱码
                 return getJsonMessage(CommonEnums.ERROR_EMAILCODE_VALID_FAILED);
             }
