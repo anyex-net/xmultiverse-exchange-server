@@ -4,6 +4,12 @@
  */
 package com.anyex.apps.spot.service;
 
+import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
+import com.anyex.apps.spot.entity.DealHistory;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,5 +37,15 @@ public class OperlogServiceImpl extends GenericServiceImpl<Operlog> implements O
     {
         super(operlogExampleMapper);
         this.operlogExampleMapper = operlogExampleMapper;
+    }
+
+    @Override
+    public PaginateResult<Operlog> selectList(Pagination pagin, Operlog operlog, String tableName) throws BusinessException
+    {
+        PageHelper.startPage(pagin.getCurrent(), pagin.getSize());
+        PageInfo<Operlog> pageInfo = PageInfo.of(operlogExampleMapper.selectList(operlog,tableName));
+        pagin.setTotal(pageInfo.getTotal());
+        pagin.setCurrent(pageInfo.getPageNum());
+        return new PaginateResult<>(pagin, pageInfo.getList());
     }
 }

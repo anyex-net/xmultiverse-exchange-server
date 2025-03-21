@@ -64,13 +64,4 @@ public class SliceHistoryController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("spot:sliceHistory:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        sliceHistoryService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
 }

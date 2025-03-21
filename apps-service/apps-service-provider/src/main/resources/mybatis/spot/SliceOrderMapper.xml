@@ -450,6 +450,57 @@
         FROM slice_order_example a
     </select>
 
+    <select id="selectList" resultType="com.anyex.apps.spot.entity.SliceOrder">
+        SELECT
+        <include refid="sliceOrderExampleColumns"/>
+        FROM ${tableName} a WHERE 1 = 1
+        <if test="sliceOrder.t != null">
+            AND a.t = #{sliceOrder.t}
+        </if>
+        <if test="sliceOrder.side != null">
+            AND a.side = #{sliceOrder.side}
+        </if>
+        <if test="sliceOrder.createTime != null">
+            AND a.create_time = #{sliceOrder.createTime}
+        </if>
+        <if test="sliceOrder.updateTime != null">
+            AND a.update_time = #{sliceOrder.updateTime}
+        </if>
+        <if test="sliceOrder.userId != null">
+            AND a.user_id = #{sliceOrder.userId}
+        </if>
+        <if test="sliceOrder.market != null and sliceOrder.market != ''">
+            AND a.market LIKE CONCAT('%',#{sliceOrder.market}, '%')
+        </if>
+        <if test="sliceOrder.price != null">
+            AND a.price = #{sliceOrder.price}
+        </if>
+        <if test="sliceOrder.amount != null">
+            AND a.amount = #{sliceOrder.amount}
+        </if>
+        <if test="sliceOrder.takerFee != null">
+            AND a.taker_fee = #{sliceOrder.takerFee}
+        </if>
+        <if test="sliceOrder.makerFee != null">
+            AND a.maker_fee = #{sliceOrder.makerFee}
+        </if>
+        <if test="sliceOrder.left != null">
+            AND a.left = #{sliceOrder.left}
+        </if>
+        <if test="sliceOrder.freeze != null">
+            AND a.freeze = #{sliceOrder.freeze}
+        </if>
+        <if test="sliceOrder.dealStock != null">
+            AND a.deal_stock = #{sliceOrder.dealStock}
+        </if>
+        <if test="sliceOrder.dealMoney != null">
+            AND a.deal_money = #{sliceOrder.dealMoney}
+        </if>
+        <if test="sliceOrder.dealFee != null">
+            AND a.deal_fee = #{sliceOrder.dealFee}
+        </if>
+    </select>
+
 
 </mapper>
 

@@ -4,6 +4,12 @@
  */
 package com.anyex.apps.spot.service;
 
+import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
+import com.anyex.apps.spot.entity.Operlog;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,4 +38,15 @@ public class SliceOrderServiceImpl extends GenericServiceImpl<SliceOrder> implem
         super(sliceOrderExampleMapper);
         this.sliceOrderExampleMapper = sliceOrderExampleMapper;
     }
+
+    @Override
+    public PaginateResult<SliceOrder> selectList(Pagination pagin, SliceOrder sliceOrder, String tableName) throws BusinessException
+    {
+        PageHelper.startPage(pagin.getCurrent(), pagin.getSize());
+        PageInfo<SliceOrder> pageInfo = PageInfo.of(sliceOrderExampleMapper.selectList(sliceOrder,tableName));
+        pagin.setTotal(pageInfo.getTotal());
+        pagin.setCurrent(pageInfo.getPageNum());
+        return new PaginateResult<>(pagin, pageInfo.getList());
+    }
+
 }

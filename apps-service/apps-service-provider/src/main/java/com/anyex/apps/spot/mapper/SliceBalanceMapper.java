@@ -6,8 +6,12 @@ package com.anyex.apps.spot.mapper;
 
 
 import com.anyex.apps.bean.GenericMapper;
+import com.anyex.apps.spot.entity.Operlog;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.spot.entity.SliceBalance;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * slice_balance_example 持久层接口
@@ -22,5 +26,5 @@ import com.anyex.apps.spot.entity.SliceBalance;
 @Mapper
 public interface SliceBalanceMapper extends GenericMapper<SliceBalance>
 {
-
+    List<SliceBalance> selectList(SliceBalance sliceBalance, @Param("tableName") String tableName);
 }

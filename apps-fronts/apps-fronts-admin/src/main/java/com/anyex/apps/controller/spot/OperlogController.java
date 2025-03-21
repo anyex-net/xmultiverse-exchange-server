@@ -37,15 +37,15 @@ import org.springframework.beans.BeanUtils;
  */
 @Slf4j
 @RestController
-@RequestMapping("/spot/operlogExample")
-@Api(description = "operlog_example")
+@RequestMapping("/spot/operlog")
+@Api(description = "operlog")
 public class OperlogController extends GenericController
 {
     @Autowired(required = false)
     private OperlogService operlogExampleService;
 
     @GetMapping(value = "/findBy")
-    @RequiresPermissions("spot:operlogExample:data")
+    @RequiresPermissions("spot:operlog:data")
     @ApiOperation(value = "根据ID取operlog_example", httpMethod = "GET")
     public JsonMessage findBy(Long id) throws BusinessException
     {
@@ -54,23 +54,18 @@ public class OperlogController extends GenericController
     }
 
     @PostMapping(value = "/data")
-    @RequiresPermissions("spot:operlogExample:data")
+    @RequiresPermissions("spot:operlog:data")
     @ApiOperation(value = "查询operlog_example", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqOperlogPagination pagin) throws BusinessException
+    public JsonMessage data(@ModelAttribute ReqOperlogPagination pagin,String date) throws BusinessException
     {
+        String tableName = "operlog_"+date;
         Operlog entity = new Operlog();
         BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<Operlog> result = operlogExampleService.search(pagin,entity);
-        return getJsonMessage(CommonEnums.SUCCESS, result);
-    }
-
-    @PostMapping(value = "/del")
-    @RequiresPermissions("spot:operlogExample:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        operlogExampleService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
+        try {
+            PaginateResult<Operlog> result = operlogExampleService.selectList(pagin,entity,tableName);
+            return getJsonMessage(CommonEnums.SUCCESS, result);
+        } catch (Exception e){
+            throw new BusinessException("数据不存在,请重新选择日期");
+        }
     }
 }

@@ -25,6 +25,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * slice_balance_example 控制器
  * <p>File：SliceBalanceExampleController.java </p>
@@ -37,7 +42,7 @@ import org.springframework.beans.BeanUtils;
  */
 @Slf4j
 @RestController
-@RequestMapping("/spot/sliceBalanceExample")
+@RequestMapping("/spot/sliceBalance")
 @Api(description = "slice_balance_example")
 public class SliceBalanceController extends GenericController
 {
@@ -45,7 +50,7 @@ public class SliceBalanceController extends GenericController
     private SliceBalanceService sliceBalanceExampleService;
 
     @GetMapping(value = "/findBy")
-    @RequiresPermissions("spot:sliceBalanceExample:data")
+    @RequiresPermissions("spot:sliceBalance:data")
     @ApiOperation(value = "根据ID取slice_balance_example", httpMethod = "GET")
     public JsonMessage findBy(Long id) throws BusinessException
     {
@@ -55,23 +60,23 @@ public class SliceBalanceController extends GenericController
 
 
     @PostMapping(value = "/data")
-    @RequiresPermissions("spot:sliceBalanceExample:data")
-    @ApiOperation(value = "查询slice_balance_example", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqSliceBalancePagination pagin) throws BusinessException
+    @RequiresPermissions("spot:sliceBalance:data")
+    @ApiOperation(value = "查询", httpMethod = "POST")
+    public JsonMessage data(@ModelAttribute ReqSliceBalancePagination pagin,String date) throws BusinessException
     {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHH");
+        LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+        long timestamp = zonedDateTime.toInstant().toEpochMilli() / 1000;
+        String tableName = "slice_balance_"+timestamp;
         SliceBalance entity = new SliceBalance();
         BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<SliceBalance> result = sliceBalanceExampleService.search(pagin,entity);
-        return getJsonMessage(CommonEnums.SUCCESS, result);
+        try {
+            PaginateResult<SliceBalance> result = sliceBalanceExampleService.selectList(pagin,entity,tableName);
+            return getJsonMessage(CommonEnums.SUCCESS, result);
+        }catch (Exception e){
+            throw new BusinessException("数据不存在，请重新选择日期");
+        }
     }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("spot:sliceBalanceExample:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        sliceBalanceExampleService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
 }

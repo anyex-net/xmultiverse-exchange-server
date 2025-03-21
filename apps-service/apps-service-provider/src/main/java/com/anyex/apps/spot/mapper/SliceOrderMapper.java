@@ -6,8 +6,12 @@ package com.anyex.apps.spot.mapper;
 
 
 import com.anyex.apps.bean.GenericMapper;
+import com.anyex.apps.spot.entity.SliceHistory;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.spot.entity.SliceOrder;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * slice_order_example 持久层接口
@@ -22,5 +26,5 @@ import com.anyex.apps.spot.entity.SliceOrder;
 @Mapper
 public interface SliceOrderMapper extends GenericMapper<SliceOrder>
 {
-
+    List<SliceOrder> selectList(SliceOrder sliceOrder, @Param("tableName") String tableName);
 }

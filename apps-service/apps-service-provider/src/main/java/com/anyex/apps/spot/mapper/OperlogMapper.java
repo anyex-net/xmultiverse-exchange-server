@@ -8,6 +8,9 @@ package com.anyex.apps.spot.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.spot.entity.Operlog;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * operlog_example 持久层接口
@@ -22,5 +25,5 @@ import com.anyex.apps.spot.entity.Operlog;
 @Mapper
 public interface OperlogMapper extends GenericMapper<Operlog>
 {
-
+    List<Operlog> selectList(Operlog operlog, @Param("tableName") String tableName);
 }

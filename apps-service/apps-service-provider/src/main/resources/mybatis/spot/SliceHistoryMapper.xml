@@ -197,6 +197,5 @@
         FROM slice_history a
     </select>
 
-
 </mapper>
 

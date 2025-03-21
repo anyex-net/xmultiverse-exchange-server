@@ -25,6 +25,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * slice_order_example 控制器
  * <p>File：SliceOrderExampleController.java </p>
@@ -37,7 +42,7 @@ import org.springframework.beans.BeanUtils;
  */
 @Slf4j
 @RestController
-@RequestMapping("/spot/sliceOrderExample")
+@RequestMapping("/spot/sliceOrder")
 @Api(description = "slice_order_example")
 public class SliceOrderController extends GenericController
 {
@@ -45,7 +50,7 @@ public class SliceOrderController extends GenericController
     private SliceOrderService sliceOrderExampleService;
 
     @GetMapping(value = "/findBy")
-    @RequiresPermissions("spot:sliceOrderExample:data")
+    @RequiresPermissions("spot:sliceOrder:data")
     @ApiOperation(value = "根据ID取slice_order_example", httpMethod = "GET")
     public JsonMessage findBy(Long id) throws BusinessException
     {
@@ -54,23 +59,23 @@ public class SliceOrderController extends GenericController
     }
 
     @PostMapping(value = "/data")
-    @RequiresPermissions("spot:sliceOrderExample:data")
+    @RequiresPermissions("spot:sliceOrder:data")
     @ApiOperation(value = "查询slice_order_example", httpMethod = "POST")
-    public JsonMessage data(@ModelAttribute ReqSliceOrderPagination pagin) throws BusinessException
+    public JsonMessage data(@ModelAttribute ReqSliceOrderPagination pagin,String date) throws BusinessException
     {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHH");
+        LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+        long timestamp = zonedDateTime.toInstant().toEpochMilli() / 1000;
+        String tableName = "slice_order_"+timestamp;
         SliceOrder entity = new SliceOrder();
         BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<SliceOrder> result = sliceOrderExampleService.search(pagin,entity);
-        return getJsonMessage(CommonEnums.SUCCESS, result);
-    }
+        try{
+            PaginateResult<SliceOrder> result = sliceOrderExampleService.selectList(pagin,entity,tableName);
+            return getJsonMessage(CommonEnums.SUCCESS, result);
+        }catch (Exception e){
+            throw new BusinessException("数据不存在，请重新选择日期");
+        }
 
-    @PostMapping(value = "/del")
-    @RequiresPermissions("spot:sliceOrderExample:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        sliceOrderExampleService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
     }
 }

@@ -151,6 +151,18 @@
         FROM operlog_example a
     </select>
 
+    <select id="selectList" resultType="com.anyex.apps.spot.entity.Operlog">
+        SELECT
+        <include refid="operlogExampleColumns"/>
+        FROM ${tableName} a WHERE 1 = 1
+        <if test="operlog.time != null">
+            AND a.time = #{operlog.time}
+        </if>
+        <if test="operlog.detail != null and operlog.detail != ''">
+            AND a.detail LIKE CONCAT('%',#{operlog.detail}, '%')
+        </if>
+    </select>
+
 
 </mapper>
 

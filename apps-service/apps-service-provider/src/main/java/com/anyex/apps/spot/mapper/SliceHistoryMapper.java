@@ -8,6 +8,9 @@ package com.anyex.apps.spot.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.spot.entity.SliceHistory;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * slice_history 持久层接口
@@ -22,5 +25,5 @@ import com.anyex.apps.spot.entity.SliceHistory;
 @Mapper
 public interface SliceHistoryMapper extends GenericMapper<SliceHistory>
 {
-
+//    List<SliceHistory> selectList(SliceHistory history, @Param("tableName") String tableName);
 }

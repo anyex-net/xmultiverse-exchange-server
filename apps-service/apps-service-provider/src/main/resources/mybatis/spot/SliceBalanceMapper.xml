@@ -197,6 +197,24 @@
         FROM slice_balance_example a
     </select>
 
+    <select id="selectList" resultType="com.anyex.apps.spot.entity.SliceBalance">
+        SELECT
+        <include refid="sliceBalanceExampleColumns"/>
+        FROM ${tableName} a WHERE 1 = 1
+        <if test="sliceBalance.userId != null">
+            AND a.user_id = #{sliceBalance.userId}
+        </if>
+        <if test="sliceBalance.asset != null and sliceBalance.asset != ''">
+            AND a.asset LIKE CONCAT('%',#{sliceBalance.asset}, '%')
+        </if>
+        <if test="sliceBalance.t != null">
+            AND a.t = #{sliceBalance.t}
+        </if>
+        <if test="sliceBalance.balance != null">
+            AND a.balance = #{sliceBalance.balance}
+        </if>
+    </select>
+
 
 </mapper>
 

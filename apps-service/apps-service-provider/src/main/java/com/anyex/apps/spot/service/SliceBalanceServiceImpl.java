@@ -4,6 +4,12 @@
  */
 package com.anyex.apps.spot.service;
 
+import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
+import com.anyex.apps.spot.entity.Operlog;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,5 +37,15 @@ public class SliceBalanceServiceImpl extends GenericServiceImpl<SliceBalance> im
     {
         super(sliceBalanceExampleMapper);
         this.sliceBalanceExampleMapper = sliceBalanceExampleMapper;
+    }
+
+    @Override
+    public PaginateResult<SliceBalance> selectList(Pagination pagin, SliceBalance sliceBalance, String tableName) throws BusinessException
+    {
+        PageHelper.startPage(pagin.getCurrent(), pagin.getSize());
+        PageInfo<SliceBalance> pageInfo = PageInfo.of(sliceBalanceExampleMapper.selectList(sliceBalance,tableName));
+        pagin.setTotal(pageInfo.getTotal());
+        pagin.setCurrent(pageInfo.getPageNum());
+        return new PaginateResult<>(pagin, pageInfo.getList());
     }
 }
