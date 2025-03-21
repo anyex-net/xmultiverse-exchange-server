@@ -10,13 +10,20 @@ INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, s
 VALUES (310000000004, 310000000002, 'user:user:data', '查询权限', null, true, null, null, 'user', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (310000000005, 310000000001, 'user:userCertKyc:index', '用户个人KYC认证', null, false, 'Icon30n', 2, 'userCertKyc', '/user/userCertKyc', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (310000000005, 310000000001, 'user:userLog:index', '用户日志', null, false, 'Icon30n', 2, 'userLog', '/user/userLog', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (310000000006, 310000000005, 'user:userCertKyc:operator', '操作权限', null, true, null, null, 'userCertKyc', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (310000000006, 310000000005, 'user:userLog:operator', '操作权限', null, true, null, null, 'userLog', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (310000000007, 310000000005, 'user:userCertKyc:data', '查询权限', null, true, null, null, 'userCertKyc', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (310000000007, 310000000005, 'user:userLog:data', '查询权限', null, true, null, null, 'userLog', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (310000000008, 310000000005, 'user:userCertKyc:check', '复核权限', null, true, null, null, 'userCertKyc', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (310000000008, 310000000001, 'user:userCertKyc:index', '用户个人KYC认证', null, false, 'Icon30n', 3, 'userCertKyc', '/user/userCertKyc', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000009, 310000000005, 'user:userCertKyc:operator', '操作权限', null, true, null, null, 'userCertKyc', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000010, 310000000005, 'user:userCertKyc:data', '查询权限', null, true, null, null, 'userCertKyc', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000011, 310000000005, 'user:userCertKyc:check', '复核权限', null, true, null, null, 'userCertKyc', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 --INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 --VALUES (310000000011, 310000000001, 'account:accountInviteRewards:index', '邀请返佣', null, false, 'Icon30n', 4, 'accountInviteRewards', '/account/accountInviteRewards', 200000000000, 1501467844534, 200000000000, 1501467844534);

@@ -140,6 +140,7 @@ public class RegisterController extends GenericController
         user.setLoginPwd(EncryptUtils.entryptPassword(reqEmailRegister.getLoginPwd()));
         user.setInviteCode(null);
         user.setReferralCode(reqEmailRegister.getInviteCode());
+        user.setSecurityPolicy(0); // 默认安全验证策略PWD
         user.setState(0);
         user.setCreateTime(System.currentTimeMillis());
         log.info("emailRegisterSubmit user:{}", user);
@@ -236,6 +237,7 @@ public class RegisterController extends GenericController
         user.setLoginPwd(EncryptUtils.entryptPassword(reqSmsRegister.getLoginPwd()));
         user.setInviteCode(null);
         user.setReferralCode(reqSmsRegister.getInviteCode());
+        user.setSecurityPolicy(1); // 安全验证策略SMS
         user.setState(0);
         user.setCreateTime(System.currentTimeMillis());
         log.info("mobileRegisterSubmit user:{}", user);

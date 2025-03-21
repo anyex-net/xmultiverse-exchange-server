@@ -1,5 +1,6 @@
 package com.anyex.apps.controller.user;
 
+import com.alibaba.fastjson.JSON;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.common.consts.MessageConst;
 import com.anyex.apps.common.service.SysMsgRecordService;
@@ -8,19 +9,22 @@ import com.anyex.apps.consts.CacheConst;
 import com.anyex.apps.consts.GlobalConst;
 import com.anyex.apps.controller.user.req.ReqUserLogin;
 import com.anyex.apps.enums.CommonEnums;
-import com.anyex.apps.exception.AccountPolicyException;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.exception.UserPolicyException;
+import com.anyex.apps.interceptor.AccessLimit;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.RedisSessionManager;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.shiro.model.UserToken;
 import com.anyex.apps.user.consts.UserConsts;
 import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.entity.UserLog;
 import com.anyex.apps.user.model.PolicyModel;
 import com.anyex.apps.user.model.UserScanLoginModel;
+import com.anyex.apps.user.service.UserLogService;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.*;
+import com.maxmind.geoip.Location;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +41,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +69,9 @@ public class AuthController extends GenericController
     
 //    @Autowired(required = false)
 //    AccountLogNoSql     accountLogNoSql;
+
+    @Autowired(required = false)
+    UserLogService userLogService;
     
     @Autowired(required = false)
     SysMsgRecordService sysMsgRecordService;
@@ -143,6 +149,8 @@ public class AuthController extends GenericController
         if(reqUserLogin.getLoginType().equals("email")){
             userToken.setUsername(reqUserLogin.getEmail());
             userToken.setEmail(reqUserLogin.getEmail());
+            userToken.setMobileNo(userDB.getMobileNo());
+            userToken.setCountry(userDB.getCountry());
         } else if(reqUserLogin.getLoginType().equals("mobile")){
             userToken.setUsername(reqUserLogin.getCountry()+reqUserLogin.getMobileNo());
             userToken.setMobileNo(reqUserLogin.getMobileNo());
@@ -153,7 +161,7 @@ public class AuthController extends GenericController
         try
         {
             subject.login(userToken);
-            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "登录");
+            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "login");
         }
         catch (IncorrectCredentialsException ice)
         {
@@ -191,14 +199,16 @@ public class AuthController extends GenericController
             result.put("showCaptcha", null != showCaptcha && showCaptcha > 2 ? true : false);
             return this.getJsonMessage(CommonEnums.ERROR_LOGIN_TIMEOUT, result);
         }
-        catch (UserPolicyException ape)
+        catch (UserPolicyException upe)
         {
             redisSessionManager.remove(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
             Serializable sId = subject.getSession().getId();
+            log.info("UserPolicyException sId :{}", sId);
             StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
-            log.info("AccountPolicyException key :{}", key.toString());
-            RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
-            log.error("AccountPolicyException:{}", ape.getLocalizedMessage());
+            log.info("UserPolicyException key :{}", key.toString());
+            // RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
+            RedisUtils.putObject(key.toString(), JSON.toJSONString(userToken), CacheConst.DEFAULT_CACHE_TIME);
+            log.error("UserPolicyException upe:{}", upe.getLocalizedMessage());
             //
             //
             String mobileNo = "";
@@ -209,13 +219,13 @@ public class AuthController extends GenericController
             }
             Map<String, Object> result = new HashMap();
             result.put("Authorization", sId);
-            log.info("UserPolicyException sId :{}", sId);
-            result.put("checkType", StringUtils.isNotEmpty(userDB.getGaAuthKey())? "ga":"sms");
+            result.put("checkType", StringUtils.isNotEmpty(userDB.getGaAuthKey())? "gaCheck":"smsCheck");
             result.put("mobileNo", mobileNo);
             result.put("showCaptcha", false);
             //
             //
-            return this.getJsonMessage(CommonEnums.NEED_POLICY_CHECK, result);
+            // return this.getJsonMessage(CommonEnums.NEED_POLICY_CHECK, result);
+            return this.getJsonMessage(CommonEnums.SUCCESS, result);
         }
         redisSessionManager.remove(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
         // if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
@@ -293,13 +303,14 @@ public class AuthController extends GenericController
                 log.error("二维码APP已扫描未确认");
                 return this.getJsonMessage(CommonEnums.ERROR_QRCODE_NOTCONFIRM);
             } // APP确认登录
-            else if(2 == userScanLoginModel.getStatus().intValue()){
+            else if(2 == userScanLoginModel.getStatus().intValue())
+            {
                 userToken.setId(userScanLoginModel.getUserId()); //用户ID
                 subject.login(userToken);
                 // 登录成功后 清除Redis缓存
                 RedisUtils.del(userToken.getQrCode());
                 // 记录日志
-                saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "二维码登录");
+                saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "login QRCode");
             } else {
                 log.error("非法请求");
                 return this.getJsonMessage(CommonEnums.ERROR_ILLEGAL_REQUEST);
@@ -341,18 +352,20 @@ public class AuthController extends GenericController
             result.put("showCaptcha", null != showCaptcha && showCaptcha > 2 ? true : false);
             return this.getJsonMessage(CommonEnums.ERROR_LOGIN_TIMEOUT, result);
         }
-        catch (AccountPolicyException ape)
+        catch (UserPolicyException upe)
         {
             redisSessionManager.remove(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
             Serializable sId = subject.getSession().getId();
+            log.info("UserPolicyException sid :{}", sId);
             //
             StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
-            log.info("AccountPolicyException key :{}", key.toString());
+            log.info("UserPolicyException key :{}", key.toString());
+            userToken.setUsername(null); // 非用户名密码登录
             RedisUtils.putObject(key.toString(), userToken, CacheConst.DEFAULT_CACHE_TIME);
-            log.error("AccountPolicyException:{}", ape.getLocalizedMessage());
+            log.error("UserPolicyException:{}", upe.getLocalizedMessage());
             //
             // 需要赋值一下
-            UserToken token = (UserToken)ape.getObject();
+            UserToken token = (UserToken)upe.getObject();
             //
             String mobileNo = "";
             if (token != null && StringUtils.isNotBlank(token.getMobileNo()))
@@ -362,8 +375,7 @@ public class AuthController extends GenericController
             }
             Map<String, Object> result = new HashMap();
             result.put("Authorization", sId);
-            log.info("AccountPolicyException sid :{}", sId);
-            result.put("checkType", token.isGa()? "ga":"sms");
+            result.put("checkType", token.isGa()? "gaCheck":"smsCheck");
             result.put("mobileNo", mobileNo);
             result.put("showCaptcha", false);
             //
@@ -400,9 +412,45 @@ public class AuthController extends GenericController
         result.put("Authorization", subject.getSession().getId());
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
-    
+
     /**
-     * 用户登录二次认证
+     * 用户登录二次认证前发送短信码
+     * @param request
+     * @return {@link JsonMessage}
+     * @throws BusinessException
+     */
+    @ResponseBody
+    @ApiOperation(value = "用户登录二次认证前发送短信码", httpMethod = "POST")
+    @RequestMapping(value = "/login/check/sendSms", method = RequestMethod.POST)
+    // @AccessLimit(limit = 1, timeScope = 45, isLogin = true) // 未登录情况下限制45秒内最多请求1次
+    public JsonMessage checkSubmitSendSMS(HttpServletRequest request) throws BusinessException
+    {
+//        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
+        Subject subject = SecurityUtils.getSubject();
+        Serializable sId = subject.getSession().getId();
+        log.info("checkSubmit sId:{}", sId);
+        //
+        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
+        log.info("checkSubmit key:{}", key.toString());
+        //UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        String jsonString = (String) RedisUtils.getObject(key.toString());
+        UserToken userToken;
+        if(StringUtils.isNotEmpty(jsonString)){
+            userToken = JSON.parseObject(jsonString, UserToken.class);
+        } else {
+            return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
+        }
+        log.info("checkSubmit userToken:{}", userToken);
+        if (null == userToken) return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
+        //
+        StringBuffer mobileNum = new StringBuffer(userToken.getCountry()).append(userToken.getMobileNo());
+        sysMsgRecordService.sendSms(mobileNum.toString(), GlobalConst.DEFAULT_LANG, MessageConst.SMS_VALID_LOGIN);
+        //
+        return this.getJsonMessage(CommonEnums.SUCCESS);
+    }
+
+    /**
+     * 用户登录二次认证提交
      * @param request
      * @param policy
      * @return {@link JsonMessage}
@@ -410,37 +458,46 @@ public class AuthController extends GenericController
      */
     @ResponseBody
     @RequestMapping("/login/check/submit")
-    @ApiOperation(value = "用户登录二次认证", httpMethod = "POST")
+    @ApiOperation(value = "用户登录二次认证提交", httpMethod = "POST")
     public JsonMessage checkSubmit(HttpServletRequest request, HttpServletResponse response, @Validated @RequestBody PolicyModel policy) throws BusinessException
     {
-        log.info("set-cookie:" + response.getHeader("set-cookie"));
-        response.setHeader("set-cookie", "");
-        response.setHeader("Set-Cookie", "");
-        log.info("重置set-cookie后:" + response.getHeader("set-cookie"));
-        // Subject subject = SecurityUtils.getSubject();
-        // StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(subject.getSession().getId());
-        //
-        // String sId = CookieUtils.get(request, CacheConst.WEB_COOKIE_ID);
-        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
-        log.info("checkSubmit sId:{}", sId);
+//        log.info("set-cookie:" + response.getHeader("set-cookie"));
+//        response.setHeader("set-cookie", "");
+//        response.setHeader("Set-Cookie", "");
+//        log.info("重置set-cookie后:" + response.getHeader("set-cookie"));
+//        // String sId = CookieUtils.get(request, CacheConst.WEB_COOKIE_ID);
+//        String sId = CookieUtils.get(request, CacheConst.WEB_IM_ID);
+//        log.info("checkSubmit sId:{}", sId);
+//        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
 
-        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(sId);
+        Subject subject = SecurityUtils.getSubject();
+        StringBuffer key = new StringBuffer(CacheConst.LOGIN_PERFIX).append(subject.getSession().getId());
         log.info("checkSubmit key:{}", key.toString());
 
-        UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        // UserToken userToken = (UserToken) RedisUtils.getObject(key.toString());
+        String jsonString = (String) RedisUtils.getObject(key.toString());
+        UserToken userToken;
+        if(StringUtils.isNotEmpty(jsonString)){
+            userToken = JSON.parseObject(jsonString, UserToken.class);
+        } else {
+            return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
+        }
         log.info("checkSubmit userToken:{}", userToken);
         if (null == userToken) return this.getJsonMessage(CommonEnums.ERROR_SESSION_TIME_OUT);
         if (null == policy) return this.getJsonMessage(CommonEnums.NEED_POLICY_CHECK);
         validErrGaCount(userToken.getId());// 检查用户ga输错次数
-        userToken.setPolicy(policy);
-        userToken.setHost(NetworkUtils.getIpAddr(request));
         //
-        Subject subject = SecurityUtils.getSubject();
+        //
+        userToken.setHost(NetworkUtils.getIpAddr(request));
+        policy.setSmsScene(MessageConst.SMS_VALID_LOGIN); // 登录场景
+        userToken.setPolicy(policy);
+        //
+        // Subject subject = SecurityUtils.getSubject();
         try
         {
             subject.login(userToken);
         }
-        catch (AccountPolicyException gae)
+        catch (UserPolicyException upe)
         {
             //  累计ga错误次数，错误超过10次 退出登录
             if (logLoginGaTimes(userToken.getId()) > 9)
@@ -499,7 +556,7 @@ public class AuthController extends GenericController
         Subject subject = SecurityUtils.getSubject();
         if (null != subject)
         {
-            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "登出");
+            saveOperationLogs(request, OnLineUserUtils.getPrincipal(), "logout");
             subject.logout();
         }
         JsonMessage jsonMessage = new JsonMessage();
@@ -516,39 +573,39 @@ public class AuthController extends GenericController
      */
     void saveOperationLogs(HttpServletRequest request, UserPrincipal principal, String content)
     {
-//        try
-//        {
-//            if (null == principal) return;
-//            AccountLog accountLog = new AccountLog();
-//            accountLog.setContent(content);
-//            accountLog.setAccountId(principal.getId());
-//            accountLog.setUrl(request.getRequestURI());
-//            accountLog.setSystemName(properies.getProjectName());
-//            accountLog.setOpType(AccountLogConsts.LOG_TYPE_LOGIN);
-//            accountLog.setAccountName(principal.getTrueName());
-//            accountLog.setIpAddr(IPUtil.getOriginalIpAddr(request));
-//            accountLog.setCreateDate(CalendarUtils.getCurrentLong());
-//            if (null != accountLog.getIpAddr())
-//            {
-//                String rigonName = "Unknown address";
-//                String[] ipArray = accountLog.getIpAddr().split(",");
-//                for (String ip : ipArray)
-//                {
-//                    Location location = GeoIPUtils.getInstance().getLocation(ip);
-//                    if (null != location)
-//                    {
-//                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
-//                    }
-//                    break;
-//                }
-//                accountLog.setRigonName(rigonName);
-//            }
-//            accountLogNoSql.insert(accountLog);
-//        }
-//        catch (RuntimeException e)
-//        {
-//            log.error("操作日志记录失败：{}", e.getCause());
-//        }
+        try
+        {
+            if (null == principal) return;
+            UserLog userLog = new UserLog();
+            userLog.setUserId(principal.getId());
+            userLog.setUserName(principal.getUserName());
+            userLog.setSystemName("exchange-web");
+            userLog.setOpType("login");
+            userLog.setContent(content);
+            userLog.setUrl(request.getRequestURI());
+            userLog.setIpAddr(NetworkUtils.getIpAddr(request));
+            userLog.setCreateTime(CalendarUtils.getCurrentLong());
+            if (null != userLog.getIpAddr())
+            {
+                String rigonName = "Unknown address";
+                String[] ipArray = userLog.getIpAddr().split(",");
+                for (String ip : ipArray)
+                {
+                    Location location = GeoIPUtils.getInstance().getLocation(ip);
+                    if (null != location)
+                    {
+                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
+                    }
+                    break;
+                }
+                userLog.setRigonName(rigonName);
+            }
+            userLogService.insert(userLog);
+        }
+        catch (RuntimeException e)
+        {
+            log.error("操作日志记录失败：{}", e.getCause());
+        }
     }
     
     /**
@@ -568,17 +625,17 @@ public class AuthController extends GenericController
     
     /**
      * 判断二次登录ga验证出错次数
-     * @param accountId
+     * @param userId
      * @return
      */
-    boolean validErrGaCount(Long accountId) throws BusinessException
+    boolean validErrGaCount(Long userId) throws BusinessException
     {
-        Integer count = (Integer) RedisUtils.getObject(loginGaErrCnt + accountId);
+        Integer count = (Integer) RedisUtils.getObject(loginGaErrCnt + userId);
         return null != count && count > 9 ? true : false;
     }
     
     /**
-     * 记录登陆出错的次数
+     * 记录登录出错的次数
      * @param request
      */
     void logLoginTimes(HttpServletRequest request)
@@ -586,11 +643,11 @@ public class AuthController extends GenericController
         Integer count = redisSessionManager.getInteger(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA);
         if (null == count) count = 0; // 默认为0
         redisSessionManager.put(request, RedisSessionManager.SessionKey.SHOW_CAPTCHA, count + 1, CacheConst.DEFAULT_CACHE_TIME);
-        log.info("记录登陆出错的次数：" + (count + 1) );
+        log.info("记录登录出错的次数：" + (count + 1) );
     }
     
     /**
-     * 判断有无登陆出错数
+     * 判断有无登录出错数
      * @param request
      * @return
      */

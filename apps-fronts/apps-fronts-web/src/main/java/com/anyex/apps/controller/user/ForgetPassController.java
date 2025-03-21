@@ -64,7 +64,7 @@ public class ForgetPassController extends GenericController
     @ResponseBody
     @RequestMapping("/forgetPass/submit")
     @ApiOperation(value = "1确认用户是否存在", httpMethod = "POST")
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = false) // 未登录情况下限制60秒内最多请求1次
+    @AccessLimit(limit = 1, timeScope = 30, isLogin = false) // 未登录情况下限制30秒内最多请求1次
     public JsonMessage<RespUserForgetPass> submit(HttpServletRequest request, @Validated @RequestBody ReqUserForgetPass reqUserForgetPass /*@ModelAttribute AliyunModel model*/) throws BusinessException
     {
         log.info("submit reqUserForgetPass:{}", reqUserForgetPass);
@@ -216,7 +216,7 @@ public class ForgetPassController extends GenericController
 //                return this.getJsonMessage(CommonEnums.ERROR_EMAIL_VALID_FAILED);
 //            }
             //
-            if (!sysMsgRecordService.validEmailCode(userDB.getEmail(), reqUserResetPassCheck.getEmailCode(), MessageConst.SMS_VALID_FORGETPASS))
+            if (!sysMsgRecordService.validEmailCode(userDB.getEmail(), reqUserResetPassCheck.getEmailCode(), MessageConst.TEMPLATE_EMAIL_FORGETPASSCODE))
             {// 验证邮箱码
                 return getJsonMessage(CommonEnums.ERROR_EMAILCODE_VALID_FAILED);
             }

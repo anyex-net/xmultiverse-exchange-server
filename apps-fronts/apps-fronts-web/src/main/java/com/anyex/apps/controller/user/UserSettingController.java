@@ -14,13 +14,16 @@ import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.user.consts.UserConsts;
 import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.entity.UserLog;
 import com.anyex.apps.user.enums.UserEnums;
 import com.anyex.apps.user.model.PolicyModel;
 import com.anyex.apps.user.service.UserCertKycService;
+import com.anyex.apps.user.service.UserLogService;
 import com.anyex.apps.user.service.UserPolicyService;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.*;
 import com.google.common.collect.Maps;
+import com.maxmind.geoip.Location;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +63,9 @@ public class UserSettingController extends GenericController
 
 //    @Autowired(required = false)
 //    AccountLogNoSql             accountLogNoSql;
+
+    @Autowired(required = false)
+    UserLogService userLogService;
 
     @Autowired(required = false)
     SysMsgRecordService sysMsgRecordService;
@@ -422,7 +428,7 @@ public class UserSettingController extends GenericController
         }
         //
         userDB.setEmail(reqUserBindEmail.getEmail());
-        // userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGAORSMS);
+        // userDB.setSecurityPolicy("安全策略不变");
         userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         saveOperationLogs(principal, "bind email");
@@ -440,7 +446,7 @@ public class UserSettingController extends GenericController
     @ResponseBody
     @ApiOperation(value = "绑定手机发送短信码", httpMethod = "POST")
     @RequestMapping(value = "/setting/bindMobile/sendSms", method = RequestMethod.POST)
-    @AccessLimit(limit = 1, timeScope = 60, isLogin = true) // 未登录情况下限制60秒内最多请求1次
+    @AccessLimit(limit = 1, timeScope = 60, isLogin = true) // 登录情况下限制60秒内最多请求1次
     public JsonMessage bindMobileSendSMS(HttpServletRequest request, @Validated @RequestBody ReqSendSms reqSendSms) throws BusinessException
     {
         log.info("bindMobileSendSMS reqSendSms:{}", reqSendSms);
@@ -509,6 +515,7 @@ public class UserSettingController extends GenericController
         } else {
             userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDSMS);
         }
+        userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         saveOperationLogs(principal, "bind mobile");
         //
@@ -532,7 +539,7 @@ public class UserSettingController extends GenericController
         }
         if (StringUtils.isEmpty(principal.getUserMail()))
         {// 用户邮箱如果没绑定的话 要先绑定邮箱
-            throw new BusinessException("email unbind please first bind email");
+            return getJsonMessage(UserEnums.USER_EMAIL_NOTBIND);
         }
 //        if (StringUtils.isBlank(principal.getUserMail()))
 //        {// 避免用户通过手机号注册之后邮箱未绑定的前提下，重新查数据库
@@ -724,7 +731,11 @@ public class UserSettingController extends GenericController
 //        }
         // 账户实体类更新
         userDB.setGaAuthKey(EncryptUtils.desEncrypt(reqUserBindGA.getGaSecretKey()));
-        userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGA); // 安全策略
+        if(StringUtils.isNotEmpty(userDB.getMobileNo())){ // 安全策略
+            userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGAORSMS);
+        } else {
+            userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDGA);
+        }
         userService.updateByPrimaryKeySelective(userDB);
         saveOperationLogs(principal, "bind Google Auth");
         return this.getJsonMessage(CommonEnums.SUCCESS);
@@ -748,12 +759,13 @@ public class UserSettingController extends GenericController
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         User userDB = userService.selectByPrimaryKey(principal.getId());
         userPolicyService.validSecurityPolicy(userDB, policy);
-        if (!userPolicyService.validSMSCode(new StringBuffer(location).append(phone).toString(), validCode))
+        if (!userPolicyService.validSMSCode(new StringBuffer(location).append(phone).toString(), validCode, MessageConst.SMS_VALID_BINDMOBILE))
         {// 新手机校验失败
             throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         }
         userDB.setMobileNo(phone);
         userDB.setCountry(location);
+        userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         /*
          * if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
@@ -801,6 +813,7 @@ public class UserSettingController extends GenericController
             userDB.setSecurityPolicy(UserConsts.SECURITY_POLICY_NEEDSMS);
         }
         userDB.setGaAuthKey(null);// 请空GOOGLE密匙
+        userDB.setUpdateTime(System.currentTimeMillis());
         userService.updateByPrimaryKeySelective(userDB);
         /*
          * if (BitmsConst.REMIND_PHONE_SWITCH.equals(BitmsConst.SWITCH_ENABLE))
@@ -830,46 +843,46 @@ public class UserSettingController extends GenericController
      */
     void saveOperationLogs(UserPrincipal principal, String content)
     {
-//        try
-//        {
-//            if (null == principal) principal = OnLineUserUtils.getPrincipal();
-//            HttpServletRequest request = ServletsUtils.getRequest();
-//            AccountLog accountLog = new AccountLog();
-//            accountLog.setContent(content);
-//            accountLog.setSystemName(BitmsConst.BITMS_PROJECT_NAME);
-//            accountLog.setAccountId(principal.getId());
-//            accountLog.setUrl(request.getRequestURI());
-//            accountLog.setOpType(AccountLogConsts.LOG_TYPE_SETTING);
-//            accountLog.setAccountName(principal.getTrueName());
-//            accountLog.setIpAddr(IPUtil.getOriginalIpAddr(request));
-//            accountLog.setCreateDate(CalendarUtils.getCurrentLong());
-//            if (null != accountLog.getIpAddr())
-//            {
-//                String rigonName = "Unknown address";
-//                String[] ipArray = accountLog.getIpAddr().split(",");
-//                for (String ip : ipArray)
-//                {
-//                    Location location = GeoIPUtils.getInstance().getLocation(ip);
-//                    if (null != location)
-//                    {
-//                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
-//                    }
-//                    break;
-//                }
-//                accountLog.setRigonName(rigonName);
-//            }
-//            accountLogNoSql.insert(accountLog);
-//        }
-//        catch (RuntimeException e)
-//        {
-//            log.error("操作日志记录失败：{}", e.getCause());
-//        }
-//        finally
-//        {
-//            Long endTime = System.currentTimeMillis() + 86400000;
-//            StringBuffer key = new StringBuffer(CacheConst.POLICY_PERFIX).append("uplocktime_Widthdraw_").append(principal.getId());
-//            RedisUtils.putObject(key.toString(), endTime, CacheConst.TWENTYFOUR_HOUR_CACHE_TIME);
-//        }
+        try
+        {
+            if (null == principal) principal = OnLineUserUtils.getPrincipal();
+            HttpServletRequest request = ServletsUtils.getRequest();
+            UserLog userLog = new UserLog();
+            userLog.setUserId(principal.getId());
+            userLog.setUserName(principal.getUserName());
+            userLog.setSystemName("exchange-web");
+            userLog.setOpType("setting");
+            userLog.setUrl(request.getRequestURI());
+            userLog.setContent(content);
+            userLog.setIpAddr(NetworkUtils.getIpAddr(request));
+            userLog.setCreateTime(CalendarUtils.getCurrentLong());
+            if (null != userLog.getIpAddr())
+            {
+                String rigonName = "Unknown address";
+                String[] ipArray = userLog.getIpAddr().split(",");
+                for (String ip : ipArray)
+                {
+                    Location location = GeoIPUtils.getInstance().getLocation(ip);
+                    if (null != location)
+                    {
+                        rigonName = new StringBuilder(location.countryName).append("|").append(location.city).toString();
+                    }
+                    break;
+                }
+                userLog.setRigonName(rigonName);
+            }
+            userLogService.insert(userLog);
+        }
+        catch (RuntimeException e)
+        {
+            log.error("操作日志记录失败：{}", e.getCause());
+        }
+        finally
+        {
+            Long endTime = System.currentTimeMillis() + 86400000;
+            StringBuffer key = new StringBuffer(CacheConst.POLICY_PERFIX).append("uplocktime_Widthdraw_").append(principal.getId());
+            RedisUtils.putObject(key.toString(), endTime, CacheConst.TWENTYFOUR_HOUR_CACHE_TIME);
+        }
     }
 
 //    /**

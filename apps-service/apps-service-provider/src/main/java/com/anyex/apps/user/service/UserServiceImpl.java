@@ -115,9 +115,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         user.setUid(userMapper.getMaxUNID() + 1);
         user.setInviteCode(String.valueOf(user.getUid())); //邀请码
         user.setState(0); // 状态正常
-        user.setSecurityPolicy(0); // 默认安全验证策略PWD
         user.setTradePolicy(0); // 默认交易验证策略
-        user.setRiskEvaluation(0);
+        user.setRiskEvaluation(0); // 未风评
         user.setCertState(0); // 未认证
         user.setLang("en_US");
         user.setLocalCurrency("USD");

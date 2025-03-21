@@ -15,9 +15,11 @@
     <modules>
         <module>apps-commons-tools</module>
         <module>apps-commons-support</module>
-        <module>apps-commons-generator</module>
         <module>apps-commons-external</module>
+        <!--
+        <module>apps-commons-generator</module>
         <module>apps-commons-generator-plus</module>
+        -->
     </modules>
 
 </project>
