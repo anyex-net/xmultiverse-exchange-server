@@ -35,8 +35,29 @@ import org.springframework.web.bind.annotation.*;
 public class SpotMarketController extends GenericController
 {
     @ResponseBody
-    @GetMapping(value = "/orderBook")
-    @ApiOperation(value = "orderBook", httpMethod = "GET")
+    @PostMapping(value = "/marketList")
+    @ApiOperation(value = "交易对列表marketList", httpMethod = "POST")
+    public JsonMessage<JSONObject> marketList() throws BusinessException
+    {
+        JSONObject respJsonObject = ViabtcMarketApi.marketList();
+        log.info("marketList respJsonObject:{}", respJsonObject);
+        return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/marketLast")
+    @ApiOperation(value = "交易对最新价marketLast", httpMethod = "POST")
+    public JsonMessage<JSONObject> marketLast(@Validated @RequestBody ReqMarketLast reqMarketLast) throws BusinessException
+    {
+        log.info("marketLast reqMarketLast:{}", reqMarketLast);
+        JSONObject respJsonObject = ViabtcMarketApi.marketLast(reqMarketLast);
+        log.info("marketLast respJsonObject:{}", respJsonObject);
+        return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/orderBook")
+    @ApiOperation(value = "orderBook", httpMethod = "POST")
     public JsonMessage<JSONObject> orderBook(@Validated @RequestBody ReqTradeOrderBook reqTradeOrderBook) throws BusinessException
     {
         log.info("tradeOrderBook reqTradeOrderBook:{}", reqTradeOrderBook);
@@ -46,8 +67,8 @@ public class SpotMarketController extends GenericController
     }
 
     @ResponseBody
-    @GetMapping(value = "/orderDepth")
-    @ApiOperation(value = "orderDepth", httpMethod = "GET")
+    @PostMapping(value = "/orderDepth")
+    @ApiOperation(value = "orderDepth", httpMethod = "POST")
     public JsonMessage<JSONObject> orderDepth(@Validated @RequestBody ReqTradeOrderDepth reqTradeOrderDepth) throws BusinessException
     {
         log.info("tradeOrderDepth reqTradeOrderDepth:{}", reqTradeOrderDepth);
@@ -57,8 +78,8 @@ public class SpotMarketController extends GenericController
     }
 
     @ResponseBody
-    @GetMapping(value = "/marketDeals")
-    @ApiOperation(value = "marketDeals", httpMethod = "GET")
+    @PostMapping(value = "/marketDeals")
+    @ApiOperation(value = "marketDeals", httpMethod = "POST")
     public JsonMessage<JSONObject> marketDeals(@Validated @RequestBody ReqMarketDeals reqMarketDeals) throws BusinessException
     {
         log.info("marketDeals reqMarketDeals:{}", reqMarketDeals);
@@ -68,8 +89,8 @@ public class SpotMarketController extends GenericController
     }
 
     @ResponseBody
-    @GetMapping(value = "/marketKline")
-    @ApiOperation(value = "marketKline", httpMethod = "GET")
+    @PostMapping(value = "/marketKline")
+    @ApiOperation(value = "marketKline", httpMethod = "POST")
     public JsonMessage<JSONObject> marketKline(@Validated @RequestBody ReqMarketKline reqMarketKline) throws BusinessException
     {
         log.info("marketKline reqMarketKline:{}", reqMarketKline);
@@ -79,8 +100,8 @@ public class SpotMarketController extends GenericController
     }
 
     @ResponseBody
-    @GetMapping(value = "/marketStatus")
-    @ApiOperation(value = "marketStatus", httpMethod = "GET")
+    @PostMapping(value = "/marketStatus")
+    @ApiOperation(value = "marketStatus", httpMethod = "POST")
     public JsonMessage<JSONObject> marketStatus(@Validated @RequestBody ReqMarketStatus reqMarketStatus) throws BusinessException
     {
         log.info("marketStatus reqMarketStatus:{}", reqMarketStatus);
@@ -90,8 +111,8 @@ public class SpotMarketController extends GenericController
     }
 
     @ResponseBody
-    @GetMapping(value = "/marketStatusToday")
-    @ApiOperation(value = "marketStatusToday", httpMethod = "GET")
+    @PostMapping(value = "/marketStatusToday")
+    @ApiOperation(value = "marketStatusToday", httpMethod = "POST")
     public JsonMessage<JSONObject> marketStatusToday(@Validated @RequestBody ReqMarketStatusToday reqMarketStatusToday) throws BusinessException
     {
         log.info("marketStatusToday reqMarketStatusToday:{}", reqMarketStatusToday);
@@ -101,34 +122,13 @@ public class SpotMarketController extends GenericController
     }
 
     @ResponseBody
-    @GetMapping(value = "/marketSummary")
-    @ApiOperation(value = "marketSummary", httpMethod = "GET")
+    @PostMapping(value = "/marketSummary")
+    @ApiOperation(value = "marketSummary", httpMethod = "POST")
     public JsonMessage<JSONObject> marketSummary(@Validated @RequestBody ReqMarketSummary reqMarketSummary) throws BusinessException
     {
         log.info("marketSummary reqMarketSummary:{}", reqMarketSummary);
         JSONObject respJsonObject = ViabtcMarketApi.marketSummary(reqMarketSummary);
         log.info("marketSummary respJsonObject:{}", respJsonObject);
-        return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
-    }
-
-    @ResponseBody
-    @GetMapping(value = "/marketList")
-    @ApiOperation(value = "marketList", httpMethod = "GET")
-    public JsonMessage<JSONObject> marketList() throws BusinessException
-    {
-        JSONObject respJsonObject = ViabtcMarketApi.marketList();
-        log.info("marketList respJsonObject:{}", respJsonObject);
-        return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
-    }
-
-    @ResponseBody
-    @GetMapping(value = "/marketLast")
-    @ApiOperation(value = "marketLast", httpMethod = "GET")
-    public JsonMessage<JSONObject> marketLast(ReqMarketLast reqMarketLast) throws BusinessException
-    {
-        log.info("marketLast reqMarketLast:{}", reqMarketLast);
-        JSONObject respJsonObject = ViabtcMarketApi.marketLast(reqMarketLast);
-        log.info("marketLast respJsonObject:{}", respJsonObject);
         return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
     }
 }
