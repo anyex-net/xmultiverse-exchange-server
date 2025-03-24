@@ -452,7 +452,22 @@
 
     <select id="selectList" resultType="com.anyex.apps.spot.entity.SliceOrder">
         SELECT
-        <include refid="sliceOrderExampleColumns"/>
+        a.id as id,
+        a.t as t,
+        a.side as side,
+        a.create_time as createTime,
+        a.update_time as updateTime,
+        a.user_id as userId,
+        a.market as market,
+        a.price as price,
+        a.amount as amount,
+        a.taker_fee as takerFee,
+        a.maker_fee as makerFee,
+        a.`left`,
+        a.freeze as freeze,
+        a.deal_stock as dealStock,
+        a.deal_money as dealMoney,
+        a.deal_fee as dealFee
         FROM ${tableName} a WHERE 1 = 1
         <if test="sliceOrder.t != null">
             AND a.t = #{sliceOrder.t}
