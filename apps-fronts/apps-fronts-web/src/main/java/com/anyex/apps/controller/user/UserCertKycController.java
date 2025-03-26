@@ -41,43 +41,43 @@ public class UserCertKycController extends GenericController
     private UserCertKycService userCertKycService;
 
     @GetMapping(value = "/getUserCertKyc")
-    @ApiOperation(value = "获取账户认证", httpMethod = "GET")
+    @ApiOperation(value = "获取用户认证", httpMethod = "GET")
     public JsonMessage<UserCertKyc> getUserCertKyc() throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
         UserCertKyc userCertKyc = new UserCertKyc();
         userCertKyc.setUserId(principal.getId());
         return this.getJsonMessage(CommonEnums.SUCCESS, userCertKycService.selectOne(userCertKyc));
     }
 
     @PostMapping(value = "/submitUserCerKyc")
-    @ApiOperation(value = "提交帐户认证", httpMethod = "POST")
-    public JsonMessage submitUserCerKyc(@Validated @RequestBody ReqUserCertKyc info) throws BusinessException
+    @ApiOperation(value = "提交用户认证", httpMethod = "POST")
+    public JsonMessage submitUserCerKyc(@Validated @RequestBody ReqUserCertKyc reqUserCertKyc) throws BusinessException
     {
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
-        if (beanValidator(json, info))
+        //
+        UserCertKyc userCertKyc = new UserCertKyc();
+        BeanUtils.copyProperties(reqUserCertKyc, userCertKyc);
+        //
+        if (null == reqUserCertKyc.getId())
         {
-            UserCertKyc entity = new UserCertKyc();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-                entity.setUserId(principal.getId());
-                entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            entity.setState(0);
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                userCertKycService.insert(entity);
-            } else {
-                userCertKycService.updateByPrimaryKeySelective(entity);
-            }
+            userCertKyc.setUserId(principal.getId());
+            userCertKyc.setCreateTime(System.currentTimeMillis());
         }
+        userCertKyc.setUpdateTime(System.currentTimeMillis());
+        userCertKyc.setState(0);
+        //
+        log.info("userCertKyc:{}", userCertKyc);
+        if(null == userCertKyc.getId()){
+            userCertKycService.insert(userCertKyc);
+        } else {
+            userCertKycService.updateByPrimaryKeySelective(userCertKyc);
+        }
+        //
         return json;
     }
 }

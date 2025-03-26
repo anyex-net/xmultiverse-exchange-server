@@ -46,6 +46,7 @@ public class RwaCertInstInvestorController extends GenericController
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
         RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
         rwaCertInstInvestor.setUserId(principal.getId());
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaCertInstInvestorService.selectOne(rwaCertInstInvestor));
@@ -54,31 +55,30 @@ public class RwaCertInstInvestorController extends GenericController
 
     @PostMapping(value = "/submitRwaCertInstInvestor")
     @ApiOperation(value = "提交RWA认证机构投资者", httpMethod = "POST")
-    public JsonMessage submitRwaCertInstInvestor(@Validated @RequestBody ReqRwaCertInstInvestor info) throws BusinessException
+    public JsonMessage submitRwaCertInstInvestor(@Validated @RequestBody ReqRwaCertInstInvestor reqRwaCertInstInvestor) throws BusinessException
     {
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
-        if (beanValidator(json, info))
+        //
+        RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
+        BeanUtils.copyProperties(reqRwaCertInstInvestor, rwaCertInstInvestor);
+        //
+        if (null == reqRwaCertInstInvestor.getId())
         {
-            RwaCertInstInvestor entity = new RwaCertInstInvestor();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-                entity.setUserId(principal.getId());
-                entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            entity.setState("0");
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                rwaCertInstInvestorService.insert(entity);
-            } else {
-                rwaCertInstInvestorService.updateByPrimaryKeySelective(entity);
-            }
+            rwaCertInstInvestor.setUserId(principal.getId());
+            rwaCertInstInvestor.setCreateTime(System.currentTimeMillis());
         }
+        rwaCertInstInvestor.setUpdateTime(System.currentTimeMillis());
+        rwaCertInstInvestor.setState("0");
+        //
+        log.info("rwaCertInstInvestor:{}", rwaCertInstInvestor);
+        if(null == rwaCertInstInvestor.getId()){
+            rwaCertInstInvestorService.insert(rwaCertInstInvestor);
+        } else {
+            rwaCertInstInvestorService.updateByPrimaryKeySelective(rwaCertInstInvestor);
+        }
+        //
         return json;
     }
 

@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 /**
  * 用户认证个人KYC 实体请求对象
@@ -30,10 +29,10 @@ public class ReqUserCertKyc extends GenericEntity
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private Long userId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private Long userId;
 
 	/**姓氏*/
 	@NotEmpty(message = "姓氏不可为空")
@@ -75,9 +74,8 @@ public class ReqUserCertKyc extends GenericEntity
 	@ApiModelProperty(value = "证件照片3", position = 9, required = true)
 	private String passportImg3;
 
-
 	/**备注*/
-	@ApiModelProperty(value = "备注", position = 11)
+	@ApiModelProperty(value = "备注", position = 10)
 	private String remark;
 }
 
