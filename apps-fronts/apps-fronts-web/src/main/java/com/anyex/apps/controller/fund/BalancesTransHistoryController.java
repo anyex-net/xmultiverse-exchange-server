@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -41,7 +42,7 @@ public class BalancesTransHistoryController extends GenericController
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询资金账户交易历史", httpMethod = "POST")
-    public JsonMessage<PaginateResult<BalancesTransHistory>> data(@ModelAttribute ReqBalancesTransHistoryPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<BalancesTransHistory>> data(@Validated @RequestBody ReqBalancesTransHistoryPagination pagin) throws BusinessException
     {
         BalancesTransHistory balancesTransHistoryQuery = new BalancesTransHistory();
         BeanUtils.copyProperties(pagin, balancesTransHistoryQuery);

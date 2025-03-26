@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -41,7 +42,7 @@ public class DepositAddressController extends GenericController
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询充值地址", httpMethod = "POST")
-    public JsonMessage<PaginateResult<DepositAddress>> data(@ModelAttribute ReqDepositAddressPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<DepositAddress>> data(@Validated @RequestBody ReqDepositAddressPagination pagin) throws BusinessException
     {
         DepositAddress depositAddressQuery = new DepositAddress();
         BeanUtils.copyProperties(pagin, depositAddressQuery);

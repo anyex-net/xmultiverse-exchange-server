@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -41,7 +42,7 @@ public class WithdrawalHistoryController extends GenericController
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询提现历史", httpMethod = "POST")
-    public JsonMessage<PaginateResult<WithdrawalHistory>> data(@ModelAttribute ReqWithdrawalHistoryPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<WithdrawalHistory>> data(@Validated @RequestBody ReqWithdrawalHistoryPagination pagin) throws BusinessException
     {
         WithdrawalHistory withdrawalHistoryQuery = new WithdrawalHistory();
         BeanUtils.copyProperties(pagin, withdrawalHistoryQuery);

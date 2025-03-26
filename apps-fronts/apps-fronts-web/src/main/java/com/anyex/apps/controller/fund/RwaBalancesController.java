@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -41,7 +42,7 @@ public class RwaBalancesController extends GenericController
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA账户余额", httpMethod = "POST")
-    public JsonMessage<PaginateResult<RwaBalances>> data(@ModelAttribute ReqRwaBalancesPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaBalances>> data(@Validated @RequestBody ReqRwaBalancesPagination pagin) throws BusinessException
     {
         RwaBalances rwaBalancesQuery = new RwaBalances();
         BeanUtils.copyProperties(pagin, rwaBalancesQuery);

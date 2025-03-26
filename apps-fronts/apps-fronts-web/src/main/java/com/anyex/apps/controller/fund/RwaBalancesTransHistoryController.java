@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/rwa/rwaBalancesTransHistory")
+@RequestMapping("/fund/rwaBalancesTransHistory")
 @Api(tags = "RWA账户交易历史")
 public class RwaBalancesTransHistoryController extends GenericController
 {
@@ -41,7 +42,7 @@ public class RwaBalancesTransHistoryController extends GenericController
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA账户交易历史", httpMethod = "POST")
-    public JsonMessage<PaginateResult<RwaBalancesTransHistory>> data(@ModelAttribute ReqRwaBalancesTransHistoryPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaBalancesTransHistory>> data(@Validated @RequestBody ReqRwaBalancesTransHistoryPagination pagin) throws BusinessException
     {
         RwaBalancesTransHistory rwaBalancesTransHistoryQuery = new RwaBalancesTransHistory();
         BeanUtils.copyProperties(pagin, rwaBalancesTransHistoryQuery);

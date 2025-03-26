@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -41,7 +42,7 @@ public class DepositTransHistoryController extends GenericController
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询充值交易历史", httpMethod = "POST")
-    public JsonMessage<PaginateResult<DepositTransHistory>> data(@ModelAttribute ReqDepositTransHistoryPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<DepositTransHistory>> data(@Validated @RequestBody ReqDepositTransHistoryPagination pagin) throws BusinessException
     {
         DepositTransHistory depositTransHistoryQuery = new DepositTransHistory();
         BeanUtils.copyProperties(pagin, depositTransHistoryQuery);
