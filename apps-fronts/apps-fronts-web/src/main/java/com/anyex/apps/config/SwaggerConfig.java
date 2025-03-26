@@ -75,6 +75,23 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket web_api_base() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("B-基础设置API")
+                        .description("B-基础设置")
+                        .termsOfServiceUrl("")//这里可以是项目地址
+                        .version("2.0.1")
+                        .build())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/base/**"))
+                .build()
+                .groupName("B-基础设置")
+                .pathMapping("/");
+    }
+
+    @Bean
     public Docket web_api_user() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()

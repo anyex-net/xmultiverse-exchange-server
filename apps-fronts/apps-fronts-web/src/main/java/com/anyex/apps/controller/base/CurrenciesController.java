@@ -49,8 +49,8 @@ public class CurrenciesController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @GetMapping(value = "/findByCurrency")
-    @ApiOperation(value = "根据币种currency取平台币种列表", httpMethod = "GET")
+    @PostMapping(value = "/findByCurrency")
+    @ApiOperation(value = "根据币种currency取平台币种列表", httpMethod = "POST")
     public JsonMessage<List<Currencies>> findByCurrency(@Validated @RequestBody ReqCurrencies reqCurrencies) throws BusinessException
     {
         Currencies currencies = new Currencies();
