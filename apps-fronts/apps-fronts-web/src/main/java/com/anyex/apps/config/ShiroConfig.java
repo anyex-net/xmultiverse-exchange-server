@@ -128,6 +128,8 @@ public class ShiroConfig
         //
         filterChainDefinitionMap.put("/common/**", "anon");
         //
+        filterChainDefinitionMap.put("/base/**", "anon");
+        //
         filterChainDefinitionMap.put("/spot/market/**", "anon");
         filterChainDefinitionMap.put("/spot/market/**/**", "anon");
         //
