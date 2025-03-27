@@ -49,10 +49,10 @@ public class ReqUserCertKyc extends GenericEntity
 	@ApiModelProperty(value = "国家地区", position = 4, required = true)
 	private String region;
 
-	/**证件类型*/
-	@NotEmpty(message = "证件类型不可为空")
-	@ApiModelProperty(value = "证件类型", position = 5, required = true)
-	private String passportType;
+	/**证件类型(身份证IdentityCard、护照Passport)*/
+	@NotEmpty(message = "证件类型(身份证IdentityCard、护照Passport)不可为空")
+	@ApiModelProperty(value = "证件类型(身份证IdentityCard、护照Passport)", position = 5, required = true)
+	private java.lang.String passportType;
 
 	/**证件号码*/
 	@NotEmpty(message = "证件号码不可为空")
