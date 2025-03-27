@@ -60,7 +60,7 @@ create table UserCertKyc
     surName           varchar(32)              not null comment '姓氏',
     realName          varchar(32)              not null comment '名字',
     region            varchar(32)              not null comment '国家地区',
-    passportType      varchar(16)              not null comment '证件类型',
+    passportType      varchar(16)              not null comment '证件类型(身份证IdentityCard、护照Passport)',
     passportNo        varchar(64)              not null comment '证件号码',
     passportImg1      varchar(64)              not null comment '证件照片1',
     passportImg2      varchar(64)              not null comment '证件照片2',

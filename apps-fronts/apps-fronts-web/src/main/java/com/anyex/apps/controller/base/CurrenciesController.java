@@ -39,12 +39,24 @@ public class CurrenciesController extends GenericController
     @Autowired(required = false)
     private CurrenciesService currenciesService;
 
-    @PostMapping(value = "/data")
-    @ApiOperation(value = "查询平台币种所有列表", httpMethod = "POST")
-    public JsonMessage<List<Currencies>> data() throws BusinessException
+    @PostMapping(value = "/canDepositCurrency")
+    @ApiOperation(value = "查询可充值的平台币种列表", httpMethod = "POST")
+    public JsonMessage<List<Currencies>> canDepositCurrency() throws BusinessException
     {
         Currencies currencies = new Currencies();
         currencies.setState("live"); // 开放中live
+        currencies.setCanDep("true"); // 是否可充值 false表示不可链上充值 true表示可以链上充值
+        List<Currencies> result = currenciesService.findList(currencies);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/canWithdrawalCurrency")
+    @ApiOperation(value = "查询可提现的平台币种列表", httpMethod = "POST")
+    public JsonMessage<List<Currencies>> canWithdrawalCurrency() throws BusinessException
+    {
+        Currencies currencies = new Currencies();
+        currencies.setState("live"); // 开放中live
+        currencies.setCanWd("true"); // 是否可提币 false表示不可链上提币 true表示可以链上提币
         List<Currencies> result = currenciesService.findList(currencies);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
