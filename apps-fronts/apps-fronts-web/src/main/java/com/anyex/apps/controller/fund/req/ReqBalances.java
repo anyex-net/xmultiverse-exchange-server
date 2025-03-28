@@ -4,11 +4,11 @@
  */
 package com.anyex.apps.controller.fund.req;
 
-import com.anyex.apps.bean.GenericEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * 资金账户余额 实体请求对象
@@ -21,9 +21,8 @@ import lombok.EqualsAndHashCode;
  * @version 1.0
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "资金账户余额请求对象")
-public class ReqBalances extends GenericEntity
+public class ReqBalances implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
