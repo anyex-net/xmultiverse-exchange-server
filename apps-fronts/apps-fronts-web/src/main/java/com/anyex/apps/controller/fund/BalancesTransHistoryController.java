@@ -41,7 +41,7 @@ public class BalancesTransHistoryController extends GenericController
     private BalancesTransHistoryService balancesTransHistoryService;
 
     @PostMapping(value = "/data")
-    @ApiOperation(value = "查询资金账户交易历史", httpMethod = "POST")
+    @ApiOperation(value = "查询资金账户交易历史列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<BalancesTransHistory>> data(@Validated @RequestBody ReqBalancesTransHistoryPagination pagin) throws BusinessException
     {
         BalancesTransHistory balancesTransHistoryQuery = new BalancesTransHistory();

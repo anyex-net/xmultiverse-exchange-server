@@ -41,7 +41,7 @@ public class DepositTransHistoryController extends GenericController
     private DepositTransHistoryService depositTransHistoryService;
 
     @PostMapping(value = "/data")
-    @ApiOperation(value = "查询充值交易历史", httpMethod = "POST")
+    @ApiOperation(value = "查询充值交易历史列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<DepositTransHistory>> data(@Validated @RequestBody ReqDepositTransHistoryPagination pagin) throws BusinessException
     {
         DepositTransHistory depositTransHistoryQuery = new DepositTransHistory();

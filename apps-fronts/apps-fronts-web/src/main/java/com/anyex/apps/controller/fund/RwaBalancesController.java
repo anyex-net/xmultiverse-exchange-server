@@ -41,7 +41,7 @@ public class RwaBalancesController extends GenericController
     private RwaBalancesService rwaBalancesService;
 
     @PostMapping(value = "/data")
-    @ApiOperation(value = "查询RWA账户余额", httpMethod = "POST")
+    @ApiOperation(value = "查询RWA账户余额列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<RwaBalances>> data(@Validated @RequestBody ReqRwaBalancesPagination pagin) throws BusinessException
     {
         RwaBalances rwaBalancesQuery = new RwaBalances();

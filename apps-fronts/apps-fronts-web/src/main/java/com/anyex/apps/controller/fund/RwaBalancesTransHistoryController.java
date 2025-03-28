@@ -41,7 +41,7 @@ public class RwaBalancesTransHistoryController extends GenericController
     private RwaBalancesTransHistoryService rwaBalancesTransHistoryService;
 
     @PostMapping(value = "/data")
-    @ApiOperation(value = "查询RWA账户交易历史", httpMethod = "POST")
+    @ApiOperation(value = "查询RWA账户交易历史列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<RwaBalancesTransHistory>> data(@Validated @RequestBody ReqRwaBalancesTransHistoryPagination pagin) throws BusinessException
     {
         RwaBalancesTransHistory rwaBalancesTransHistoryQuery = new RwaBalancesTransHistory();

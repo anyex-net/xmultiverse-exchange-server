@@ -60,23 +60,23 @@ public class DepositAddressController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
-    @PostMapping(value = "/data")
-    @ApiOperation(value = "查询充值地址", httpMethod = "POST")
-    public JsonMessage<PaginateResult<DepositAddress>> data(@Validated @RequestBody ReqDepositAddressPagination pagin) throws BusinessException
-    {
-        DepositAddress depositAddressQuery = new DepositAddress();
-        BeanUtils.copyProperties(pagin, depositAddressQuery);
-        depositAddressQuery.setUserId(OnLineUserUtils.getPrincipal().getId());
-        //
-        PaginateResult<DepositAddress> result = depositAddressService.search(pagin, depositAddressQuery);
-        return getJsonMessage(CommonEnums.SUCCESS, result);
-    }
-
-    @GetMapping(value = "/findBy")
-    @ApiOperation(value = "根据ID取充值地址", httpMethod = "GET")
-    public JsonMessage<DepositAddress> findBy(Long id) throws BusinessException
-    {
-        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        return this.getJsonMessage(CommonEnums.SUCCESS, depositAddressService.selectByPrimaryKey(id));
-    }
+//    @PostMapping(value = "/data")
+//    @ApiOperation(value = "查询充值地址列表", httpMethod = "POST")
+//    public JsonMessage<PaginateResult<DepositAddress>> data(@Validated @RequestBody ReqDepositAddressPagination pagin) throws BusinessException
+//    {
+//        DepositAddress depositAddressQuery = new DepositAddress();
+//        BeanUtils.copyProperties(pagin, depositAddressQuery);
+//        depositAddressQuery.setUserId(OnLineUserUtils.getPrincipal().getId());
+//        //
+//        PaginateResult<DepositAddress> result = depositAddressService.search(pagin, depositAddressQuery);
+//        return getJsonMessage(CommonEnums.SUCCESS, result);
+//    }
+//
+//    @GetMapping(value = "/findBy")
+//    @ApiOperation(value = "根据ID取充值地址", httpMethod = "GET")
+//    public JsonMessage<DepositAddress> findBy(Long id) throws BusinessException
+//    {
+//        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+//        return this.getJsonMessage(CommonEnums.SUCCESS, depositAddressService.selectByPrimaryKey(id));
+//    }
 }
