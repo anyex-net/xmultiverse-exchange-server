@@ -5,7 +5,6 @@
 package com.anyex.apps.controller.fund;
 
 import com.anyex.apps.bean.GenericController;
-import com.anyex.apps.controller.fund.req.ReqWithdrawalHistory;
 import com.anyex.apps.controller.fund.req.ReqWithdrawalHistoryPagination;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
@@ -40,21 +39,6 @@ public class WithdrawalHistoryController extends GenericController
 {
     @Autowired(required = false)
     private WithdrawalHistoryService withdrawalHistoryService;
-
-    @PostMapping(value = "/withdrawalApply")
-    @ApiOperation(value = "提现申请", httpMethod = "POST")
-    public JsonMessage withdrawalApply(@Validated @RequestBody ReqWithdrawalHistory reqWithdrawalHistory) throws BusinessException
-    {
-        WithdrawalHistory withdrawalHistory = new WithdrawalHistory();
-        BeanUtils.copyProperties(reqWithdrawalHistory, withdrawalHistory);
-        withdrawalHistory.setUserId(OnLineUserUtils.getPrincipal().getId());
-        withdrawalHistory.setState("applied");
-        withdrawalHistory.setCreateTime(System.currentTimeMillis());
-        log.info("withdrawalHistory:{}", withdrawalHistory);
-        withdrawalHistoryService.insert(withdrawalHistory);
-        //
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询提现历史列表", httpMethod = "POST")

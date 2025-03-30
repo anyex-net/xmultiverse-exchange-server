@@ -28,10 +28,10 @@ public class ReqWithdrawalHistory implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private Long userId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private Long userId;
 
 	/**币种(BTC、ETH、USDT)*/
 	@NotEmpty(message = "币种(BTC、ETH、USDT)不可为空")
@@ -43,10 +43,10 @@ public class ReqWithdrawalHistory implements Serializable
 	@ApiModelProperty(value = "区块链(BTC、ETH、TRON、BSC)", position = 3, required = true)
 	private String blockchain;
 
-	/**提地址*/
-	@NotEmpty(message = "提地址不可为空")
-	@ApiModelProperty(value = "提地址", position = 4, required = true)
-	private String fromAddress;
+//	/**提地址*/
+//	@NotEmpty(message = "提地址不可为空")
+//	@ApiModelProperty(value = "提地址", position = 4, required = true)
+//	private String fromAddress;
 
 	/**收地址*/
 	@NotEmpty(message = "收地址不可为空")
