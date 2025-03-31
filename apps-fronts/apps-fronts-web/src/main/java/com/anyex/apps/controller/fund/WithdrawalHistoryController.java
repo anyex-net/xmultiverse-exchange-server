@@ -41,7 +41,7 @@ public class WithdrawalHistoryController extends GenericController
     private WithdrawalHistoryService withdrawalHistoryService;
 
     @PostMapping(value = "/data")
-    @ApiOperation(value = "查询提现历史", httpMethod = "POST")
+    @ApiOperation(value = "查询提现历史列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<WithdrawalHistory>> data(@Validated @RequestBody ReqWithdrawalHistoryPagination pagin) throws BusinessException
     {
         WithdrawalHistory withdrawalHistoryQuery = new WithdrawalHistory();

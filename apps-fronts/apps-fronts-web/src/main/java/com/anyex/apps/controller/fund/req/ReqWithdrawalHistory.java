@@ -4,14 +4,13 @@
  */
 package com.anyex.apps.controller.fund.req;
 
-import com.anyex.apps.bean.GenericEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 提现历史 实体请求对象
@@ -24,16 +23,15 @@ import javax.validation.constraints.NotNull;
  * @version 1.0
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "提现历史请求对象")
-public class ReqWithdrawalHistory extends GenericEntity
+public class ReqWithdrawalHistory implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private Long userId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private Long userId;
 
 	/**币种(BTC、ETH、USDT)*/
 	@NotEmpty(message = "币种(BTC、ETH、USDT)不可为空")
@@ -45,10 +43,10 @@ public class ReqWithdrawalHistory extends GenericEntity
 	@ApiModelProperty(value = "区块链(BTC、ETH、TRON、BSC)", position = 3, required = true)
 	private String blockchain;
 
-	/**提地址*/
-	@NotEmpty(message = "提地址不可为空")
-	@ApiModelProperty(value = "提地址", position = 4, required = true)
-	private String fromAddress;
+//	/**提地址*/
+//	@NotEmpty(message = "提地址不可为空")
+//	@ApiModelProperty(value = "提地址", position = 4, required = true)
+//	private String fromAddress;
 
 	/**收地址*/
 	@NotEmpty(message = "收地址不可为空")

@@ -41,7 +41,7 @@ public class BalancesController extends GenericController
     private BalancesService balancesService;
 
     @PostMapping(value = "/data")
-    @ApiOperation(value = "查询资金账户余额", httpMethod = "POST")
+    @ApiOperation(value = "查询资金账户余额列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<Balances>> data(@Validated @RequestBody ReqBalancesPagination pagin) throws BusinessException
     {
         Balances balancesQuery = new Balances();

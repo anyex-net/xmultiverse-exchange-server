@@ -4,14 +4,12 @@
  */
 package com.anyex.apps.controller.fund.req;
 
-import com.anyex.apps.bean.GenericEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 充值地址 实体请求对象
@@ -24,16 +22,15 @@ import javax.validation.constraints.NotNull;
  * @version 1.0
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "充值地址请求对象")
-public class ReqDepositAddress extends GenericEntity
+public class ReqDepositAddress implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private Long userId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private Long userId;
 
 	/**币种(BTC、ETH、USDT)*/
 	@NotEmpty(message = "币种(BTC、ETH、USDT)不可为空")
@@ -45,24 +42,24 @@ public class ReqDepositAddress extends GenericEntity
 	@ApiModelProperty(value = "区块链(BTC、ETH、TRON、BSC)", position = 3, required = true)
 	private String blockchain;
 
-	/**用户充值地址*/
-	@NotEmpty(message = "用户充值地址不可为空")
-	@ApiModelProperty(value = "用户充值地址", position = 4, required = true)
-	private String depositAddress;
-
-	/**累计充值(包含未确认)*/
-	@NotNull(message = "累计充值(包含未确认)不可为空")
-	@ApiModelProperty(value = "累计充值(包含未确认)", position = 5, required = true)
-	private java.math.BigDecimal accDeposit;
-
-	/**未确认累计充值*/
-	@NotNull(message = "未确认累计充值不可为空")
-	@ApiModelProperty(value = "未确认累计充值", position = 6, required = true)
-	private java.math.BigDecimal unconfAccDeposit;
-
-	/**备注*/
-	@ApiModelProperty(value = "备注", position = 9)
-	private String remark;
+//	/**用户充值地址*/
+//	@NotEmpty(message = "用户充值地址不可为空")
+//	@ApiModelProperty(value = "用户充值地址", position = 4, required = true)
+//	private String depositAddress;
+//
+//	/**累计充值(包含未确认)*/
+//	@NotNull(message = "累计充值(包含未确认)不可为空")
+//	@ApiModelProperty(value = "累计充值(包含未确认)", position = 5, required = true)
+//	private java.math.BigDecimal accDeposit;
+//
+//	/**未确认累计充值*/
+//	@NotNull(message = "未确认累计充值不可为空")
+//	@ApiModelProperty(value = "未确认累计充值", position = 6, required = true)
+//	private java.math.BigDecimal unconfAccDeposit;
+//
+//	/**备注*/
+//	@ApiModelProperty(value = "备注", position = 9)
+//	private String remark;
 
 //	/**创建时间*/
 //	@NotNull(message = "创建时间不可为空")
