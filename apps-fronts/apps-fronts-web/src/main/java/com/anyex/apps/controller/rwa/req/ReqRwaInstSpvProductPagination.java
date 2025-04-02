@@ -71,13 +71,13 @@ public class ReqRwaInstSpvProductPagination extends Pagination
 //	@ApiModelProperty(value = "发行天数", position = 11)
 //	private Integer issueDays;
 
-//	/**申购开始日期*/
-//	@ApiModelProperty(value = "申购开始日期", position = 12)
-//	private java.util.Date purchaseStartDate;
-//
-//	/**申购结束日期*/
-//	@ApiModelProperty(value = "申购结束日期", position = 13)
-//	private java.util.Date purchaseEndDate;
+	/**申购开始日期*/
+	@ApiModelProperty(value = "申购开始日期", position = 12)
+	private java.util.Date purchaseStartDate;
+
+	/**申购结束日期*/
+	@ApiModelProperty(value = "申购结束日期", position = 13)
+	private java.util.Date purchaseEndDate;
 //
 //	/**运营开始日期*/
 //	@ApiModelProperty(value = "运营开始日期", position = 14)
