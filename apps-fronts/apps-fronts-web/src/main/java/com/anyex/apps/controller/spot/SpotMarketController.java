@@ -36,7 +36,7 @@ public class SpotMarketController extends GenericController
 {
     @ResponseBody
     @PostMapping(value = "/marketList")
-    @ApiOperation(value = "交易对列表marketList", httpMethod = "POST")
+    @ApiOperation(value = "所有交易对列表marketList", httpMethod = "POST")
     public JsonMessage<JSONObject> marketList() throws BusinessException
     {
         JSONObject respJsonObject = ViabtcMarketApi.marketList();
@@ -46,7 +46,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/marketLast")
-    @ApiOperation(value = "交易对最新价marketLast", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-最新价marketLast", httpMethod = "POST")
     public JsonMessage<JSONObject> marketLast(@Validated @RequestBody ReqMarketLast reqMarketLast) throws BusinessException
     {
         log.info("marketLast reqMarketLast:{}", reqMarketLast);
@@ -57,7 +57,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderBook")
-    @ApiOperation(value = "orderBook", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-方向深度orderBook", httpMethod = "POST")
     public JsonMessage<JSONObject> orderBook(@Validated @RequestBody ReqTradeOrderBook reqTradeOrderBook) throws BusinessException
     {
         log.info("tradeOrderBook reqTradeOrderBook:{}", reqTradeOrderBook);
@@ -68,7 +68,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderDepth")
-    @ApiOperation(value = "orderDepth", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-深度orderDepth", httpMethod = "POST")
     public JsonMessage<JSONObject> orderDepth(@Validated @RequestBody ReqTradeOrderDepth reqTradeOrderDepth) throws BusinessException
     {
         log.info("tradeOrderDepth reqTradeOrderDepth:{}", reqTradeOrderDepth);
@@ -79,7 +79,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/marketDeals")
-    @ApiOperation(value = "marketDeals", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-成交marketDeals", httpMethod = "POST")
     public JsonMessage<JSONObject> marketDeals(@Validated @RequestBody ReqMarketDeals reqMarketDeals) throws BusinessException
     {
         log.info("marketDeals reqMarketDeals:{}", reqMarketDeals);
@@ -90,7 +90,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/marketKline")
-    @ApiOperation(value = "marketKline", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-K线marketKline", httpMethod = "POST")
     public JsonMessage<JSONObject> marketKline(@Validated @RequestBody ReqMarketKline reqMarketKline) throws BusinessException
     {
         log.info("marketKline reqMarketKline:{}", reqMarketKline);
@@ -101,7 +101,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/marketStatus")
-    @ApiOperation(value = "marketStatus", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-市场行情marketStatus", httpMethod = "POST")
     public JsonMessage<JSONObject> marketStatus(@Validated @RequestBody ReqMarketStatus reqMarketStatus) throws BusinessException
     {
         log.info("marketStatus reqMarketStatus:{}", reqMarketStatus);
@@ -112,7 +112,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/marketStatusToday")
-    @ApiOperation(value = "marketStatusToday", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-今日市场行情marketStatusToday", httpMethod = "POST")
     public JsonMessage<JSONObject> marketStatusToday(@Validated @RequestBody ReqMarketStatusToday reqMarketStatusToday) throws BusinessException
     {
         log.info("marketStatusToday reqMarketStatusToday:{}", reqMarketStatusToday);
@@ -123,7 +123,7 @@ public class SpotMarketController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/marketSummary")
-    @ApiOperation(value = "marketSummary", httpMethod = "POST")
+    @ApiOperation(value = "某交易对-行情概览marketSummary", httpMethod = "POST")
     public JsonMessage<JSONObject> marketSummary(@Validated @RequestBody ReqMarketSummary reqMarketSummary) throws BusinessException
     {
         log.info("marketSummary reqMarketSummary:{}", reqMarketSummary);
