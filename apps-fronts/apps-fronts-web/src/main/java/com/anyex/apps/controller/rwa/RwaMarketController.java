@@ -52,7 +52,7 @@ public class RwaMarketController extends GenericController
 
         RwaInstSpvProduct InstSpvProduct = new RwaInstSpvProduct();
         BeanUtils.copyProperties(pagin, InstSpvProduct);
-        List<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductService.findList(InstSpvProduct);
+        List<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductService.findListByState(InstSpvProduct);
         List<RespRwaMarketList> responseList = rwaInstSpvProducts.stream().map(rwaInstSpvProduct -> {
             RespRwaMarketList respRwaMarketList = new RespRwaMarketList();
             respRwaMarketList.setId(rwaInstSpvProduct.getId());

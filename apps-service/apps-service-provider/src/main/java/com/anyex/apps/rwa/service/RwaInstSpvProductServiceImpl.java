@@ -4,12 +4,15 @@
  */
 package com.anyex.apps.rwa.service;
 
+import com.anyex.apps.exception.BusinessException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper;
+
+import java.util.List;
 
 /**
  * RWA机构SPV产品 服务实现类
@@ -31,5 +34,10 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
     {
         super(rwaInstSpvProductMapper);
         this.rwaInstSpvProductMapper = rwaInstSpvProductMapper;
+    }
+
+    @Override
+    public List<RwaInstSpvProduct> findListByState(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
+        return rwaInstSpvProductMapper.findListByState(rwaInstSpvProduct);
     }
 }

@@ -841,6 +841,109 @@
         FROM RwaInstSpvProduct a
     </select>
 
+    <select id="findListByState" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
+        SELECT
+        <include refid="rwaInstSpvProductColumns"/>
+        FROM RwaInstSpvProduct a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="instSpvPromoterId != null">
+            AND a.instSpvPromoterId = #{instSpvPromoterId}
+        </if>
+        <if test="instSpvCompanyId != null">
+            AND a.instSpvCompanyId = #{instSpvCompanyId}
+        </if>
+        <if test="productNo != null and productNo != ''">
+            AND a.productNo LIKE CONCAT('%',#{productNo}, '%')
+        </if>
+        <if test="tokenName != null and tokenName != ''">
+            AND a.tokenName LIKE CONCAT('%',#{tokenName}, '%')
+        </if>
+        <if test="tokenLogo != null and tokenLogo != ''">
+            AND a.tokenLogo LIKE CONCAT('%',#{tokenLogo}, '%')
+        </if>
+        <if test="tokenIssueNumber != null">
+            AND a.tokenIssueNumber = #{tokenIssueNumber}
+        </if>
+        <if test="raiseCurrency != null and raiseCurrency != ''">
+            AND a.raiseCurrency LIKE CONCAT('%',#{raiseCurrency}, '%')
+        </if>
+        <if test="raiseAmount != null">
+            AND a.raiseAmount = #{raiseAmount}
+        </if>
+        <if test="assetEndValuation != null">
+            AND a.assetEndValuation = #{assetEndValuation}
+        </if>
+        <if test="issueDays != null">
+            AND a.issueDays = #{issueDays}
+        </if>
+        <if test="purchaseStartDate != null">
+            AND a.purchaseStartDate = #{purchaseStartDate}
+        </if>
+        <if test="purchaseEndDate != null">
+            AND a.purchaseEndDate = #{purchaseEndDate}
+        </if>
+        <if test="operationStarDate != null">
+            AND a.operationStarDate = #{operationStarDate}
+        </if>
+        <if test="operationEndDate != null">
+            AND a.operationEndDate = #{operationEndDate}
+        </if>
+        <if test="raiseEstablishedRatio != null">
+            AND a.raiseEstablishedRatio = #{raiseEstablishedRatio}
+        </if>
+        <if test="companyAssetName != null and companyAssetName != ''">
+            AND a.companyAssetName LIKE CONCAT('%',#{companyAssetName}, '%')
+        </if>
+        <if test="companyAssetDesc != null and companyAssetDesc != ''">
+            AND a.companyAssetDesc LIKE CONCAT('%',#{companyAssetDesc}, '%')
+        </if>
+        <if test="companyRaiseUse != null and companyRaiseUse != ''">
+            AND a.companyRaiseUse LIKE CONCAT('%',#{companyRaiseUse}, '%')
+        </if>
+        <if test="dividendRatio != null">
+            AND a.dividendRatio = #{dividendRatio}
+        </if>
+        <if test="dividendFrequency != null and dividendFrequency != ''">
+            AND a.dividendFrequency LIKE CONCAT('%',#{dividendFrequency}, '%')
+        </if>
+        <if test="dividendFreezeDays != null">
+            AND a.dividendFreezeDays = #{dividendFreezeDays}
+        </if>
+        <if test="raiseMarginRatio != null">
+            AND a.raiseMarginRatio = #{raiseMarginRatio}
+        </if>
+        <if test="raiseMarginState != null">
+            AND a.raiseMarginState = #{raiseMarginState}
+        </if>
+        <if test="purchasedSumAmount != null">
+            AND a.purchasedSumAmount = #{purchasedSumAmount}
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state LIKE CONCAT('%',#{state}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        <if test="checkBy != null and checkBy != ''">
+            AND a.checkBy LIKE CONCAT('%',#{checkBy}, '%')
+        </if>
+        <if test="checkTime != null">
+            AND a.checkTime = #{checkTime}
+        </if>
+        AND a.state > 3
+    </select>
+
 
 </mapper>
 

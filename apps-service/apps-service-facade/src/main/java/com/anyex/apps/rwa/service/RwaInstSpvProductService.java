@@ -5,7 +5,10 @@
 package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.bean.GenericService;
+import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
+
+import java.util.List;
 
 /**
  * RWA机构SPV产品 服务接口
@@ -19,5 +22,5 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
  */
 public interface RwaInstSpvProductService extends GenericService<RwaInstSpvProduct>
 {
-
+    List<RwaInstSpvProduct> findListByState(RwaInstSpvProduct entity);
 }

@@ -8,6 +8,8 @@ import com.anyex.apps.bean.GenericMapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 
+import java.util.List;
+
 /**
  * RWA机构SPV产品 持久层接口
  * <p>File：RwaInstSpvProductMapper.java </p>
@@ -21,5 +23,5 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 @Mapper
 public interface RwaInstSpvProductMapper extends GenericMapper<RwaInstSpvProduct>
 {
-
+    List<RwaInstSpvProduct> findListByState(RwaInstSpvProduct entity);
 }
