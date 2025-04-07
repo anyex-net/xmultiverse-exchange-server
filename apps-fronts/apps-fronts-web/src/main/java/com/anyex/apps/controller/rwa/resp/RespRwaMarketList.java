@@ -70,6 +70,17 @@ public class RespRwaMarketList extends GenericEntity {
     @ApiModelProperty(value = "发行天数", position = 11, required = true)
     private Integer issueDays;
 
+
+    /**申购开始日期*/
+    @NotNull(message = "申购开始日期不可为空")
+    @ApiModelProperty(value = "申购开始日期", position = 12, required = true)
+    private java.util.Date purchaseStartDate;
+
+    /**申购结束日期*/
+    @NotNull(message = "申购结束日期不可为空")
+    @ApiModelProperty(value = "申购结束日期", position = 13, required = true)
+    private java.util.Date purchaseEndDate;
+
     /**
      * 状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)
      */
