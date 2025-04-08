@@ -101,6 +101,9 @@ public class RwaMarketController extends GenericController
         //企业信息
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
+        if (rwaInstSpvProduct == null) {
+            throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
+        }
         RwaInstSpvCompany rwaInstSpvCompany = rwaInstSpvCompanyService.selectByPrimaryKey(rwaInstSpvProduct.getInstSpvCompanyId());
         BeanUtils.copyProperties(rwaInstSpvCompany, respRwaMarketPrEnterprise);
         return this.getJsonMessage(CommonEnums.SUCCESS, respRwaMarketPrEnterprise);
