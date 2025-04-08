@@ -30,14 +30,14 @@ public class ReqRwaInstSpvProductPurchase extends GenericEntity
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private Long userId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private Long userId;
 
-	/**机构投资者ID*/
-	@ApiModelProperty(value = "机构投资者ID", position = 2)
-	private Long instInvestorId;
+//	/**机构投资者ID*/
+//	@ApiModelProperty(value = "机构投资者ID", position = 2)
+//	private Long instInvestorId;
 
 	/**机构SPV产品ID*/
 	@NotNull(message = "机构SPV产品ID不可为空")
@@ -59,19 +59,19 @@ public class ReqRwaInstSpvProductPurchase extends GenericEntity
 	@ApiModelProperty(value = "申购数量", position = 6, required = true)
 	private java.math.BigDecimal purchaseAmount;
 
-	/**状态(成功success、处理中pending、失败failed)*/
-	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
-	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 7, required = true)
-	private String state;
+//	/**状态(成功success、处理中pending、失败failed)*/
+//	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
+//	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 7, required = true)
+//	private String state;
 
 	/**备注*/
 	@ApiModelProperty(value = "备注", position = 8)
 	private String remark;
 
-	/**创建时间*/
-	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 9, required = true)
-	private java.lang.Long createTime;
+//	/**创建时间*/
+//	@NotNull(message = "创建时间不可为空")
+//	@ApiModelProperty(value = "创建时间", position = 9, required = true)
+//	private java.lang.Long createTime;
 //
 //	/**更新人*/
 //	@ApiModelProperty(value = "更新人", position = 10)

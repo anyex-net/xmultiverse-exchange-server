@@ -3,18 +3,16 @@ package com.anyex.apps.controller.rwa;
 
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPagination;
+import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchase;
+import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchasePagination;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketList;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketPrEnterprise;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
-import com.anyex.apps.rwa.entity.RwaCertInstSpvPromoter;
-import com.anyex.apps.rwa.entity.RwaInstSpvCompany;
-import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
-import com.anyex.apps.rwa.service.RwaCertInstSpvPromoterService;
-import com.anyex.apps.rwa.service.RwaInstSpvCompanyService;
-import com.anyex.apps.rwa.service.RwaInstSpvProductService;
+import com.anyex.apps.rwa.entity.*;
+import com.anyex.apps.rwa.service.*;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
@@ -42,6 +40,12 @@ public class RwaMarketController extends GenericController
 
     @Autowired(required = false)
     private RwaInstSpvCompanyService rwaInstSpvCompanyService;
+
+    @Autowired(required = false)
+    private RwaCertInstInvestorService rwaCertInstInvestorService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductPurchaseService rwaInstSpvProductPurchaseService;
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
@@ -107,5 +111,41 @@ public class RwaMarketController extends GenericController
         RwaInstSpvCompany rwaInstSpvCompany = rwaInstSpvCompanyService.selectByPrimaryKey(rwaInstSpvProduct.getInstSpvCompanyId());
         BeanUtils.copyProperties(rwaInstSpvCompany, respRwaMarketPrEnterprise);
         return this.getJsonMessage(CommonEnums.SUCCESS, respRwaMarketPrEnterprise);
+    }
+
+    @PostMapping(value = "/submitRwaInstSpvProductPurchase")
+    @ApiOperation(value = "提交申购记录", httpMethod = "POST")
+    public JsonMessage submitRwaInstSpvProductPurchase(@Validated @RequestBody ReqRwaInstSpvProductPurchase reqRwaInstSpvProductPurchase) throws BusinessException {
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
+
+        RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
+        BeanUtils.copyProperties(reqRwaInstSpvProductPurchase, rwaInstSpvProductPurchase);
+        //
+        RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
+        rwaCertInstInvestor.setUserId(principal.getId());
+        RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
+        if (null == reqRwaInstSpvProductPurchase.getId())
+        {
+            rwaInstSpvProductPurchase.setUserId(principal.getId());
+            rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
+            rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
+        }
+//        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
+        rwaInstSpvProductPurchase.setState("pending");
+        //
+        log.info("userCertKyc:{}", rwaInstSpvProductPurchase);
+        if(null == rwaInstSpvProductPurchase.getId()){
+            rwaInstSpvProductPurchaseService.insert(rwaInstSpvProductPurchase);
+        } else {
+            rwaInstSpvProductPurchaseService.updateByPrimaryKeySelective(rwaInstSpvProductPurchase);
+        }
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
+        rwaInstSpvProduct.setPurchasedSumAmount(rwaInstSpvProduct.getPurchasedSumAmount().add(rwaInstSpvProductPurchase.getPurchaseAmount()));
+        rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
+        //
+        return json;
     }
 }

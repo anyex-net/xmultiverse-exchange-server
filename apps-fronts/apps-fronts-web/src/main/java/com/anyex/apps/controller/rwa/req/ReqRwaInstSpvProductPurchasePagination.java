@@ -27,13 +27,13 @@ public class ReqRwaInstSpvProductPurchasePagination extends Pagination
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@ApiModelProperty(value = "用户ID", position = 1)
-	private Long userId;
-
-	/**机构投资者ID*/
-	@ApiModelProperty(value = "机构投资者ID", position = 2)
-	private Long instInvestorId;
+//	/**用户ID*/
+//	@ApiModelProperty(value = "用户ID", position = 1)
+//	private Long userId;
+//
+//	/**机构投资者ID*/
+//	@ApiModelProperty(value = "机构投资者ID", position = 2)
+//	private Long instInvestorId;
 
 	/**机构SPV产品ID*/
 	@ApiModelProperty(value = "机构SPV产品ID", position = 3)
@@ -43,13 +43,13 @@ public class ReqRwaInstSpvProductPurchasePagination extends Pagination
 	@ApiModelProperty(value = "申购币种", position = 4)
 	private String purchaseCurrency;
 
-	/**申购价格*/
-	@ApiModelProperty(value = "申购价格", position = 5)
-	private java.math.BigDecimal purchasePrice;
-
-	/**申购数量*/
-	@ApiModelProperty(value = "申购数量", position = 6)
-	private java.math.BigDecimal purchaseAmount;
+//	/**申购价格*/
+//	@ApiModelProperty(value = "申购价格", position = 5)
+//	private java.math.BigDecimal purchasePrice;
+//
+//	/**申购数量*/
+//	@ApiModelProperty(value = "申购数量", position = 6)
+//	private java.math.BigDecimal purchaseAmount;
 
 	/**状态(成功success、处理中pending、失败failed)*/
 	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 7)
