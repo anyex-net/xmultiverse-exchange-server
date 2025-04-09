@@ -7,13 +7,16 @@ package com.anyex.apps.controller.rwa;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProduct;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPagination;
+import com.anyex.apps.controller.rwa.resp.RespRwaInstSpvProduct;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.rwa.entity.RwaCertInstSpvPromoter;
+import com.anyex.apps.rwa.entity.RwaInstSpvCompany;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.service.RwaCertInstSpvPromoterService;
+import com.anyex.apps.rwa.service.RwaInstSpvCompanyService;
 import com.anyex.apps.rwa.service.RwaInstSpvProductService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
@@ -48,15 +51,25 @@ public class RwaInstSpvProductController extends GenericController
     @Autowired(required = false)
     private RwaCertInstSpvPromoterService rwaCertInstSpvPromoterService;
 
+    @Autowired(required = false)
+    private RwaInstSpvCompanyService rwaInstSpvCompanyService;
+
     @GetMapping(value = "/getRwaInstSpvProduct")
-    @ApiOperation(value = "获取RWA机构SPV产品", httpMethod = "GET")
-    public JsonMessage<RwaInstSpvProduct> getRwaInstSpvProduct(Long id) throws BusinessException
+    @ApiOperation(value = "获取RWA机构SPV产品详情", httpMethod = "GET")
+    public JsonMessage<RespRwaInstSpvProduct> getRwaInstSpvProduct(Long id) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
-
+        //
+        RespRwaInstSpvProduct respRwaInstSpvProduct = new RespRwaInstSpvProduct();
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProductService.selectByPrimaryKey(id));
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
+        BeanUtils.copyProperties(rwaInstSpvProduct,respRwaInstSpvProduct);
+
+        //企业信息
+        RwaInstSpvCompany rwaInstSpvCompany = rwaInstSpvCompanyService.selectByPrimaryKey(rwaInstSpvProduct.getInstSpvCompanyId());
+        BeanUtils.copyProperties(rwaInstSpvCompany,respRwaInstSpvProduct);
+        return this.getJsonMessage(CommonEnums.SUCCESS, respRwaInstSpvProduct);
     }
 
     @PostMapping(value = "/submitRwaInstSpvProduct")
