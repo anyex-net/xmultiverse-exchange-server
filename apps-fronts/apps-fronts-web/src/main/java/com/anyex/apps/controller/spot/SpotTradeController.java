@@ -40,7 +40,7 @@ public class SpotTradeController extends GenericController
 {
     @ResponseBody
     @PostMapping(value = "/orderPutLimit")
-    @ApiOperation(value = "下单限价单", httpMethod = "POST")
+    @ApiOperation(value = "下单限价单orderPutLimit", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderPutLimit(@Validated @RequestBody ReqSpotTradeOrderPutLimit reqSpotTradeOrderPutLimit) throws BusinessException
     {
@@ -56,7 +56,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderPutMarket")
-    @ApiOperation(value = "下单市价单", httpMethod = "POST")
+    @ApiOperation(value = "下单市价单orderPutMarket", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderPutMarket(@Validated @RequestBody ReqSpotTradeOrderPutMarket reqSpotTradeOrderPutMarket) throws BusinessException
     {
@@ -72,7 +72,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderCancel")
-    @ApiOperation(value = "撤单", httpMethod = "POST")
+    @ApiOperation(value = "撤单orderCancel", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderCancel(@Validated @RequestBody ReqSpotTradeOrderCancel reqSpotTradeOrderCancel) throws BusinessException
     {
@@ -88,7 +88,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderDeals")
-    @ApiOperation(value = "某订单对应成交记录列表", httpMethod = "POST")
+    @ApiOperation(value = "某订单对应成交记录列表orderDeals", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderDeals(@Validated @RequestBody ReqTradeOrderDeals reqTradeOrderDeals) throws BusinessException
     {
@@ -100,7 +100,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/userDeals")
-    @ApiOperation(value = "用户成交记录", httpMethod = "POST")
+    @ApiOperation(value = "用户成交记录userDeals", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> userDeals(@Validated @RequestBody ReqSpotMarketUserDeals reqSpotMarketUserDeals) throws BusinessException
     {
@@ -116,7 +116,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderPending")
-    @ApiOperation(value = "在途订单", httpMethod = "POST")
+    @ApiOperation(value = "在途订单orderPending", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderPending(@Validated @RequestBody ReqSpotTradeOrderPending reqSpotTradeOrderPending) throws BusinessException
     {
@@ -132,7 +132,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderPendingDetail")
-    @ApiOperation(value = "某在途订单明细", httpMethod = "POST")
+    @ApiOperation(value = "某在途订单明细orderPendingDetail", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderPendingDetail(@Validated @RequestBody ReqTradeOrderPendingDetail reqTradeOrderPendingDetail) throws BusinessException
     {
@@ -144,7 +144,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderFinished")
-    @ApiOperation(value = "完成订单", httpMethod = "POST")
+    @ApiOperation(value = "完成订单orderFinished", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderFinished(@Validated @RequestBody ReqSpotTradeOrderFinished reqSpotTradeOrderFinished) throws BusinessException
     {
@@ -160,7 +160,7 @@ public class SpotTradeController extends GenericController
 
     @ResponseBody
     @PostMapping(value = "/orderFinishedDetail")
-    @ApiOperation(value = "某完成订单明细", httpMethod = "POST")
+    @ApiOperation(value = "某完成订单明细orderFinishedDetail", httpMethod = "POST")
     @AccessLimit(limit = 3, timeScope = 1, isLogin = true) // 登录情况下限制1秒内最多请求3次
     public JsonMessage<JSONObject> orderFinishedDetail(@Validated @RequestBody ReqTradeOrderFinishedDetail reqTradeOrderFinishedDetail) throws BusinessException
     {

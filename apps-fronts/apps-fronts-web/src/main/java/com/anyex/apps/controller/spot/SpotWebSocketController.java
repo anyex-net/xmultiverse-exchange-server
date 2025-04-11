@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 现货市场SpotWebSocket 控制器
+ * 现货市场与交易SpotWebSocket 控制器
  * <p>File：SpotWebSocketController.java </p>
  * <p>Title: SpotWebSocketController </p>
  * <p>Description:SpotWebSocketController </p>
@@ -27,13 +27,29 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/spot/websocket")
-@Api(tags = "现货市场SpotWebSocket")
+@Api(tags = "现货市场与交易SpotWebSocket")
 public class SpotWebSocketController extends GenericController
 {
     @ResponseBody
     @PostMapping(value = "/wsaddr")
-    @ApiOperation(value = "WS地址( ws://114.55.147.64:8090 )", httpMethod = "POST")
+    @ApiOperation(value = "WS地址(ws://114.55.147.64:8090)", httpMethod = "POST")
     public JsonMessage<JSONObject> wsaddr() throws BusinessException
+    {
+        return getJsonMessage(CommonEnums.SUCCESS);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/apidoc/http")
+    @ApiOperation(value = "文档https://github.com/viabtc/viabtc_exchange_server/wiki/HTTP-Protocol", httpMethod = "POST")
+    public JsonMessage<JSONObject> apidochttp() throws BusinessException
+    {
+        return getJsonMessage(CommonEnums.SUCCESS);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/apidoc/ws")
+    @ApiOperation(value = "文档https://github.com/viabtc/viabtc_exchange_server/wiki/WebSocket-Protocol", httpMethod = "POST")
+    public JsonMessage<JSONObject> apidocws() throws BusinessException
     {
         return getJsonMessage(CommonEnums.SUCCESS);
     }
