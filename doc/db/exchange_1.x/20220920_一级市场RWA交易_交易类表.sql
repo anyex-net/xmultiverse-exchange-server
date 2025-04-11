@@ -165,11 +165,8 @@ create table RwaInstSpvProduct
     companyAssetDesc        varchar(128)             not null comment '公司资产描述',
     companyRaiseUse         varchar(128)             not null comment '公司募集用途',
     --合约信息
-    tokenContractAddress    varchar(128)                      comment '代币合约地址',
-    shareContractAddress    varchar(128)                      comment '分润合约地址',
     dividendRatio           decimal(8, 4)            not null comment '分红比例',
     dividendFrequency       varchar(16)              not null comment '分红频率',
-    dividendDate            varchar(16)                       comment '分红日期',
     dividendFreezeDays      int                      not null comment '分红冻结天数',
     --保证金信息
     raiseMarginRatio        decimal(8, 4)            not null comment '募集对应保证金比例',
@@ -212,8 +209,6 @@ create table RwaInstSpvProductDividend
     userId                  bigint(20)               not null comment '用户ID',
     instInvestorId          bigint(20)                        comment '机构投资者ID',
     instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
-    dividendStartDate       bigint(13)               not null comment '分红开始时间',
-    dividendEndDate         bigint(13)               not null comment '分红结束时间',
     dividendCurrency        varchar(32)              not null comment '分红币种',
     dividendAmount          decimal(20, 8)           not null comment '分红金额',
     state                   varchar(16)              not null comment '状态(成功success、处理中pending、失败failed)',
