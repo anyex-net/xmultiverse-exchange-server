@@ -244,28 +244,30 @@ create table RwaInstSpvProductNotice
     userId                  bigint(20)               not null comment '用户ID',
     instInvestorId          bigint(20)               not null comment '机构投资者ID',
     instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
-    noticeTitle             varchar(128)             not null comment 'SPV标题',
-    filePath                varchar(128)             not null comment 'SPV内容',
-    approveOpinion          varchar(256)                      comment '赞同原因',
-    status                  int                      not null comment '状态(0审核中、1已驳回、2待发布、3已发布)',
+    noticeTitle             varchar(128)             not null comment '公告标题',
+    noticeContent           varchar(512)             not null comment '公告内容',
+    checkOpinion            varchar(256)                      comment '审核意见',
+    state                   int                      not null comment '状态(0审核中、1已驳回、2待发布、3已发布)',
     remark                  varchar(64)                       comment '备注',
     createTime              bigint(13)               not null comment '创建时间',
     updateBy                varchar(32)                       comment '更新人',
     updateTime              bigint(13)                        comment '更新时间'
 ) comment 'RWA机构SPV产品公告';
 
---RWA机构SPV产品分红快照
+--RWA机构SPV产品投资者分红快照
 drop table if exists RwaInstSpvProductDividendSnapshot;
 create table RwaInstSpvProductDividendSnapshot
 (
-    id                      bigint(20)               not null comment 'ID' primary key,
-    userId                  bigint(20)               not null comment '用户ID',
-    instInvestorId          bigint(20)               not null comment '机构投资者ID',
-    instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
-    instSpvProductDivId     bigint(20)               not null comment '机构SPV产品分红ID',
-    walletAddress           varchar(128)             not null comment '链上钱包地址',
-    holdAmount              decimal(20, 8)           not null comment '平台分成持币数量',
-    dividerAmount           decimal(20, 8)           not null comment '平台分成金额',
-    remark                  varchar(64)                       comment '备注',
-    createTime              bigint(13)               not null comment '创建时间'
-) comment 'RWA机构SPV产品分红快照';
+    id                          bigint(20)               not null comment 'ID' primary key,
+    userId                      bigint(20)               not null comment '用户ID',
+    instInvestorId              bigint(20)               not null comment '机构投资者ID',
+    instSpvProductId            bigint(20)               not null comment '机构SPV产品ID',
+    instSpvProductDividendNo    varchar(32)              not null comment '机构SPV产品分红记录编号',
+    walletAddress               varchar(128)             not null comment '链上钱包地址',
+    holdAmount                  decimal(20, 8)           not null comment '平台分成持币数量',
+    dividendAmount              decimal(20, 8)           not null comment '平台分成金额',
+    remark                      varchar(64)                       comment '备注',
+    createTime                  bigint(13)               not null comment '创建时间',
+    updateBy                    varchar(32)                       comment '更新人',
+    updateTime                  bigint(13)                        comment '更新时间'
+) comment 'RWA机构SPV产品投资者分红快照';
