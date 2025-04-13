@@ -263,6 +263,16 @@
             <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
         </sofa:binding.bolt>
     </sofa:reference>
+    <sofa:reference id="rwaInstSpvProductDividendSnapshotService" interface="com.anyex.apps.rwa.service.RwaInstSpvProductDividendSnapshotService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="rwaInstSpvProductNoticeService" interface="com.anyex.apps.rwa.service.RwaInstSpvProductNoticeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
 
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:reference id="openImChatService" interface="com.anyex.apps.openim.service.OpenImChatService" jvm-first="false">-->
