@@ -54,14 +54,14 @@ public class ReqRwaInstSpvProductDividend extends GenericEntity
 	@ApiModelProperty(value = "分红金额", position = 5, required = true)
 	private java.math.BigDecimal dividendAmount;
 
-	/**状态(成功success、处理中pending、失败failed)*/
-	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
-	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 6, required = true)
-	private String state;
-
-	/**备注*/
-	@ApiModelProperty(value = "备注", position = 7)
-	private String remark;
+//	/**状态(成功success、处理中pending、失败failed)*/
+//	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
+//	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 6, required = true)
+//	private String state;
+//
+//	/**备注*/
+//	@ApiModelProperty(value = "备注", position = 7)
+//	private String remark;
 
 //	/**创建时间*/
 //	@NotNull(message = "创建时间不可为空")

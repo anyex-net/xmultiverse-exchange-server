@@ -74,14 +74,14 @@ INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, s
 VALUES (330000000032, 330000000030, 'rwa:rwaInstSpvProductRedemption:data', '查询权限', null, true, null, null, 'rwaInstSpvProductRedemption', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000033, 330000000001, 'rwa:rwaInstSpvProductDividendSnapshot:index', 'RWA机构SPV产品投资者分红快照', null, false, 'Icon30n', 6, 'rwaInstSpvProductDividendSnapshot', '/rwa/rwaInstSpvProductDividendSnapshot', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (330000000033, 330000000001, 'rwa:rwaInstSpvProductDividendSnapshot:index', 'RWA机构SPV产品投资者分红快照', null, false, 'Icon30n',10 , 'rwaInstSpvProDividendSnapshot', '/rwa/rwaInstSpvProductDividendSnapshot', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000034, 330000000033, 'rwa:rwaInstSpvProductDividendSnapshot:operator', '操作权限', null, true, null, null, 'rwaInstSpvProductDividendSnapshot', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (330000000034, 330000000033, 'rwa:rwaInstSpvProductDividendSnapshot:operator', '操作权限', null, true, null, null, 'rwaInstSpvProDividendSnapshot', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000035, 330000000033, 'rwa:rwaInstSpvProductDividendSnapshot:data', '查询权限', null, true, null, null, 'rwaInstSpvProductDividendSnapshot', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (330000000035, 330000000033, 'rwa:rwaInstSpvProductDividendSnapshot:data', '查询权限', null, true, null, null, 'rwaInstSpvProDividendSnapshot', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000036, 330000000001, 'rwa:rwaInstSpvProductNotice:index', 'RWA机构SPV产品公告', null, false, 'Icon30n', 6, 'rwaInstSpvProductNotice', '/rwa/rwaInstSpvProductNotice', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (330000000036, 330000000001, 'rwa:rwaInstSpvProductNotice:index', 'RWA机构SPV产品公告', null, false, 'Icon30n', 11, 'rwaInstSpvProductNotice', '/rwa/rwaInstSpvProductNotice', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (330000000037, 330000000036, 'rwa:rwaInstSpvProductNotice:operator', '操作权限', null, true, null, null, 'rwaInstSpvProductNotice', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)

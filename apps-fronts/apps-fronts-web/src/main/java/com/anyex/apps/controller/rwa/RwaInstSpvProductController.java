@@ -5,15 +5,12 @@
 package com.anyex.apps.controller.rwa;
 
 import com.anyex.apps.bean.GenericController;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProduct;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductDividend;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductDividendPagination;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPagination;
+import com.anyex.apps.controller.rwa.req.*;
 import com.anyex.apps.controller.rwa.resp.RespRwaInstSpvProduct;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
-import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.PaginateResult;;
 import com.anyex.apps.rwa.entity.*;
 import com.anyex.apps.rwa.service.*;
 import com.anyex.apps.shiro.model.UserPrincipal;
@@ -21,14 +18,13 @@ import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hpsf.Decimal;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * RWA机构SPV产品 控制器
@@ -60,6 +56,12 @@ public class RwaInstSpvProductController extends GenericController
 
     @Autowired(required = false)
     private RwaCertInstInvestorService rwaCertInstInvestorService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductPurchaseService rwaInstSpvProductPurchaseService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductDividendSnapshotService rwaInstSpvProductDividendSnapshotService;
 
     @GetMapping(value = "/getRwaInstSpvProduct")
     @ApiOperation(value = "获取RWA机构SPV产品详情", httpMethod = "GET")
@@ -166,7 +168,7 @@ public class RwaInstSpvProductController extends GenericController
     }
 
     @PostMapping(value = "/submitRwaInstSpvProductDividend")
-    @ApiOperation(value = "执行分红单", httpMethod = "POST")
+    @ApiOperation(value = "提交分红单", httpMethod = "POST")
     public JsonMessage submitRwaInstSpvProductDividend(@Validated @RequestBody ReqRwaInstSpvProductDividend reqrwaInstSpvProductDividend) throws BusinessException {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
@@ -195,5 +197,60 @@ public class RwaInstSpvProductController extends GenericController
             }
         }
         return json;
+    }
+
+    @PostMapping(value = "/executedRwaInstSpvProductDividend")
+    @ApiOperation(value = "执行分红单", httpMethod = "POST")
+    public JsonMessage executedRwaInstSpvProductDividend(@Validated @RequestBody ReqRwaInstSpvProductDividend reqrwaInstSpvProductDividend) throws BusinessException {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        if (beanValidator(json, reqrwaInstSpvProductDividend)) {
+            RwaInstSpvProductDividend rwaInstSpvProductDividend = new RwaInstSpvProductDividend();
+            BeanUtils.copyProperties(reqrwaInstSpvProductDividend, rwaInstSpvProductDividend);
+            RwaInstSpvProductDividend rwaInstSpvProductDividend1 = rwaInstSpvProductDividendService.selectOne(rwaInstSpvProductDividend);
+            if (null == rwaInstSpvProductDividend.getId()) {
+                throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
+            }
+            //该产品下的申购记录 根据记录进行分红
+            RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductDividend1.getInstSpvProductId());
+            RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
+            rwaInstSpvProductPurchase.setInstSpvProductId(rwaInstSpvProductDividend1.getInstSpvProductId());
+            List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchase);
+            for (int i = 0; i < rwaInstSpvProductPurchases.size(); i++) {
+                RwaInstSpvProductDividendSnapshot productDividendSnapshot = new RwaInstSpvProductDividendSnapshot();
+                productDividendSnapshot.setUserId(rwaInstSpvProductPurchases.get(i).getUserId());
+                productDividendSnapshot.setInstInvestorId(rwaInstSpvProductPurchases.get(i).getInstInvestorId());
+                productDividendSnapshot.setInstSpvProductId(rwaInstSpvProductPurchases.get(i).getInstSpvProductId());
+
+                productDividendSnapshot.setInstSpvProductDividendNo(String.valueOf(rwaInstSpvProductDividend1.getId()));
+                productDividendSnapshot.setWalletAddress("链上钱包地址");
+                BigDecimal holdAmount = rwaInstSpvProductPurchases.get(i).getPurchaseAmount();
+                productDividendSnapshot.setHoldAmount(holdAmount);
+                BigDecimal dividendAmount = BigDecimal.ZERO;
+                BigDecimal totalAmount = rwaInstSpvProduct.getTokenIssueNumber();
+                dividendAmount = holdAmount.divide(totalAmount).multiply(rwaInstSpvProductDividend1.getDividendAmount()).setScale(2, BigDecimal.ROUND_HALF_UP);
+                productDividendSnapshot.setDividendAmount(dividendAmount);
+                productDividendSnapshot.setCreateTime(System.currentTimeMillis());
+                rwaInstSpvProductDividendSnapshotService.insert(productDividendSnapshot);
+            }
+            rwaInstSpvProductDividend1.setState("success");
+            rwaInstSpvProductDividendService.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
+        }
+        return json;
+    }
+
+    @GetMapping(value = "/getRwaInstSpvProductDividend")
+    @ApiOperation(value = "获取RWA机构SPV产品分红详情", httpMethod = "GET")
+    public JsonMessage<PaginateResult<RwaInstSpvProductDividendSnapshot>> getRwaInstSpvProductDividend(@Validated @RequestBody ReqRwaInstSpvProductDividendSnapshotPagination pagination) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
+        RwaInstSpvProductDividendSnapshot rwaInstSpvProductDividendSnapshot = new RwaInstSpvProductDividendSnapshot();
+        BeanUtils.copyProperties(pagination, rwaInstSpvProductDividendSnapshot);
+        PaginateResult<RwaInstSpvProductDividendSnapshot> result = rwaInstSpvProductDividendSnapshotService.search(pagination,rwaInstSpvProductDividendSnapshot);
+        return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
 }

@@ -27,17 +27,17 @@ public class ReqRwaInstSpvProductDividendSnapshotPagination extends Pagination
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@ApiModelProperty(value = "用户ID", position = 1)
-	private Long userId;
+//	/**用户ID*/
+//	@ApiModelProperty(value = "用户ID", position = 1)
+//	private Long userId;
+//
+//	/**机构投资者ID*/
+//	@ApiModelProperty(value = "机构投资者ID", position = 2)
+//	private Long instInvestorId;
 
-	/**机构投资者ID*/
-	@ApiModelProperty(value = "机构投资者ID", position = 2)
-	private Long instInvestorId;
-
-	/**机构SPV产品ID*/
-	@ApiModelProperty(value = "机构SPV产品ID", position = 3)
-	private Long instSpvProductId;
+//	/**机构SPV产品ID*/
+//	@ApiModelProperty(value = "机构SPV产品ID", position = 3)
+//	private Long instSpvProductId;
 
 	/**机构SPV产品分红记录编号*/
 	@ApiModelProperty(value = "机构SPV产品分红记录编号", position = 4)
@@ -55,21 +55,21 @@ public class ReqRwaInstSpvProductDividendSnapshotPagination extends Pagination
 	@ApiModelProperty(value = "平台分成金额", position = 7)
 	private java.math.BigDecimal dividendAmount;
 
-	/**备注*/
-	@ApiModelProperty(value = "备注", position = 8)
-	private String remark;
-
-	/**创建时间*/
-	@ApiModelProperty(value = "创建时间", position = 9)
-	private Long createTime;
-
-	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 10)
-	private String updateBy;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 11)
-	private Long updateTime;
+//	/**备注*/
+//	@ApiModelProperty(value = "备注", position = 8)
+//	private String remark;
+//
+//	/**创建时间*/
+//	@ApiModelProperty(value = "创建时间", position = 9)
+//	private Long createTime;
+//
+//	/**更新人*/
+//	@ApiModelProperty(value = "更新人", position = 10)
+//	private String updateBy;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 11)
+//	private Long updateTime;
 
 
 }

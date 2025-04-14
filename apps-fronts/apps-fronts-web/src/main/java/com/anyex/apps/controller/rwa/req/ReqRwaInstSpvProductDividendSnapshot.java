@@ -30,15 +30,15 @@ public class ReqRwaInstSpvProductDividendSnapshot extends GenericEntity
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private Long userId;
-
-	/**机构投资者ID*/
-	@NotNull(message = "机构投资者ID不可为空")
-	@ApiModelProperty(value = "机构投资者ID", position = 2, required = true)
-	private Long instInvestorId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private Long userId;
+//
+//	/**机构投资者ID*/
+//	@NotNull(message = "机构投资者ID不可为空")
+//	@ApiModelProperty(value = "机构投资者ID", position = 2, required = true)
+//	private Long instInvestorId;
 
 	/**机构SPV产品ID*/
 	@NotNull(message = "机构SPV产品ID不可为空")
@@ -65,22 +65,22 @@ public class ReqRwaInstSpvProductDividendSnapshot extends GenericEntity
 	@ApiModelProperty(value = "平台分成金额", position = 7, required = true)
 	private java.math.BigDecimal dividendAmount;
 
-	/**备注*/
-	@ApiModelProperty(value = "备注", position = 8)
-	private String remark;
-
-	/**创建时间*/
-	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 9, required = true)
-	private Long createTime;
-
-	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 10)
-	private String updateBy;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 11)
-	private Long updateTime;
+//	/**备注*/
+//	@ApiModelProperty(value = "备注", position = 8)
+//	private String remark;
+//
+//	/**创建时间*/
+//	@NotNull(message = "创建时间不可为空")
+//	@ApiModelProperty(value = "创建时间", position = 9, required = true)
+//	private Long createTime;
+//
+//	/**更新人*/
+//	@ApiModelProperty(value = "更新人", position = 10)
+//	private String updateBy;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 11)
+//	private Long updateTime;
 
 
 }

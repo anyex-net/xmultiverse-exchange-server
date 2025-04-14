@@ -9,6 +9,8 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,5 +101,24 @@ public class RwaInstSpvProductNoticeController extends GenericController
     {
         rwaInstSpvProductNoticeService.removeBatch(ids.split(","));
         return getJsonMessage(CommonEnums.SUCCESS);
+    }
+
+    @PostMapping(value = "/check")
+    @RequiresPermissions("rwa:rwaInstSpvProductNotice:operator")
+    @ApiOperation(value = "审核", httpMethod = "POST")
+    public JsonMessage check(Long id, Integer state,String reason) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        RwaInstSpvProductNotice rwaInstSpvProductNotice = rwaInstSpvProductNoticeService.selectByPrimaryKey(id);
+        if (null == rwaInstSpvProductNotice) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        rwaInstSpvProductNotice.setState(state);
+        if (principal != null) {
+            rwaInstSpvProductNotice.setUpdateBy(principal.getUserName());
+        }
+        rwaInstSpvProductNotice.setCheckOpinion(reason);
+        rwaInstSpvProductNotice.setUpdateTime(System.currentTimeMillis());
+        rwaInstSpvProductNoticeService.updateByPrimaryKeySelective(rwaInstSpvProductNotice);
+        return json;
     }
 }
