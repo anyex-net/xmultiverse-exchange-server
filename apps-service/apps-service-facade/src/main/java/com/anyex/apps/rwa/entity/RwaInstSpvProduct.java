@@ -29,7 +29,7 @@ import lombok.EqualsAndHashCode;
 public class RwaInstSpvProduct extends GenericEntity
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**用户ID*/
 	@NotNull(message = "用户ID不可为空")
 	@ApiModelProperty(value = "用户ID", position = 1, required = true)
@@ -125,64 +125,76 @@ public class RwaInstSpvProduct extends GenericEntity
 	@ApiModelProperty(value = "公司募集用途", position = 19, required = true)
 	private java.lang.String companyRaiseUse;
 
+	/**代币合约地址*/
+	@ApiModelProperty(value = "代币合约地址", position = 20)
+	private java.lang.String tokenContractAddress;
+
+	/**分润合约地址*/
+	@ApiModelProperty(value = "分润合约地址", position = 21)
+	private java.lang.String shareContractAddress;
+
 	/**分红比例*/
 	@NotNull(message = "分红比例不可为空")
-	@ApiModelProperty(value = "分红比例", position = 20, required = true)
+	@ApiModelProperty(value = "分红比例", position = 22, required = true)
 	private java.math.BigDecimal dividendRatio;
 
 	/**分红频率*/
 	@NotEmpty(message = "分红频率不可为空")
-	@ApiModelProperty(value = "分红频率", position = 21, required = true)
+	@ApiModelProperty(value = "分红频率", position = 23, required = true)
 	private java.lang.String dividendFrequency;
+
+	/**分红日期*/
+	@ApiModelProperty(value = "分红日期", position = 24)
+	private java.lang.String dividendDate;
 
 	/**分红冻结天数*/
 	@NotNull(message = "分红冻结天数不可为空")
-	@ApiModelProperty(value = "分红冻结天数", position = 22, required = true)
+	@ApiModelProperty(value = "分红冻结天数", position = 25, required = true)
 	private java.lang.Integer dividendFreezeDays;
 
 	/**募集对应保证金比例*/
 	@NotNull(message = "募集对应保证金比例不可为空")
-	@ApiModelProperty(value = "募集对应保证金比例", position = 23, required = true)
+	@ApiModelProperty(value = "募集对应保证金比例", position = 26, required = true)
 	private java.math.BigDecimal raiseMarginRatio;
 
 	/**募集对应保证金状态(0未缴、1已缴)*/
 	@NotNull(message = "募集对应保证金状态(0未缴、1已缴)不可为空")
-	@ApiModelProperty(value = "募集对应保证金状态(0未缴、1已缴)", position = 24, required = true)
+	@ApiModelProperty(value = "募集对应保证金状态(0未缴、1已缴)", position = 27, required = true)
 	private java.lang.Integer raiseMarginState;
 
 	/**已申购总数量*/
 	@NotNull(message = "已申购总数量不可为空")
-	@ApiModelProperty(value = "已申购总数量", position = 25, required = true)
+	@ApiModelProperty(value = "已申购总数量", position = 28, required = true)
 	private java.math.BigDecimal purchasedSumAmount;
 
 	/**状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)*/
 	@NotEmpty(message = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)不可为空")
-	@ApiModelProperty(value = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)", position = 26, required = true)
+	@ApiModelProperty(value = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)", position = 29, required = true)
 	private java.lang.String state;
 
 	/**备注*/
-	@ApiModelProperty(value = "备注", position = 27)
+	@ApiModelProperty(value = "备注", position = 30)
 	private java.lang.String remark;
 
 	/**创建时间*/
 	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 28, required = true)
+	@ApiModelProperty(value = "创建时间", position = 31, required = true)
 	private java.lang.Long createTime;
 
 	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 29)
+	@ApiModelProperty(value = "更新人", position = 32)
 	private java.lang.String updateBy;
 
 	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 30)
+	@ApiModelProperty(value = "更新时间", position = 33)
 	private java.lang.Long updateTime;
 
 	/**复核人*/
-	@ApiModelProperty(value = "复核人", position = 31)
+	@ApiModelProperty(value = "复核人", position = 34)
 	private java.lang.String checkBy;
 
 	/**复核时间*/
-	@ApiModelProperty(value = "复核时间", position = 32)
+	@ApiModelProperty(value = "复核时间", position = 35)
 	private java.lang.Long checkTime;
 }
 
