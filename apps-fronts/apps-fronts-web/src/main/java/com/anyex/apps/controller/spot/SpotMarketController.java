@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 现货市场SpotMarket 控制器
  * <p>File：SpotMarketController.java </p>
@@ -42,6 +44,15 @@ public class SpotMarketController extends GenericController
         JSONObject respJsonObject = ViabtcMarketApi.marketList();
         log.info("marketList respJsonObject:{}", respJsonObject);
         return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/marketListStatusToday")
+    @ApiOperation(value = "所有交易对列表今日市场行情", httpMethod = "POST")
+    public JsonMessage<List<JSONObject>> marketListStatusToday() throws BusinessException
+    {
+        //
+        return getJsonMessage(CommonEnums.SUCCESS, ViabtcMarketApi.marketListStatusToday());
     }
 
     @ResponseBody
