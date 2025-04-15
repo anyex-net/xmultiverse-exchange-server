@@ -23,8 +23,11 @@
         a.companyAssetName as companyAssetName,
         a.companyAssetDesc as companyAssetDesc,
         a.companyRaiseUse as companyRaiseUse,
+        a.tokenContractAddress as tokenContractAddress,
+        a.shareContractAddress as shareContractAddress,
         a.dividendRatio as dividendRatio,
         a.dividendFrequency as dividendFrequency,
+        a.dividendDate as dividendDate,
         a.dividendFreezeDays as dividendFreezeDays,
         a.raiseMarginRatio as raiseMarginRatio,
         a.raiseMarginState as raiseMarginState,
@@ -59,8 +62,11 @@
         <result column="companyAssetName" property="companyAssetName"/>
         <result column="companyAssetDesc" property="companyAssetDesc"/>
         <result column="companyRaiseUse" property="companyRaiseUse"/>
+        <result column="tokenContractAddress" property="tokenContractAddress"/>
+        <result column="shareContractAddress" property="shareContractAddress"/>
         <result column="dividendRatio" property="dividendRatio"/>
         <result column="dividendFrequency" property="dividendFrequency"/>
+        <result column="dividendDate" property="dividendDate"/>
         <result column="dividendFreezeDays" property="dividendFreezeDays"/>
         <result column="raiseMarginRatio" property="raiseMarginRatio"/>
         <result column="raiseMarginState" property="raiseMarginState"/>
@@ -97,8 +103,11 @@
             companyAssetName ,
             companyAssetDesc ,
             companyRaiseUse ,
+            tokenContractAddress ,
+            shareContractAddress ,
             dividendRatio ,
             dividendFrequency ,
+            dividendDate ,
             dividendFreezeDays ,
             raiseMarginRatio ,
             raiseMarginState ,
@@ -109,42 +118,45 @@
             updateBy ,
             updateTime ,
             checkBy ,
-            checkTime 
+            checkTime
         ) VALUES (
-            #{id} ,
-            #{userId} ,
-            #{instSpvPromoterId} ,
-            #{instSpvCompanyId} ,
-            #{productNo} ,
-            #{tokenName} ,
-            #{tokenLogo} ,
-            #{tokenIssueNumber} ,
-            #{raiseCurrency} ,
-            #{raiseAmount} ,
-            #{assetEndValuation} ,
-            #{issueDays} ,
-            #{purchaseStartDate} ,
-            #{purchaseEndDate} ,
-            #{operationStarDate} ,
-            #{operationEndDate} ,
-            #{raiseEstablishedRatio} ,
-            #{companyAssetName} ,
-            #{companyAssetDesc} ,
-            #{companyRaiseUse} ,
-            #{dividendRatio} ,
-            #{dividendFrequency} ,
-            #{dividendFreezeDays} ,
-            #{raiseMarginRatio} ,
-            #{raiseMarginState} ,
-            #{purchasedSumAmount} ,
-            #{state} ,
-            #{remark} ,
-            #{createTime} ,
-            #{updateBy} ,
-            #{updateTime} ,
-            #{checkBy} ,
-            #{checkTime} 
-        )
+                     #{id} ,
+                     #{userId} ,
+                     #{instSpvPromoterId} ,
+                     #{instSpvCompanyId} ,
+                     #{productNo} ,
+                     #{tokenName} ,
+                     #{tokenLogo} ,
+                     #{tokenIssueNumber} ,
+                     #{raiseCurrency} ,
+                     #{raiseAmount} ,
+                     #{assetEndValuation} ,
+                     #{issueDays} ,
+                     #{purchaseStartDate} ,
+                     #{purchaseEndDate} ,
+                     #{operationStarDate} ,
+                     #{operationEndDate} ,
+                     #{raiseEstablishedRatio} ,
+                     #{companyAssetName} ,
+                     #{companyAssetDesc} ,
+                     #{companyRaiseUse} ,
+                     #{tokenContractAddress} ,
+                     #{shareContractAddress} ,
+                     #{dividendRatio} ,
+                     #{dividendFrequency} ,
+                     #{dividendDate} ,
+                     #{dividendFreezeDays} ,
+                     #{raiseMarginRatio} ,
+                     #{raiseMarginState} ,
+                     #{purchasedSumAmount} ,
+                     #{state} ,
+                     #{remark} ,
+                     #{createTime} ,
+                     #{updateBy} ,
+                     #{updateTime} ,
+                     #{checkBy} ,
+                     #{checkTime}
+                 )
     </insert>
     <!-- 根据主键物理删除 -->
     <delete id="remove" parameterType="java.lang.Long">
@@ -161,213 +173,231 @@
     <insert id="insertSelective" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
         INSERT INTO RwaInstSpvProduct
         <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="id != null">
+            <if test="id != null">
                 id ,
-        </if>
-        <if test="userId != null">
+            </if>
+            <if test="userId != null">
                 userId ,
-        </if>
-        <if test="instSpvPromoterId != null">
+            </if>
+            <if test="instSpvPromoterId != null">
                 instSpvPromoterId ,
-        </if>
-        <if test="instSpvCompanyId != null">
+            </if>
+            <if test="instSpvCompanyId != null">
                 instSpvCompanyId ,
-        </if>
-        <if test="productNo != null">
+            </if>
+            <if test="productNo != null">
                 productNo ,
-        </if>
-        <if test="tokenName != null">
+            </if>
+            <if test="tokenName != null">
                 tokenName ,
-        </if>
-        <if test="tokenLogo != null">
+            </if>
+            <if test="tokenLogo != null">
                 tokenLogo ,
-        </if>
-        <if test="tokenIssueNumber != null">
+            </if>
+            <if test="tokenIssueNumber != null">
                 tokenIssueNumber ,
-        </if>
-        <if test="raiseCurrency != null">
+            </if>
+            <if test="raiseCurrency != null">
                 raiseCurrency ,
-        </if>
-        <if test="raiseAmount != null">
+            </if>
+            <if test="raiseAmount != null">
                 raiseAmount ,
-        </if>
-        <if test="assetEndValuation != null">
+            </if>
+            <if test="assetEndValuation != null">
                 assetEndValuation ,
-        </if>
-        <if test="issueDays != null">
+            </if>
+            <if test="issueDays != null">
                 issueDays ,
-        </if>
-        <if test="purchaseStartDate != null">
+            </if>
+            <if test="purchaseStartDate != null">
                 purchaseStartDate ,
-        </if>
-        <if test="purchaseEndDate != null">
+            </if>
+            <if test="purchaseEndDate != null">
                 purchaseEndDate ,
-        </if>
-        <if test="operationStarDate != null">
+            </if>
+            <if test="operationStarDate != null">
                 operationStarDate ,
-        </if>
-        <if test="operationEndDate != null">
+            </if>
+            <if test="operationEndDate != null">
                 operationEndDate ,
-        </if>
-        <if test="raiseEstablishedRatio != null">
+            </if>
+            <if test="raiseEstablishedRatio != null">
                 raiseEstablishedRatio ,
-        </if>
-        <if test="companyAssetName != null">
+            </if>
+            <if test="companyAssetName != null">
                 companyAssetName ,
-        </if>
-        <if test="companyAssetDesc != null">
+            </if>
+            <if test="companyAssetDesc != null">
                 companyAssetDesc ,
-        </if>
-        <if test="companyRaiseUse != null">
+            </if>
+            <if test="companyRaiseUse != null">
                 companyRaiseUse ,
-        </if>
-        <if test="dividendRatio != null">
+            </if>
+            <if test="tokenContractAddress != null">
+                tokenContractAddress ,
+            </if>
+            <if test="shareContractAddress != null">
+                shareContractAddress ,
+            </if>
+            <if test="dividendRatio != null">
                 dividendRatio ,
-        </if>
-        <if test="dividendFrequency != null">
+            </if>
+            <if test="dividendFrequency != null">
                 dividendFrequency ,
-        </if>
-        <if test="dividendFreezeDays != null">
+            </if>
+            <if test="dividendDate != null">
+                dividendDate ,
+            </if>
+            <if test="dividendFreezeDays != null">
                 dividendFreezeDays ,
-        </if>
-        <if test="raiseMarginRatio != null">
+            </if>
+            <if test="raiseMarginRatio != null">
                 raiseMarginRatio ,
-        </if>
-        <if test="raiseMarginState != null">
+            </if>
+            <if test="raiseMarginState != null">
                 raiseMarginState ,
-        </if>
-        <if test="purchasedSumAmount != null">
+            </if>
+            <if test="purchasedSumAmount != null">
                 purchasedSumAmount ,
-        </if>
-        <if test="state != null">
+            </if>
+            <if test="state != null">
                 state ,
-        </if>
-        <if test="remark != null">
+            </if>
+            <if test="remark != null">
                 remark ,
-        </if>
-        <if test="createTime != null">
+            </if>
+            <if test="createTime != null">
                 createTime ,
-        </if>
-        <if test="updateBy != null">
+            </if>
+            <if test="updateBy != null">
                 updateBy ,
-        </if>
-        <if test="updateTime != null">
+            </if>
+            <if test="updateTime != null">
                 updateTime ,
-        </if>
-        <if test="checkBy != null">
+            </if>
+            <if test="checkBy != null">
                 checkBy ,
-        </if>
-        <if test="checkTime != null">
-                checkTime 
-        </if>
+            </if>
+            <if test="checkTime != null">
+                checkTime
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-        <if test="id != null">
+            <if test="id != null">
                 #{id} ,
-        </if>
-        <if test="userId != null">
+            </if>
+            <if test="userId != null">
                 #{userId} ,
-        </if>
-        <if test="instSpvPromoterId != null">
+            </if>
+            <if test="instSpvPromoterId != null">
                 #{instSpvPromoterId} ,
-        </if>
-        <if test="instSpvCompanyId != null">
+            </if>
+            <if test="instSpvCompanyId != null">
                 #{instSpvCompanyId} ,
-        </if>
-        <if test="productNo != null">
+            </if>
+            <if test="productNo != null">
                 #{productNo} ,
-        </if>
-        <if test="tokenName != null">
+            </if>
+            <if test="tokenName != null">
                 #{tokenName} ,
-        </if>
-        <if test="tokenLogo != null">
+            </if>
+            <if test="tokenLogo != null">
                 #{tokenLogo} ,
-        </if>
-        <if test="tokenIssueNumber != null">
+            </if>
+            <if test="tokenIssueNumber != null">
                 #{tokenIssueNumber} ,
-        </if>
-        <if test="raiseCurrency != null">
+            </if>
+            <if test="raiseCurrency != null">
                 #{raiseCurrency} ,
-        </if>
-        <if test="raiseAmount != null">
+            </if>
+            <if test="raiseAmount != null">
                 #{raiseAmount} ,
-        </if>
-        <if test="assetEndValuation != null">
+            </if>
+            <if test="assetEndValuation != null">
                 #{assetEndValuation} ,
-        </if>
-        <if test="issueDays != null">
+            </if>
+            <if test="issueDays != null">
                 #{issueDays} ,
-        </if>
-        <if test="purchaseStartDate != null">
+            </if>
+            <if test="purchaseStartDate != null">
                 #{purchaseStartDate} ,
-        </if>
-        <if test="purchaseEndDate != null">
+            </if>
+            <if test="purchaseEndDate != null">
                 #{purchaseEndDate} ,
-        </if>
-        <if test="operationStarDate != null">
+            </if>
+            <if test="operationStarDate != null">
                 #{operationStarDate} ,
-        </if>
-        <if test="operationEndDate != null">
+            </if>
+            <if test="operationEndDate != null">
                 #{operationEndDate} ,
-        </if>
-        <if test="raiseEstablishedRatio != null">
+            </if>
+            <if test="raiseEstablishedRatio != null">
                 #{raiseEstablishedRatio} ,
-        </if>
-        <if test="companyAssetName != null">
+            </if>
+            <if test="companyAssetName != null">
                 #{companyAssetName} ,
-        </if>
-        <if test="companyAssetDesc != null">
+            </if>
+            <if test="companyAssetDesc != null">
                 #{companyAssetDesc} ,
-        </if>
-        <if test="companyRaiseUse != null">
+            </if>
+            <if test="companyRaiseUse != null">
                 #{companyRaiseUse} ,
-        </if>
-        <if test="dividendRatio != null">
+            </if>
+            <if test="tokenContractAddress != null">
+                #{tokenContractAddress} ,
+            </if>
+            <if test="shareContractAddress != null">
+                #{shareContractAddress} ,
+            </if>
+            <if test="dividendRatio != null">
                 #{dividendRatio} ,
-        </if>
-        <if test="dividendFrequency != null">
+            </if>
+            <if test="dividendFrequency != null">
                 #{dividendFrequency} ,
-        </if>
-        <if test="dividendFreezeDays != null">
+            </if>
+            <if test="dividendDate != null">
+                #{dividendDate} ,
+            </if>
+            <if test="dividendFreezeDays != null">
                 #{dividendFreezeDays} ,
-        </if>
-        <if test="raiseMarginRatio != null">
+            </if>
+            <if test="raiseMarginRatio != null">
                 #{raiseMarginRatio} ,
-        </if>
-        <if test="raiseMarginState != null">
+            </if>
+            <if test="raiseMarginState != null">
                 #{raiseMarginState} ,
-        </if>
-        <if test="purchasedSumAmount != null">
+            </if>
+            <if test="purchasedSumAmount != null">
                 #{purchasedSumAmount} ,
-        </if>
-        <if test="state != null">
+            </if>
+            <if test="state != null">
                 #{state} ,
-        </if>
-        <if test="remark != null">
+            </if>
+            <if test="remark != null">
                 #{remark} ,
-        </if>
-        <if test="createTime != null">
+            </if>
+            <if test="createTime != null">
                 #{createTime} ,
-        </if>
-        <if test="updateBy != null">
+            </if>
+            <if test="updateBy != null">
                 #{updateBy} ,
-        </if>
-        <if test="updateTime != null">
+            </if>
+            <if test="updateTime != null">
                 #{updateTime} ,
-        </if>
-        <if test="checkBy != null">
+            </if>
+            <if test="checkBy != null">
                 #{checkBy} ,
-        </if>
-        <if test="checkTime != null">
-                #{checkTime} 
-        </if>
+            </if>
+            <if test="checkTime != null">
+                #{checkTime}
+            </if>
         </trim>
     </insert>
 
     <!-- 选择性更新数据 -->
     <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
         UPDATE RwaInstSpvProduct
-           <set>
+        <set>
             <if test="userId != null">
                 userId = #{userId} ,
             </if>
@@ -425,11 +455,20 @@
             <if test="companyRaiseUse != null">
                 companyRaiseUse = #{companyRaiseUse} ,
             </if>
+            <if test="tokenContractAddress != null">
+                tokenContractAddress = #{tokenContractAddress} ,
+            </if>
+            <if test="shareContractAddress != null">
+                shareContractAddress = #{shareContractAddress} ,
+            </if>
             <if test="dividendRatio != null">
                 dividendRatio = #{dividendRatio} ,
             </if>
             <if test="dividendFrequency != null">
                 dividendFrequency = #{dividendFrequency} ,
+            </if>
+            <if test="dividendDate != null">
+                dividendDate = #{dividendDate} ,
             </if>
             <if test="dividendFreezeDays != null">
                 dividendFreezeDays = #{dividendFreezeDays} ,
@@ -462,48 +501,51 @@
                 checkBy = #{checkBy} ,
             </if>
             <if test="checkTime != null">
-                checkTime = #{checkTime} 
+                checkTime = #{checkTime}
             </if>
-           </set>
+        </set>
         WHERE ID = #{id}
     </update>
 
     <!-- 批量插入 -->
     <insert id="insertBatch" parameterType="list">
         INSERT INTO RwaInstSpvProduct(
-            id ,
-            userId ,
-            instSpvPromoterId ,
-            instSpvCompanyId ,
-            productNo ,
-            tokenName ,
-            tokenLogo ,
-            tokenIssueNumber ,
-            raiseCurrency ,
-            raiseAmount ,
-            assetEndValuation ,
-            issueDays ,
-            purchaseStartDate ,
-            purchaseEndDate ,
-            operationStarDate ,
-            operationEndDate ,
-            raiseEstablishedRatio ,
-            companyAssetName ,
-            companyAssetDesc ,
-            companyRaiseUse ,
-            dividendRatio ,
-            dividendFrequency ,
-            dividendFreezeDays ,
-            raiseMarginRatio ,
-            raiseMarginState ,
-            purchasedSumAmount ,
-            state ,
-            remark ,
-            createTime ,
-            updateBy ,
-            updateTime ,
-            checkBy ,
-            checkTime 
+        id ,
+        userId ,
+        instSpvPromoterId ,
+        instSpvCompanyId ,
+        productNo ,
+        tokenName ,
+        tokenLogo ,
+        tokenIssueNumber ,
+        raiseCurrency ,
+        raiseAmount ,
+        assetEndValuation ,
+        issueDays ,
+        purchaseStartDate ,
+        purchaseEndDate ,
+        operationStarDate ,
+        operationEndDate ,
+        raiseEstablishedRatio ,
+        companyAssetName ,
+        companyAssetDesc ,
+        companyRaiseUse ,
+        tokenContractAddress ,
+        shareContractAddress ,
+        dividendRatio ,
+        dividendFrequency ,
+        dividendDate ,
+        dividendFreezeDays ,
+        raiseMarginRatio ,
+        raiseMarginState ,
+        purchasedSumAmount ,
+        state ,
+        remark ,
+        createTime ,
+        updateBy ,
+        updateTime ,
+        checkBy ,
+        checkTime
         ) VALUES
         <foreach collection="list" item="item" separator=",">
             (
@@ -527,8 +569,11 @@
             #{item.companyAssetName} ,
             #{item.companyAssetDesc} ,
             #{item.companyRaiseUse} ,
+            #{item.tokenContractAddress} ,
+            #{item.shareContractAddress} ,
             #{item.dividendRatio} ,
             #{item.dividendFrequency} ,
+            #{item.dividendDate} ,
             #{item.dividendFreezeDays} ,
             #{item.raiseMarginRatio} ,
             #{item.raiseMarginState} ,
@@ -539,7 +584,7 @@
             #{item.updateBy} ,
             #{item.updateTime} ,
             #{item.checkBy} ,
-            #{item.checkTime} 
+            #{item.checkTime}
             )
         </foreach>
     </insert>
@@ -567,8 +612,11 @@
             companyAssetName = #{item.companyAssetName} ,
             companyAssetDesc = #{item.companyAssetDesc} ,
             companyRaiseUse = #{item.companyRaiseUse} ,
+            tokenContractAddress = #{item.tokenContractAddress} ,
+            shareContractAddress = #{item.shareContractAddress} ,
             dividendRatio = #{item.dividendRatio} ,
             dividendFrequency = #{item.dividendFrequency} ,
+            dividendDate = #{item.dividendDate} ,
             dividendFreezeDays = #{item.dividendFreezeDays} ,
             raiseMarginRatio = #{item.raiseMarginRatio} ,
             raiseMarginState = #{item.raiseMarginState} ,
@@ -579,7 +627,7 @@
             updateBy = #{item.updateBy} ,
             updateTime = #{item.updateTime} ,
             checkBy = #{item.checkBy} ,
-            checkTime = #{item.checkTime} 
+            checkTime = #{item.checkTime}
             WHERE ID = #{item.id}
         </foreach>
     </update>
@@ -587,38 +635,41 @@
     <!-- 根据主键更新一条信息所有数据 -->
     <update id="updateByPrimaryKey" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
         UPDATE RwaInstSpvProduct SET
-            userId = #{userId} ,
-            instSpvPromoterId = #{instSpvPromoterId} ,
-            instSpvCompanyId = #{instSpvCompanyId} ,
-            productNo = #{productNo} ,
-            tokenName = #{tokenName} ,
-            tokenLogo = #{tokenLogo} ,
-            tokenIssueNumber = #{tokenIssueNumber} ,
-            raiseCurrency = #{raiseCurrency} ,
-            raiseAmount = #{raiseAmount} ,
-            assetEndValuation = #{assetEndValuation} ,
-            issueDays = #{issueDays} ,
-            purchaseStartDate = #{purchaseStartDate} ,
-            purchaseEndDate = #{purchaseEndDate} ,
-            operationStarDate = #{operationStarDate} ,
-            operationEndDate = #{operationEndDate} ,
-            raiseEstablishedRatio = #{raiseEstablishedRatio} ,
-            companyAssetName = #{companyAssetName} ,
-            companyAssetDesc = #{companyAssetDesc} ,
-            companyRaiseUse = #{companyRaiseUse} ,
-            dividendRatio = #{dividendRatio} ,
-            dividendFrequency = #{dividendFrequency} ,
-            dividendFreezeDays = #{dividendFreezeDays} ,
-            raiseMarginRatio = #{raiseMarginRatio} ,
-            raiseMarginState = #{raiseMarginState} ,
-            purchasedSumAmount = #{purchasedSumAmount} ,
-            state = #{state} ,
-            remark = #{remark} ,
-            createTime = #{createTime} ,
-            updateBy = #{updateBy} ,
-            updateTime = #{updateTime} ,
-            checkBy = #{checkBy} ,
-            checkTime = #{checkTime} 
+                                     userId = #{userId} ,
+                                     instSpvPromoterId = #{instSpvPromoterId} ,
+                                     instSpvCompanyId = #{instSpvCompanyId} ,
+                                     productNo = #{productNo} ,
+                                     tokenName = #{tokenName} ,
+                                     tokenLogo = #{tokenLogo} ,
+                                     tokenIssueNumber = #{tokenIssueNumber} ,
+                                     raiseCurrency = #{raiseCurrency} ,
+                                     raiseAmount = #{raiseAmount} ,
+                                     assetEndValuation = #{assetEndValuation} ,
+                                     issueDays = #{issueDays} ,
+                                     purchaseStartDate = #{purchaseStartDate} ,
+                                     purchaseEndDate = #{purchaseEndDate} ,
+                                     operationStarDate = #{operationStarDate} ,
+                                     operationEndDate = #{operationEndDate} ,
+                                     raiseEstablishedRatio = #{raiseEstablishedRatio} ,
+                                     companyAssetName = #{companyAssetName} ,
+                                     companyAssetDesc = #{companyAssetDesc} ,
+                                     companyRaiseUse = #{companyRaiseUse} ,
+                                     tokenContractAddress = #{tokenContractAddress} ,
+                                     shareContractAddress = #{shareContractAddress} ,
+                                     dividendRatio = #{dividendRatio} ,
+                                     dividendFrequency = #{dividendFrequency} ,
+                                     dividendDate = #{dividendDate} ,
+                                     dividendFreezeDays = #{dividendFreezeDays} ,
+                                     raiseMarginRatio = #{raiseMarginRatio} ,
+                                     raiseMarginState = #{raiseMarginState} ,
+                                     purchasedSumAmount = #{purchasedSumAmount} ,
+                                     state = #{state} ,
+                                     remark = #{remark} ,
+                                     createTime = #{createTime} ,
+                                     updateBy = #{updateBy} ,
+                                     updateTime = #{updateTime} ,
+                                     checkBy = #{checkBy} ,
+                                     checkTime = #{checkTime}
         WHERE ID = #{id}
     </update>
 
@@ -689,11 +740,20 @@
         <if test="companyRaiseUse != null and companyRaiseUse != ''">
             AND a.companyRaiseUse = #{companyRaiseUse}
         </if>
+        <if test="tokenContractAddress != null and tokenContractAddress != ''">
+            AND a.tokenContractAddress = #{tokenContractAddress}
+        </if>
+        <if test="shareContractAddress != null and shareContractAddress != ''">
+            AND a.shareContractAddress = #{shareContractAddress}
+        </if>
         <if test="dividendRatio != null">
             AND a.dividendRatio = #{dividendRatio}
         </if>
         <if test="dividendFrequency != null and dividendFrequency != ''">
             AND a.dividendFrequency = #{dividendFrequency}
+        </if>
+        <if test="dividendDate != null and dividendDate != ''">
+            AND a.dividendDate = #{dividendDate}
         </if>
         <if test="dividendFreezeDays != null">
             AND a.dividendFreezeDays = #{dividendFreezeDays}
@@ -793,11 +853,20 @@
         <if test="companyRaiseUse != null and companyRaiseUse != ''">
             AND a.companyRaiseUse LIKE CONCAT('%',#{companyRaiseUse}, '%')
         </if>
+        <if test="tokenContractAddress != null and tokenContractAddress != ''">
+            AND a.tokenContractAddress LIKE CONCAT('%',#{tokenContractAddress}, '%')
+        </if>
+        <if test="shareContractAddress != null and shareContractAddress != ''">
+            AND a.shareContractAddress LIKE CONCAT('%',#{shareContractAddress}, '%')
+        </if>
         <if test="dividendRatio != null">
             AND a.dividendRatio = #{dividendRatio}
         </if>
         <if test="dividendFrequency != null and dividendFrequency != ''">
             AND a.dividendFrequency LIKE CONCAT('%',#{dividendFrequency}, '%')
+        </if>
+        <if test="dividendDate != null and dividendDate != ''">
+            AND a.dividendDate LIKE CONCAT('%',#{dividendDate}, '%')
         </if>
         <if test="dividendFreezeDays != null">
             AND a.dividendFreezeDays = #{dividendFreezeDays}

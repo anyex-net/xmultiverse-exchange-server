@@ -7,6 +7,8 @@
         a.userId as userId,
         a.instInvestorId as instInvestorId,
         a.instSpvProductId as instSpvProductId,
+        a.dividendStartDate as dividendStartDate,
+        a.dividendEndDate as dividendEndDate,
         a.dividendCurrency as dividendCurrency,
         a.dividendAmount as dividendAmount,
         a.state as state,
@@ -21,6 +23,8 @@
         <result column="userId" property="userId"/>
         <result column="instInvestorId" property="instInvestorId"/>
         <result column="instSpvProductId" property="instSpvProductId"/>
+        <result column="dividendStartDate" property="dividendStartDate"/>
+        <result column="dividendEndDate" property="dividendEndDate"/>
         <result column="dividendCurrency" property="dividendCurrency"/>
         <result column="dividendAmount" property="dividendAmount"/>
         <result column="state" property="state"/>
@@ -37,6 +41,8 @@
             userId ,
             instInvestorId ,
             instSpvProductId ,
+            dividendStartDate ,
+            dividendEndDate ,
             dividendCurrency ,
             dividendAmount ,
             state ,
@@ -49,6 +55,8 @@
             #{userId} ,
             #{instInvestorId} ,
             #{instSpvProductId} ,
+            #{dividendStartDate} ,
+            #{dividendEndDate} ,
             #{dividendCurrency} ,
             #{dividendAmount} ,
             #{state} ,
@@ -85,6 +93,12 @@
         <if test="instSpvProductId != null">
                 instSpvProductId ,
         </if>
+        <if test="dividendStartDate != null">
+                dividendStartDate ,
+        </if>
+        <if test="dividendEndDate != null">
+                dividendEndDate ,
+        </if>
         <if test="dividendCurrency != null">
                 dividendCurrency ,
         </if>
@@ -119,6 +133,12 @@
         </if>
         <if test="instSpvProductId != null">
                 #{instSpvProductId} ,
+        </if>
+        <if test="dividendStartDate != null">
+                #{dividendStartDate} ,
+        </if>
+        <if test="dividendEndDate != null">
+                #{dividendEndDate} ,
         </if>
         <if test="dividendCurrency != null">
                 #{dividendCurrency} ,
@@ -157,6 +177,12 @@
             <if test="instSpvProductId != null">
                 instSpvProductId = #{instSpvProductId} ,
             </if>
+            <if test="dividendStartDate != null">
+                dividendStartDate = #{dividendStartDate} ,
+            </if>
+            <if test="dividendEndDate != null">
+                dividendEndDate = #{dividendEndDate} ,
+            </if>
             <if test="dividendCurrency != null">
                 dividendCurrency = #{dividendCurrency} ,
             </if>
@@ -189,6 +215,8 @@
             userId ,
             instInvestorId ,
             instSpvProductId ,
+            dividendStartDate ,
+            dividendEndDate ,
             dividendCurrency ,
             dividendAmount ,
             state ,
@@ -203,6 +231,8 @@
             #{item.userId} ,
             #{item.instInvestorId} ,
             #{item.instSpvProductId} ,
+            #{item.dividendStartDate} ,
+            #{item.dividendEndDate} ,
             #{item.dividendCurrency} ,
             #{item.dividendAmount} ,
             #{item.state} ,
@@ -221,6 +251,8 @@
             userId = #{item.userId} ,
             instInvestorId = #{item.instInvestorId} ,
             instSpvProductId = #{item.instSpvProductId} ,
+            dividendStartDate = #{item.dividendStartDate} ,
+            dividendEndDate = #{item.dividendEndDate} ,
             dividendCurrency = #{item.dividendCurrency} ,
             dividendAmount = #{item.dividendAmount} ,
             state = #{item.state} ,
@@ -238,6 +270,8 @@
             userId = #{userId} ,
             instInvestorId = #{instInvestorId} ,
             instSpvProductId = #{instSpvProductId} ,
+            dividendStartDate = #{dividendStartDate} ,
+            dividendEndDate = #{dividendEndDate} ,
             dividendCurrency = #{dividendCurrency} ,
             dividendAmount = #{dividendAmount} ,
             state = #{state} ,
@@ -266,6 +300,12 @@
         </if>
         <if test="instSpvProductId != null">
             AND a.instSpvProductId = #{instSpvProductId}
+        </if>
+        <if test="dividendStartDate != null">
+            AND a.dividendStartDate = #{dividendStartDate}
+        </if>
+        <if test="dividendEndDate != null">
+            AND a.dividendEndDate = #{dividendEndDate}
         </if>
         <if test="dividendCurrency != null and dividendCurrency != ''">
             AND a.dividendCurrency = #{dividendCurrency}
@@ -304,6 +344,12 @@
         </if>
         <if test="instSpvProductId != null">
             AND a.instSpvProductId = #{instSpvProductId}
+        </if>
+        <if test="dividendStartDate != null">
+            AND a.dividendStartDate = #{dividendStartDate}
+        </if>
+        <if test="dividendEndDate != null">
+            AND a.dividendEndDate = #{dividendEndDate}
         </if>
         <if test="dividendCurrency != null and dividendCurrency != ''">
             AND a.dividendCurrency LIKE CONCAT('%',#{dividendCurrency}, '%')
