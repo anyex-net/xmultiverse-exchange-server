@@ -1,6 +1,8 @@
 package com.anyex.apps.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -25,7 +27,7 @@ public abstract class GenericEntity implements Serializable
      */
     @Id
     @ApiModelProperty(value = "记录唯一ID", position = 0)
-    //@JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = ToStringSerializer.class)
     protected Long    id;
     
     /**

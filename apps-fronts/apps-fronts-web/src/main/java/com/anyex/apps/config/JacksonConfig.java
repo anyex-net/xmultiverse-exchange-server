@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import java.io.IOException;
-
 /**
  * JacksonConfig
  * <p>File: JacksonConfig.java </p>
@@ -51,8 +49,8 @@ public class JacksonConfig {
 //        });
         // 全局配置序列化返回 JSON 处理
         SimpleModule simpleModule = new SimpleModule();
-        //JSON Long ==> String
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+//        //JSON Long ==> String
+//        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         objectMapper.registerModule(simpleModule);
         return objectMapper;
     }
