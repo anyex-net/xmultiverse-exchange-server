@@ -204,6 +204,26 @@ create table RwaInstSpvProductPurchase
     updateTime              bigint(13)                        comment '更新时间'
 ) comment 'RWA机构SPV产品申购记录';
 
+--RWA机构SPV产品资产信息
+drop table if exists RwaInstSpvProductAsset;
+create table RwaInstSpvProductAsset
+(
+    id                      bigint(20)               not null comment 'ID' primary key,
+    userId                  bigint(20)               not null comment '用户ID',
+    instInvestorId          bigint(20)                        comment '机构投资者ID',
+    instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
+    productAmount           decimal(20, 8)           not null comment '发行人持有量',
+    investorAmount          decimal(20, 8)           not null comment '投资人持有量',
+    totalAmount             decimal(20, 8)           not null comment '总融资',
+    amount                  decimal(20, 8)           not null comment '已解冻',
+    lastAmount              decimal(20, 8)           not null comment '申请解冻',
+    state                   int                      not null comment '状态(0审核中、1审核通过、2已驳回)',
+    remark                  varchar(64)                       comment '备注',
+    createTime              bigint(13)               not null comment '创建时间',
+    updateBy                varchar(32)                       comment '更新人',
+    updateTime              bigint(13)                        comment '更新时间'
+) comment 'RWA机构SPV产品资产信息';
+
 --RWA机构SPV产品分红记录
 drop table if exists RwaInstSpvProductDividend;
 create table RwaInstSpvProductDividend
