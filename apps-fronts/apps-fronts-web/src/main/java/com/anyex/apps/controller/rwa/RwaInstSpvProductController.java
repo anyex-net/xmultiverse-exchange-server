@@ -7,6 +7,7 @@ package com.anyex.apps.controller.rwa;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.controller.rwa.req.*;
 import com.anyex.apps.controller.rwa.resp.RespRwaInstSpvProduct;
+import com.anyex.apps.controller.rwa.resp.RespRwaInstSpvProductAsset;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
@@ -62,6 +63,9 @@ public class RwaInstSpvProductController extends GenericController
 
     @Autowired(required = false)
     private RwaInstSpvProductDividendSnapshotService rwaInstSpvProductDividendSnapshotService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductAssetService rwaInstSpvProductAssetService;
 
     @GetMapping(value = "/getRwaInstSpvProduct")
     @ApiOperation(value = "获取RWA机构SPV产品详情", httpMethod = "GET")
@@ -151,6 +155,77 @@ public class RwaInstSpvProductController extends GenericController
         rwaInstSpvProduct.setRaiseMarginState(1);
         rwaInstSpvProduct.setState("4");
         rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
+        return json;
+    }
+
+    @GetMapping(value = "/getRwaInstSpvProductAsset")
+    @ApiOperation(value = "查询RWA机构SPV产品资产", httpMethod = "GET")
+    public JsonMessage<RespRwaInstSpvProductAsset> getRwaInstSpvProductAsset(Long instSpvProductId) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(instSpvProductId);
+
+        RespRwaInstSpvProductAsset respRwaInstSpvProductAsset = new RespRwaInstSpvProductAsset();
+        respRwaInstSpvProductAsset.setTokenName(rwaInstSpvProduct.getTokenName());
+        respRwaInstSpvProductAsset.setTokenIssueNumber(rwaInstSpvProduct.getTokenIssueNumber());
+        BigDecimal purchasedSumAmount = rwaInstSpvProduct.getPurchasedSumAmount();
+        BigDecimal productAmount = rwaInstSpvProduct.getTokenIssueNumber().subtract(purchasedSumAmount);
+        respRwaInstSpvProductAsset.setInvestorAmount(purchasedSumAmount);
+        respRwaInstSpvProductAsset.setProductAmount(productAmount);
+        respRwaInstSpvProductAsset.setTotalAmount(purchasedSumAmount);
+        respRwaInstSpvProductAsset.setAmount(rwaInstSpvProductAssetService.selectAmountSum(instSpvProductId));
+        return getJsonMessage(CommonEnums.SUCCESS, respRwaInstSpvProductAsset);
+    }
+
+    @PostMapping(value = "/RwaInstSpvProductAssetData")
+    @ApiOperation(value = "查询RWA机构SPV产品资产申请记录", httpMethod = "POST")
+    public JsonMessage<PaginateResult<RwaInstSpvProductAsset>> RwaInstSpvProductAssetData(@Validated @RequestBody ReqRwaInstSpvProductAssetPagination pagin) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        RwaInstSpvProductAsset rwaInstSpvProductAsset = new RwaInstSpvProductAsset();
+        BeanUtils.copyProperties(pagin, rwaInstSpvProductAsset);
+        rwaInstSpvProductAsset.setUserId(principal.getId());
+        PaginateResult<RwaInstSpvProductAsset> result = rwaInstSpvProductAssetService.search(pagin,rwaInstSpvProductAsset);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/submitRwaInstSpvProductAsset")
+    @ApiOperation(value = "提交RWA机构SPV产品资产申请解冻", httpMethod = "POST")
+    public JsonMessage submitRwaInstSpvProductAsset(@Validated @RequestBody ReqRwaInstSpvProductAsset reqRwaInstSpvProductAsset) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        if (beanValidator(json, reqRwaInstSpvProductAsset))
+        {
+            RwaInstSpvProductAsset rwaInstSpvProductAsset = new RwaInstSpvProductAsset();
+            BeanUtils.copyProperties(reqRwaInstSpvProductAsset, rwaInstSpvProductAsset);
+            //
+            if (null == reqRwaInstSpvProductAsset.getId())
+            {
+                rwaInstSpvProductAsset.setCreateTime(System.currentTimeMillis());
+                rwaInstSpvProductAsset.setUserId(principal.getId());
+            }
+//            rwaInstSpvProductAsset.setUpdateTime(System.currentTimeMillis());
+            rwaInstSpvProductAsset.setState(0);
+            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
+            rwaCertInstInvestor.setUserId(principal.getId());
+            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
+            rwaInstSpvProductAsset.setInstInvestorId(rwaCertInstInvestor1.getId());
+
+            //
+            log.info("entity:{}", rwaInstSpvProductAsset);
+            if(null == rwaInstSpvProductAsset.getId()){
+                rwaInstSpvProductAssetService.insert(rwaInstSpvProductAsset);
+            } else {
+                rwaInstSpvProductAssetService.updateByPrimaryKeySelective(rwaInstSpvProductAsset);
+            }
+        }
         return json;
     }
 

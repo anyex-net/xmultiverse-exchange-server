@@ -274,6 +274,11 @@
             <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
         </sofa:binding.bolt>
     </sofa:reference>
+    <sofa:reference id="rwaInstSpvProductAssetService" interface="com.anyex.apps.rwa.service.RwaInstSpvProductAssetService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
 
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:reference id="openImAdminService" interface="com.anyex.apps.openim.service.OpenImAdminService" jvm-first="false">-->

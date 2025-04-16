@@ -278,6 +278,11 @@
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaInstSpvProductAssetService" ref="rwaInstSpvProductAssetServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
 
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImChatService" ref="openImChatServiceImpl">-->

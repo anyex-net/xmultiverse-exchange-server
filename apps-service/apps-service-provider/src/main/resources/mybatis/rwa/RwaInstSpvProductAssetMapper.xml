@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.rwa.mapper.RwaInstSpvProductAssetMapper">
+    <!-- 基础列 -->
+    <sql id="rwaInstSpvProductAssetColumns">
+        a.id as id,
+        a.userId as userId,
+        a.instInvestorId as instInvestorId,
+        a.instSpvProductId as instSpvProductId,
+        a.productAmount as productAmount,
+        a.investorAmount as investorAmount,
+        a.totalAmount as totalAmount,
+        a.amount as amount,
+        a.lastAmount as lastAmount,
+        a.state as state,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="rwaInstSpvProductAssetResultMap" type="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="instInvestorId" property="instInvestorId"/>
+        <result column="instSpvProductId" property="instSpvProductId"/>
+        <result column="productAmount" property="productAmount"/>
+        <result column="investorAmount" property="investorAmount"/>
+        <result column="totalAmount" property="totalAmount"/>
+        <result column="amount" property="amount"/>
+        <result column="lastAmount" property="lastAmount"/>
+        <result column="state" property="state"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        INSERT INTO RwaInstSpvProductAsset(
+            id ,
+            userId ,
+            instInvestorId ,
+            instSpvProductId ,
+            productAmount ,
+            investorAmount ,
+            totalAmount ,
+            amount ,
+            lastAmount ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{instInvestorId} ,
+            #{instSpvProductId} ,
+            #{productAmount} ,
+            #{investorAmount} ,
+            #{totalAmount} ,
+            #{amount} ,
+            #{lastAmount} ,
+            #{state} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM RwaInstSpvProductAsset WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE RwaInstSpvProductAsset SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        INSERT INTO RwaInstSpvProductAsset
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="instInvestorId != null">
+                instInvestorId ,
+        </if>
+        <if test="instSpvProductId != null">
+                instSpvProductId ,
+        </if>
+        <if test="productAmount != null">
+                productAmount ,
+        </if>
+        <if test="investorAmount != null">
+                investorAmount ,
+        </if>
+        <if test="totalAmount != null">
+                totalAmount ,
+        </if>
+        <if test="amount != null">
+                amount ,
+        </if>
+        <if test="lastAmount != null">
+                lastAmount ,
+        </if>
+        <if test="state != null">
+                state ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="instInvestorId != null">
+                #{instInvestorId} ,
+        </if>
+        <if test="instSpvProductId != null">
+                #{instSpvProductId} ,
+        </if>
+        <if test="productAmount != null">
+                #{productAmount} ,
+        </if>
+        <if test="investorAmount != null">
+                #{investorAmount} ,
+        </if>
+        <if test="totalAmount != null">
+                #{totalAmount} ,
+        </if>
+        <if test="amount != null">
+                #{amount} ,
+        </if>
+        <if test="lastAmount != null">
+                #{lastAmount} ,
+        </if>
+        <if test="state != null">
+                #{state} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        UPDATE RwaInstSpvProductAsset
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="instInvestorId != null">
+                instInvestorId = #{instInvestorId} ,
+            </if>
+            <if test="instSpvProductId != null">
+                instSpvProductId = #{instSpvProductId} ,
+            </if>
+            <if test="productAmount != null">
+                productAmount = #{productAmount} ,
+            </if>
+            <if test="investorAmount != null">
+                investorAmount = #{investorAmount} ,
+            </if>
+            <if test="totalAmount != null">
+                totalAmount = #{totalAmount} ,
+            </if>
+            <if test="amount != null">
+                amount = #{amount} ,
+            </if>
+            <if test="lastAmount != null">
+                lastAmount = #{lastAmount} ,
+            </if>
+            <if test="state != null">
+                state = #{state} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO RwaInstSpvProductAsset(
+            id ,
+            userId ,
+            instInvestorId ,
+            instSpvProductId ,
+            productAmount ,
+            investorAmount ,
+            totalAmount ,
+            amount ,
+            lastAmount ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.instInvestorId} ,
+            #{item.instSpvProductId} ,
+            #{item.productAmount} ,
+            #{item.investorAmount} ,
+            #{item.totalAmount} ,
+            #{item.amount} ,
+            #{item.lastAmount} ,
+            #{item.state} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE RwaInstSpvProductAsset SET
+            userId = #{item.userId} ,
+            instInvestorId = #{item.instInvestorId} ,
+            instSpvProductId = #{item.instSpvProductId} ,
+            productAmount = #{item.productAmount} ,
+            investorAmount = #{item.investorAmount} ,
+            totalAmount = #{item.totalAmount} ,
+            amount = #{item.amount} ,
+            lastAmount = #{item.lastAmount} ,
+            state = #{item.state} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        UPDATE RwaInstSpvProductAsset SET
+            userId = #{userId} ,
+            instInvestorId = #{instInvestorId} ,
+            instSpvProductId = #{instSpvProductId} ,
+            productAmount = #{productAmount} ,
+            investorAmount = #{investorAmount} ,
+            totalAmount = #{totalAmount} ,
+            amount = #{amount} ,
+            lastAmount = #{lastAmount} ,
+            state = #{state} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        SELECT <include refid="rwaInstSpvProductAssetColumns"/> FROM RwaInstSpvProductAsset a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        SELECT
+        <include refid="rwaInstSpvProductAssetColumns"/>
+        FROM RwaInstSpvProductAsset a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="instInvestorId != null">
+            AND a.instInvestorId = #{instInvestorId}
+        </if>
+        <if test="instSpvProductId != null">
+            AND a.instSpvProductId = #{instSpvProductId}
+        </if>
+        <if test="productAmount != null">
+            AND a.productAmount = #{productAmount}
+        </if>
+        <if test="investorAmount != null">
+            AND a.investorAmount = #{investorAmount}
+        </if>
+        <if test="totalAmount != null">
+            AND a.totalAmount = #{totalAmount}
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="lastAmount != null">
+            AND a.lastAmount = #{lastAmount}
+        </if>
+        <if test="state != null">
+            AND a.state = #{state}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        SELECT
+        <include refid="rwaInstSpvProductAssetColumns"/>
+        FROM RwaInstSpvProductAsset a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="instInvestorId != null">
+            AND a.instInvestorId = #{instInvestorId}
+        </if>
+        <if test="instSpvProductId != null">
+            AND a.instSpvProductId = #{instSpvProductId}
+        </if>
+        <if test="productAmount != null">
+            AND a.productAmount = #{productAmount}
+        </if>
+        <if test="investorAmount != null">
+            AND a.investorAmount = #{investorAmount}
+        </if>
+        <if test="totalAmount != null">
+            AND a.totalAmount = #{totalAmount}
+        </if>
+        <if test="amount != null">
+            AND a.amount = #{amount}
+        </if>
+        <if test="lastAmount != null">
+            AND a.lastAmount = #{lastAmount}
+        </if>
+        <if test="state != null">
+            AND a.state = #{state}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProductAsset">
+        SELECT
+        <include refid="rwaInstSpvProductAssetColumns"/>
+        FROM RwaInstSpvProductAsset a
+    </select>
+    
+    <select id="selectAmountSum" resultType="java.math.BigDecimal">
+        select sum(a.amount) as amount from RwaInstSpvProductAsset a where a.instSpvProductId = #{instSpvProductId}
+    </select>
+
+
+</mapper>
+

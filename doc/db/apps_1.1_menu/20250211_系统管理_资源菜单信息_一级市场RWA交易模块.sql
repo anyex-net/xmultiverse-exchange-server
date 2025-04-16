@@ -87,6 +87,13 @@ VALUES (330000000037, 330000000036, 'rwa:rwaInstSpvProductNotice:operator', '操
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (330000000038, 330000000036, 'rwa:rwaInstSpvProductNotice:data', '查询权限', null, true, null, null, 'rwaInstSpvProductNotice', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (330000000039, 330000000001, 'rwa:rwaInstSpvProductAsset:index', 'RWA机构SPV产品资产信息', null, false, 'Icon30n', 12, 'rwaInstSpvProductAsset', '/rwa/rwaInstSpvProductAsset', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (330000000040, 330000000039, 'rwa:rwaInstSpvProductAsset:operator', '操作权限', null, true, null, null, 'rwaInstSpvProductAsset', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (330000000040, 330000000039, 'rwa:rwaInstSpvProductAsset:data', '查询权限', null, true, null, null, 'rwaInstSpvProductAsset', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+
 
 
 commit;
