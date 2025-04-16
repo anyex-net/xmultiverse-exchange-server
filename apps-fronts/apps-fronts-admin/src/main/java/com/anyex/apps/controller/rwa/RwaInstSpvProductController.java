@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.service.RwaInstSpvProductService;
 
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProduct;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPagination;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
+
+import java.math.BigDecimal;
 
 /**
  * RWA机构SPV产品 控制器
@@ -69,12 +69,17 @@ public class RwaInstSpvProductController extends GenericController
     @PostMapping(value = "/check")
     @RequiresPermissions("rwa:rwaInstSpvProduct:check")
     @ApiOperation(value = "复核", httpMethod = "POST")
-    public JsonMessage check(Long id, String state) throws BusinessException
+    public JsonMessage check(Long id, String state, String raiseMarginRatio) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         RwaInstSpvProduct entity = rwaInstSpvProductService.selectByPrimaryKey(id);
         entity.setState(state);
+        if ("4".equals(state)){
+            entity.setState("3");
+            entity.setRaiseMarginRatio(BigDecimal.valueOf(Long.parseLong(raiseMarginRatio)));
+            entity.setRaiseMarginState(0);
+        }
         if (principal != null) {
             entity.setCheckBy(principal.getUserName());
         }

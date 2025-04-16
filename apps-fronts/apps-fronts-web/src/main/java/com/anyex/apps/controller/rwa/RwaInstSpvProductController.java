@@ -149,6 +149,7 @@ public class RwaInstSpvProductController extends GenericController
 
         //
         rwaInstSpvProduct.setRaiseMarginState(1);
+        rwaInstSpvProduct.setState("4");
         rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
         return json;
     }
