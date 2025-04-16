@@ -381,6 +381,10 @@
         FROM RwaInstSpvProductDividend a
     </select>
 
+    <select id="selectDividendAmount" resultType="java.math.BigDecimal">
+        select sum(a.dividendAmount) as dividendAmount from RwaInstSpvProductDividend a where a.instSpvProductId = #{instSpvProductId}
+    </select>
+
 
 </mapper>
 

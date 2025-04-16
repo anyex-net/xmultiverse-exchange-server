@@ -7,6 +7,7 @@ import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchase;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchasePagination;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketList;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketPrEnterprise;
+import com.anyex.apps.controller.rwa.resp.RespRwaMarketTokenInfo;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,9 @@ public class RwaMarketController extends GenericController
 
     @Autowired(required = false)
     private RwaInstSpvProductPurchaseService rwaInstSpvProductPurchaseService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductDividendService rwaInstSpvProductDividendService;
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
@@ -147,5 +152,29 @@ public class RwaMarketController extends GenericController
         rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
         //
         return json;
+    }
+
+    @GetMapping(value = "/getRwaMarketTokenInfo")
+    @ApiOperation(value = "获取市场代币信息", httpMethod = "GET")
+    public JsonMessage<RespRwaMarketTokenInfo> getRwaMarketTokenInfo(Long id) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
+        RespRwaMarketTokenInfo respRwaMarketTokenInfo = new RespRwaMarketTokenInfo();
+        respRwaMarketTokenInfo.setTokenName(rwaInstSpvProduct.getTokenName());
+        respRwaMarketTokenInfo.setTokenIssueNumber(rwaInstSpvProduct.getTokenIssueNumber());
+
+        RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
+        rwaInstSpvProductPurchase.setInstSpvProductId(id);
+        List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchase);
+        respRwaMarketTokenInfo.setHolderCount(rwaInstSpvProductPurchases.size());
+
+        BigDecimal distributedAmount = rwaInstSpvProductDividendService.selectDividendAmount(id);
+        respRwaMarketTokenInfo.setDistributedAmount(distributedAmount);
+
+        return this.getJsonMessage(CommonEnums.SUCCESS, respRwaMarketTokenInfo);
     }
 }

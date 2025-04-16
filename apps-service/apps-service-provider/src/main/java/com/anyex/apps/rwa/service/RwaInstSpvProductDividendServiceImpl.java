@@ -4,12 +4,16 @@
  */
 package com.anyex.apps.rwa.service;
 
+import com.anyex.apps.exception.BusinessException;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductDividend;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductDividendMapper;
+
+import java.math.BigDecimal;
 
 /**
  * RWA机构SPV产品分红记录 服务实现类
@@ -31,5 +35,11 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
     {
         super(rwaInstSpvProductDividendMapper);
         this.rwaInstSpvProductDividendMapper = rwaInstSpvProductDividendMapper;
+    }
+
+    @Override
+    public BigDecimal selectDividendAmount(Long instSpvProductId) throws BusinessException
+    {
+        return rwaInstSpvProductDividendMapper.selectDividendAmount(instSpvProductId);
     }
 }

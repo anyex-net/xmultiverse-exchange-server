@@ -7,6 +7,9 @@ package com.anyex.apps.rwa.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductDividend;
+import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
 
 /**
  * RWA机构SPV产品分红记录 持久层接口
@@ -21,5 +24,6 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProductDividend;
 @Mapper
 public interface RwaInstSpvProductDividendMapper extends GenericMapper<RwaInstSpvProductDividend>
 {
+    BigDecimal selectDividendAmount(@Param("instSpvProductId") Long instSpvProductId);
 
 }

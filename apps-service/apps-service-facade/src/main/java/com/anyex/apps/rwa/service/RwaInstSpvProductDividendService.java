@@ -7,6 +7,8 @@ package com.anyex.apps.rwa.service;
 import com.anyex.apps.bean.GenericService;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductDividend;
 
+import java.math.BigDecimal;
+
 /**
  * RWA机构SPV产品分红记录 服务接口
  * <p>File：RwaInstSpvProductDividendService.java </p>
@@ -19,5 +21,5 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProductDividend;
  */
 public interface RwaInstSpvProductDividendService extends GenericService<RwaInstSpvProductDividend>
 {
-
+    BigDecimal selectDividendAmount(Long instSpvProductId);
 }
