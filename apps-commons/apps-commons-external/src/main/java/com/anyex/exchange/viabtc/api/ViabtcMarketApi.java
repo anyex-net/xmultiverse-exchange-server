@@ -8,6 +8,9 @@ import com.anyex.apps.utils.StringUtils;
 import com.anyex.exchange.viabtc.config.ViabtcConfig;
 import com.anyex.exchange.viabtc.req.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViabtcMarketApi extends ViabtcApi {
     static
     {
@@ -258,6 +261,44 @@ public class ViabtcMarketApi extends ViabtcApi {
     }
 
     /**
+     *
+     * @return
+     * @throws BusinessException
+     */
+    public static List<JSONObject> marketListStatusToday() throws BusinessException
+    {
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        //
+        JSONObject marketListJsonObject = ViabtcMarketApi.marketList();
+        if(null != marketListJsonObject && marketListJsonObject.size() > 0)
+        {
+            JSONArray marketListJsonObjectArray = marketListJsonObject.getJSONArray("result");
+            ReqMarketStatusToday reqMarketStatusToday = new ReqMarketStatusToday();
+            //
+            for(int i=0; i<marketListJsonObjectArray.size(); i++)
+            {
+                reqMarketStatusToday.setMarket(marketListJsonObjectArray.getJSONObject(i).getString("name"));
+                //
+                System.out.println("marketListStatusToday reqMarketStatusToday:" + reqMarketStatusToday);
+                JSONObject respJsonObject = ViabtcMarketApi.marketStatusToday(reqMarketStatusToday);
+                respJsonObject.put("name", reqMarketStatusToday.getMarket());
+                respJsonObject.remove("id");
+                respJsonObject.remove("error");
+                System.out.println("marketListStatusToday respJsonObject:" + respJsonObject);
+                //
+                list.add(respJsonObject);
+            }
+        }
+        //
+        for(int j=0; j<list.size(); j++)
+        {
+            System.out.println("list index j:" + list.get(j));
+        }
+
+        return list;
+    }
+
+    /**
      * {"result":[{"bid_amount":"100","ask_amount":"0","name":"BIEXBCH","ask_count":0,"bid_count":1}],"id":1740379055049}
      *
      * @param reqMarketSummary
@@ -329,6 +370,8 @@ public class ViabtcMarketApi extends ViabtcApi {
 //        ReqMarketSummary reqMarketSummary = new ReqMarketSummary();
 //        reqMarketSummary.setMarket("BIEXBCH");
 //        System.out.println("marketSummary respJson:" + marketSummary(reqMarketSummary));
+
+        marketListStatusToday();
     }
 
 }
