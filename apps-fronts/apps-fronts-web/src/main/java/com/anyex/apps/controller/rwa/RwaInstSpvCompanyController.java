@@ -9,14 +9,18 @@ import com.anyex.apps.controller.rwa.req.ReqRwaCertInstSpvPromoter;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvCompany;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvCompanyPagination;
 import com.anyex.apps.controller.rwa.resp.RespRwaInstSpvCompany;
+import com.anyex.apps.controller.rwa.resp.RespRwaInstSpvCompanyList;
+import com.anyex.apps.controller.rwa.resp.RespRwaMarketList;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.rwa.entity.RwaCertInstSpvPromoter;
 import com.anyex.apps.rwa.entity.RwaInstSpvCompany;
+import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.service.RwaCertInstSpvPromoterService;
 import com.anyex.apps.rwa.service.RwaInstSpvCompanyService;
+import com.anyex.apps.rwa.service.RwaInstSpvProductService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * RWA机构SPV公司 控制器
@@ -52,6 +57,9 @@ public class RwaInstSpvCompanyController extends GenericController {
 
     @Autowired(required = false)
     private RwaCertInstSpvPromoterService rwaCertInstSpvPromoterService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductService rwaInstSpvProductService;
 
     @GetMapping(value = "/getRwaInstSpvCompany")
     @ApiOperation(value = "获取RWA机构SPV公司", httpMethod = "GET")
@@ -102,8 +110,34 @@ public class RwaInstSpvCompanyController extends GenericController {
 
         RwaInstSpvCompany rwaInstSpvCompany = new RwaInstSpvCompany();
         BeanUtils.copyProperties(pagin, rwaInstSpvCompany);
-        rwaInstSpvCompany.setUserId(principal.getId());
-        PaginateResult<RwaInstSpvCompany> result = rwaInstSpvCompanyService.search(pagin, rwaInstSpvCompany);
+        List<RwaInstSpvCompany> rwaInstSpvCompanyList = rwaInstSpvCompanyService.findList(rwaInstSpvCompany);
+        List<RespRwaInstSpvCompanyList> responseList = rwaInstSpvCompanyList.stream().map(rwaInstSpvCompany1 -> {
+            RespRwaInstSpvCompanyList respRwaMarketList = new RespRwaInstSpvCompanyList();
+            respRwaMarketList.setId(rwaInstSpvCompany1.getId());
+            respRwaMarketList.setUserId(rwaInstSpvCompany1.getUserId());
+            respRwaMarketList.setInstSpvPromoterId(rwaInstSpvCompany1.getInstSpvPromoterId());
+            respRwaMarketList.setSpvCompanyName(rwaInstSpvCompany1.getSpvCompanyName());
+            respRwaMarketList.setSpvCompanyType(rwaInstSpvCompany1.getSpvCompanyType());
+            respRwaMarketList.setSpvCompanyIndustry(rwaInstSpvCompany1.getSpvCompanyIndustry());
+            respRwaMarketList.setSpvCompanyRegistrNo(rwaInstSpvCompany1.getSpvCompanyRegistrNo());
+            respRwaMarketList.setSpvCompanyRegistrImg(rwaInstSpvCompany1.getSpvCompanyRegistrImg());
+            respRwaMarketList.setSpvCompanyCountry(rwaInstSpvCompany1.getSpvCompanyCountry());
+            respRwaMarketList.setSpvCompanyEmail(rwaInstSpvCompany1.getSpvCompanyEmail());
+            respRwaMarketList.setSpvCompanyMobileNo(rwaInstSpvCompany1.getSpvCompanyMobileNo());
+            respRwaMarketList.setSpvCompanyAddress(rwaInstSpvCompany1.getSpvCompanyAddress());
+            respRwaMarketList.setSpvCompanyDesc(rwaInstSpvCompany1.getSpvCompanyDesc());
+            respRwaMarketList.setState(rwaInstSpvCompany1.getState());
+            respRwaMarketList.setRemark(rwaInstSpvCompany1.getRemark());
+            respRwaMarketList.setCreateTime(rwaInstSpvCompany1.getCreateTime());
+            //
+            RwaInstSpvProduct rwaInstSpvProduct = new RwaInstSpvProduct();
+            rwaInstSpvProduct.setUserId(principal.getId());
+            rwaInstSpvProduct.setInstSpvCompanyId(rwaInstSpvCompany1.getId());
+            List<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductService.findList(rwaInstSpvProduct);
+            respRwaMarketList.setTotalQuantity(rwaInstSpvProducts.size());
+            return respRwaMarketList;
+        }).collect(Collectors.toList());
+        PaginateResult<RespRwaInstSpvCompanyList> result = new PaginateResult<>(pagin,responseList);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
