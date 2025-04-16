@@ -8,6 +8,7 @@
         a.instSpvPromoterId as instSpvPromoterId,
         a.instSpvCompanyId as instSpvCompanyId,
         a.productNo as productNo,
+        a.productName as productName,
         a.tokenName as tokenName,
         a.tokenLogo as tokenLogo,
         a.tokenIssueNumber as tokenIssueNumber,
@@ -42,11 +43,12 @@
     </sql>
 
     <resultMap id="rwaInstSpvProductResultMap" type="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
-        <id column="ID" property="id" />
+        <id column="ID" property="id"/>
         <result column="userId" property="userId"/>
         <result column="instSpvPromoterId" property="instSpvPromoterId"/>
         <result column="instSpvCompanyId" property="instSpvCompanyId"/>
         <result column="productNo" property="productNo"/>
+        <result column="productName" property="productName"/>
         <result column="tokenName" property="tokenName"/>
         <result column="tokenLogo" property="tokenLogo"/>
         <result column="tokenIssueNumber" property="tokenIssueNumber"/>
@@ -82,85 +84,86 @@
 
     <!-- 普通插入 -->
     <insert id="insert" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
-        INSERT INTO RwaInstSpvProduct(
-            id ,
-            userId ,
-            instSpvPromoterId ,
-            instSpvCompanyId ,
-            productNo ,
-            tokenName ,
-            tokenLogo ,
-            tokenIssueNumber ,
-            raiseCurrency ,
-            raiseAmount ,
-            assetEndValuation ,
-            issueDays ,
-            purchaseStartDate ,
-            purchaseEndDate ,
-            operationStarDate ,
-            operationEndDate ,
-            raiseEstablishedRatio ,
-            companyAssetName ,
-            companyAssetDesc ,
-            companyRaiseUse ,
-            tokenContractAddress ,
-            shareContractAddress ,
-            dividendRatio ,
-            dividendFrequency ,
-            dividendDate ,
-            dividendFreezeDays ,
-            raiseMarginRatio ,
-            raiseMarginState ,
-            purchasedSumAmount ,
-            state ,
-            remark ,
-            createTime ,
-            updateBy ,
-            updateTime ,
-            checkBy ,
-            checkTime
-        ) VALUES (
-                     #{id} ,
-                     #{userId} ,
-                     #{instSpvPromoterId} ,
-                     #{instSpvCompanyId} ,
-                     #{productNo} ,
-                     #{tokenName} ,
-                     #{tokenLogo} ,
-                     #{tokenIssueNumber} ,
-                     #{raiseCurrency} ,
-                     #{raiseAmount} ,
-                     #{assetEndValuation} ,
-                     #{issueDays} ,
-                     #{purchaseStartDate} ,
-                     #{purchaseEndDate} ,
-                     #{operationStarDate} ,
-                     #{operationEndDate} ,
-                     #{raiseEstablishedRatio} ,
-                     #{companyAssetName} ,
-                     #{companyAssetDesc} ,
-                     #{companyRaiseUse} ,
-                     #{tokenContractAddress} ,
-                     #{shareContractAddress} ,
-                     #{dividendRatio} ,
-                     #{dividendFrequency} ,
-                     #{dividendDate} ,
-                     #{dividendFreezeDays} ,
-                     #{raiseMarginRatio} ,
-                     #{raiseMarginState} ,
-                     #{purchasedSumAmount} ,
-                     #{state} ,
-                     #{remark} ,
-                     #{createTime} ,
-                     #{updateBy} ,
-                     #{updateTime} ,
-                     #{checkBy} ,
-                     #{checkTime}
-                 )
+        INSERT INTO RwaInstSpvProduct(id,
+                                      userId,
+                                      instSpvPromoterId,
+                                      instSpvCompanyId,
+                                      productNo,
+                                      productName,
+                                      tokenName,
+                                      tokenLogo,
+                                      tokenIssueNumber,
+                                      raiseCurrency,
+                                      raiseAmount,
+                                      assetEndValuation,
+                                      issueDays,
+                                      purchaseStartDate,
+                                      purchaseEndDate,
+                                      operationStarDate,
+                                      operationEndDate,
+                                      raiseEstablishedRatio,
+                                      companyAssetName,
+                                      companyAssetDesc,
+                                      companyRaiseUse,
+                                      tokenContractAddress,
+                                      shareContractAddress,
+                                      dividendRatio,
+                                      dividendFrequency,
+                                      dividendDate,
+                                      dividendFreezeDays,
+                                      raiseMarginRatio,
+                                      raiseMarginState,
+                                      purchasedSumAmount,
+                                      state,
+                                      remark,
+                                      createTime,
+                                      updateBy,
+                                      updateTime,
+                                      checkBy,
+                                      checkTime)
+        VALUES (#{id},
+                #{userId},
+                #{instSpvPromoterId},
+                #{instSpvCompanyId},
+                #{productNo},
+                #{productName},
+                #{tokenName},
+                #{tokenLogo},
+                #{tokenIssueNumber},
+                #{raiseCurrency},
+                #{raiseAmount},
+                #{assetEndValuation},
+                #{issueDays},
+                #{purchaseStartDate},
+                #{purchaseEndDate},
+                #{operationStarDate},
+                #{operationEndDate},
+                #{raiseEstablishedRatio},
+                #{companyAssetName},
+                #{companyAssetDesc},
+                #{companyRaiseUse},
+                #{tokenContractAddress},
+                #{shareContractAddress},
+                #{dividendRatio},
+                #{dividendFrequency},
+                #{dividendDate},
+                #{dividendFreezeDays},
+                #{raiseMarginRatio},
+                #{raiseMarginState},
+                #{purchasedSumAmount},
+                #{state},
+                #{remark},
+                #{createTime},
+                #{updateBy},
+                #{updateTime},
+                #{checkBy},
+                #{checkTime})
     </insert>
     <!-- 根据主键物理删除 -->
     <delete id="remove" parameterType="java.lang.Long">
-        DELETE FROM RwaInstSpvProduct WHERE ID = #{id}
+        DELETE
+        FROM RwaInstSpvProduct
+        WHERE ID = #{id}
     </delete>
 
     <!-- 根据主键逻辑删除
@@ -187,6 +190,9 @@
             </if>
             <if test="productNo != null">
                 productNo ,
+            </if>
+            <if test="productName != null">
+                productName ,
             </if>
             <if test="tokenName != null">
                 tokenName ,
@@ -297,6 +303,9 @@
             </if>
             <if test="productNo != null">
                 #{productNo} ,
+            </if>
+            <if test="productName != null">
+                #{productName} ,
             </if>
             <if test="tokenName != null">
                 #{tokenName} ,
@@ -410,6 +419,9 @@
             <if test="productNo != null">
                 productNo = #{productNo} ,
             </if>
+            <if test="productName != null">
+                productName = #{productName} ,
+            </if>
             <if test="tokenName != null">
                 tokenName = #{tokenName} ,
             </if>
@@ -515,6 +527,7 @@
         instSpvPromoterId ,
         instSpvCompanyId ,
         productNo ,
+        productName ,
         tokenName ,
         tokenLogo ,
         tokenIssueNumber ,
@@ -554,6 +567,7 @@
             #{item.instSpvPromoterId} ,
             #{item.instSpvCompanyId} ,
             #{item.productNo} ,
+            #{item.productName} ,
             #{item.tokenName} ,
             #{item.tokenLogo} ,
             #{item.tokenIssueNumber} ,
@@ -597,6 +611,7 @@
             instSpvPromoterId = #{item.instSpvPromoterId} ,
             instSpvCompanyId = #{item.instSpvCompanyId} ,
             productNo = #{item.productNo} ,
+            productName = #{item.productName} ,
             tokenName = #{item.tokenName} ,
             tokenLogo = #{item.tokenLogo} ,
             tokenIssueNumber = #{item.tokenIssueNumber} ,
@@ -634,48 +649,52 @@
 
     <!-- 根据主键更新一条信息所有数据 -->
     <update id="updateByPrimaryKey" parameterType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
-        UPDATE RwaInstSpvProduct SET
-                                     userId = #{userId} ,
-                                     instSpvPromoterId = #{instSpvPromoterId} ,
-                                     instSpvCompanyId = #{instSpvCompanyId} ,
-                                     productNo = #{productNo} ,
-                                     tokenName = #{tokenName} ,
-                                     tokenLogo = #{tokenLogo} ,
-                                     tokenIssueNumber = #{tokenIssueNumber} ,
-                                     raiseCurrency = #{raiseCurrency} ,
-                                     raiseAmount = #{raiseAmount} ,
-                                     assetEndValuation = #{assetEndValuation} ,
-                                     issueDays = #{issueDays} ,
-                                     purchaseStartDate = #{purchaseStartDate} ,
-                                     purchaseEndDate = #{purchaseEndDate} ,
-                                     operationStarDate = #{operationStarDate} ,
-                                     operationEndDate = #{operationEndDate} ,
-                                     raiseEstablishedRatio = #{raiseEstablishedRatio} ,
-                                     companyAssetName = #{companyAssetName} ,
-                                     companyAssetDesc = #{companyAssetDesc} ,
-                                     companyRaiseUse = #{companyRaiseUse} ,
-                                     tokenContractAddress = #{tokenContractAddress} ,
-                                     shareContractAddress = #{shareContractAddress} ,
-                                     dividendRatio = #{dividendRatio} ,
-                                     dividendFrequency = #{dividendFrequency} ,
-                                     dividendDate = #{dividendDate} ,
-                                     dividendFreezeDays = #{dividendFreezeDays} ,
-                                     raiseMarginRatio = #{raiseMarginRatio} ,
-                                     raiseMarginState = #{raiseMarginState} ,
-                                     purchasedSumAmount = #{purchasedSumAmount} ,
-                                     state = #{state} ,
-                                     remark = #{remark} ,
-                                     createTime = #{createTime} ,
-                                     updateBy = #{updateBy} ,
-                                     updateTime = #{updateTime} ,
-                                     checkBy = #{checkBy} ,
-                                     checkTime = #{checkTime}
+        UPDATE RwaInstSpvProduct
+        SET userId                = #{userId},
+            instSpvPromoterId     = #{instSpvPromoterId},
+            instSpvCompanyId      = #{instSpvCompanyId},
+            productNo             = #{productNo},
+            productName           = #{productName},
+            tokenName             = #{tokenName},
+            tokenLogo             = #{tokenLogo},
+            tokenIssueNumber      = #{tokenIssueNumber},
+            raiseCurrency         = #{raiseCurrency},
+            raiseAmount           = #{raiseAmount},
+            assetEndValuation     = #{assetEndValuation},
+            issueDays             = #{issueDays},
+            purchaseStartDate     = #{purchaseStartDate},
+            purchaseEndDate       = #{purchaseEndDate},
+            operationStarDate     = #{operationStarDate},
+            operationEndDate      = #{operationEndDate},
+            raiseEstablishedRatio = #{raiseEstablishedRatio},
+            companyAssetName      = #{companyAssetName},
+            companyAssetDesc      = #{companyAssetDesc},
+            companyRaiseUse       = #{companyRaiseUse},
+            tokenContractAddress  = #{tokenContractAddress},
+            shareContractAddress  = #{shareContractAddress},
+            dividendRatio         = #{dividendRatio},
+            dividendFrequency     = #{dividendFrequency},
+            dividendDate          = #{dividendDate},
+            dividendFreezeDays    = #{dividendFreezeDays},
+            raiseMarginRatio      = #{raiseMarginRatio},
+            raiseMarginState      = #{raiseMarginState},
+            purchasedSumAmount    = #{purchasedSumAmount},
+            state                 = #{state},
+            remark                = #{remark},
+            createTime            = #{createTime},
+            updateBy              = #{updateBy},
+            updateTime            = #{updateTime},
+            checkBy               = #{checkBy},
+            checkTime             = #{checkTime}
         WHERE ID = #{id}
     </update>
 
     <!-- 根据主键取数据 -->
-    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
-        SELECT <include refid="rwaInstSpvProductColumns"/> FROM RwaInstSpvProduct a WHERE a.ID = #{id}
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
+        SELECT
+        <include refid="rwaInstSpvProductColumns"/>
+        FROM RwaInstSpvProduct a WHERE a.ID = #{id}
     </select>
 
     <!-- 查询一条记录 -->
@@ -694,6 +713,9 @@
         </if>
         <if test="productNo != null and productNo != ''">
             AND a.productNo = #{productNo}
+        </if>
+        <if test="productName != null and productName != ''">
+            AND a.productName = #{productName}
         </if>
         <if test="tokenName != null and tokenName != ''">
             AND a.tokenName = #{tokenName}
@@ -807,6 +829,9 @@
         </if>
         <if test="productNo != null and productNo != ''">
             AND a.productNo LIKE CONCAT('%',#{productNo}, '%')
+        </if>
+        <if test="productName != null and productName != ''">
+            AND a.productName LIKE CONCAT('%',#{productName}, '%')
         </if>
         <if test="tokenName != null and tokenName != ''">
             AND a.tokenName LIKE CONCAT('%',#{tokenName}, '%')

@@ -43,6 +43,10 @@ public class ReqRwaInstSpvProductPagination extends Pagination
 	@ApiModelProperty(value = "产品编号", position = 4)
 	private java.lang.String productNo;
 
+	/**产品名称*/
+	@ApiModelProperty(value = "产品名称", position = 5, required = true)
+	private java.lang.String productName;
+
 	/**代币名称*/
 	@ApiModelProperty(value = "代币名称", position = 5)
 	private java.lang.String tokenName;

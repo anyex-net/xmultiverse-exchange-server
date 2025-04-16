@@ -1,7 +1,6 @@
 package com.anyex.apps.controller.rwa.resp;
 
 import com.anyex.apps.bean.GenericEntity;
-import com.anyex.apps.rwa.entity.RwaInstSpvCompany;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

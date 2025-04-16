@@ -148,6 +148,7 @@ create table RwaInstSpvProduct
     instSpvCompanyId        bigint(20)               not null comment '机构SPV公司ID',
     --发行信息
     productNo               varchar(64)              not null comment '产品编号',
+    productName             varchar(128)             not null comment '产品名称',
     tokenName               varchar(32)              not null comment '代币名称',
     tokenLogo               varchar(64)              not null comment '代币Logo',
     tokenIssueNumber        decimal(20, 8)           not null comment '代币发行数量',
