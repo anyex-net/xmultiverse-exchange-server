@@ -12,17 +12,14 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.rwa.entity.RwaCertInstInvestor;
-import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductNotice;
 import com.anyex.apps.rwa.service.RwaCertInstInvestorService;
 import com.anyex.apps.rwa.service.RwaInstSpvProductNoticeService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -41,7 +38,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/rwa/rwaInstSpvProductNotice")
-@Api(description = "RWA机构SPV产品公告")
+@Api(tags = "RWA机构SPV产品公告")
 public class RwaInstSpvProductNoticeController extends GenericController
 {
     @Autowired(required = false)
