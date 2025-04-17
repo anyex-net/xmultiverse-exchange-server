@@ -47,13 +47,13 @@ public class ReqRwaInstSpvProductNoticePagination extends Pagination
 	@ApiModelProperty(value = "公告内容", position = 5)
 	private String noticeContent;
 
-	/**审核意见*/
-	@ApiModelProperty(value = "审核意见", position = 6)
-	private String checkOpinion;
+//	/**审核意见*/
+//	@ApiModelProperty(value = "审核意见", position = 6)
+//	private String checkOpinion;
 
-	/**状态(0审核中、1已驳回、2待发布、3已发布)*/
-	@ApiModelProperty(value = "状态(0审核中、1已驳回、2待发布、3已发布)", position = 7)
-	private Integer state;
+//	/**状态(0审核中、1已驳回、2待发布、3已发布)*/
+//	@ApiModelProperty(value = "状态(0审核中、1已驳回、2待发布、3已发布)", position = 7)
+//	private Integer state;
 
 	/**备注*/
 	@ApiModelProperty(value = "备注", position = 8)
