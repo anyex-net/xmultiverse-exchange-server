@@ -56,8 +56,8 @@ public class RwaMarketController extends GenericController
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<RespRwaMarketList>> data(@Validated @RequestBody ReqRwaInstSpvProductPagination pagin) throws BusinessException
     {
-        UserPrincipal principal = OnLineUserUtils.getPrincipal();
-        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+//        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+//        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
         RwaInstSpvProduct InstSpvProduct = new RwaInstSpvProduct();
         BeanUtils.copyProperties(pagin, InstSpvProduct);
@@ -86,8 +86,8 @@ public class RwaMarketController extends GenericController
     @ApiOperation(value = "获取RWA市场产品详情", httpMethod = "GET")
     public JsonMessage<RwaInstSpvProduct> getRwaMarketPrDetail(Long id) throws BusinessException
     {
-        UserPrincipal principal = OnLineUserUtils.getPrincipal();
-        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+//        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+//        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProductService.selectByPrimaryKey(id));
@@ -97,22 +97,21 @@ public class RwaMarketController extends GenericController
     @ApiOperation(value = "获取RWA市场产品企业", httpMethod = "GET")
     public JsonMessage<RespRwaMarketPrEnterprise> getRwaMarketPrEnterprise(Long id) throws BusinessException
     {
-        UserPrincipal principal = OnLineUserUtils.getPrincipal();
-        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+//        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+//        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
-        RespRwaMarketPrEnterprise respRwaMarketPrEnterprise = new RespRwaMarketPrEnterprise();
-        //spv发起人信息
-        RwaCertInstSpvPromoter rwaCertInstSpvPromoter = new RwaCertInstSpvPromoter();
-        rwaCertInstSpvPromoter.setUserId(principal.getId());
-        RwaCertInstSpvPromoter certInstSpvPromoter = rwaCertInstSpvPromoterService.selectOne(rwaCertInstSpvPromoter);
-        BeanUtils.copyProperties(certInstSpvPromoter, respRwaMarketPrEnterprise);
-
-        //企业信息
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
         if (rwaInstSpvProduct == null) {
             throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
         }
+
+        RespRwaMarketPrEnterprise respRwaMarketPrEnterprise = new RespRwaMarketPrEnterprise();
+        //spv发起人信
+        RwaCertInstSpvPromoter certInstSpvPromoter = rwaCertInstSpvPromoterService.selectByPrimaryKey(rwaInstSpvProduct.getInstSpvPromoterId());
+        BeanUtils.copyProperties(certInstSpvPromoter, respRwaMarketPrEnterprise);
+
+        //企业信息
         RwaInstSpvCompany rwaInstSpvCompany = rwaInstSpvCompanyService.selectByPrimaryKey(rwaInstSpvProduct.getInstSpvCompanyId());
         BeanUtils.copyProperties(rwaInstSpvCompany, respRwaMarketPrEnterprise);
         return this.getJsonMessage(CommonEnums.SUCCESS, respRwaMarketPrEnterprise);
@@ -158,8 +157,8 @@ public class RwaMarketController extends GenericController
     @ApiOperation(value = "获取市场代币信息", httpMethod = "GET")
     public JsonMessage<RespRwaMarketTokenInfo> getRwaMarketTokenInfo(Long id) throws BusinessException
     {
-        UserPrincipal principal = OnLineUserUtils.getPrincipal();
-        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+//        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+//        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);

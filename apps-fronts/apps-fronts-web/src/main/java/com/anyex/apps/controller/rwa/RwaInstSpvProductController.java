@@ -110,6 +110,7 @@ public class RwaInstSpvProductController extends GenericController
             RwaCertInstSpvPromoter rwaCertInstSpvPromoter1 = rwaCertInstSpvPromoterService.selectOne(rwaCertInstSpvPromoter);
             rwaInstSpvProduct.setInstSpvPromoterId(rwaCertInstSpvPromoter1.getId());
             rwaInstSpvProduct.setRaiseMarginState(0);
+            rwaInstSpvProduct.setPurchasedSumAmount(BigDecimal.valueOf(0));
             //
             log.info("entity:{}", rwaInstSpvProduct);
             if(null == rwaInstSpvProduct.getId()){

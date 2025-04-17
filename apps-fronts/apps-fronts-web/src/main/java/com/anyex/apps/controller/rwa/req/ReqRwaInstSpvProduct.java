@@ -168,10 +168,10 @@ public class ReqRwaInstSpvProduct extends GenericEntity
 //	@ApiModelProperty(value = "募集对应保证金状态(0未缴、1已缴)", position = 27, required = true)
 //	private java.lang.Integer raiseMarginState;
 
-	/**已申购总数量*/
-	@NotNull(message = "已申购总数量不可为空")
-	@ApiModelProperty(value = "已申购总数量", position = 28, required = true)
-	private java.math.BigDecimal purchasedSumAmount;
+//	/**已申购总数量*/
+//	@NotNull(message = "已申购总数量不可为空")
+//	@ApiModelProperty(value = "已申购总数量", position = 28, required = true)
+//	private java.math.BigDecimal purchasedSumAmount;
 
 //	/**状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)*/
 //	@NotEmpty(message = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)不可为空")
