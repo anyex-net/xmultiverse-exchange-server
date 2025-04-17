@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+
+@Data
 public class RespRwaInstSpvProduct {
 
     /**产品编号*/

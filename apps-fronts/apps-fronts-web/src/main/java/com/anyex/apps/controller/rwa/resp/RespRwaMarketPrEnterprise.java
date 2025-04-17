@@ -1,6 +1,5 @@
 package com.anyex.apps.controller.rwa.resp;
 
-import com.anyex.apps.bean.GenericEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
