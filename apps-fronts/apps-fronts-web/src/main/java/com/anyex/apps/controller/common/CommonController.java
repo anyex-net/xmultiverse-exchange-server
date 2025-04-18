@@ -18,6 +18,8 @@ import com.anyex.apps.controller.common.resp.RespUserAuth;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import com.anyex.apps.utils.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -144,11 +146,14 @@ public class CommonController extends GenericController
     @ApiOperation(value = "userAuth", httpMethod = "GET")
     public JsonMessage userAuth() throws BusinessException
     {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
         JsonMessage json = this.getJsonMessage(CommonEnums.SUCCESS);
         log.info("userAuth");
         //
         RespUserAuth respUserAuth = new RespUserAuth();
-        respUserAuth.setUser_id(1l);
+        respUserAuth.setUser_id(principal.getId());
         log.info("respUserAuth:{}", respUserAuth);
         //
         json.setCode(0);
@@ -167,7 +172,7 @@ public class CommonController extends GenericController
         log.info("tonce:{}", tonce);
         //
         RespUserAuth respUserAuth = new RespUserAuth();
-        respUserAuth.setUser_id(1l);
+        respUserAuth.setUser_id(Long.valueOf(accessId));
         log.info("respUserAuth:{}", respUserAuth);
         //
         json.setCode(0);

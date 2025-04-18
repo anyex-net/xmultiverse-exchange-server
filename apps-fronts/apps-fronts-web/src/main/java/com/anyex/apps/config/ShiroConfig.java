@@ -133,6 +133,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/spot/market/**", "anon");
         filterChainDefinitionMap.put("/spot/market/**/**", "anon");
         //
+        filterChainDefinitionMap.put("/rwa/rwaMarket/data", "anon");
+        //
 //        filterChainDefinitionMap.put("/openim/**", "anon");
 //        // 支付回调
 //        filterChainDefinitionMap.put("/payment/wivpay/in/notify**", "anon"); // wivpay 代收业务 支付状态回调
@@ -158,7 +160,7 @@ public class ShiroConfig
 //        filterChainDefinitionMap.put("/business/luckybox/order/order4Activity/data", "anon");
 //        filterChainDefinitionMap.put("/business/luckybox/order/order4Game/data", "anon");
         //
-        filterChainDefinitionMap.put("/common/user/auth", "authc");
+//        filterChainDefinitionMap.put("/common/user/auth", "authc");
         filterChainDefinitionMap.put("/common/user/sign", "authc");
         filterChainDefinitionMap.put("/*/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
