@@ -42,10 +42,10 @@ com:
       secret-key: @aliyun.access.secret@
       end-point: @aliyun.oss.endpoint@
       bucket:
-        release-name: nbeasy-release
-        release-url: https://nbeasy-release.oss-cn-hangzhou.aliyuncs.com/
-        temp-name: nbeasy-temp
-        temp-url: https://nbeasy-temp.oss-cn-hangzhou.aliyuncs.com/
+        release-name: exoss-release
+        release-url: https://exoss-release.oss-ap-southeast-1.aliyuncs.com/
+        temp-name: exoss-temp
+        temp-url: https://exoss-temp.oss-ap-southeast-1.aliyuncs.com/
     weiXin:
       app-key: @weixin.appkey@
       secret: @weixin.secret@

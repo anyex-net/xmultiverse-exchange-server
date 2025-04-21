@@ -577,8 +577,8 @@
                 <weixin.redirect>http://webfhsc.vipgz4.91tunnel.com/api</weixin.redirect>
                 <!-- 微信小程序 -->
                 <aliyun.afs.appkey>FFFF00000000</aliyun.afs.appkey>
-                <aliyun.access.key>LTAI4FqxVoxoEsK1a5PGF4qC</aliyun.access.key>
-                <aliyun.access.secret>3LrZAQBV8SJev4cqtch0BrNqHoYTct</aliyun.access.secret>
+                <aliyun.access.key>LTAI5tBAKUNBfCswtMQgGPZT</aliyun.access.key>
+                <aliyun.access.secret>AEcdi4R8hZUHZxxnDSsMia4xclJOFz</aliyun.access.secret>
                 <aliyun.oss.endpoint>https://oss-ap-southeast-1.aliyuncs.com</aliyun.oss.endpoint>
                 <sms.send.host>http://smssh1.253.com/msg/send/json</sms.send.host>
                 <sms.send.user>N40267</sms.send.user>
@@ -675,8 +675,8 @@
                 <weixin.redirect>http://webfhsc.vipgz4.91tunnel.com/api</weixin.redirect>
                 <!-- 微信小程序 -->
                 <aliyun.afs.appkey>FFFF00000000</aliyun.afs.appkey>
-                <aliyun.access.key>LTAI4FqxVoxoEsK1a5PGF4qC</aliyun.access.key>
-                <aliyun.access.secret>3LrZAQBV8SJev4cqtch0BrNqHoYTct</aliyun.access.secret>
+                <aliyun.access.key>LTAI5tBAKUNBfCswtMQgGPZT</aliyun.access.key>
+                <aliyun.access.secret>AEcdi4R8hZUHZxxnDSsMia4xclJOFz</aliyun.access.secret>
                 <aliyun.oss.endpoint>https://oss-ap-southeast-1.aliyuncs.com</aliyun.oss.endpoint>
                 <sms.send.host>http://smssh1.253.com/msg/send/json</sms.send.host>
                 <sms.send.user>N40267</sms.send.user>
@@ -773,8 +773,8 @@
                 <weixin.redirect>http://webfhsc.vipgz4.91tunnel.com/api</weixin.redirect>
                 <!-- 微信小程序 -->
                 <aliyun.afs.appkey>FFFF00000000</aliyun.afs.appkey>
-                <aliyun.access.key>LTAI4FqxVoxoEsK1a5PGF4qC</aliyun.access.key>
-                <aliyun.access.secret>3LrZAQBV8SJev4cqtch0BrNqHoYTct</aliyun.access.secret>
+                <aliyun.access.key>LTAI5tBAKUNBfCswtMQgGPZT</aliyun.access.key>
+                <aliyun.access.secret>AEcdi4R8hZUHZxxnDSsMia4xclJOFz</aliyun.access.secret>
                 <aliyun.oss.endpoint>https://oss-ap-southeast-1.aliyuncs.com</aliyun.oss.endpoint>
                 <sms.send.host>http://smssh1.253.com/msg/send/json</sms.send.host>
                 <sms.send.user>N40267</sms.send.user>
