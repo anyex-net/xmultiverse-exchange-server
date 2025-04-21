@@ -170,7 +170,7 @@ create table RwaInstSpvProduct
     shareContractAddress    varchar(128)                      comment '分润合约地址',
     dividendRatio           decimal(8, 4)            not null comment '分红比例',
     dividendFrequency       varchar(16)              not null comment '分红频率',
-    dividendDate            varchar(16)                       comment '分红日期',
+    dividendDate            date                     not null comment '分红周期',
     dividendFreezeDays      int                      not null comment '分红冻结天数',
     --保证金信息
     raiseMarginRatio        decimal(8, 4)            not null comment '募集对应保证金比例',
@@ -179,6 +179,7 @@ create table RwaInstSpvProduct
     purchasedSumAmount      decimal(20, 8)           not null comment '已申购总数量',
     --
     state                   varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)',
+    isActive                int            default 1 not null comment '活动状态(0已下架，1已上架)',
     remark                  varchar(64)                       comment '备注',
     createTime              bigint(13)               not null comment '创建时间',
     updateBy                varchar(32)                       comment '更新人',
