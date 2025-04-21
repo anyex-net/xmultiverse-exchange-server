@@ -266,6 +266,14 @@
         FROM RwaBalances a
     </select>
 
+    <!-- 查询并锁定记录 -->
+    <select id="selectOneForUpdate" resultMap="rwaBalancesResultMap">
+        SELECT <include refid="rwaBalancesColumns"/> FROM RwaBalances a
+        WHERE a.userId = #{userId}
+          AND a.currency = #{currency}
+            FOR UPDATE
+    </select>
+
 
 </mapper>
 

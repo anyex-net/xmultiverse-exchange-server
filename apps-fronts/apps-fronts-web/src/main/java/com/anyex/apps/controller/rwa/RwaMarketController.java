@@ -52,6 +52,9 @@ public class RwaMarketController extends GenericController
     @Autowired(required = false)
     private RwaInstSpvProductDividendService rwaInstSpvProductDividendService;
 
+    @Autowired(required = false)
+    private RwaBalancesService rwaBalancesService;
+
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<RespRwaMarketList>> data(@Validated @RequestBody ReqRwaInstSpvProductPagination pagin) throws BusinessException
@@ -66,6 +69,7 @@ public class RwaMarketController extends GenericController
             RespRwaMarketList respRwaMarketList = new RespRwaMarketList();
             respRwaMarketList.setId(rwaInstSpvProduct.getId());
             respRwaMarketList.setProductNo(rwaInstSpvProduct.getProductNo());
+            respRwaMarketList.setProductName(rwaInstSpvProduct.getProductName());
             respRwaMarketList.setTokenName(rwaInstSpvProduct.getTokenName());
             respRwaMarketList.setTokenLogo(rwaInstSpvProduct.getTokenLogo());
             respRwaMarketList.setTokenIssueNumber(rwaInstSpvProduct.getTokenIssueNumber());
@@ -128,13 +132,16 @@ public class RwaMarketController extends GenericController
 
         RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
         BeanUtils.copyProperties(reqRwaInstSpvProductPurchase, rwaInstSpvProductPurchase);
+        rwaInstSpvProductPurchase.setUserId(principal.getId());
+        //
+         //先查询可用余额是否足够
+        rwaBalancesService.purchaseFrozenBal(rwaInstSpvProductPurchase);
         //
         RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
         rwaCertInstInvestor.setUserId(principal.getId());
         RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
         if (null == reqRwaInstSpvProductPurchase.getId())
         {
-            rwaInstSpvProductPurchase.setUserId(principal.getId());
             rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
             rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
         }

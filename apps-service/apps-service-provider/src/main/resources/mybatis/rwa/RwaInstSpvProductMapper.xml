@@ -3,7 +3,10 @@
 <mapper namespace="com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper">
     <!-- 基础列 -->
     <sql id="rwaInstSpvProductColumns">
-        a.id as id,
+        a
+        .
+        id
+        as id,
         a.userId as userId,
         a.instSpvPromoterId as instSpvPromoterId,
         a.instSpvCompanyId as instSpvCompanyId,
@@ -34,6 +37,7 @@
         a.raiseMarginState as raiseMarginState,
         a.purchasedSumAmount as purchasedSumAmount,
         a.state as state,
+        a.isActive as isActive,
         a.remark as remark,
         a.createTime as createTime,
         a.updateBy as updateBy,
@@ -74,6 +78,7 @@
         <result column="raiseMarginState" property="raiseMarginState"/>
         <result column="purchasedSumAmount" property="purchasedSumAmount"/>
         <result column="state" property="state"/>
+        <result column="isActive" property="isActive"/>
         <result column="remark" property="remark"/>
         <result column="createTime" property="createTime"/>
         <result column="updateBy" property="updateBy"/>
@@ -115,6 +120,7 @@
                                       raiseMarginState,
                                       purchasedSumAmount,
                                       state,
+                                      isActive,
                                       remark,
                                       createTime,
                                       updateBy,
@@ -152,6 +158,7 @@
                 #{raiseMarginState},
                 #{purchasedSumAmount},
                 #{state},
+                #{isActive},
                 #{remark},
                 #{createTime},
                 #{updateBy},
@@ -269,6 +276,9 @@
             <if test="state != null">
                 state ,
             </if>
+            <if test="isActive != null">
+                isActive ,
+            </if>
             <if test="remark != null">
                 remark ,
             </if>
@@ -381,6 +391,9 @@
             </if>
             <if test="state != null">
                 #{state} ,
+            </if>
+            <if test="isActive != null">
+                #{isActive} ,
             </if>
             <if test="remark != null">
                 #{remark} ,
@@ -497,6 +510,9 @@
             <if test="state != null">
                 state = #{state} ,
             </if>
+            <if test="isActive != null">
+                isActive = #{isActive} ,
+            </if>
             <if test="remark != null">
                 remark = #{remark} ,
             </if>
@@ -553,6 +569,7 @@
         raiseMarginState ,
         purchasedSumAmount ,
         state ,
+        isActive ,
         remark ,
         createTime ,
         updateBy ,
@@ -593,6 +610,7 @@
             #{item.raiseMarginState} ,
             #{item.purchasedSumAmount} ,
             #{item.state} ,
+            #{item.isActive} ,
             #{item.remark} ,
             #{item.createTime} ,
             #{item.updateBy} ,
@@ -637,6 +655,7 @@
             raiseMarginState = #{item.raiseMarginState} ,
             purchasedSumAmount = #{item.purchasedSumAmount} ,
             state = #{item.state} ,
+            isActive = #{item.isActive} ,
             remark = #{item.remark} ,
             createTime = #{item.createTime} ,
             updateBy = #{item.updateBy} ,
@@ -680,6 +699,7 @@
             raiseMarginState      = #{raiseMarginState},
             purchasedSumAmount    = #{purchasedSumAmount},
             state                 = #{state},
+            isActive              = #{isActive},
             remark                = #{remark},
             createTime            = #{createTime},
             updateBy              = #{updateBy},
@@ -774,7 +794,7 @@
         <if test="dividendFrequency != null and dividendFrequency != ''">
             AND a.dividendFrequency = #{dividendFrequency}
         </if>
-        <if test="dividendDate != null and dividendDate != ''">
+        <if test="dividendDate != null">
             AND a.dividendDate = #{dividendDate}
         </if>
         <if test="dividendFreezeDays != null">
@@ -791,6 +811,9 @@
         </if>
         <if test="state != null and state != ''">
             AND a.state = #{state}
+        </if>
+        <if test="isActive != null">
+            AND a.isActive = #{isActive}
         </if>
         <if test="remark != null and remark != ''">
             AND a.remark = #{remark}
@@ -890,8 +913,8 @@
         <if test="dividendFrequency != null and dividendFrequency != ''">
             AND a.dividendFrequency LIKE CONCAT('%',#{dividendFrequency}, '%')
         </if>
-        <if test="dividendDate != null and dividendDate != ''">
-            AND a.dividendDate LIKE CONCAT('%',#{dividendDate}, '%')
+        <if test="dividendDate != null">
+            AND a.dividendDate = #{dividendDate}
         </if>
         <if test="dividendFreezeDays != null">
             AND a.dividendFreezeDays = #{dividendFreezeDays}
@@ -907,6 +930,9 @@
         </if>
         <if test="state != null and state != ''">
             AND a.state LIKE CONCAT('%',#{state}, '%')
+        </if>
+        <if test="isActive != null">
+            AND a.isActive = #{isActive}
         </if>
         <if test="remark != null and remark != ''">
             AND a.remark LIKE CONCAT('%',#{remark}, '%')
@@ -934,6 +960,7 @@
         <include refid="rwaInstSpvProductColumns"/>
         FROM RwaInstSpvProduct a
     </select>
+
 
     <select id="findListByState" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProduct">
         SELECT
@@ -1017,6 +1044,9 @@
         <if test="state != null and state != ''">
             AND a.state LIKE CONCAT('%',#{state}, '%')
         </if>
+        <if test="isActive != null">
+            AND a.isActive = #{isActive}
+        </if>
         <if test="remark != null and remark != ''">
             AND a.remark LIKE CONCAT('%',#{remark}, '%')
         </if>
@@ -1035,7 +1065,7 @@
         <if test="checkTime != null">
             AND a.checkTime = #{checkTime}
         </if>
-        AND a.state > 3
+        AND a.state > 3 and a.isActive = 1
     </select>
 
 

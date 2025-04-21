@@ -29,7 +29,7 @@ import lombok.EqualsAndHashCode;
 public class RwaInstSpvProduct extends GenericEntity
 {
 	private static final long serialVersionUID = 1L;
-
+	
 	/**用户ID*/
 	@NotNull(message = "用户ID不可为空")
 	@ApiModelProperty(value = "用户ID", position = 1, required = true)
@@ -148,9 +148,10 @@ public class RwaInstSpvProduct extends GenericEntity
 	@ApiModelProperty(value = "分红频率", position = 24, required = true)
 	private String dividendFrequency;
 
-	/**分红日期*/
-	@ApiModelProperty(value = "分红日期", position = 25)
-	private String dividendDate;
+	/**分红周期*/
+	@NotNull(message = "分红周期不可为空")
+	@ApiModelProperty(value = "分红周期", position = 25, required = true)
+	private java.util.Date dividendDate;
 
 	/**分红冻结天数*/
 	@NotNull(message = "分红冻结天数不可为空")
@@ -177,29 +178,34 @@ public class RwaInstSpvProduct extends GenericEntity
 	@ApiModelProperty(value = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)", position = 30, required = true)
 	private String state;
 
+	/**活动状态(0已下架，1已上架)*/
+	@NotNull(message = "活动状态(0已下架，1已上架)不可为空")
+	@ApiModelProperty(value = "活动状态(0已下架，1已上架)", position = 31, required = true)
+	private Integer isActive;
+
 	/**备注*/
-	@ApiModelProperty(value = "备注", position = 31)
+	@ApiModelProperty(value = "备注", position = 32)
 	private String remark;
 
 	/**创建时间*/
 	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 32, required = true)
+	@ApiModelProperty(value = "创建时间", position = 33, required = true)
 	private Long createTime;
 
 	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 33)
+	@ApiModelProperty(value = "更新人", position = 34)
 	private String updateBy;
 
 	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 34)
+	@ApiModelProperty(value = "更新时间", position = 35)
 	private Long updateTime;
 
 	/**复核人*/
-	@ApiModelProperty(value = "复核人", position = 35)
+	@ApiModelProperty(value = "复核人", position = 36)
 	private String checkBy;
 
 	/**复核时间*/
-	@ApiModelProperty(value = "复核时间", position = 36)
+	@ApiModelProperty(value = "复核时间", position = 37)
 	private Long checkTime;
 }
 

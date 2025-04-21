@@ -21,6 +21,11 @@ public class RespRwaMarketList extends GenericEntity {
     @ApiModelProperty(value = "产品编号", position = 4, required = true)
     private String productNo;
 
+    /**产品名称*/
+    @NotEmpty(message = "产品名称不可为空")
+    @ApiModelProperty(value = "产品名称", position = 5, required = true)
+    private java.lang.String productName;
+
     /**
      * 代币名称
      */

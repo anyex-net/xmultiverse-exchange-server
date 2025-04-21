@@ -67,6 +67,9 @@ public class RwaInstSpvProductController extends GenericController
     @Autowired(required = false)
     private RwaInstSpvProductAssetService rwaInstSpvProductAssetService;
 
+    @Autowired(required = false)
+    private RwaBalancesService rwaBalancesService;
+
     @GetMapping(value = "/getRwaInstSpvProduct")
     @ApiOperation(value = "获取RWA机构SPV产品详情", httpMethod = "GET")
     public JsonMessage<RespRwaInstSpvProduct> getRwaInstSpvProduct(Long id) throws BusinessException
@@ -148,10 +151,9 @@ public class RwaInstSpvProductController extends GenericController
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
         if (null == rwaInstSpvProduct)
             throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
-        //需转保证金,需调划转接口
-        BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMarginRatio().multiply(rwaInstSpvProduct.getRaiseAmount());
-
-
+        rwaInstSpvProduct.setUserId(principal.getId());
+        //交保证金冻结可用余额
+        rwaBalancesService.raiseMarginFrozenBal(rwaInstSpvProduct);
         //
         rwaInstSpvProduct.setRaiseMarginState(1);
         rwaInstSpvProduct.setState("4");

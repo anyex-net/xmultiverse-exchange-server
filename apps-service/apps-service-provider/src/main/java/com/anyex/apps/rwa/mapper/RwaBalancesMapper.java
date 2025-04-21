@@ -21,5 +21,5 @@ import com.anyex.apps.rwa.entity.RwaBalances;
 @Mapper
 public interface RwaBalancesMapper extends GenericMapper<RwaBalances>
 {
-
+    RwaBalances selectOneForUpdate(RwaBalances rwaBalances);
 }

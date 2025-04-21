@@ -88,6 +88,23 @@ public class RwaInstSpvProductController extends GenericController
         return json;
     }
 
+    @PostMapping(value = "/checkIsActive")
+    @RequiresPermissions("rwa:rwaInstSpvProduct:check")
+    @ApiOperation(value = "上架（下架）", httpMethod = "POST")
+    public JsonMessage checkIsActive(Long id, Integer isActive) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        RwaInstSpvProduct entity = rwaInstSpvProductService.selectByPrimaryKey(id);
+        entity.setIsActive(isActive);
+        if (principal != null) {
+            entity.setCheckBy(principal.getUserName());
+        }
+        entity.setCheckTime(System.currentTimeMillis());
+        rwaInstSpvProductService.updateByPrimaryKeySelective(entity);
+        return json;
+    }
+
 //    @PostMapping(value = "/save")
 //    @RequiresPermissions("rwa:rwaInstSpvProduct:operator")
 //    @ApiOperation(value = "保存RWA机构SPV产品", httpMethod = "POST")

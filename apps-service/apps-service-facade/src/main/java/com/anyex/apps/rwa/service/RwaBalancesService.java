@@ -6,6 +6,8 @@ package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.bean.GenericService;
 import com.anyex.apps.rwa.entity.RwaBalances;
+import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
+import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 
 /**
  * RWA账户余额 服务接口
@@ -19,5 +21,15 @@ import com.anyex.apps.rwa.entity.RwaBalances;
  */
 public interface RwaBalancesService extends GenericService<RwaBalances>
 {
+    /**
+     * 申购冻结余额
+     * @param rwaInstSpvProductPurchase
+     */
+    void purchaseFrozenBal(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
 
+    /**
+     * 保证金冻结余额
+     * @param rwaInstSpvProduct
+     */
+    void raiseMarginFrozenBal(RwaInstSpvProduct rwaInstSpvProduct);
 }
