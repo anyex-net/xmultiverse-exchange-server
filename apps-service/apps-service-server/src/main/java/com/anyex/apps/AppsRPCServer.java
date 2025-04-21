@@ -20,12 +20,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
 @Configuration
 @EnableCaching
 @EnableAsync
+@EnableScheduling
 @EnableTransactionManagement
 @ComponentScan("com.anyex")
 @ImportResource({"classpath*:sofa-provider.xml"})

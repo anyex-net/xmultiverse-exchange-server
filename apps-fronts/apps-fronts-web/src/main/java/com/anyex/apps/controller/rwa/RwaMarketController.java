@@ -78,6 +78,7 @@ public class RwaMarketController extends GenericController
             respRwaMarketList.setPurchaseEndDate(rwaInstSpvProduct.getPurchaseEndDate());
             return respRwaMarketList;
         }).collect(Collectors.toList());
+        pagin.setTotal((long) rwaInstSpvProducts.size());
         PaginateResult<RespRwaMarketList> result = new PaginateResult<>(pagin,responseList);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }

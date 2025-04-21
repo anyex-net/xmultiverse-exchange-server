@@ -137,6 +137,7 @@ public class RwaInstSpvCompanyController extends GenericController {
             respRwaMarketList.setTotalQuantity(rwaInstSpvProducts.size());
             return respRwaMarketList;
         }).collect(Collectors.toList());
+        pagin.setTotal((long) rwaInstSpvCompanyList.size());
         PaginateResult<RespRwaInstSpvCompanyList> result = new PaginateResult<>(pagin,responseList);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
