@@ -5,6 +5,7 @@
 package com.anyex.apps.controller.fund;
 
 import com.anyex.apps.bean.GenericController;
+import com.anyex.apps.controller.fund.req.ReqDepositTransHistory;
 import com.anyex.apps.controller.fund.req.ReqDepositTransHistoryPagination;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
@@ -58,5 +59,13 @@ public class DepositTransHistoryController extends GenericController
     {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, depositTransHistoryService.selectByPrimaryKey(id));
+    }
+
+    @PostMapping(value = "/deposit")
+    @ApiOperation(value = "充值待入账通知接口", httpMethod = "POST")
+    public JsonMessage deposit(@Validated @RequestBody ReqDepositTransHistory reqDepositTransHistory) throws BusinessException
+    {
+        log.info("deposit reqDepositTransHistory:{}", reqDepositTransHistory);
+        return getJsonMessage(CommonEnums.SUCCESS);
     }
 }

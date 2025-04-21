@@ -28,10 +28,10 @@ public class ReqBalancesTransHistory implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private Long userId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private Long userId;
 
 	/**币种(BTC、ETH、USDT)*/
 	@NotEmpty(message = "币种(BTC、ETH、USDT)不可为空")
@@ -43,20 +43,20 @@ public class ReqBalancesTransHistory implements Serializable
 	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出)", position = 3, required = true)
 	private String type;
 
-	/**前余额*/
-	@NotNull(message = "前余额不可为空")
-	@ApiModelProperty(value = "前余额", position = 4, required = true)
-	private java.math.BigDecimal beforeBal;
+//	/**前余额*/
+//	@NotNull(message = "前余额不可为空")
+//	@ApiModelProperty(value = "前余额", position = 4, required = true)
+//	private java.math.BigDecimal beforeBal;
 
 	/**发生数量*/
 	@NotNull(message = "发生数量不可为空")
 	@ApiModelProperty(value = "发生数量", position = 5, required = true)
 	private java.math.BigDecimal changeAmt;
 
-	/**后余额*/
-	@NotNull(message = "后余额不可为空")
-	@ApiModelProperty(value = "后余额", position = 6, required = true)
-	private java.math.BigDecimal afterBal;
+//	/**后余额*/
+//	@NotNull(message = "后余额不可为空")
+//	@ApiModelProperty(value = "后余额", position = 6, required = true)
+//	private java.math.BigDecimal afterBal;
 
 	/**原业务ID*/
 	@ApiModelProperty(value = "原业务ID", position = 7)
