@@ -144,10 +144,10 @@ public class ReqRwaInstSpvProduct extends GenericEntity
 	@ApiModelProperty(value = "分红比例", position = 22, required = true)
 	private java.math.BigDecimal dividendRatio;
 
-	/**分红频率*/
-	@NotEmpty(message = "分红频率不可为空")
-	@ApiModelProperty(value = "分红频率", position = 23, required = true)
-	private java.lang.String dividendFrequency;
+//	/**分红频率*/
+//	@NotEmpty(message = "分红频率不可为空")
+//	@ApiModelProperty(value = "分红频率", position = 23, required = true)
+//	private java.lang.String dividendFrequency;
 
 	/**分红日期*/
 	@ApiModelProperty(value = "分红日期", position = 24)
