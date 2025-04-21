@@ -179,7 +179,7 @@ create table RwaInstSpvProduct
     purchasedSumAmount      decimal(20, 8)           not null comment '已申购总数量',
     --
     state                   varchar(16)              not null comment '状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)',
-    isActive                int                      not null comment '活动状态(0已下架，1已上架)',
+    isActive                int            default 1 not null comment '活动状态(0已下架，1已上架)',
     remark                  varchar(64)                       comment '备注',
     createTime              bigint(13)               not null comment '创建时间',
     updateBy                varchar(32)                       comment '更新人',
