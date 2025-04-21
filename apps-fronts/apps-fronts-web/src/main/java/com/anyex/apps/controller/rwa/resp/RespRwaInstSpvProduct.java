@@ -100,15 +100,19 @@ public class RespRwaInstSpvProduct {
     @ApiModelProperty(value = "分红比例", position = 20, required = true)
     private java.math.BigDecimal dividendRatio;
 
-    /**分红频率*/
-    @NotEmpty(message = "分红频率不可为空")
-    @ApiModelProperty(value = "分红频率", position = 21, required = true)
-    private java.lang.String dividendFrequency;
+//    /**分红频率*/
+//    @NotEmpty(message = "分红频率不可为空")
+//    @ApiModelProperty(value = "分红频率", position = 21, required = true)
+//    private java.lang.String dividendFrequency;
 
-    /**分红冻结天数*/
-    @NotNull(message = "分红冻结天数不可为空")
-    @ApiModelProperty(value = "分红冻结天数", position = 22, required = true)
-    private java.lang.Integer dividendFreezeDays;
+    /**分红日期*/
+    @ApiModelProperty(value = "分红周期", position = 21)
+    private java.util.Date dividendDate;
+
+//    /**分红冻结天数*/
+//    @NotNull(message = "分红冻结天数不可为空")
+//    @ApiModelProperty(value = "分红冻结天数", position = 22, required = true)
+//    private java.lang.Integer dividendFreezeDays;
 
     /**募集对应保证金比例*/
     @NotNull(message = "募集对应保证金比例不可为空")

@@ -114,6 +114,9 @@ public class RwaInstSpvProductController extends GenericController
             rwaInstSpvProduct.setInstSpvPromoterId(rwaCertInstSpvPromoter1.getId());
             rwaInstSpvProduct.setRaiseMarginState(0);
             rwaInstSpvProduct.setPurchasedSumAmount(BigDecimal.valueOf(0));
+            rwaInstSpvProduct.setDividendFreezeDays(0);
+            rwaInstSpvProduct.setDividendFrequency("0");
+            rwaInstSpvProduct.setIsActive(1);
             //
             log.info("entity:{}", rwaInstSpvProduct);
             if(null == rwaInstSpvProduct.getId()){

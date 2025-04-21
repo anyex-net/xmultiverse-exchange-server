@@ -150,13 +150,14 @@ public class ReqRwaInstSpvProduct extends GenericEntity
 //	private java.lang.String dividendFrequency;
 
 	/**分红日期*/
-	@ApiModelProperty(value = "分红日期", position = 24)
-	private java.lang.String dividendDate;
+	@NotNull(message = "分红周期不可为空")
+	@ApiModelProperty(value = "分红周期", position = 24)
+	private java.util.Date dividendDate;
 
-	/**分红冻结天数*/
-	@NotNull(message = "分红冻结天数不可为空")
-	@ApiModelProperty(value = "分红冻结天数", position = 25, required = true)
-	private java.lang.Integer dividendFreezeDays;
+//	/**分红冻结天数*/
+//	@NotNull(message = "分红冻结天数不可为空")
+//	@ApiModelProperty(value = "分红冻结天数", position = 25, required = true)
+//	private java.lang.Integer dividendFreezeDays;
 
 	/**募集对应保证金比例*/
 	@NotNull(message = "募集对应保证金比例不可为空")
