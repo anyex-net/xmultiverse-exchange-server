@@ -82,6 +82,7 @@ public class RwaInstSpvProductNoticeController extends GenericController
             rwaCertInstInvestor.setUserId(principal.getId());
             RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
             entity.setInstInvestorId(rwaCertInstInvestor1.getId());
+            entity.setState(0);
             //
             log.info("entity:{}", entity);
             if(null == entity.getId()){
