@@ -9,6 +9,7 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.rwa.service.RwaBalancesService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ import java.math.BigDecimal;
  * <p>Description:RwaInstSpvProductController </p>
  * <p>Copyright: Copyright (c) May 26, 2015 </p>
  * <p>Company: AnyEx</p>
+ *
  * @author Playguy
  * @version 1.0
  */
@@ -41,16 +43,17 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/rwa/rwaInstSpvProduct")
 @Api(tags = "RWA机构SPV产品")
-public class RwaInstSpvProductController extends GenericController
-{
+public class RwaInstSpvProductController extends GenericController {
     @Autowired(required = false)
     private RwaInstSpvProductService rwaInstSpvProductService;
+
+    @Autowired(required = false)
+    private RwaBalancesService rwaBalancesService;
 
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaInstSpvProduct:data")
     @ApiOperation(value = "根据ID取RWA机构SPV产品", httpMethod = "GET")
-    public JsonMessage<RwaInstSpvProduct> findBy(Long id) throws BusinessException
-    {
+    public JsonMessage<RwaInstSpvProduct> findBy(Long id) throws BusinessException {
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProductService.selectByPrimaryKey(id));
     }
@@ -58,23 +61,27 @@ public class RwaInstSpvProductController extends GenericController
     @PostMapping(value = "/data")
     @RequiresPermissions("rwa:rwaInstSpvProduct:data")
     @ApiOperation(value = "查询RWA机构SPV产品", httpMethod = "POST")
-    public JsonMessage<PaginateResult<RwaInstSpvProduct>> data(@ModelAttribute ReqRwaInstSpvProductPagination pagin) throws BusinessException
-    {
+    public JsonMessage<PaginateResult<RwaInstSpvProduct>> data(@ModelAttribute ReqRwaInstSpvProductPagination pagin) throws BusinessException {
         RwaInstSpvProduct entity = new RwaInstSpvProduct();
         BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<RwaInstSpvProduct> result = rwaInstSpvProductService.search(pagin,entity);
+        PaginateResult<RwaInstSpvProduct> result = rwaInstSpvProductService.search(pagin, entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
     @PostMapping(value = "/check")
     @RequiresPermissions("rwa:rwaInstSpvProduct:check")
     @ApiOperation(value = "复核", httpMethod = "POST")
-    public JsonMessage check(Long id, String state) throws BusinessException
-    {
+    public JsonMessage check(Long id, String state) throws BusinessException {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         RwaInstSpvProduct entity = rwaInstSpvProductService.selectByPrimaryKey(id);
         entity.setState(state);
+        if ("1".equals(state)) {
+            rwaBalancesService.raiseMarginFrozenBal(entity);
+        }
+        if ("2".equals(state)) {
+            rwaBalancesService.raiseMarginFrozenBalUncheck(entity);
+        }
         if (principal != null) {
             entity.setCheckBy(principal.getUserName());
         }
@@ -86,8 +93,7 @@ public class RwaInstSpvProductController extends GenericController
     @PostMapping(value = "/checkIsActive")
     @RequiresPermissions("rwa:rwaInstSpvProduct:check")
     @ApiOperation(value = "上架（下架）", httpMethod = "POST")
-    public JsonMessage checkIsActive(Long id, Integer isActive) throws BusinessException
-    {
+    public JsonMessage checkIsActive(Long id, Integer isActive) throws BusinessException {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         RwaInstSpvProduct entity = rwaInstSpvProductService.selectByPrimaryKey(id);

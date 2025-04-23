@@ -44,8 +44,8 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
     }
 
     @Transactional
-    public void purchaseFrozenBal(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
-        //申购者资金冻结
+    public void purchaseFrozenBalCheckBefore(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
+        //申购前 申购者 总余额不变，冻结增加，可用余额减少
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
@@ -58,10 +58,42 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
             throw new BusinessException("Insufficient available balance.");
         }
         rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().subtract(purchaseBalance));
-//        rwaBalances1.setFrozenBal(purchaseBalance.add(rwaBalances1.getFrozenBal()));
+        rwaBalances1.setFrozenBal(purchaseBalance.add(rwaBalances1.getFrozenBal()));
+//        rwaBalances1.setBalance(rwaBalances1.getBalance().subtract(purchaseBalance));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+    }
+
+    @Transactional
+    public void purchaseFrozenBalUncheck(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
+        //申购拒绝 申购者 总余额不变，冻结减少，可用余额增加
+        RwaBalances rwaBalances = new RwaBalances();
+        rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
+        rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
+        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalances1 == null) {
+            throw new BusinessException("User balance not found.");
+        }
+        BigDecimal purchaseBalance = rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice());
+        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().add(purchaseBalance));
+        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(purchaseBalance));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+    }
+
+    @Transactional
+    public void purchaseFrozenBalCheckAfter(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
+        //申购审核后 申购者 总余额减少，冻结减少，可用余额不变
+        RwaBalances rwaBalances = new RwaBalances();
+        rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
+        rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
+        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalances1 == null) {
+            throw new BusinessException("User balance not found.");
+        }
+        BigDecimal purchaseBalance = rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice());
+        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(purchaseBalance));
         rwaBalances1.setBalance(rwaBalances1.getBalance().subtract(purchaseBalance));
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
-        //募集者资金冻结,冻结增加，总余额相应增加
+        //申购审核后 募集者 总余额增加，冻结增加，可用余额不变
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductMapper.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
@@ -76,6 +108,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
 
     @Transactional
     public void raiseMarginFrozenBal(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
+        //保证金 缴纳 总余额不变，冻结增加，可用余额减少
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
@@ -91,4 +124,38 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalances1.setFrozenBal(raiseMargin.add(rwaBalances1.getFrozenBal()));
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
     }
+
+    @Transactional
+    public void raiseMarginFrozenBalUncheck(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
+        //保证金审核被拒绝 总余额不变，冻结减少，可用余额增加
+        RwaBalances rwaBalances = new RwaBalances();
+        rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
+        rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
+        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalances1 == null) {
+            throw new BusinessException("User balance not found.");
+        }
+        BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMargin();
+        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().add(raiseMargin));
+        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(raiseMargin));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+    }
+
+//    @Transactional
+//    public void FrozenBal(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
+//        RwaBalances rwaBalances = new RwaBalances();
+//        rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
+//        rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
+//        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+//        if (rwaBalances1 == null) {
+//            throw new BusinessException("User balance not found.");
+//        }
+//        BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMargin();
+//        if (raiseMargin.compareTo(rwaBalances1.getAvailBal()) > 0) {
+//            throw new BusinessException("Insufficient available balance.");
+//        }
+//        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().subtract(raiseMargin));
+//        rwaBalances1.setFrozenBal(raiseMargin.add(rwaBalances1.getFrozenBal()));
+//        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+//    }
 }

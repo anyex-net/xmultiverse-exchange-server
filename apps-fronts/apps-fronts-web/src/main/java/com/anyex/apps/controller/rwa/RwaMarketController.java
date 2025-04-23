@@ -135,7 +135,7 @@ public class RwaMarketController extends GenericController
         rwaInstSpvProductPurchase.setUserId(principal.getId());
         //
          //先查询可用余额是否足够
-        rwaBalancesService.purchaseFrozenBal(rwaInstSpvProductPurchase);
+        rwaBalancesService.purchaseFrozenBalCheckBefore(rwaInstSpvProductPurchase);
         //
         RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
         rwaCertInstInvestor.setUserId(principal.getId());
@@ -148,7 +148,7 @@ public class RwaMarketController extends GenericController
 //        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
         rwaInstSpvProductPurchase.setState("pending");
         //
-        log.info("userCertKyc:{}", rwaInstSpvProductPurchase);
+        log.info("rwaInstSpvProductPurchase:{}", rwaInstSpvProductPurchase);
         if(null == rwaInstSpvProductPurchase.getId()){
             rwaInstSpvProductPurchaseService.insert(rwaInstSpvProductPurchase);
         } else {

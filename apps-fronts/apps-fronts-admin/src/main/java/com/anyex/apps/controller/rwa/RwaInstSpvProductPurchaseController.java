@@ -9,6 +9,10 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
+import com.anyex.apps.rwa.service.RwaBalancesService;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,9 @@ public class RwaInstSpvProductPurchaseController extends GenericController
     @Autowired(required = false)
     private RwaInstSpvProductPurchaseService rwaInstSpvProductPurchaseService;
 
+    @Autowired(required = false)
+    private RwaBalancesService balancesService;
+
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaInstSpvProductPurchase:data")
     @ApiOperation(value = "根据ID取RWA机构SPV产品申购记录", httpMethod = "GET")
@@ -62,6 +69,30 @@ public class RwaInstSpvProductPurchaseController extends GenericController
         BeanUtils.copyProperties(pagin, entity);
         PaginateResult<RwaInstSpvProductPurchase> result = rwaInstSpvProductPurchaseService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/check")
+    @RequiresPermissions("rwa:rwaInstSpvProductPurchase:operator")
+    @ApiOperation(value = "审核", httpMethod = "POST")
+    public JsonMessage check(Long id, String state) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        RwaInstSpvProductPurchase entity = rwaInstSpvProductPurchaseService.selectByPrimaryKey(id);
+        entity.setState(state);
+        if ("failed".equals(state)){
+            entity.setRemark("审核失败");
+            balancesService.purchaseFrozenBalUncheck(entity);
+        }
+        if ("success".equals(state)){
+            balancesService.purchaseFrozenBalCheckAfter(entity);
+        }
+        if (principal != null) {
+            entity.setUpdateBy(principal.getUserName());
+        }
+        entity.setUpdateTime(System.currentTimeMillis());
+        rwaInstSpvProductPurchaseService.updateByPrimaryKeySelective(entity);
+        return json;
     }
 
 //    @PostMapping(value = "/save")
