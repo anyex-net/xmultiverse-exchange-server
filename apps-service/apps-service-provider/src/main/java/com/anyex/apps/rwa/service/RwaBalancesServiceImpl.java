@@ -83,7 +83,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         if (rwaBalances1 == null) {
             throw new BusinessException("User balance not found.");
         }
-        BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMarginRatio().multiply(rwaInstSpvProduct.getRaiseAmount());
+        BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMargin();
         if (raiseMargin.compareTo(rwaBalances1.getAvailBal()) > 0) {
             throw new BusinessException("Insufficient available balance.");
         }

@@ -107,7 +107,7 @@ public class RwaInstSpvProductController extends GenericController
                 rwaInstSpvProduct.setUserId(principal.getId());
             }
             rwaInstSpvProduct.setUpdateTime(System.currentTimeMillis());
-            rwaInstSpvProduct.setState("0");
+            rwaInstSpvProduct.setState("-1");
             RwaCertInstSpvPromoter rwaCertInstSpvPromoter = new RwaCertInstSpvPromoter();
             rwaCertInstSpvPromoter.setUserId(principal.getId());
             RwaCertInstSpvPromoter rwaCertInstSpvPromoter1 = rwaCertInstSpvPromoterService.selectOne(rwaCertInstSpvPromoter);
@@ -117,6 +117,7 @@ public class RwaInstSpvProductController extends GenericController
             rwaInstSpvProduct.setDividendFreezeDays(0);
             rwaInstSpvProduct.setDividendFrequency("0");
             rwaInstSpvProduct.setIsActive(1);
+            rwaInstSpvProduct.setRaiseMargin(BigDecimal.valueOf(0));
             //
             log.info("entity:{}", rwaInstSpvProduct);
             if(null == rwaInstSpvProduct.getId()){
@@ -144,7 +145,7 @@ public class RwaInstSpvProductController extends GenericController
 
     @PostMapping(value = "/submitRaiseMargin")
     @ApiOperation(value = "提交保证金", httpMethod = "POST")
-    public JsonMessage submitRaiseMargin(Long id) throws BusinessException
+    public JsonMessage submitRaiseMargin(Long id, BigDecimal raiseMargin) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
@@ -155,11 +156,12 @@ public class RwaInstSpvProductController extends GenericController
         if (null == rwaInstSpvProduct)
             throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
         rwaInstSpvProduct.setUserId(principal.getId());
+        rwaInstSpvProduct.setRaiseMargin(raiseMargin);
         //交保证金冻结可用余额
         rwaBalancesService.raiseMarginFrozenBal(rwaInstSpvProduct);
         //
         rwaInstSpvProduct.setRaiseMarginState(1);
-        rwaInstSpvProduct.setState("4");
+        rwaInstSpvProduct.setState("0");
         rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
         return json;
     }

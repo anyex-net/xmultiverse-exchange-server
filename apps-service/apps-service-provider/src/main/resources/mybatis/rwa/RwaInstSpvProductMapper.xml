@@ -33,7 +33,7 @@
         a.dividendFrequency as dividendFrequency,
         a.dividendDate as dividendDate,
         a.dividendFreezeDays as dividendFreezeDays,
-        a.raiseMarginRatio as raiseMarginRatio,
+        a.raiseMargin as raiseMargin,
         a.raiseMarginState as raiseMarginState,
         a.purchasedSumAmount as purchasedSumAmount,
         a.state as state,
@@ -74,7 +74,7 @@
         <result column="dividendFrequency" property="dividendFrequency"/>
         <result column="dividendDate" property="dividendDate"/>
         <result column="dividendFreezeDays" property="dividendFreezeDays"/>
-        <result column="raiseMarginRatio" property="raiseMarginRatio"/>
+        <result column="raiseMargin" property="raiseMargin"/>
         <result column="raiseMarginState" property="raiseMarginState"/>
         <result column="purchasedSumAmount" property="purchasedSumAmount"/>
         <result column="state" property="state"/>
@@ -116,7 +116,7 @@
                                       dividendFrequency,
                                       dividendDate,
                                       dividendFreezeDays,
-                                      raiseMarginRatio,
+                                      raiseMargin,
                                       raiseMarginState,
                                       purchasedSumAmount,
                                       state,
@@ -154,7 +154,7 @@
                 #{dividendFrequency},
                 #{dividendDate},
                 #{dividendFreezeDays},
-                #{raiseMarginRatio},
+                #{raiseMargin},
                 #{raiseMarginState},
                 #{purchasedSumAmount},
                 #{state},
@@ -264,8 +264,8 @@
             <if test="dividendFreezeDays != null">
                 dividendFreezeDays ,
             </if>
-            <if test="raiseMarginRatio != null">
-                raiseMarginRatio ,
+            <if test="raiseMargin != null">
+                raiseMargin ,
             </if>
             <if test="raiseMarginState != null">
                 raiseMarginState ,
@@ -380,8 +380,8 @@
             <if test="dividendFreezeDays != null">
                 #{dividendFreezeDays} ,
             </if>
-            <if test="raiseMarginRatio != null">
-                #{raiseMarginRatio} ,
+            <if test="raiseMargin != null">
+                #{raiseMargin} ,
             </if>
             <if test="raiseMarginState != null">
                 #{raiseMarginState} ,
@@ -498,8 +498,8 @@
             <if test="dividendFreezeDays != null">
                 dividendFreezeDays = #{dividendFreezeDays} ,
             </if>
-            <if test="raiseMarginRatio != null">
-                raiseMarginRatio = #{raiseMarginRatio} ,
+            <if test="raiseMargin != null">
+                raiseMargin = #{raiseMargin} ,
             </if>
             <if test="raiseMarginState != null">
                 raiseMarginState = #{raiseMarginState} ,
@@ -565,7 +565,7 @@
         dividendFrequency ,
         dividendDate ,
         dividendFreezeDays ,
-        raiseMarginRatio ,
+        raiseMargin ,
         raiseMarginState ,
         purchasedSumAmount ,
         state ,
@@ -606,7 +606,7 @@
             #{item.dividendFrequency} ,
             #{item.dividendDate} ,
             #{item.dividendFreezeDays} ,
-            #{item.raiseMarginRatio} ,
+            #{item.raiseMargin} ,
             #{item.raiseMarginState} ,
             #{item.purchasedSumAmount} ,
             #{item.state} ,
@@ -651,7 +651,7 @@
             dividendFrequency = #{item.dividendFrequency} ,
             dividendDate = #{item.dividendDate} ,
             dividendFreezeDays = #{item.dividendFreezeDays} ,
-            raiseMarginRatio = #{item.raiseMarginRatio} ,
+            raiseMargin = #{item.raiseMargin} ,
             raiseMarginState = #{item.raiseMarginState} ,
             purchasedSumAmount = #{item.purchasedSumAmount} ,
             state = #{item.state} ,
@@ -695,7 +695,7 @@
             dividendFrequency     = #{dividendFrequency},
             dividendDate          = #{dividendDate},
             dividendFreezeDays    = #{dividendFreezeDays},
-            raiseMarginRatio      = #{raiseMarginRatio},
+            raiseMargin      = #{raiseMargin},
             raiseMarginState      = #{raiseMarginState},
             purchasedSumAmount    = #{purchasedSumAmount},
             state                 = #{state},
@@ -800,8 +800,8 @@
         <if test="dividendFreezeDays != null">
             AND a.dividendFreezeDays = #{dividendFreezeDays}
         </if>
-        <if test="raiseMarginRatio != null">
-            AND a.raiseMarginRatio = #{raiseMarginRatio}
+        <if test="raiseMargin != null">
+            AND a.raiseMargin = #{raiseMargin}
         </if>
         <if test="raiseMarginState != null">
             AND a.raiseMarginState = #{raiseMarginState}
@@ -919,8 +919,8 @@
         <if test="dividendFreezeDays != null">
             AND a.dividendFreezeDays = #{dividendFreezeDays}
         </if>
-        <if test="raiseMarginRatio != null">
-            AND a.raiseMarginRatio = #{raiseMarginRatio}
+        <if test="raiseMargin != null">
+            AND a.raiseMargin = #{raiseMargin}
         </if>
         <if test="raiseMarginState != null">
             AND a.raiseMarginState = #{raiseMarginState}
@@ -1032,8 +1032,8 @@
         <if test="dividendFreezeDays != null">
             AND a.dividendFreezeDays = #{dividendFreezeDays}
         </if>
-        <if test="raiseMarginRatio != null">
-            AND a.raiseMarginRatio = #{raiseMarginRatio}
+        <if test="raiseMargin != null">
+            AND a.raiseMargin = #{raiseMargin}
         </if>
         <if test="raiseMarginState != null">
             AND a.raiseMarginState = #{raiseMarginState}

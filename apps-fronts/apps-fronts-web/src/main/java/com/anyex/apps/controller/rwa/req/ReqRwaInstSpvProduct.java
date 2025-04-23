@@ -159,10 +159,10 @@ public class ReqRwaInstSpvProduct extends GenericEntity
 //	@ApiModelProperty(value = "分红冻结天数", position = 25, required = true)
 //	private java.lang.Integer dividendFreezeDays;
 
-	/**募集对应保证金比例*/
-	@NotNull(message = "募集对应保证金比例不可为空")
-	@ApiModelProperty(value = "募集对应保证金比例", position = 26, required = true)
-	private java.math.BigDecimal raiseMarginRatio;
+//	/**募集对应保证金*/
+//	@NotNull(message = "募集对应保证金不可为空")
+//	@ApiModelProperty(value = "募集对应保证金", position = 26, required = true)
+//	private java.math.BigDecimal raiseMargin;
 
 //	/**募集对应保证金状态(0未缴、1已缴)*/
 //	@NotNull(message = "募集对应保证金状态(0未缴、1已缴)不可为空")
