@@ -13,18 +13,18 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * RWA账户交易历史 实体请求对象
- * <p>File：ReqRwaBalancesTransHistory.java</p>
- * <p>Title: ReqRwaBalancesTransHistory</p>
- * <p>Description:ReqRwaBalancesTransHistory</p>
+ * 现货账户交易历史 实体请求对象
+ * <p>File：ReqSpotAssetBalancesTransHistory.java</p>
+ * <p>Title: ReqSpotAssetBalancesTransHistory</p>
+ * <p>Description:ReqSpotAssetBalancesTransHistory</p>
  * <p>Copyright: Copyright (c) May 26, 2015</p>
  * <p>Company: AnyEx</p>
  * @author Playguy
  * @version 1.0
  */
 @Data
-@ApiModel(description = "RWA账户交易历史请求对象")
-public class ReqRwaBalancesTransHistory implements Serializable
+@ApiModel(description = "现货账户交易历史请求对象")
+public class ReqSpotAssetBalancesTransHistory implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -38,9 +38,9 @@ public class ReqRwaBalancesTransHistory implements Serializable
 	@ApiModelProperty(value = "币种(BTC、ETH、USDT)", position = 2, required = true)
 	private String currency;
 
-	/**类型(转入、转出、冻结、解冻、申购、分红)*/
-	@NotEmpty(message = "类型(转入、转出、冻结、解冻、申购、分红)不可为空")
-	@ApiModelProperty(value = "类型(转入、转出、冻结、解冻、申购、分红)", position = 3, required = true)
+	/**类型(充值、提现、冻结、解冻、转入、转出)*/
+	@NotEmpty(message = "类型(充值、提现、冻结、解冻、转入、转出)不可为空")
+	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出)", position = 3, required = true)
 	private String type;
 
 //	/**前余额*/

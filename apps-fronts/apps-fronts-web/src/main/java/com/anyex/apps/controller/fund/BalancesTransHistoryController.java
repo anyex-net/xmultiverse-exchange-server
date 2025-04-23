@@ -95,7 +95,8 @@ public class BalancesTransHistoryController extends GenericController
         balancesSearch.setUserId(userId);
         balancesSearch.setCurrency(reqBalancesTransHistory.getCurrency());
         Balances balancesDB = balancesService.selectOne(balancesSearch);
-        if(null != balancesDB && balancesDB.getBalance().compareTo(reqBalancesTransHistory.getChangeAmt()) >= 0){
+        if(null != balancesDB && balancesDB.getBalance().compareTo(reqBalancesTransHistory.getChangeAmt()) >= 0)
+        {
             //
             BalancesTransHistory balancesTransHistory = new BalancesTransHistory();
             BeanUtils.copyProperties(reqBalancesTransHistory, balancesTransHistory);

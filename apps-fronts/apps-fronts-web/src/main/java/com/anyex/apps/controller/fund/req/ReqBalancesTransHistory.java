@@ -58,9 +58,9 @@ public class ReqBalancesTransHistory implements Serializable
 //	@ApiModelProperty(value = "后余额", position = 6, required = true)
 //	private java.math.BigDecimal afterBal;
 
-	/**原业务ID*/
-	@ApiModelProperty(value = "原业务ID", position = 7)
-	private String businessId;
+//	/**原业务ID*/
+//	@ApiModelProperty(value = "原业务ID", position = 7)
+//	private String businessId;
 
 	/**转出账户*/
 	@ApiModelProperty(value = "转出账户", position = 8)
