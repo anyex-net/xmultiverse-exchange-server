@@ -2,21 +2,14 @@ package com.anyex.apps.controller.rwa;
 
 
 import com.anyex.apps.bean.GenericController;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPagination;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchase;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchasePagination;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
-import com.anyex.apps.rwa.entity.RwaCertInstInvestor;
-import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
-import com.anyex.apps.rwa.service.RwaCertInstInvestorService;
 import com.anyex.apps.rwa.service.RwaInstSpvProductPurchaseService;
-import com.anyex.apps.rwa.service.RwaInstSpvProductService;
 import com.anyex.apps.shiro.model.UserPrincipal;
-import com.anyex.apps.user.entity.UserCertKyc;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

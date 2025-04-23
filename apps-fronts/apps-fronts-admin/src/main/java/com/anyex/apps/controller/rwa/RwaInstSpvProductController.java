@@ -69,17 +69,12 @@ public class RwaInstSpvProductController extends GenericController
     @PostMapping(value = "/check")
     @RequiresPermissions("rwa:rwaInstSpvProduct:check")
     @ApiOperation(value = "复核", httpMethod = "POST")
-    public JsonMessage check(Long id, String state, String raiseMarginRatio) throws BusinessException
+    public JsonMessage check(Long id, String state) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         RwaInstSpvProduct entity = rwaInstSpvProductService.selectByPrimaryKey(id);
         entity.setState(state);
-        if ("4".equals(state)){
-            entity.setState("3");
-            entity.setRaiseMarginRatio(BigDecimal.valueOf(Long.parseLong(raiseMarginRatio)));
-            entity.setRaiseMarginState(0);
-        }
         if (principal != null) {
             entity.setCheckBy(principal.getUserName());
         }

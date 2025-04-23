@@ -147,6 +147,9 @@ public class ReqRwaInstSpvProductPagination extends Pagination
 	@ApiModelProperty(value = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)", position = 29)
 	private java.lang.String state;
 
+	@ApiModelProperty(value = "活动状态(0已下架，1已上架)", position = 31, required = true)
+	private Integer isActive;
+
 //	/**备注*/
 //	@ApiModelProperty(value = "备注", position = 30)
 //	private java.lang.String remark;
