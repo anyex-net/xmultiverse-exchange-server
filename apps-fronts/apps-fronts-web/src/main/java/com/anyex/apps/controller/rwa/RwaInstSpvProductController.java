@@ -72,16 +72,14 @@ public class RwaInstSpvProductController extends GenericController
 
     @GetMapping(value = "/getRwaInstSpvProduct")
     @ApiOperation(value = "获取RWA机构SPV产品详情", httpMethod = "GET")
-    public JsonMessage<RespRwaInstSpvProduct> getRwaInstSpvProduct(String id) throws BusinessException
+    public JsonMessage<RespRwaInstSpvProduct> getRwaInstSpvProduct(Long id) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
         RespRwaInstSpvProduct respRwaInstSpvProduct = new RespRwaInstSpvProduct();
-        if (null == id || id.trim().isEmpty()) {
-            throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        }
-        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(Long.valueOf(id));
+        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
         BeanUtils.copyProperties(rwaInstSpvProduct,respRwaInstSpvProduct);
 
         //企业信息
@@ -147,20 +145,17 @@ public class RwaInstSpvProductController extends GenericController
 
     @PostMapping(value = "/submitRaiseMargin")
     @ApiOperation(value = "提交保证金", httpMethod = "POST")
-    public JsonMessage submitRaiseMargin(String id, BigDecimal raiseMargin) throws BusinessException
+    public JsonMessage submitRaiseMargin(@Validated @RequestBody ReqRwaInstSpvProductRaiseMargin reqRwaInstSpvProductRaiseMargin) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (null == id || id.trim().isEmpty()) {
-            throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        }
-        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(Long.valueOf(id));
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(reqRwaInstSpvProductRaiseMargin.getId());
         if (null == rwaInstSpvProduct)
             throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
         rwaInstSpvProduct.setUserId(principal.getId());
-        rwaInstSpvProduct.setRaiseMargin(raiseMargin);
+        rwaInstSpvProduct.setRaiseMargin(reqRwaInstSpvProductRaiseMargin.getRaiseMargin());
         //交保证金冻结可用余额
         rwaBalancesService.raiseMarginFrozenBal(rwaInstSpvProduct);
         //
@@ -172,12 +167,13 @@ public class RwaInstSpvProductController extends GenericController
 
     @GetMapping(value = "/getRwaInstSpvProductAsset")
     @ApiOperation(value = "查询RWA机构SPV产品资产", httpMethod = "GET")
-    public JsonMessage<RespRwaInstSpvProductAsset> getRwaInstSpvProductAsset(String instSpvProductId) throws BusinessException
+    public JsonMessage<RespRwaInstSpvProductAsset> getRwaInstSpvProductAsset(Long instSpvProductId) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
-        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(Long.valueOf(instSpvProductId));
+        if (null == instSpvProductId) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(instSpvProductId);
 
         RespRwaInstSpvProductAsset respRwaInstSpvProductAsset = new RespRwaInstSpvProductAsset();
         respRwaInstSpvProductAsset.setTokenName(rwaInstSpvProduct.getTokenName());
@@ -187,7 +183,7 @@ public class RwaInstSpvProductController extends GenericController
         respRwaInstSpvProductAsset.setInvestorAmount(purchasedSumAmount);
         respRwaInstSpvProductAsset.setProductAmount(productAmount);
         respRwaInstSpvProductAsset.setTotalAmount(purchasedSumAmount);
-        respRwaInstSpvProductAsset.setAmount(rwaInstSpvProductAssetService.selectAmountSum(Long.valueOf(instSpvProductId)));
+        respRwaInstSpvProductAsset.setAmount(rwaInstSpvProductAssetService.selectAmountSum(instSpvProductId));
         return getJsonMessage(CommonEnums.SUCCESS, respRwaInstSpvProductAsset);
     }
 

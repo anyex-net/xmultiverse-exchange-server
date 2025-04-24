@@ -49,15 +49,13 @@ public class RwaInstSpvProductNoticeController extends GenericController
 
     @GetMapping(value = "/getRwaInstSpvProductNotice")
     @ApiOperation(value = "获取RWA机构SPV产品公告", httpMethod = "GET")
-    public JsonMessage<RwaInstSpvProductNotice> getRwaInstSpvProductNotice(String id) throws BusinessException
+    public JsonMessage<RwaInstSpvProductNotice> getRwaInstSpvProductNotice(Long id) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
-        if (null == id || id.trim().isEmpty()) {
-            throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        }
-        RwaInstSpvProductNotice rwaInstSpvProductNotice = rwaInstSpvProductNoticeService.selectByPrimaryKey(Long.valueOf(id));
+        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        RwaInstSpvProductNotice rwaInstSpvProductNotice = rwaInstSpvProductNoticeService.selectByPrimaryKey(id);
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProductNotice);
     }
 
@@ -76,7 +74,7 @@ public class RwaInstSpvProductNoticeController extends GenericController
             //
             if (null == info.getId())
             {
-            entity.setCreateTime(System.currentTimeMillis());
+                entity.setCreateTime(System.currentTimeMillis());
             }
             entity.setUpdateTime(System.currentTimeMillis());
             entity.setUserId(principal.getId());
@@ -90,7 +88,7 @@ public class RwaInstSpvProductNoticeController extends GenericController
             if(null == entity.getId()){
                 rwaInstSpvProductNoticeService.insert(entity);
             } else {
-                rwaInstSpvProductNoticeService.updateByPrimaryKey(entity);
+                rwaInstSpvProductNoticeService.updateByPrimaryKeySelective(entity);
             }
         }
         return json;
@@ -112,9 +110,13 @@ public class RwaInstSpvProductNoticeController extends GenericController
     @PostMapping(value = "/delRwaInstSpvProductNotice")
     @ApiOperation(value = "删除RWA机构SPV产品公告", httpMethod = "POST")
 //    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String id) throws BusinessException
+    public JsonMessage del(Long id) throws BusinessException
     {
-        rwaInstSpvProductNoticeService.remove(Long.valueOf(id));
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
+        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        rwaInstSpvProductNoticeService.remove(id);
         return getJsonMessage(CommonEnums.SUCCESS);
     }
 }
