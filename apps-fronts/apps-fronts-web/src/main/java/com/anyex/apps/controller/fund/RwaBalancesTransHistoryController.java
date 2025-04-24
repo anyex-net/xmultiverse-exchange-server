@@ -93,7 +93,8 @@ public class RwaBalancesTransHistoryController extends GenericController
         rwaBalancesSearch.setUserId(userId);
         rwaBalancesSearch.setCurrency(reqRwaBalancesTransHistory.getCurrency());
         RwaBalances rwaBalancesDB = rwaBalancesService.selectOne(rwaBalancesSearch);
-        if(null != rwaBalancesDB && rwaBalancesDB.getBalance().compareTo(reqRwaBalancesTransHistory.getChangeAmt()) >= 0){
+        if(null != rwaBalancesDB && rwaBalancesDB.getBalance().compareTo(reqRwaBalancesTransHistory.getChangeAmt()) >= 0)
+        {
             //
             RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
             BeanUtils.copyProperties(reqRwaBalancesTransHistory, rwaBalancesTransHistory);
