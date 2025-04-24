@@ -13,9 +13,11 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.rwa.entity.RwaCertInstInvestor;
+import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductNotice;
 import com.anyex.apps.rwa.service.RwaCertInstInvestorService;
 import com.anyex.apps.rwa.service.RwaInstSpvProductNoticeService;
+import com.anyex.apps.rwa.service.RwaInstSpvProductService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
@@ -47,6 +49,9 @@ public class RwaInstSpvProductNoticeController extends GenericController
 
     @Autowired(required = false)
     private RwaCertInstInvestorService rwaCertInstInvestorService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductService rwaInstSpvProductService;
 
     @GetMapping(value = "/getRwaInstSpvProductNotice")
     @ApiOperation(value = "获取RWA机构SPV产品公告", httpMethod = "GET")
@@ -87,6 +92,16 @@ public class RwaInstSpvProductNoticeController extends GenericController
             //
             log.info("entity:{}", entity);
             if(null == entity.getId()){
+                //判断是否审核通过
+                RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(entity.getInstSpvProductId());
+                if (null == rwaInstSpvProduct)
+                {
+                    throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
+                }
+                if (Integer.parseInt(rwaInstSpvProduct.getState()) < 3)
+                {
+                    throw new BusinessException("The announcement cannot be posted due to failing the review.");
+                }
                 rwaInstSpvProductNoticeService.insert(entity);
             } else {
                 rwaInstSpvProductNoticeService.updateByPrimaryKeySelective(entity);

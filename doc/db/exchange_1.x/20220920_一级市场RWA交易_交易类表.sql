@@ -307,7 +307,7 @@ create table RwaInstSpvProductRealizedIncome
     userId                      bigint(20)               not null comment '用户ID',
     instSpvProductId            bigint(20)               not null comment '机构SPV产品ID',
     incomeDistributionDate      date                     not null comment '收入分成日期',
-    incomeAmount                date                     not null comment '收入金额',
+    incomeAmount                decimal(20, 8)           not null comment '收入金额',
     incomeCurrency              varchar(32)              not null comment '收入币种',
     remark                      varchar(64)                       comment '备注',
     createTime                  bigint(13)               not null comment '创建时间',

@@ -110,8 +110,9 @@ public class RwaInstSpvCompanyController extends GenericController {
 
         RwaInstSpvCompany rwaInstSpvCompany = new RwaInstSpvCompany();
         BeanUtils.copyProperties(pagin, rwaInstSpvCompany);
-        List<RwaInstSpvCompany> rwaInstSpvCompanyList = rwaInstSpvCompanyService.findList(rwaInstSpvCompany);
-        List<RespRwaInstSpvCompanyList> responseList = rwaInstSpvCompanyList.stream().map(rwaInstSpvCompany1 -> {
+        rwaInstSpvCompany.setUserId(principal.getId());
+        PaginateResult<RwaInstSpvCompany> rwaInstSpvCompanyList = rwaInstSpvCompanyService.search(pagin,rwaInstSpvCompany);
+        List<RespRwaInstSpvCompanyList> responseList = rwaInstSpvCompanyList.getRecords().stream().map(rwaInstSpvCompany1 -> {
             RespRwaInstSpvCompanyList respRwaMarketList = new RespRwaInstSpvCompanyList();
             respRwaMarketList.setId(rwaInstSpvCompany1.getId());
             respRwaMarketList.setUserId(rwaInstSpvCompany1.getUserId());
@@ -137,8 +138,11 @@ public class RwaInstSpvCompanyController extends GenericController {
             respRwaMarketList.setTotalQuantity(rwaInstSpvProducts.size());
             return respRwaMarketList;
         }).collect(Collectors.toList());
-        pagin.setTotal((long) rwaInstSpvCompanyList.size());
         PaginateResult<RespRwaInstSpvCompanyList> result = new PaginateResult<>(pagin,responseList);
+        result.setRecords(responseList);
+        result.setTotal((long)rwaInstSpvCompanyList.getTotal());
+        result.setCurrent(rwaInstSpvCompanyList.getCurrent());
+        result.setSize(rwaInstSpvCompanyList.getSize());
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 

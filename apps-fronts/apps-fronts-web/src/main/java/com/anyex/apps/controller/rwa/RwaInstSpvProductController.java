@@ -16,6 +16,7 @@ import com.anyex.apps.rwa.entity.*;
 import com.anyex.apps.rwa.service.*;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
+import com.anyex.apps.utils.SerialnoUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * RWA机构SPV产品 控制器
@@ -69,6 +71,9 @@ public class RwaInstSpvProductController extends GenericController
 
     @Autowired(required = false)
     private RwaBalancesService rwaBalancesService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductRealizedIncomeService rwaInstSpvProductRealizedIncomeService;
 
     @GetMapping(value = "/getRwaInstSpvProduct")
     @ApiOperation(value = "获取RWA机构SPV产品详情", httpMethod = "GET")
@@ -337,4 +342,45 @@ public class RwaInstSpvProductController extends GenericController
         PaginateResult<RwaInstSpvProductDividendSnapshot> result = rwaInstSpvProductDividendSnapshotService.search(pagination,rwaInstSpvProductDividendSnapshot);
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
+
+    @PostMapping(value = "/reqRwaInstSpvProductRealizedIncomeData")
+    @ApiOperation(value = "查询RWA机构SPV产品实际收入列表", httpMethod = "POST")
+    public JsonMessage<PaginateResult<ReqRwaInstSpvProductRealizedIncome>> reqRwaInstSpvProductRealizedIncomeData(@Validated @RequestBody ReqRwaInstSpvProductRealizedIncomePagination pagin) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        RwaInstSpvProductRealizedIncome rwaInstSpvProductRealizedIncome = new RwaInstSpvProductRealizedIncome();
+        BeanUtils.copyProperties(pagin, rwaInstSpvProductRealizedIncome);
+        rwaInstSpvProductRealizedIncome.setUserId(principal.getId());
+        PaginateResult<RwaInstSpvProductRealizedIncome> result = rwaInstSpvProductRealizedIncomeService.search(pagin,rwaInstSpvProductRealizedIncome);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/submitReqRwaInstSpvProductRealizedIncome")
+    @ApiOperation(value = "提交RWA机构SPV产品实际收入（批量）", httpMethod = "POST")
+    public JsonMessage submitReqRwaInstSpvProductRealizedIncome(@Validated @RequestBody ReqRwaInstSpvProductRealizedIncomeBatch reqRwaInstSpvProductRealizedIncomeBatch) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        List<RwaInstSpvProductRealizedIncome> requestsToSave = reqRwaInstSpvProductRealizedIncomeBatch.getBatchRequests().stream()
+                .map(req -> {
+                    RwaInstSpvProductRealizedIncome entity = new RwaInstSpvProductRealizedIncome();
+                    entity.setId(SerialnoUtils.buildPrimaryKey());
+                    entity.setUserId(principal.getId());
+                    entity.setInstSpvProductId(req.getInstSpvProductId());
+                    entity.setIncomeDistributionDate(req.getIncomeDistributionDate());
+                    entity.setIncomeAmount(req.getIncomeAmount());
+                    entity.setIncomeCurrency(req.getIncomeCurrency());
+                    entity.setRemark(req.getRemark());
+                    entity.setCreateTime(System.currentTimeMillis());
+                    return entity;
+                })
+                .collect(Collectors.toList());
+
+        rwaInstSpvProductRealizedIncomeService.insertBatch(requestsToSave);
+        return getJsonMessage(CommonEnums.SUCCESS);
+    }
+
 }
