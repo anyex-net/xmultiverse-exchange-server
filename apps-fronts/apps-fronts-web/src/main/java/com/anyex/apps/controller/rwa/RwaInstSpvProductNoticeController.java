@@ -49,13 +49,15 @@ public class RwaInstSpvProductNoticeController extends GenericController
 
     @GetMapping(value = "/getRwaInstSpvProductNotice")
     @ApiOperation(value = "获取RWA机构SPV产品公告", httpMethod = "GET")
-    public JsonMessage<RwaInstSpvProductNotice> getRwaInstSpvProductNotice(Long id) throws BusinessException
+    public JsonMessage<RwaInstSpvProductNotice> getRwaInstSpvProductNotice(String id) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
-        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        RwaInstSpvProductNotice rwaInstSpvProductNotice = rwaInstSpvProductNoticeService.selectByPrimaryKey(id);
+        if (null == id || id.trim().isEmpty()) {
+            throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        }
+        RwaInstSpvProductNotice rwaInstSpvProductNotice = rwaInstSpvProductNoticeService.selectByPrimaryKey(Long.valueOf(id));
         return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProductNotice);
     }
 

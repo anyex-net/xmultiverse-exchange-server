@@ -89,24 +89,26 @@ public class RwaMarketController extends GenericController
 
     @GetMapping(value = "/getRwaMarketPrDetail")
     @ApiOperation(value = "获取RWA市场产品详情", httpMethod = "GET")
-    public JsonMessage<RwaInstSpvProduct> getRwaMarketPrDetail(Long id) throws BusinessException
+    public JsonMessage<RwaInstSpvProduct> getRwaMarketPrDetail(String id) throws BusinessException
     {
 //        UserPrincipal principal = OnLineUserUtils.getPrincipal();
 //        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
-        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProductService.selectByPrimaryKey(id));
+        if (null == id || id.trim().isEmpty()) {
+            throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        }
+        return this.getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProductService.selectByPrimaryKey(Long.valueOf(id)));
     }
 
     @GetMapping(value = "/getRwaMarketPrEnterprise")
     @ApiOperation(value = "获取RWA市场产品企业", httpMethod = "GET")
-    public JsonMessage<RespRwaMarketPrEnterprise> getRwaMarketPrEnterprise(Long id) throws BusinessException
+    public JsonMessage<RespRwaMarketPrEnterprise> getRwaMarketPrEnterprise(String id) throws BusinessException
     {
 //        UserPrincipal principal = OnLineUserUtils.getPrincipal();
 //        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
         if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(Long.valueOf(id));
         if (rwaInstSpvProduct == null) {
             throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
         }
@@ -163,23 +165,25 @@ public class RwaMarketController extends GenericController
 
     @GetMapping(value = "/getRwaMarketTokenInfo")
     @ApiOperation(value = "获取市场代币信息", httpMethod = "GET")
-    public JsonMessage<RespRwaMarketTokenInfo> getRwaMarketTokenInfo(Long id) throws BusinessException
+    public JsonMessage<RespRwaMarketTokenInfo> getRwaMarketTokenInfo(String id) throws BusinessException
     {
 //        UserPrincipal principal = OnLineUserUtils.getPrincipal();
 //        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
-        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(id);
+        if (null == id || id.trim().isEmpty()) {
+            throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        }
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(Long.valueOf(id));
         RespRwaMarketTokenInfo respRwaMarketTokenInfo = new RespRwaMarketTokenInfo();
         respRwaMarketTokenInfo.setTokenName(rwaInstSpvProduct.getTokenName());
         respRwaMarketTokenInfo.setTokenIssueNumber(rwaInstSpvProduct.getTokenIssueNumber());
 
         RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
-        rwaInstSpvProductPurchase.setInstSpvProductId(id);
+        rwaInstSpvProductPurchase.setInstSpvProductId(Long.valueOf(id));
         List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchase);
         respRwaMarketTokenInfo.setHolderCount(rwaInstSpvProductPurchases.size());
 
-        BigDecimal distributedAmount = rwaInstSpvProductDividendService.selectDividendAmount(id);
+        BigDecimal distributedAmount = rwaInstSpvProductDividendService.selectDividendAmount(Long.valueOf(id));
         respRwaMarketTokenInfo.setDistributedAmount(distributedAmount);
 
         return this.getJsonMessage(CommonEnums.SUCCESS, respRwaMarketTokenInfo);
