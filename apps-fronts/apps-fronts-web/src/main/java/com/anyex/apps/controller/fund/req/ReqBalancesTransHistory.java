@@ -70,10 +70,10 @@ public class ReqBalancesTransHistory implements Serializable
 	@ApiModelProperty(value = "转入账户", position = 9)
 	private String toAcct;
 
-	/**状态(成功success、处理中pending、失败failed)*/
-	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
-	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 10, required = true)
-	private String state;
+//	/**状态(成功success、处理中pending、失败failed)*/
+//	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
+//	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 10, required = true)
+//	private String state;
 
 	/**交易描述*/
 	@NotEmpty(message = "交易描述不可为空")

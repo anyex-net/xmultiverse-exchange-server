@@ -52,7 +52,6 @@ import java.math.BigDecimal;
 @Api(tags = "现货账户资产变动历史")
 public class SpotAssetBalancesHistoryController extends GenericController
 {
-
     @Autowired(required = false)
     private BalancesService balancesService;
 
@@ -96,11 +95,27 @@ public class SpotAssetBalancesHistoryController extends GenericController
         JSONObject respJsonObject = ViabtcAssetApi.balanceQuery(reqAssetBalanceQuery);
         log.info("transferOut respJsonObject:{}", respJsonObject);
         //
-        RwaBalances rwaBalancesSearchTemp = new RwaBalances();
-        rwaBalancesSearchTemp.setUserId(userId);
-        rwaBalancesSearchTemp.setCurrency(reqSpotAssetBalancesTransHistory.getCurrency());
-        RwaBalances rwaBalancesDBTemp = rwaBalancesService.selectOne(rwaBalancesSearchTemp);
-        if(null != rwaBalancesDBTemp && rwaBalancesDBTemp.getBalance().compareTo(reqSpotAssetBalancesTransHistory.getChangeAmt()) >= 0)
+        // 处理错误情况
+        if (respJsonObject.containsKey("error") && null != respJsonObject.get("error")) {
+            JSONObject error = respJsonObject.getJSONObject("error");
+            int code = error.getIntValue("code");
+            String message = error.getString("message");
+            log.error("[Error] Code: " + code + ", Message: " + message);
+            return getJsonMessage(CommonEnums.ERROR_PARAMS_VALID);
+        }
+        // 处理正常结果
+        String spotAssetFreeze = null;
+        String spotAssetAvailable = null;
+        JSONObject result = respJsonObject.getJSONObject("result");
+        for (String currency : result.keySet()) {
+            JSONObject currencyData = result.getJSONObject(currency);
+            spotAssetFreeze = currencyData.getString("freeze");
+            spotAssetAvailable = currencyData.getString("available");
+            log.info("currency:{}, spotAssetFreeze:{}, spotAssetAvailable:{}", currency, spotAssetFreeze, spotAssetAvailable);
+        }
+        log.info("spotAssetFreeze:{}, spotAssetAvailable:{}", spotAssetFreeze, spotAssetAvailable);
+        //
+        if(null != spotAssetAvailable && BigDecimal.valueOf(Double.valueOf(spotAssetAvailable)).compareTo(reqSpotAssetBalancesTransHistory.getChangeAmt()) >= 0)
         {
             //
             ReqAssetBalanceUpdate reqAssetBalanceUpdate = new ReqAssetBalanceUpdate();
@@ -114,7 +129,15 @@ public class SpotAssetBalancesHistoryController extends GenericController
             detailJsonObject.put("detail", JSON.toJSONString(reqAssetBalanceUpdate));
             reqAssetBalanceUpdate.setDetail(detailJsonObject);
             log.info("transferOut reqAssetBalanceUpdate:{}", reqAssetBalanceUpdate);
-            ViabtcAssetApi.balanceUpdate(reqAssetBalanceUpdate);
+            respJsonObject = ViabtcAssetApi.balanceUpdate(reqAssetBalanceUpdate);
+            // 处理错误情况
+            if (respJsonObject.containsKey("error") && null != respJsonObject.get("error")) {
+                JSONObject error = respJsonObject.getJSONObject("error");
+                int code = error.getIntValue("code");
+                String message = error.getString("message");
+                log.error("[Error] Code: " + code + ", Message: " + message);
+                return getJsonMessage(CommonEnums.ERROR_PARAMS_VALID);
+            }
         }
         //
         // 转入方transferIn
@@ -126,24 +149,30 @@ public class SpotAssetBalancesHistoryController extends GenericController
             balancesSearch.setCurrency(reqSpotAssetBalancesTransHistory.getCurrency());
             Balances balancesDB = balancesService.selectOne(balancesSearch);
             if(null != balancesDB){
-                balancesDB.setBalance(rwaBalancesDBTemp.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
+                //
+                BalancesTransHistory balancesTransHistory = new BalancesTransHistory();
+                BeanUtils.copyProperties(reqSpotAssetBalancesTransHistory, balancesTransHistory);
+                balancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
+                balancesTransHistory.setUserId(userId);
+                balancesTransHistory.setType("transferIn");
+                balancesTransHistory.setBeforeBal(balancesDB.getBalance());
+                balancesTransHistory.setChangeAmt(reqSpotAssetBalancesTransHistory.getChangeAmt());
+                balancesTransHistory.setAfterBal(balancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
+                balancesTransHistory.setBusinessId(String.valueOf(businessId));
+                balancesTransHistory.setState("success");
+                balancesTransHistory.setCreateTime(System.currentTimeMillis());
+                log.info("transferIn balancesTransHistory:{}", balancesTransHistory);
+                balancesTransHistoryService.insert(balancesTransHistory);
+                //
+                balancesDB.setBalance(balancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
                 balancesDB.setRemark("transferIn");
                 balancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("transferIn balancesDB:{}", balancesDB);
                 balancesService.updateByPrimaryKeySelective(balancesDB);
+            } else {
+                log.error("transferIn balancesDB is null");
+                throw new BusinessException("transferIn balancesDB is null");
             }
-            //
-            BalancesTransHistory balancesTransHistory = new BalancesTransHistory();
-            BeanUtils.copyProperties(reqSpotAssetBalancesTransHistory, balancesTransHistory);
-            balancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
-            balancesTransHistory.setUserId(userId);
-            balancesTransHistory.setBeforeBal(balancesDB.getBalance());
-            balancesTransHistory.setChangeAmt(reqSpotAssetBalancesTransHistory.getChangeAmt());
-            balancesTransHistory.setAfterBal(balancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
-            balancesTransHistory.setBusinessId(String.valueOf(businessId));
-            balancesTransHistory.setCreateTime(System.currentTimeMillis());
-            log.info("transferIn balancesTransHistory:{}", balancesTransHistory);
-            balancesTransHistoryService.insert(balancesTransHistory);
             //
         } else if(reqSpotAssetBalancesTransHistory.getToAcct().equals("rwaAcct"))
         {
@@ -153,12 +182,42 @@ public class SpotAssetBalancesHistoryController extends GenericController
             rwaBalancesSearch.setCurrency(reqSpotAssetBalancesTransHistory.getCurrency());
             RwaBalances rwaBalancesDB = rwaBalancesService.selectOne(rwaBalancesSearch);
             if(null != rwaBalancesDB){
+                //
+                RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
+                BeanUtils.copyProperties(reqSpotAssetBalancesTransHistory, rwaBalancesTransHistory);
+                rwaBalancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
+                rwaBalancesTransHistory.setUserId(userId);
+                rwaBalancesTransHistory.setType("transferIn");
+                rwaBalancesTransHistory.setBeforeBal(rwaBalancesDB.getBalance());
+                rwaBalancesTransHistory.setChangeAmt(reqSpotAssetBalancesTransHistory.getChangeAmt());
+                rwaBalancesTransHistory.setAfterBal(rwaBalancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
+                rwaBalancesTransHistory.setBusinessId(String.valueOf(businessId));
+                rwaBalancesTransHistory.setState("success");
+                rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
+                log.info("transferIn rwaBalancesTransHistory:{}", rwaBalancesTransHistory);
+                rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
+                //
                 rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
                 rwaBalancesDB.setRemark("transferIn");
                 rwaBalancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("transferIn rwaBalancesDB:{}", rwaBalancesDB);
                 rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesDB);
             } else {
+                //
+                RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
+                BeanUtils.copyProperties(reqSpotAssetBalancesTransHistory, rwaBalancesTransHistory);
+                rwaBalancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
+                rwaBalancesTransHistory.setUserId(userId);
+                rwaBalancesTransHistory.setType("transferIn");
+                rwaBalancesTransHistory.setBeforeBal(BigDecimal.ZERO);
+                rwaBalancesTransHistory.setChangeAmt(reqSpotAssetBalancesTransHistory.getChangeAmt());
+                rwaBalancesTransHistory.setAfterBal(reqSpotAssetBalancesTransHistory.getChangeAmt());
+                rwaBalancesTransHistory.setBusinessId(String.valueOf(businessId));
+                rwaBalancesTransHistory.setState("success");
+                rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
+                log.info("transferIn rwaBalancesTransHistory:{}", rwaBalancesTransHistory);
+                rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
+                //
                 rwaBalancesDB = new RwaBalances();
                 rwaBalancesDB.setUserId(userId);
                 rwaBalancesDB.setCurrency(reqSpotAssetBalancesTransHistory.getCurrency());
@@ -170,19 +229,6 @@ public class SpotAssetBalancesHistoryController extends GenericController
                 log.info("transferIn rwaBalancesDB:{}", rwaBalancesDB);
                 rwaBalancesService.insert(rwaBalancesDB);
             }
-            //
-            RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
-            BeanUtils.copyProperties(reqSpotAssetBalancesTransHistory, rwaBalancesTransHistory);
-            rwaBalancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
-            rwaBalancesTransHistory.setUserId(userId);
-            rwaBalancesTransHistory.setBeforeBal(rwaBalancesDB.getBalance());
-            rwaBalancesTransHistory.setChangeAmt(reqSpotAssetBalancesTransHistory.getChangeAmt());
-            rwaBalancesTransHistory.setAfterBal(rwaBalancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
-            rwaBalancesTransHistory.setBusinessId(String.valueOf(businessId));
-            rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
-            log.info("transferIn rwaBalancesTransHistory:{}", rwaBalancesTransHistory);
-            rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
-            //
         }
         //
         return getJsonMessage(CommonEnums.SUCCESS);

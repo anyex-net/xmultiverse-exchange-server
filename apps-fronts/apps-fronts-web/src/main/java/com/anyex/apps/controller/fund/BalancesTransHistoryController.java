@@ -105,6 +105,8 @@ public class BalancesTransHistoryController extends GenericController
             balancesTransHistory.setBeforeBal(balancesDB.getBalance());
             balancesTransHistory.setChangeAmt(reqBalancesTransHistory.getChangeAmt());
             balancesTransHistory.setAfterBal(balancesDB.getBalance().subtract(reqBalancesTransHistory.getChangeAmt()));
+            balancesTransHistory.setBusinessId(String.valueOf(businessId));
+            balancesTransHistory.setState("success");
             balancesTransHistory.setCreateTime(System.currentTimeMillis());
             log.info("transferOut balancesTransHistory:{}", balancesTransHistory);
             balancesTransHistoryService.insert(balancesTransHistory);
@@ -130,7 +132,15 @@ public class BalancesTransHistoryController extends GenericController
             detailJsonObject.put("detail", JSON.toJSONString(reqAssetBalanceUpdate));
             reqAssetBalanceUpdate.setDetail(detailJsonObject);
             log.info("transferIn reqAssetBalanceUpdate:{}", reqAssetBalanceUpdate);
-            ViabtcAssetApi.balanceUpdate(reqAssetBalanceUpdate);
+            JSONObject respJsonObject = ViabtcAssetApi.balanceUpdate(reqAssetBalanceUpdate);
+            // 处理错误情况
+            if (respJsonObject.containsKey("error") && null != respJsonObject.get("error")) {
+                JSONObject error = respJsonObject.getJSONObject("error");
+                int code = error.getIntValue("code");
+                String message = error.getString("message");
+                log.error("[Error] Code: " + code + ", Message: " + message);
+                return getJsonMessage(CommonEnums.ERROR_PARAMS_VALID);
+            }
         } else if(reqBalancesTransHistory.getToAcct().equals("rwaAcct"))
         {
             //
@@ -139,12 +149,28 @@ public class BalancesTransHistoryController extends GenericController
             rwaBalancesSearch.setCurrency(reqBalancesTransHistory.getCurrency());
             RwaBalances rwaBalancesDB = rwaBalancesService.selectOne(rwaBalancesSearch);
             if(null != rwaBalancesDB){
+                //
+                RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
+                BeanUtils.copyProperties(reqBalancesTransHistory, rwaBalancesTransHistory);
+                rwaBalancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
+                rwaBalancesTransHistory.setUserId(userId);
+                rwaBalancesTransHistory.setType("transferIn");
+                rwaBalancesTransHistory.setBeforeBal(rwaBalancesDB.getBalance());
+                rwaBalancesTransHistory.setChangeAmt(reqBalancesTransHistory.getChangeAmt());
+                rwaBalancesTransHistory.setAfterBal(rwaBalancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
+                rwaBalancesTransHistory.setBusinessId(String.valueOf(businessId));
+                rwaBalancesTransHistory.setState("success");
+                rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
+                log.info("transferIn rwaBalancesTransHistory:{}", rwaBalancesTransHistory);
+                rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
+                //
                 rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
                 rwaBalancesDB.setRemark("transferIn");
                 rwaBalancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("transferIn rwaBalancesDB:{}", rwaBalancesDB);
                 rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesDB);
             } else {
+                //
                 rwaBalancesDB = new RwaBalances();
                 rwaBalancesDB.setUserId(userId);
                 rwaBalancesDB.setCurrency(reqBalancesTransHistory.getCurrency());
@@ -155,19 +181,21 @@ public class BalancesTransHistoryController extends GenericController
                 rwaBalancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("transferIn rwaBalancesDB:{}", rwaBalancesDB);
                 rwaBalancesService.insert(rwaBalancesDB);
+                //
+                RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
+                BeanUtils.copyProperties(reqBalancesTransHistory, rwaBalancesTransHistory);
+                rwaBalancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
+                rwaBalancesTransHistory.setUserId(userId);
+                rwaBalancesTransHistory.setType("transferIn");
+                rwaBalancesTransHistory.setBeforeBal(BigDecimal.ZERO);
+                rwaBalancesTransHistory.setChangeAmt(reqBalancesTransHistory.getChangeAmt());
+                rwaBalancesTransHistory.setAfterBal(reqBalancesTransHistory.getChangeAmt());
+                rwaBalancesTransHistory.setBusinessId(String.valueOf(businessId));
+                rwaBalancesTransHistory.setState("success");
+                rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
+                log.info("transferIn rwaBalancesTransHistory:{}", rwaBalancesTransHistory);
+                rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
             }
-            //
-            RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
-            BeanUtils.copyProperties(reqBalancesTransHistory, rwaBalancesTransHistory);
-            rwaBalancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
-            rwaBalancesTransHistory.setUserId(userId);
-            rwaBalancesTransHistory.setBeforeBal(rwaBalancesDB.getBalance());
-            rwaBalancesTransHistory.setChangeAmt(reqBalancesTransHistory.getChangeAmt());
-            rwaBalancesTransHistory.setAfterBal(rwaBalancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
-            rwaBalancesTransHistory.setBusinessId(String.valueOf(businessId));
-            rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
-            log.info("transferIn rwaBalancesTransHistory:{}", rwaBalancesTransHistory);
-            rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
         }
         //
         return getJsonMessage(CommonEnums.SUCCESS);
