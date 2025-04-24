@@ -298,3 +298,19 @@ create table RwaInstSpvProductDividendSnapshot
     updateBy                    varchar(32)                       comment '更新人',
     updateTime                  bigint(13)                        comment '更新时间'
 ) comment 'RWA机构SPV产品投资者分红快照';
+
+--RWA机构SPV产品实际收入
+drop table if exists RwaInstSpvProductRealizedIncome;
+create table RwaInstSpvProductRealizedIncome
+(
+    id                          bigint(20)               not null comment 'ID' primary key,
+    userId                      bigint(20)               not null comment '用户ID',
+    instSpvProductId            bigint(20)               not null comment '机构SPV产品ID',
+    incomeDistributionDate      date                     not null comment '收入分成日期',
+    incomeAmount                date                     not null comment '收入金额',
+    incomeCurrency              varchar(32)              not null comment '收入币种',
+    remark                      varchar(64)                       comment '备注',
+    createTime                  bigint(13)               not null comment '创建时间',
+    updateBy                    varchar(32)                       comment '更新人',
+    updateTime                  bigint(13)                        comment '更新时间'
+) comment 'RWA机构SPV产品实际收入';

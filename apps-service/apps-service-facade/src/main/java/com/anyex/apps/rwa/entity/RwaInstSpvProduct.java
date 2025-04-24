@@ -175,7 +175,7 @@ public class RwaInstSpvProduct extends GenericEntity
 
 	/**状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)*/
 	@NotEmpty(message = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)不可为空")
-	@ApiModelProperty(value = "状态(-1提交未缴保证金、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)", position = 30, required = true)
+	@ApiModelProperty(value = "状态(-1提交未缴保证金、0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)", position = 30, required = true)
 	private String state;
 
 	/**活动状态(0已下架，1已上架)*/
