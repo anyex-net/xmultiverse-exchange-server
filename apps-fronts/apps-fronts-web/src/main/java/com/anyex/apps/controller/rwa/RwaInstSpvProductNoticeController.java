@@ -6,6 +6,7 @@ package com.anyex.apps.controller.rwa;
 
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductNotice;
+import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductNoticeId;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductNoticePagination;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
@@ -110,13 +111,13 @@ public class RwaInstSpvProductNoticeController extends GenericController
     @PostMapping(value = "/delRwaInstSpvProductNotice")
     @ApiOperation(value = "删除RWA机构SPV产品公告", httpMethod = "POST")
 //    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(Long id) throws BusinessException
+    public JsonMessage del(@Validated @RequestBody ReqRwaInstSpvProductNoticeId reqRwaInstSpvProductNoticeId) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
-        if (null == id) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
-        rwaInstSpvProductNoticeService.remove(id);
+        if (null == reqRwaInstSpvProductNoticeId.getId()) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        rwaInstSpvProductNoticeService.remove(reqRwaInstSpvProductNoticeId.getId());
         return getJsonMessage(CommonEnums.SUCCESS);
     }
 }
