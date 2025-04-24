@@ -2,9 +2,7 @@ package com.anyex.apps.controller.rwa;
 
 
 import com.anyex.apps.bean.GenericController;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPagination;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchase;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchasePagination;
+import com.anyex.apps.controller.rwa.req.*;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketList;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketPrEnterprise;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketTokenInfo;
@@ -55,6 +53,12 @@ public class RwaMarketController extends GenericController
     @Autowired(required = false)
     private RwaBalancesService rwaBalancesService;
 
+    @Autowired(required = false)
+    private RwaInstSpvProductRealizedIncomeService rwaInstSpvProductRealizedIncomeService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductNoticeService rwaInstSpvProductNoticeService;
+
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
     public JsonMessage<PaginateResult<RespRwaMarketList>> data(@Validated @RequestBody ReqRwaInstSpvProductPagination pagin) throws BusinessException
@@ -62,10 +66,10 @@ public class RwaMarketController extends GenericController
 //        UserPrincipal principal = OnLineUserUtils.getPrincipal();
 //        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
-        RwaInstSpvProduct InstSpvProduct = new RwaInstSpvProduct();
-        BeanUtils.copyProperties(pagin, InstSpvProduct);
-        List<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductService.findListByState(InstSpvProduct);
-        List<RespRwaMarketList> responseList = rwaInstSpvProducts.stream().map(rwaInstSpvProduct -> {
+        RwaInstSpvProduct instSpvProduct = new RwaInstSpvProduct();
+        BeanUtils.copyProperties(pagin, instSpvProduct);
+        PaginateResult<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductService.findListByState(pagin,instSpvProduct);
+        List<RespRwaMarketList> responseList = rwaInstSpvProducts.getRecords().stream().map(rwaInstSpvProduct -> {
             RespRwaMarketList respRwaMarketList = new RespRwaMarketList();
             respRwaMarketList.setId(rwaInstSpvProduct.getId());
             respRwaMarketList.setProductNo(rwaInstSpvProduct.getProductNo());
@@ -82,8 +86,11 @@ public class RwaMarketController extends GenericController
             respRwaMarketList.setPurchaseEndDate(rwaInstSpvProduct.getPurchaseEndDate());
             return respRwaMarketList;
         }).collect(Collectors.toList());
-        pagin.setTotal((long) rwaInstSpvProducts.size());
         PaginateResult<RespRwaMarketList> result = new PaginateResult<>(pagin,responseList);
+        result.setRecords(responseList);
+        result.setTotal((long)rwaInstSpvProducts.getTotal());
+        result.setCurrent(rwaInstSpvProducts.getCurrent());
+        result.setSize(rwaInstSpvProducts.getSize());
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
@@ -183,5 +190,25 @@ public class RwaMarketController extends GenericController
         respRwaMarketTokenInfo.setDistributedAmount(distributedAmount);
 
         return this.getJsonMessage(CommonEnums.SUCCESS, respRwaMarketTokenInfo);
+    }
+
+    @PostMapping(value = "/rwaInstSpvProductNoticeData")
+    @ApiOperation(value = "获取市场产品公告", httpMethod = "POST")
+    public JsonMessage<PaginateResult<RwaInstSpvProductNotice>> rwaInstSpvProductNoticeData(@Validated @RequestBody ReqRwaInstSpvProductNoticePagination pagin) throws BusinessException
+    {
+        RwaInstSpvProductNotice entity = new RwaInstSpvProductNotice();
+        BeanUtils.copyProperties(pagin, entity);
+        PaginateResult<RwaInstSpvProductNotice> result = rwaInstSpvProductNoticeService.search(pagin,entity);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/reqRwaInstSpvProductRealizedIncomeData")
+    @ApiOperation(value = "获取市场产品实际收入列表", httpMethod = "POST")
+    public JsonMessage<PaginateResult<ReqRwaInstSpvProductRealizedIncome>> reqRwaInstSpvProductRealizedIncomeData(@Validated @RequestBody ReqRwaInstSpvProductRealizedIncomePagination pagin) throws BusinessException
+    {
+        RwaInstSpvProductRealizedIncome rwaInstSpvProductRealizedIncome = new RwaInstSpvProductRealizedIncome();
+        BeanUtils.copyProperties(pagin, rwaInstSpvProductRealizedIncome);
+        PaginateResult<RwaInstSpvProductRealizedIncome> result = rwaInstSpvProductRealizedIncomeService.search(pagin,rwaInstSpvProductRealizedIncome);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 }

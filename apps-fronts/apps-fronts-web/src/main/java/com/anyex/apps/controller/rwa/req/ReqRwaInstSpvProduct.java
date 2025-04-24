@@ -151,7 +151,7 @@ public class ReqRwaInstSpvProduct extends GenericEntity
 
 	/**分红日期*/
 	@NotNull(message = "分红周期不可为空")
-	@ApiModelProperty(value = "分红周期", position = 24)
+	@ApiModelProperty(value = "分红周期", position = 24, required = true)
 	private java.util.Date dividendDate;
 
 //	/**分红冻结天数*/

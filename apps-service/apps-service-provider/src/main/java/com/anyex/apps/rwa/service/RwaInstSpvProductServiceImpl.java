@@ -5,6 +5,11 @@
 package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
+import com.anyex.apps.system.entity.SysUserInfo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -44,8 +49,13 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
     }
 
     @Override
-    public List<RwaInstSpvProduct> findListByState(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
-        return rwaInstSpvProductMapper.findListByState(rwaInstSpvProduct);
+    public PaginateResult<RwaInstSpvProduct> findListByState(Pagination pagin,RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
+        PageHelper.startPage(pagin.getCurrent(), pagin.getSize());
+        PageInfo<RwaInstSpvProduct> pageInfo = PageInfo.of(rwaInstSpvProductMapper.findListByState(rwaInstSpvProduct));
+        pagin.setTotal(pageInfo.getTotal());
+        pagin.setCurrent(pageInfo.getPageNum());
+        List<RwaInstSpvProduct> result = pageInfo.getList();
+        return new PaginateResult<>(pagin, result);
     }
 
     @Scheduled(cron = "15 0 0 * * ?")

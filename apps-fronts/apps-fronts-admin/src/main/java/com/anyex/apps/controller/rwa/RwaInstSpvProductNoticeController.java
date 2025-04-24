@@ -76,7 +76,7 @@ public class RwaInstSpvProductNoticeController extends GenericController
             if(null == entity.getId()){
                 rwaInstSpvProductNoticeService.insert(entity);
             } else {
-                rwaInstSpvProductNoticeService.updateByPrimaryKey(entity);
+                rwaInstSpvProductNoticeService.updateByPrimaryKeySelective(entity);
             }
         }
         return json;

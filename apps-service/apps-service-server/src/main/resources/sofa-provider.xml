@@ -283,6 +283,12 @@
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
+    <!-- RWA机构SPV产品实际收入 -->
+    <sofa:service interface="com.anyex.apps.rwa.service.RwaInstSpvProductRealizedIncomeService" ref="rwaInstSpvProductRealizedIncomeServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
 
 <!--    &lt;!&ndash; IM 服务 &ndash;&gt;-->
 <!--    <sofa:service interface="com.anyex.apps.openim.service.OpenImChatService" ref="openImChatServiceImpl">-->

@@ -6,6 +6,8 @@ package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.bean.GenericService;
 import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 
 import java.util.List;
@@ -22,5 +24,5 @@ import java.util.List;
  */
 public interface RwaInstSpvProductService extends GenericService<RwaInstSpvProduct>
 {
-    List<RwaInstSpvProduct> findListByState(RwaInstSpvProduct entity);
+    PaginateResult<RwaInstSpvProduct> findListByState(Pagination pagin, RwaInstSpvProduct rwaInstSpvProduct);
 }
