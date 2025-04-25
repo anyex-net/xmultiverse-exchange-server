@@ -119,6 +119,7 @@ public class RwaInstSpvProductNoticeController extends GenericController
         //
         RwaInstSpvProductNotice entity = new RwaInstSpvProductNotice();
         BeanUtils.copyProperties(pagin, entity);
+        entity.setUserId(principal.getId());
         PaginateResult<RwaInstSpvProductNotice> result = rwaInstSpvProductNoticeService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
