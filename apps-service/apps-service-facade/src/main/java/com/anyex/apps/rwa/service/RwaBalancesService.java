@@ -7,6 +7,7 @@ package com.anyex.apps.rwa.service;
 import com.anyex.apps.bean.GenericService;
 import com.anyex.apps.rwa.entity.RwaBalances;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
+import com.anyex.apps.rwa.entity.RwaInstSpvProductAsset;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 
 /**
@@ -50,4 +51,10 @@ public interface RwaBalancesService extends GenericService<RwaBalances>
      * @param rwaInstSpvProduct
      */
     void raiseMarginFrozenBalUncheck(RwaInstSpvProduct rwaInstSpvProduct);
+
+    /**
+     * 申请解冻 审核通过后
+     * @param rwaInstSpvProductAsset
+     */
+    void unFrozenBal(RwaInstSpvProductAsset rwaInstSpvProductAsset);
 }

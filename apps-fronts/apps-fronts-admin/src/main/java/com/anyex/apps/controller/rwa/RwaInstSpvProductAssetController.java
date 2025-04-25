@@ -10,6 +10,7 @@ import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
+import com.anyex.apps.rwa.service.RwaBalancesService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,9 @@ public class RwaInstSpvProductAssetController extends GenericController
 {
     @Autowired(required = false)
     private RwaInstSpvProductAssetService rwaInstSpvProductAssetService;
+
+    @Autowired(required = false)
+    private RwaBalancesService rwaBalancesService;
 
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaInstSpvProductAsset:data")
@@ -110,6 +114,8 @@ public class RwaInstSpvProductAssetController extends GenericController
         }
         entity.setUpdateTime(System.currentTimeMillis());
         rwaInstSpvProductAssetService.updateByPrimaryKeySelective(entity);
+        //审核通过后解冻冻结
+        rwaBalancesService.unFrozenBal(entity);
         return json;
     }
 

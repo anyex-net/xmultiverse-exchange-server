@@ -193,7 +193,7 @@ public class RwaInstSpvProductController extends GenericController
     }
 
     @PostMapping(value = "/RwaInstSpvProductAssetData")
-    @ApiOperation(value = "查询RWA机构SPV产品资产申请记录", httpMethod = "POST")
+    @ApiOperation(value = "查询RWA机构SPV产品资产申请解冻记录", httpMethod = "POST")
     public JsonMessage<PaginateResult<RwaInstSpvProductAsset>> RwaInstSpvProductAssetData(@Validated @RequestBody ReqRwaInstSpvProductAssetPagination pagin) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
@@ -230,7 +230,8 @@ public class RwaInstSpvProductController extends GenericController
             rwaCertInstInvestor.setUserId(principal.getId());
             RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
             rwaInstSpvProductAsset.setInstInvestorId(rwaCertInstInvestor1.getId());
-
+            RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductAsset.getInstSpvProductId());
+            rwaInstSpvProductAsset.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
             //
             log.info("entity:{}", rwaInstSpvProductAsset);
             if(null == rwaInstSpvProductAsset.getId()){

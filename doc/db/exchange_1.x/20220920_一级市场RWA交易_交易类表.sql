@@ -214,6 +214,7 @@ create table RwaInstSpvProductAsset
     userId                  bigint(20)               not null comment '用户ID',
     instInvestorId          bigint(20)                        comment '机构投资者ID',
     instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
+    currency                varchar(32)              not null comment '申请解冻币种',
     productAmount           decimal(20, 8)           not null comment '发行人持有量',
     investorAmount          decimal(20, 8)           not null comment '投资人持有量',
     totalAmount             decimal(20, 8)           not null comment '总融资',

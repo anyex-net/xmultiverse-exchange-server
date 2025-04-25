@@ -6,6 +6,7 @@ package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
+import com.anyex.apps.rwa.entity.RwaInstSpvProductAsset;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper;
 import org.springframework.stereotype.Service;
@@ -141,21 +142,19 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
     }
 
-//    @Transactional
-//    public void FrozenBal(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
-//        RwaBalances rwaBalances = new RwaBalances();
-//        rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
-//        rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
-//        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-//        if (rwaBalances1 == null) {
-//            throw new BusinessException("User balance not found.");
-//        }
-//        BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMargin();
-//        if (raiseMargin.compareTo(rwaBalances1.getAvailBal()) > 0) {
-//            throw new BusinessException("Insufficient available balance.");
-//        }
-//        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().subtract(raiseMargin));
-//        rwaBalances1.setFrozenBal(raiseMargin.add(rwaBalances1.getFrozenBal()));
-//        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
-//    }
+    @Transactional
+    public void unFrozenBal(RwaInstSpvProductAsset rwaInstSpvProductAsset) throws BusinessException{
+        //申请资产解冻 总余额不变，冻结减少，可用余额增加
+        RwaBalances rwaBalances = new RwaBalances();
+        rwaBalances.setUserId(rwaInstSpvProductAsset.getUserId());
+        rwaBalances.setCurrency(rwaInstSpvProductAsset.getCurrency());
+        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalances1 == null) {
+            throw new BusinessException("User balance not found.");
+        }
+        BigDecimal lastAmount = rwaInstSpvProductAsset.getLastAmount();
+        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().add(lastAmount));
+        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(lastAmount));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+    }
 }
