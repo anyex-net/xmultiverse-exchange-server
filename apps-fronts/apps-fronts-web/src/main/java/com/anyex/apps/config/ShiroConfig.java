@@ -133,7 +133,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/spot/market/**", "anon");
         filterChainDefinitionMap.put("/spot/market/**/**", "anon");
         //
-        filterChainDefinitionMap.put("/rwa/rwaMarket/data", "anon");
+        filterChainDefinitionMap.put("/rwa/rwaMarket/**", "anon");
         //
 //        filterChainDefinitionMap.put("/openim/**", "anon");
 //        // 支付回调
