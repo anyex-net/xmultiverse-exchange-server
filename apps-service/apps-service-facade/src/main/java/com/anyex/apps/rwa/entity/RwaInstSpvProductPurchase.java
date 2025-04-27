@@ -7,6 +7,9 @@ package com.anyex.apps.rwa.entity;
 import com.anyex.apps.bean.GenericEntity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -42,6 +45,7 @@ public class RwaInstSpvProductPurchase extends GenericEntity
 	/**机构SPV产品ID*/
 	@NotNull(message = "机构SPV产品ID不可为空")
 	@ApiModelProperty(value = "机构SPV产品ID", position = 3, required = true)
+	@JsonSerialize(using = ToStringSerializer.class)
 	private java.lang.Long instSpvProductId;
 
 	/**申购币种*/

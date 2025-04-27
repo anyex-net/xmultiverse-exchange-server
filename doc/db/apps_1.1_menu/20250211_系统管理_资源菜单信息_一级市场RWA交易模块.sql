@@ -95,11 +95,11 @@ INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, s
 VALUES (330000000041, 330000000039, 'rwa:rwaInstSpvProductAsset:data', '查询权限', null, true, null, null, 'rwaInstSpvProductAsset', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000042, 330000000001, 'rwa:rwaInstSpvProductRealizedIncome:index', 'RWA机构SPV产品实际收入', null, false, 'Icon30n', 13, 'rwaInstSpvProductRealizedIncome', '/rwa/rwaInstSpvProductRealizedIncome', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (330000000042, 330000000001, 'rwa:rwaInstSpvProductRealizedIncome:index', 'RWA机构SPV产品实际收入', null, false, 'Icon30n', 13, 'rwaInstSpvProRealizedIncome', '/rwa/rwaInstSpvProductRealizedIncome', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000043, 330000000042, 'rwa:rwaInstSpvProductRealizedIncome:operator', '操作权限', null, true, null, null, 'rwaInstSpvProductRealizedIncome', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (330000000043, 330000000042, 'rwa:rwaInstSpvProductRealizedIncome:operator', '操作权限', null, true, null, null, 'rwaInstSpvProRealizedIncome', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
-VALUES (330000000044, 330000000042, 'rwa:rwaInstSpvProductRealizedIncome:data', '查询权限', null, true, null, null, 'rwaInstSpvProductRealizedIncome', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+VALUES (330000000044, 330000000042, 'rwa:rwaInstSpvProductRealizedIncome:data', '查询权限', null, true, null, null, 'rwaInstSpvProRealizedIncome', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 
 commit;
