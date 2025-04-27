@@ -96,6 +96,9 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
         //申购审核后 募集者 总余额增加，冻结增加，可用余额不变
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductMapper.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
+        if (rwaInstSpvProduct == null){
+            throw new BusinessException("InstSpvProduct not found.");
+        }
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
         RwaBalances rwaBalancesRaise = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
