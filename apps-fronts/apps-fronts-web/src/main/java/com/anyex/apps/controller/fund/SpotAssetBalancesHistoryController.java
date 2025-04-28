@@ -80,6 +80,17 @@ public class SpotAssetBalancesHistoryController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
     }
 
+//    @ResponseBody
+//    @PostMapping(value = "/assetList")
+//    @ApiOperation(value = "现货所有资产列表assetList", httpMethod = "POST")
+//    public JsonMessage<JSONObject> assetList() throws BusinessException
+//    {
+//        JSONObject respJsonObject = ViabtcAssetApi.assetList();
+//        log.info("assetList respJsonObject:{}", respJsonObject);
+//        return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
+//    }
+
+    @ResponseBody
     @PostMapping(value = "/transferOut")
     @ApiOperation(value = "转出Spot账户转入资金账户/Rwa", httpMethod = "POST")
     public JsonMessage transferOut(@Validated @RequestBody ReqSpotAssetBalancesTransHistory reqSpotAssetBalancesTransHistory) throws BusinessException
