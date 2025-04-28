@@ -58,19 +58,19 @@ public class ReqWithdrawalHistory implements Serializable
 	@ApiModelProperty(value = "提现数量", position = 6, required = true)
 	private java.math.BigDecimal amount;
 
-	/**提现手续费*/
-	@NotNull(message = "提现手续费不可为空")
-	@ApiModelProperty(value = "提现手续费", position = 7, required = true)
-	private java.math.BigDecimal fee;
+//	/**提现手续费*/
+//	@NotNull(message = "提现手续费不可为空")
+//	@ApiModelProperty(value = "提现手续费", position = 7, required = true)
+//	private java.math.BigDecimal fee;
 
-	/**交易ID*/
-	@ApiModelProperty(value = "交易ID", position = 8)
-	private String transId;
+//	/**交易ID*/
+//	@ApiModelProperty(value = "交易ID", position = 8)
+//	private String transId;
 
-	/**提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)*/
-	@NotEmpty(message = "提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)不可为空")
-	@ApiModelProperty(value = "提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)", position = 9, required = true)
-	private String state;
+//	/**提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)*/
+//	@NotEmpty(message = "提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)不可为空")
+//	@ApiModelProperty(value = "提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)", position = 9, required = true)
+//	private String state;
 
 	/**备注*/
 	@ApiModelProperty(value = "备注", position = 10)

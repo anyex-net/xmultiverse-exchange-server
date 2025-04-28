@@ -61,6 +61,17 @@ public class CurrenciesController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
+    @PostMapping(value = "/canInternalCurrency")
+    @ApiOperation(value = "查询可内部转账的平台币种列表", httpMethod = "POST")
+    public JsonMessage<List<Currencies>> canInternalCurrency() throws BusinessException
+    {
+        Currencies currencies = new Currencies();
+        currencies.setState("live"); // 开放中live
+        currencies.setCanInternal("true"); // 是否可内部转账 false表示不可内部转账 true表示可以内部转账
+        List<Currencies> result = currenciesService.findList(currencies);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
     @PostMapping(value = "/findByCurrency")
     @ApiOperation(value = "根据币种currency取平台币种列表", httpMethod = "POST")
     public JsonMessage<List<Currencies>> findByCurrency(@Validated @RequestBody ReqCurrencies reqCurrencies) throws BusinessException
