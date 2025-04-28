@@ -22,11 +22,12 @@ import com.anyex.apps.rwa.service.RwaCertInstSpvPromoterService;
 import com.anyex.apps.rwa.service.RwaInstSpvCompanyService;
 import com.anyex.apps.rwa.service.RwaInstSpvProductService;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -61,6 +62,9 @@ public class RwaInstSpvCompanyController extends GenericController {
     @Autowired(required = false)
     private RwaInstSpvProductService rwaInstSpvProductService;
 
+    @Autowired(required = false)
+    private UserService userService;
+
     @GetMapping(value = "/getRwaInstSpvCompany")
     @ApiOperation(value = "获取RWA机构SPV公司", httpMethod = "GET")
     public JsonMessage<RwaInstSpvCompany> getRwaInstSpvCompany(Long id) throws BusinessException {
@@ -76,7 +80,11 @@ public class RwaInstSpvCompanyController extends GenericController {
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
-
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
+        //
         if (beanValidator(json, reqRwaInstSpvCompany)) {
             RwaInstSpvCompany rwaInstSpvCompany = new RwaInstSpvCompany();
             BeanUtils.copyProperties(reqRwaInstSpvCompany, rwaInstSpvCompany);

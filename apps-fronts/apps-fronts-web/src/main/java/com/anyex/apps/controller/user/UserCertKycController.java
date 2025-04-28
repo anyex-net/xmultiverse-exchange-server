@@ -13,6 +13,7 @@ import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.entity.UserCertKyc;
 import com.anyex.apps.user.service.UserCertKycService;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +42,9 @@ public class UserCertKycController extends GenericController
     @Autowired(required = false)
     private UserCertKycService userCertKycService;
 
+    @Autowired(required = false)
+    private UserService userService;
+
     @GetMapping(value = "/getUserCertKyc")
     @ApiOperation(value = "获取用户认证", httpMethod = "GET")
     public JsonMessage<UserCertKyc> getUserCertKyc() throws BusinessException
@@ -61,6 +65,9 @@ public class UserCertKycController extends GenericController
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() > 0 ) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_ALREADY_CERT);
+         //
         UserCertKyc userCertKyc = new UserCertKyc();
         BeanUtils.copyProperties(reqUserCertKyc, userCertKyc);
         //

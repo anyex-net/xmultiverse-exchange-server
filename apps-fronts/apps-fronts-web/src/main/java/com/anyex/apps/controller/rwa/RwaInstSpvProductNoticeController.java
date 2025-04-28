@@ -19,6 +19,8 @@ import com.anyex.apps.rwa.service.RwaCertInstInvestorService;
 import com.anyex.apps.rwa.service.RwaInstSpvProductNoticeService;
 import com.anyex.apps.rwa.service.RwaInstSpvProductService;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,6 +55,9 @@ public class RwaInstSpvProductNoticeController extends GenericController
     @Autowired(required = false)
     private RwaInstSpvProductService rwaInstSpvProductService;
 
+    @Autowired(required = false)
+    private UserService userService;
+
     @GetMapping(value = "/getRwaInstSpvProductNotice")
     @ApiOperation(value = "获取RWA机构SPV产品公告", httpMethod = "GET")
     public JsonMessage<RwaInstSpvProductNotice> getRwaInstSpvProductNotice(Long id) throws BusinessException
@@ -71,6 +76,12 @@ public class RwaInstSpvProductNoticeController extends GenericController
     {
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
+
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
+
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
         if (beanValidator(json, info))
@@ -131,6 +142,11 @@ public class RwaInstSpvProductNoticeController extends GenericController
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
         //
         if (null == reqRwaInstSpvProductNoticeId.getId()) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
         rwaInstSpvProductNoticeService.remove(reqRwaInstSpvProductNoticeId.getId());

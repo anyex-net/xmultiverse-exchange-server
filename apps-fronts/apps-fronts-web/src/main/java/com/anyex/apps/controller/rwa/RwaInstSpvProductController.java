@@ -15,6 +15,8 @@ import com.anyex.apps.model.PaginateResult;;
 import com.anyex.apps.rwa.entity.*;
 import com.anyex.apps.rwa.service.*;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import com.anyex.apps.utils.SerialnoUtils;
 import io.swagger.annotations.Api;
@@ -75,6 +77,9 @@ public class RwaInstSpvProductController extends GenericController
     @Autowired(required = false)
     private RwaInstSpvProductRealizedIncomeService rwaInstSpvProductRealizedIncomeService;
 
+    @Autowired(required = false)
+    private UserService userService;
+
     @GetMapping(value = "/getRwaInstSpvProduct")
     @ApiOperation(value = "获取RWA机构SPV产品详情", httpMethod = "GET")
     public JsonMessage<RespRwaInstSpvProduct> getRwaInstSpvProduct(Long id) throws BusinessException
@@ -100,6 +105,12 @@ public class RwaInstSpvProductController extends GenericController
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
+        //
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
+        //
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         if (beanValidator(json, reqRwaInstSpvProduct))
         {
@@ -154,6 +165,11 @@ public class RwaInstSpvProductController extends GenericController
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
 
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(reqRwaInstSpvProductRaiseMargin.getId());
@@ -213,6 +229,11 @@ public class RwaInstSpvProductController extends GenericController
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
+
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         if (beanValidator(json, reqRwaInstSpvProductAsset))
         {
@@ -262,6 +283,11 @@ public class RwaInstSpvProductController extends GenericController
     public JsonMessage submitRwaInstSpvProductDividend(@Validated @RequestBody ReqRwaInstSpvProductDividend reqrwaInstSpvProductDividend) throws BusinessException {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
 
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         if (beanValidator(json, reqrwaInstSpvProductDividend)) {
@@ -364,6 +390,11 @@ public class RwaInstSpvProductController extends GenericController
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        //只有spv发起人认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
 
         List<RwaInstSpvProductRealizedIncome> requestsToSave = reqRwaInstSpvProductRealizedIncomeBatch.getBatchRequests().stream()
                 .map(req -> {

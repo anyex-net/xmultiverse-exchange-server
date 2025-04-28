@@ -13,6 +13,8 @@ import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.rwa.entity.*;
 import com.anyex.apps.rwa.service.*;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -58,6 +60,9 @@ public class RwaMarketController extends GenericController
 
     @Autowired(required = false)
     private RwaInstSpvProductNoticeService rwaInstSpvProductNoticeService;
+
+    @Autowired(required = false)
+    private UserService userService;
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
@@ -136,6 +141,11 @@ public class RwaMarketController extends GenericController
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
+
+        //只有投资机构或者个人认证认证才能提交
+        User user = userService.selectByPrimaryKey(principal.getId());
+        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
+        if (user.getCertState() == 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_PURCHASE);
 
         RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
         BeanUtils.copyProperties(reqRwaInstSpvProductPurchase, rwaInstSpvProductPurchase);
