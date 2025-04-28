@@ -120,8 +120,7 @@ public class UserCertKycController extends GenericController
         userCertKyc.setCheckTime(System.currentTimeMillis());
         userCertKycService.updateByPrimaryKeySelective(userCertKyc);
         //
-        User user = new User();
-        user.setId(userCertKyc.getUserId());
+        User user = userService.selectByPrimaryKey(userCertKyc.getUserId());
         user.setCertState(1);
         userService.updateByPrimaryKeySelective(user);
         return json;
