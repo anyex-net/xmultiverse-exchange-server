@@ -10,6 +10,7 @@ import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.entity.UserCertKyc;
 import com.anyex.apps.user.service.UserCertKycService;
 import com.anyex.apps.utils.OnLineUserUtils;

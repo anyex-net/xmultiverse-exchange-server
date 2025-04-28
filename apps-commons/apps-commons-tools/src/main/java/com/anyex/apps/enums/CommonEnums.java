@@ -116,6 +116,9 @@ public enum CommonEnums implements EnumDescribable
     FOLLOW_SELF_ERR(9003, "flowed yourself error"),
     NO_AUTH_OR_DELETED(9004, "NO AUTHRIZED OR DELETED"),
 
+    ERROR_RWA_USER_NOT_CERT_KYC(10001, "RWA user not cert kyc"), // RWA用戶未认证
+    ERROR_RWA_USER_CERT_KYC_NOT_EXIST(10002, "RWA user cert kyc not exist"), // RWA用戶认证信息不存在
+    ERROR_RWA_USER_CERT_KYC_REFUSE(10003, "RWA user cert kyc refuse"), // RWA用戶认证信息被拒绝
     ;
     public Integer code;
 

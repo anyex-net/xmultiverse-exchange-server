@@ -12,6 +12,8 @@ import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.rwa.entity.RwaCertInstInvestor;
 import com.anyex.apps.rwa.service.RwaCertInstInvestorService;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.UserCertKyc;
+import com.anyex.apps.user.service.UserCertKycService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +42,9 @@ public class RwaCertInstInvestorController extends GenericController
     @Autowired(required = false)
     private RwaCertInstInvestorService rwaCertInstInvestorService;
 
+    @Autowired(required = false)
+    private UserCertKycService userCertKycService;
+
     @GetMapping(value = "/getRwaCertInstInvestor")
     @ApiOperation(value = "获取RWA认证机构投资者", httpMethod = "GET")
     public JsonMessage<RwaCertInstInvestor> getRwaCertInstInvestor() throws BusinessException
@@ -61,6 +66,12 @@ public class RwaCertInstInvestorController extends GenericController
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
+        UserCertKyc userCertKyc = new UserCertKyc();
+        userCertKyc.setUserId(principal.getId());
+        userCertKyc = userCertKycService.selectOne(userCertKyc);
+        if (null == userCertKyc) throw new BusinessException(CommonEnums.ERROR_RWA_USER_CERT_KYC_NOT_EXIST);
+        if (userCertKyc.getState() == 0) throw new BusinessException(CommonEnums.ERROR_RWA_USER_NOT_CERT_KYC);
+        if (userCertKyc.getState() == 2) throw new BusinessException(CommonEnums.ERROR_RWA_USER_CERT_KYC_REFUSE);
         RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
         BeanUtils.copyProperties(reqRwaCertInstInvestor, rwaCertInstInvestor);
         //

@@ -12,6 +12,8 @@ import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.controller.user.req.ReqUserCertKyc;
 import com.anyex.apps.controller.user.req.ReqUserCertKycPagination;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -43,6 +45,9 @@ public class UserCertKycController extends GenericController
 {
     @Autowired(required = false)
     private UserCertKycService userCertKycService;
+
+    @Autowired(required = false)
+    private UserService userService;
 
     @GetMapping(value = "/findBy")
     @RequiresPermissions("user:userCertKyc:data")
@@ -114,6 +119,11 @@ public class UserCertKycController extends GenericController
         userCertKyc.setCheckBy(principal.getUserName());
         userCertKyc.setCheckTime(System.currentTimeMillis());
         userCertKycService.updateByPrimaryKeySelective(userCertKyc);
+        //
+        User user = new User();
+        user.setId(userCertKyc.getUserId());
+        user.setCertState(1);
+        userService.updateByPrimaryKeySelective(user);
         return json;
     }
 
