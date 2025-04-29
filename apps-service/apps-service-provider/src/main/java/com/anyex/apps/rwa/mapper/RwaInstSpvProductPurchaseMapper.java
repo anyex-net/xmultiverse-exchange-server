@@ -7,6 +7,9 @@ package com.anyex.apps.rwa.mapper;
 import com.anyex.apps.bean.GenericMapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * RWA机构SPV产品申购记录 持久层接口
@@ -21,5 +24,5 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 @Mapper
 public interface RwaInstSpvProductPurchaseMapper extends GenericMapper<RwaInstSpvProductPurchase>
 {
-
+    List<RwaInstSpvProductPurchase> findListByRaiseUserId(@Param("query") RwaInstSpvProductPurchase rwaInstSpvProductPurchase,@Param("raiseUserId") Long raiseUserId);
 }

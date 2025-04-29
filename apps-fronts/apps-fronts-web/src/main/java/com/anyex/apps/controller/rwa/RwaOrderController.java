@@ -36,8 +36,7 @@ public class RwaOrderController extends GenericController {
 
         RwaInstSpvProductPurchase productPurchase = new RwaInstSpvProductPurchase();
         BeanUtils.copyProperties(pagin, productPurchase);
-        productPurchase.setUserId(principal.getId());
-        PaginateResult<RwaInstSpvProductPurchase> result = rwaInstSpvProductPurchaseService.search(pagin, productPurchase);
+        PaginateResult<RwaInstSpvProductPurchase> result = rwaInstSpvProductPurchaseService.findListByRaiseUserId(pagin, productPurchase,  principal.getId());
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 }

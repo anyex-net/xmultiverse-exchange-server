@@ -358,6 +358,26 @@
         FROM RwaInstSpvProductPurchase a
     </select>
 
+    <select id="findListByRaiseUserId" resultType="com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase">
+        SELECT
+        <include refid="rwaInstSpvProductPurchaseColumns"/>
+        FROM RwaInstSpvProductPurchase a
+        INNER JOIN RwaInstSpvProduct b ON a.instSpvProductId = b.id
+        WHERE b.userId = #{raiseUserId}
+
+        <if test="query.userId != null">
+            AND a.userId = #{query.userId}
+        </if>
+        <if test="query.instInvestorId != null">
+            AND a.instInvestorId = #{query.instInvestorId}
+        </if>
+        <if test="query.instSpvProductId != null">
+            AND a.instSpvProductId = #{query.instSpvProductId}
+        </if>
+        <if test="query.state != null and query.state != ''">
+            AND a.state LIKE CONCAT('%', #{query.state}, '%')
+        </if>
+    </select>
 
 </mapper>
 

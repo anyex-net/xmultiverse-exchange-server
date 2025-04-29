@@ -5,6 +5,8 @@
 package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.bean.GenericService;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 
 /**
@@ -19,5 +21,5 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
  */
 public interface RwaInstSpvProductPurchaseService extends GenericService<RwaInstSpvProductPurchase>
 {
-
+    PaginateResult<RwaInstSpvProductPurchase> findListByRaiseUserId(Pagination pagin, RwaInstSpvProductPurchase rwaInstSpvProductPurchase, Long raiseUserId);
 }

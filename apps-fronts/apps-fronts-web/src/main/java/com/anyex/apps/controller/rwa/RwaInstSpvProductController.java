@@ -423,4 +423,16 @@ public class RwaInstSpvProductController extends GenericController
         return getJsonMessage(CommonEnums.SUCCESS);
     }
 
+    @PostMapping(value = "/rwaInstSpvProductPurchaseData")
+    @ApiOperation(value = "RWA产品申购列表", httpMethod = "POST")
+    public JsonMessage<PaginateResult<RwaInstSpvProductPurchase>> rwaInstSpvProductPurchaseData(@Validated @RequestBody ReqRwaInstSpvProductPurchasePagination pagin) throws BusinessException {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+
+        RwaInstSpvProductPurchase productPurchase = new RwaInstSpvProductPurchase();
+        BeanUtils.copyProperties(pagin, productPurchase);
+        PaginateResult<RwaInstSpvProductPurchase> result = rwaInstSpvProductPurchaseService.search(pagin, productPurchase);
+        return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
 }

@@ -55,9 +55,9 @@ public class ReqRwaInstSpvProductPurchasePagination extends Pagination
 	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 7)
 	private String state;
 
-	/**备注*/
-	@ApiModelProperty(value = "备注", position = 8)
-	private String remark;
+//	/**备注*/
+//	@ApiModelProperty(value = "备注", position = 8)
+//	private String remark;
 
 //	/**创建时间*/
 //	@ApiModelProperty(value = "创建时间", position = 9)
