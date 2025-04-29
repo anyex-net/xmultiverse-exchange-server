@@ -10,6 +10,8 @@ import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -46,6 +48,9 @@ public class RwaCertInstInvestorController extends GenericController
     @Autowired(required = false)
     private RwaCertInstInvestorService rwaCertInstInvestorService;
 
+    @Autowired(required = false)
+    private UserService userService;
+
     @GetMapping(value = "/findBy")
     @RequiresPermissions("rwa:rwaCertInstInvestor:data")
     @ApiOperation(value = "根据ID取RWA认证机构投资者", httpMethod = "GET")
@@ -81,6 +86,11 @@ public class RwaCertInstInvestorController extends GenericController
         }
         rwaCertInstInvestor.setCheckTime(System.currentTimeMillis());
         rwaCertInstInvestorService.updateByPrimaryKeySelective(rwaCertInstInvestor);
+        //
+        User user = userService.selectByPrimaryKey(rwaCertInstInvestor.getUserId());
+        user.setCertState(2);
+        userService.updateByPrimaryKeySelective(user);
+        //
         return json;
     }
 
