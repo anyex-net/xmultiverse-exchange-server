@@ -93,4 +93,9 @@ public class RespRwaMarketList extends GenericEntity {
     @ApiModelProperty(value = "状态(0未审核、1审核通过、2审核拒绝、3合约部署中、4待开放、5申购中、6发行失败、7运营中、8已到期)", position = 26, required = true)
     private String state;
 
+    /**已申购总数量*/
+    @NotNull(message = "已申购总数量不可为空")
+    @ApiModelProperty(value = "已申购总数量", position = 29, required = true)
+    private java.math.BigDecimal purchasedSumAmount;
+
 }

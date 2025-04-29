@@ -111,6 +111,10 @@ public class RwaInstSpvProductController extends GenericController
         if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
         if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
         //
+         //运营时间要在申购时间之后
+        if (reqRwaInstSpvProduct.getOperationStarDate().compareTo(reqRwaInstSpvProduct.getPurchaseEndDate()) < 0){
+            throw new BusinessException(CommonEnums.ERROR_RWA_INST_SPV_PRODUCT_OPERATION_DATE_ERROR);
+        }
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         if (beanValidator(json, reqRwaInstSpvProduct))
         {
@@ -204,13 +208,17 @@ public class RwaInstSpvProductController extends GenericController
         respRwaInstSpvProductAsset.setInvestorAmount(purchasedSumAmount);
         respRwaInstSpvProductAsset.setProductAmount(productAmount);
         respRwaInstSpvProductAsset.setTotalAmount(purchasedSumAmount);
-        respRwaInstSpvProductAsset.setAmount(rwaInstSpvProductAssetService.selectAmountSum(instSpvProductId));
+        BigDecimal amount = rwaInstSpvProductAssetService.selectAmountSum(instSpvProductId);
+        if (null == amount) {
+            amount = BigDecimal.valueOf(0);
+        }
+        respRwaInstSpvProductAsset.setAmount(amount);
         return getJsonMessage(CommonEnums.SUCCESS, respRwaInstSpvProductAsset);
     }
 
-    @PostMapping(value = "/RwaInstSpvProductAssetData")
+    @PostMapping(value = "/rwaInstSpvProductAssetData")
     @ApiOperation(value = "查询RWA机构SPV产品资产申请解冻记录", httpMethod = "POST")
-    public JsonMessage<PaginateResult<RwaInstSpvProductAsset>> RwaInstSpvProductAssetData(@Validated @RequestBody ReqRwaInstSpvProductAssetPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaInstSpvProductAsset>> rwaInstSpvProductAssetData(@Validated @RequestBody ReqRwaInstSpvProductAssetPagination pagin) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);

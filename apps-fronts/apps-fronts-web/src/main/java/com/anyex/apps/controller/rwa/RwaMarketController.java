@@ -87,6 +87,7 @@ public class RwaMarketController extends GenericController
             respRwaMarketList.setAssetEndValuation(rwaInstSpvProduct.getAssetEndValuation());
             respRwaMarketList.setIssueDays(rwaInstSpvProduct.getIssueDays());
             respRwaMarketList.setState(rwaInstSpvProduct.getState());
+            respRwaMarketList.setPurchasedSumAmount(rwaInstSpvProduct.getPurchasedSumAmount());
             respRwaMarketList.setPurchaseStartDate(rwaInstSpvProduct.getPurchaseStartDate());
             respRwaMarketList.setPurchaseEndDate(rwaInstSpvProduct.getPurchaseEndDate());
             return respRwaMarketList;
