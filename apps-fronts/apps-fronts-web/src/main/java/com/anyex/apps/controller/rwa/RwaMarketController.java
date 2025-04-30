@@ -66,7 +66,7 @@ public class RwaMarketController extends GenericController
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
-    public JsonMessage<PaginateResult<RespRwaMarketList>> data(@Validated @RequestBody ReqRwaInstSpvProductPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<ReqRwaInstSpvProduct>> data(@Validated @RequestBody ReqRwaInstSpvProductPagination pagin) throws BusinessException
     {
 //        UserPrincipal principal = OnLineUserUtils.getPrincipal();
 //        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
@@ -74,30 +74,7 @@ public class RwaMarketController extends GenericController
         RwaInstSpvProduct instSpvProduct = new RwaInstSpvProduct();
         BeanUtils.copyProperties(pagin, instSpvProduct);
         PaginateResult<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductService.findListByState(pagin,instSpvProduct);
-        List<RespRwaMarketList> responseList = rwaInstSpvProducts.getRecords().stream().map(rwaInstSpvProduct -> {
-            RespRwaMarketList respRwaMarketList = new RespRwaMarketList();
-            respRwaMarketList.setId(rwaInstSpvProduct.getId());
-            respRwaMarketList.setProductNo(rwaInstSpvProduct.getProductNo());
-            respRwaMarketList.setProductName(rwaInstSpvProduct.getProductName());
-            respRwaMarketList.setTokenName(rwaInstSpvProduct.getTokenName());
-            respRwaMarketList.setTokenLogo(rwaInstSpvProduct.getTokenLogo());
-            respRwaMarketList.setTokenIssueNumber(rwaInstSpvProduct.getTokenIssueNumber());
-            respRwaMarketList.setRaiseCurrency(rwaInstSpvProduct.getRaiseCurrency());
-            respRwaMarketList.setRaiseAmount(rwaInstSpvProduct.getRaiseAmount());
-            respRwaMarketList.setAssetEndValuation(rwaInstSpvProduct.getAssetEndValuation());
-            respRwaMarketList.setIssueDays(rwaInstSpvProduct.getIssueDays());
-            respRwaMarketList.setState(rwaInstSpvProduct.getState());
-            respRwaMarketList.setPurchasedSumAmount(rwaInstSpvProduct.getPurchasedSumAmount());
-            respRwaMarketList.setPurchaseStartDate(rwaInstSpvProduct.getPurchaseStartDate());
-            respRwaMarketList.setPurchaseEndDate(rwaInstSpvProduct.getPurchaseEndDate());
-            return respRwaMarketList;
-        }).collect(Collectors.toList());
-        PaginateResult<RespRwaMarketList> result = new PaginateResult<>(pagin,responseList);
-        result.setRecords(responseList);
-        result.setTotal((long)rwaInstSpvProducts.getTotal());
-        result.setCurrent(rwaInstSpvProducts.getCurrent());
-        result.setSize(rwaInstSpvProducts.getSize());
-        return getJsonMessage(CommonEnums.SUCCESS, result);
+        return getJsonMessage(CommonEnums.SUCCESS, rwaInstSpvProducts);
     }
 
     @GetMapping(value = "/getRwaMarketPrDetail")
