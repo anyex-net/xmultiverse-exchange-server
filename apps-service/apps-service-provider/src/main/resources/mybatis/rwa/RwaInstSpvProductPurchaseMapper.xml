@@ -379,5 +379,17 @@
         </if>
     </select>
 
+    <select id="findTotalPurchaseAmountByUserIdAndProductId" resultType="java.math.BigDecimal">
+        SELECT
+        sum(a.purchaseAmount) as totalPurchaseAmount
+        FROM RwaInstSpvProductPurchase a where 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="instSpvProductId != null">
+            AND a.instSpvProductId = #{instSpvProductId}
+        </if>
+    </select>
+
 </mapper>
 

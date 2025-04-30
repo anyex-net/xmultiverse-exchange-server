@@ -162,6 +162,7 @@ public class RwaInstSpvCompanyController extends GenericController {
 
         RwaInstSpvCompany rwaInstSpvCompany = new RwaInstSpvCompany();
         rwaInstSpvCompany.setUserId(principal.getId());
+        rwaInstSpvCompany.setState("1");
         List<RwaInstSpvCompany> rwaInstSpvCompanyList = rwaInstSpvCompanyService.findList(rwaInstSpvCompany);
 
         List<RespRwaInstSpvCompany> respRwaInstSpvCompanyList = new ArrayList<>();

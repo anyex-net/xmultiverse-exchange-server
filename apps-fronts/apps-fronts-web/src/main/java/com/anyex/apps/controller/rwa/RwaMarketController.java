@@ -141,43 +141,13 @@ public class RwaMarketController extends GenericController
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
-        //
-
-        //只有投资机构或者个人认证认证才能提交
-        User user = userService.selectByPrimaryKey(principal.getId());
-        if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
-        if (user.getCertState() == 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_PURCHASE);
 
         RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
         BeanUtils.copyProperties(reqRwaInstSpvProductPurchase, rwaInstSpvProductPurchase);
         rwaInstSpvProductPurchase.setUserId(principal.getId());
-        //
-         //先查询可用余额是否足够
-        rwaBalancesService.purchaseFrozenBalCheckBefore(rwaInstSpvProductPurchase);
-        //
-        if (user.getCertState() == 2){
-            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
-            rwaCertInstInvestor.setUserId(principal.getId());
-            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
-            rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
-        }
-        if (null == reqRwaInstSpvProductPurchase.getId())
-        {
-            rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
-        }
-//        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
-        rwaInstSpvProductPurchase.setState("pending");
-        //
-        log.info("rwaInstSpvProductPurchase:{}", rwaInstSpvProductPurchase);
-        if(null == rwaInstSpvProductPurchase.getId()){
-            rwaInstSpvProductPurchaseService.insert(rwaInstSpvProductPurchase);
-        } else {
-            rwaInstSpvProductPurchaseService.updateByPrimaryKeySelective(rwaInstSpvProductPurchase);
-        }
-        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
-        rwaInstSpvProduct.setPurchasedSumAmount(rwaInstSpvProduct.getPurchasedSumAmount().add(rwaInstSpvProductPurchase.getPurchaseAmount()));
-        rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
-        //
+
+        rwaInstSpvProductPurchaseService.submitRwaInstSpvProductPurchase(rwaInstSpvProductPurchase);
+
         return json;
     }
 

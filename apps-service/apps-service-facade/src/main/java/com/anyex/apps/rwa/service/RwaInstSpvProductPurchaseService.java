@@ -22,4 +22,10 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 public interface RwaInstSpvProductPurchaseService extends GenericService<RwaInstSpvProductPurchase>
 {
     PaginateResult<RwaInstSpvProductPurchase> findListByRaiseUserId(Pagination pagin, RwaInstSpvProductPurchase rwaInstSpvProductPurchase, Long raiseUserId);
+
+    /**
+     * 提交RWA机构SPV产品申购记录
+     * @param rwaInstSpvProductPurchase
+     */
+    void submitRwaInstSpvProductPurchase(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
 }

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -25,4 +26,6 @@ import java.util.List;
 public interface RwaInstSpvProductPurchaseMapper extends GenericMapper<RwaInstSpvProductPurchase>
 {
     List<RwaInstSpvProductPurchase> findListByRaiseUserId(@Param("query") RwaInstSpvProductPurchase rwaInstSpvProductPurchase,@Param("raiseUserId") Long raiseUserId);
+
+    BigDecimal findTotalPurchaseAmountByUserIdAndProductId(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
 }

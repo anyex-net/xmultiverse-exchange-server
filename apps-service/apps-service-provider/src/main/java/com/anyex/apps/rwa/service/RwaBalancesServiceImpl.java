@@ -49,7 +49,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
 
     @Transactional
     public void purchaseFrozenBalCheckBefore(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
-        //申购前 申购者 总余额不变，冻结增加，可用余额减少
+//        申购前 申购者 总余额不变，冻结增加，可用余额减少
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
