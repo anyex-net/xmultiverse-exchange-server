@@ -110,6 +110,7 @@ public class RwaBalancesTransHistoryController extends GenericController
             rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
             //
             rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().subtract(reqRwaBalancesTransHistory.getChangeAmt()));
+            rwaBalancesDB.setAvailBal(rwaBalancesDB.getBalance().subtract(rwaBalancesDB.getFrozenBal()));
             rwaBalancesDB.setUpdateTime(System.currentTimeMillis());
             log.info("transferOut rwaBalancesDB:{}", rwaBalancesDB);
             rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesDB);
@@ -162,7 +163,8 @@ public class RwaBalancesTransHistoryController extends GenericController
                 log.info("transferIn balancesTransHistory:{}", balancesTransHistory);
                 balancesTransHistoryService.insert(balancesTransHistory);
                 //
-                balancesDB.setBalance(rwaBalancesDB.getBalance().add(reqRwaBalancesTransHistory.getChangeAmt()));
+                balancesDB.setBalance(balancesDB.getBalance().add(reqRwaBalancesTransHistory.getChangeAmt()));
+                balancesDB.setAvailBal(balancesDB.getBalance().subtract(balancesDB.getFrozenBal()));
                 balancesDB.setRemark("transferIn");
                 balancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("transferIn balancesDB:{}", balancesDB);

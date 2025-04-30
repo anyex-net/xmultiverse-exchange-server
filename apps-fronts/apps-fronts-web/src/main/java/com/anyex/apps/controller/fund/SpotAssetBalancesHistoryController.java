@@ -176,6 +176,7 @@ public class SpotAssetBalancesHistoryController extends GenericController
                 balancesTransHistoryService.insert(balancesTransHistory);
                 //
                 balancesDB.setBalance(balancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
+                balancesDB.setAvailBal(balancesDB.getBalance().subtract(balancesDB.getFrozenBal()));
                 balancesDB.setRemark("transferIn");
                 balancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("transferIn balancesDB:{}", balancesDB);
@@ -209,6 +210,7 @@ public class SpotAssetBalancesHistoryController extends GenericController
                 rwaBalancesTransHistoryService.insert(rwaBalancesTransHistory);
                 //
                 rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().add(reqSpotAssetBalancesTransHistory.getChangeAmt()));
+                rwaBalancesDB.setAvailBal(rwaBalancesDB.getBalance().subtract(rwaBalancesDB.getFrozenBal()));
                 rwaBalancesDB.setRemark("transferIn");
                 rwaBalancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("transferIn rwaBalancesDB:{}", rwaBalancesDB);

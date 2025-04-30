@@ -9,6 +9,7 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductAsset;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,6 +30,7 @@ import java.math.BigDecimal;
  * @author Playguy
  * @version 1.0
  */
+@Slf4j
 @Service
 public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> implements RwaBalancesService
 {
@@ -86,27 +88,32 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
-        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-        if (rwaBalances1 == null) {
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (null == rwaBalancesDB) {
+            log.error("User balance not found.");
             throw new BusinessException("User balance not found.");
         }
         BigDecimal purchaseBalance = rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice());
-        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(purchaseBalance));
-        rwaBalances1.setBalance(rwaBalances1.getBalance().subtract(purchaseBalance));
-        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+        rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().subtract(purchaseBalance));
+        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(purchaseBalance));
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getBalance().subtract(rwaBalancesDB.getFrozenBal()));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
         //申购审核后 募集者 总余额增加，冻结增加，可用余额不变
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductMapper.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
-        if (rwaInstSpvProduct == null){
+        if (null == rwaInstSpvProduct){
+            log.error("InstSpvProduct not found.");
             throw new BusinessException("InstSpvProduct not found.");
         }
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
         RwaBalances rwaBalancesRaise = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-        if (rwaBalancesRaise == null) {
+        if (null == rwaBalancesRaise) {
+            log.error("User balance not found.");
             throw new BusinessException("User balance not found.");
         }
-        rwaBalancesRaise.setFrozenBal(rwaBalancesRaise.getFrozenBal().add(purchaseBalance));
         rwaBalancesRaise.setBalance(rwaBalancesRaise.getBalance().add(purchaseBalance));
+        rwaBalancesRaise.setFrozenBal(rwaBalancesRaise.getFrozenBal().add(purchaseBalance));
+        rwaBalancesRaise.setAvailBal(rwaBalancesRaise.getBalance().subtract(rwaBalancesRaise.getFrozenBal()));
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesRaise);
     }
 
