@@ -76,13 +76,13 @@ public class RwaInstSpvProductNoticeController extends GenericController
     {
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
         //只有spv发起人认证才能提交
         User user = userService.selectByPrimaryKey(principal.getId());
         if (user.getCertState() == 0) throw new BusinessException(CommonEnums.ERROR_USER_NOT_CERT);
         if (user.getCertState() != 3) throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV);
 
-        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
         if (beanValidator(json, info))
         {
@@ -95,10 +95,6 @@ public class RwaInstSpvProductNoticeController extends GenericController
             }
             entity.setUpdateTime(System.currentTimeMillis());
             entity.setUserId(principal.getId());
-            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
-            rwaCertInstInvestor.setUserId(principal.getId());
-            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
-            entity.setInstInvestorId(rwaCertInstInvestor1.getId());
             entity.setState(0);
             //
             log.info("entity:{}", entity);

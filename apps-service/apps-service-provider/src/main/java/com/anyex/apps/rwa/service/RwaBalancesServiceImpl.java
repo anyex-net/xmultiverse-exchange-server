@@ -4,6 +4,7 @@
  */
 package com.anyex.apps.rwa.service;
 
+import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductAsset;
@@ -52,18 +53,18 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
-        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-        if (rwaBalances1 == null) {
-            throw new BusinessException("User balance not found.");
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalancesDB == null) {
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
         BigDecimal purchaseBalance = rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice());
-        if (purchaseBalance.compareTo(rwaBalances1.getAvailBal()) > 0) {
-            throw new BusinessException("Insufficient available balance.");
+        if (purchaseBalance.compareTo(rwaBalancesDB.getAvailBal()) > 0) {
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_INSUFFICIENT_AVAILABLE_BALANCE);
         }
-        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().subtract(purchaseBalance));
-        rwaBalances1.setFrozenBal(purchaseBalance.add(rwaBalances1.getFrozenBal()));
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().subtract(purchaseBalance));
+        rwaBalancesDB.setFrozenBal(purchaseBalance.add(rwaBalancesDB.getFrozenBal()));
 //        rwaBalances1.setBalance(rwaBalances1.getBalance().subtract(purchaseBalance));
-        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
     @Transactional
@@ -72,14 +73,14 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
-        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-        if (rwaBalances1 == null) {
-            throw new BusinessException("User balance not found.");
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalancesDB == null) {
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
         BigDecimal purchaseBalance = rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice());
-        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().add(purchaseBalance));
-        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(purchaseBalance));
-        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().add(purchaseBalance));
+        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(purchaseBalance));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
     @Transactional
@@ -91,7 +92,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
         if (null == rwaBalancesDB) {
             log.error("User balance not found.");
-            throw new BusinessException("User balance not found.");
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
         BigDecimal purchaseBalance = rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice());
         rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().subtract(purchaseBalance));
@@ -102,14 +103,14 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductMapper.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
         if (null == rwaInstSpvProduct){
             log.error("InstSpvProduct not found.");
-            throw new BusinessException("InstSpvProduct not found.");
+            throw new BusinessException(CommonEnums.ERROR_RWA_INST_SPV_PRODUCT_NOT_FOUND);
         }
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
         RwaBalances rwaBalancesRaise = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
         if (null == rwaBalancesRaise) {
             log.error("User balance not found.");
-            throw new BusinessException("User balance not found.");
+            throw new BusinessException(CommonEnums.ERROR_RWA_RAISE_USER_BALANCE_NOT_FOUND);
         }
         rwaBalancesRaise.setBalance(rwaBalancesRaise.getBalance().add(purchaseBalance));
         rwaBalancesRaise.setFrozenBal(rwaBalancesRaise.getFrozenBal().add(purchaseBalance));
@@ -123,17 +124,17 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
-        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-        if (rwaBalances1 == null) {
-            throw new BusinessException("User balance not found.");
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalancesDB == null) {
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
         BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMargin();
-        if (raiseMargin.compareTo(rwaBalances1.getAvailBal()) > 0) {
-            throw new BusinessException("Insufficient available balance.");
+        if (raiseMargin.compareTo(rwaBalancesDB.getAvailBal()) > 0) {
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_INSUFFICIENT_AVAILABLE_BALANCE);
         }
-        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().subtract(raiseMargin));
-        rwaBalances1.setFrozenBal(raiseMargin.add(rwaBalances1.getFrozenBal()));
-        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().subtract(raiseMargin));
+        rwaBalancesDB.setFrozenBal(raiseMargin.add(rwaBalancesDB.getFrozenBal()));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
     @Transactional
@@ -142,14 +143,14 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
-        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-        if (rwaBalances1 == null) {
-            throw new BusinessException("User balance not found.");
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalancesDB == null) {
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
         BigDecimal raiseMargin = rwaInstSpvProduct.getRaiseMargin();
-        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().add(raiseMargin));
-        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(raiseMargin));
-        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().add(raiseMargin));
+        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(raiseMargin));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
     @Transactional
@@ -158,13 +159,13 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductAsset.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductAsset.getCurrency());
-        RwaBalances rwaBalances1 = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
-        if (rwaBalances1 == null) {
-            throw new BusinessException("User balance not found.");
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalancesDB == null) {
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
         BigDecimal lastAmount = rwaInstSpvProductAsset.getLastAmount();
-        rwaBalances1.setAvailBal(rwaBalances1.getAvailBal().add(lastAmount));
-        rwaBalances1.setFrozenBal(rwaBalances1.getFrozenBal().subtract(lastAmount));
-        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalances1);
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().add(lastAmount));
+        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(lastAmount));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 }

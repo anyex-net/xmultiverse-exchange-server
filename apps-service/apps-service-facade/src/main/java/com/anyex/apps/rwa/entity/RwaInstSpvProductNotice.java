@@ -36,7 +36,6 @@ public class RwaInstSpvProductNotice extends GenericEntity
 	private Long userId;
 
 	/**机构投资者ID*/
-	@NotNull(message = "机构投资者ID不可为空")
 	@ApiModelProperty(value = "机构投资者ID", position = 2, required = true)
 	private Long instInvestorId;
 

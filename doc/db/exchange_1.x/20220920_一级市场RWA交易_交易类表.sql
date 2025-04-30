@@ -270,7 +270,7 @@ create table RwaInstSpvProductNotice
 (
     id                      bigint(20)               not null comment 'ID' primary key,
     userId                  bigint(20)               not null comment '用户ID',
-    instInvestorId          bigint(20)               not null comment '机构投资者ID',
+    instInvestorId          bigint(20)                        comment '机构投资者ID',
     instSpvProductId        bigint(20)               not null comment '机构SPV产品ID',
     noticeTitle             varchar(128)             not null comment '公告标题',
     noticeContent           varchar(512)             not null comment '公告内容',
@@ -288,7 +288,7 @@ create table RwaInstSpvProductDividendSnapshot
 (
     id                          bigint(20)               not null comment 'ID' primary key,
     userId                      bigint(20)               not null comment '用户ID',
-    instInvestorId              bigint(20)               not null comment '机构投资者ID',
+    instInvestorId              bigint(20)                        comment '机构投资者ID',
     instSpvProductId            bigint(20)               not null comment '机构SPV产品ID',
     instSpvProductDividendNo    varchar(32)              not null comment '机构SPV产品分红记录编号',
     walletAddress               varchar(128)             not null comment '链上钱包地址',

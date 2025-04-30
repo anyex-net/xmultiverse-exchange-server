@@ -272,9 +272,9 @@ public class RwaInstSpvProductController extends GenericController
         return json;
     }
 
-    @PostMapping(value = "/RwaInstSpvProductDividendData")
+    @PostMapping(value = "/rwaInstSpvProductDividendData")
     @ApiOperation(value = "查询RWA机构SPV产品分红管理列表", httpMethod = "POST")
-    public JsonMessage<PaginateResult<RwaInstSpvProductDividend>> RwaInstSpvProductDividendData(@Validated @RequestBody ReqRwaInstSpvProductDividendPagination pagin) throws BusinessException
+    public JsonMessage<PaginateResult<RwaInstSpvProductDividend>> rwaInstSpvProductDividendData(@Validated @RequestBody ReqRwaInstSpvProductDividendPagination pagin) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);

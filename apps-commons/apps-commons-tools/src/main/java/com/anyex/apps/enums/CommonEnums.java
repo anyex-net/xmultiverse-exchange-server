@@ -120,7 +120,11 @@ public enum CommonEnums implements EnumDescribable
     ERROR_USER_NOT_CERT(10002, "The user not cert"), //用户认证状态未认证
     ERROR_USER_CERT_STATE_NOT_CERT_INST_SPV(10003, "The user certState not certInstSpv"), //用户认证状态不是SPV发起人认证
     ERROR_USER_CERT_STATE_NOT_PURCHASE(10004, "The user certState not purchase"), //该用户的状态不能进行申购
-    ERROR_RWA_INST_SPV_PRODUCT_OPERATION_DATE_ERROR(10005, "The operation date of the RWA institution SPV product is not within the specified period")
+    ERROR_RWA_INST_SPV_PRODUCT_OPERATION_DATE_ERROR(10005, "The operation date of the RWA institution SPV product is not within the specified period"),
+    ERROR_RWA_USER_BALANCE_NOT_FOUND(10006, "The Rwa user balance not found"), //用户资产不存在
+    ERROR_RWA_RAISE_USER_BALANCE_NOT_FOUND(10007, "The Rwa raise user balance not found"), //募集用户资产不存在
+    ERROR_RWA_USER_INSUFFICIENT_AVAILABLE_BALANCE(10008, "insufficient available balance"),// 资产可用余额不足
+    ERROR_RWA_INST_SPV_PRODUCT_NOT_FOUND(10009, "The RWA institution SPV product not found"),// RWA产品不存在
     ;
     public Integer code;
 

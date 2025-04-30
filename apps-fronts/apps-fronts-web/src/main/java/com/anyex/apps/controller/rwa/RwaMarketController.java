@@ -155,12 +155,14 @@ public class RwaMarketController extends GenericController
          //先查询可用余额是否足够
         rwaBalancesService.purchaseFrozenBalCheckBefore(rwaInstSpvProductPurchase);
         //
-        RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
-        rwaCertInstInvestor.setUserId(principal.getId());
-        RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
+        if (user.getCertState() == 2){
+            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
+            rwaCertInstInvestor.setUserId(principal.getId());
+            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
+            rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
+        }
         if (null == reqRwaInstSpvProductPurchase.getId())
         {
-            rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
             rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
         }
 //        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
