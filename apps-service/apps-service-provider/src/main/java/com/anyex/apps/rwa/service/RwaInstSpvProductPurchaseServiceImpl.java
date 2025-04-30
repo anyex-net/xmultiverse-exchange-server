@@ -6,29 +6,27 @@ package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
-import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.model.Pagination;
 import com.anyex.apps.rwa.entity.RwaBalances;
 import com.anyex.apps.rwa.entity.RwaCertInstInvestor;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.mapper.RwaBalancesMapper;
+import com.anyex.apps.rwa.model.RwaInstSpvProductPurchaseResultModel;
 import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.SerialnoUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductPurchaseMapper;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -84,7 +82,7 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void submitRwaInstSpvProductPurchase(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException {
         //只有投资机构或者个人认证认证才能提交
         User user = userService.selectByPrimaryKey(rwaInstSpvProductPurchase.getUserId());
@@ -130,7 +128,7 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
         }
 //        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
-        rwaInstSpvProductPurchase.setState("pending");
+        rwaInstSpvProductPurchase.setState("success");
         //
         log.info("rwaInstSpvProductPurchase:{}", rwaInstSpvProductPurchase);
         if(null == rwaInstSpvProductPurchase.getId()){
@@ -186,5 +184,15 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             rwaBalancesService.insert(rwaBalancesPurchase);
         }
 
+    }
+
+    @Override
+    public PaginateResult<RwaInstSpvProductPurchaseResultModel> findListRwaOrder(Pagination pagin, RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException {
+        PageHelper.startPage(pagin.getCurrent(), pagin.getSize());
+        PageInfo<RwaInstSpvProductPurchaseResultModel> pageInfo = PageInfo.of(rwaInstSpvProductPurchaseMapper.findListRwaOrder(rwaInstSpvProductPurchase));
+        pagin.setTotal(pageInfo.getTotal());
+        pagin.setCurrent(pageInfo.getPageNum());
+        List<RwaInstSpvProductPurchaseResultModel> result = pageInfo.getList();
+        return new PaginateResult<>(pagin, result);
     }
 }

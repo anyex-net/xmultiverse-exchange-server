@@ -5,6 +5,7 @@
 package com.anyex.apps.rwa.mapper;
 
 import com.anyex.apps.bean.GenericMapper;
+import com.anyex.apps.rwa.model.RwaInstSpvProductPurchaseResultModel;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface RwaInstSpvProductPurchaseMapper extends GenericMapper<RwaInstSp
     List<RwaInstSpvProductPurchase> findListByRaiseUserId(@Param("query") RwaInstSpvProductPurchase rwaInstSpvProductPurchase,@Param("raiseUserId") Long raiseUserId);
 
     BigDecimal findTotalPurchaseAmountByUserIdAndProductId(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
+
+    List<RwaInstSpvProductPurchaseResultModel> findListRwaOrder(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
 }

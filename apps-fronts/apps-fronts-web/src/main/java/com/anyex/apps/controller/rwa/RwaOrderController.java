@@ -8,6 +8,7 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
+import com.anyex.apps.rwa.model.RwaInstSpvProductPurchaseResultModel;
 import com.anyex.apps.rwa.service.RwaInstSpvProductPurchaseService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
@@ -30,13 +31,15 @@ public class RwaOrderController extends GenericController {
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA订单列表", httpMethod = "POST")
-    public JsonMessage<PaginateResult<RwaInstSpvProductPurchase>> data(@Validated @RequestBody ReqRwaInstSpvProductPurchasePagination pagin) throws BusinessException {
+    public JsonMessage<PaginateResult<RwaInstSpvProductPurchaseResultModel>> data(@Validated @RequestBody ReqRwaInstSpvProductPurchasePagination pagin) throws BusinessException {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
 
         RwaInstSpvProductPurchase productPurchase = new RwaInstSpvProductPurchase();
         BeanUtils.copyProperties(pagin, productPurchase);
-        PaginateResult<RwaInstSpvProductPurchase> result = rwaInstSpvProductPurchaseService.findListByRaiseUserId(pagin, productPurchase,  principal.getId());
+        productPurchase.setUserId(principal.getId());
+        PaginateResult<RwaInstSpvProductPurchaseResultModel> result = rwaInstSpvProductPurchaseService.findListRwaOrder(pagin, productPurchase);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 }

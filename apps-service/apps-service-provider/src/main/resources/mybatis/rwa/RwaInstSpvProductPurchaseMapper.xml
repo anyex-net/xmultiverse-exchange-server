@@ -391,5 +391,28 @@
         </if>
     </select>
 
+    <select id="findListRwaOrder" resultType="com.anyex.apps.rwa.model.RwaInstSpvProductPurchaseResultModel">
+        SELECT
+        a.*,
+        b.tokenName as tokenName
+        FROM RwaInstSpvProductPurchase a
+        INNER JOIN RwaInstSpvProduct b ON a.instSpvProductId = b.id
+        WHERE 1 = 1
+
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="instInvestorId != null">
+            AND a.instInvestorId = #{instInvestorId}
+        </if>
+        <if test="instSpvProductId != null">
+            AND a.instSpvProductId = #{instSpvProductId}
+        </if>
+        <if test="state != null and state != ''">
+            AND a.state LIKE CONCAT('%', #{state}, '%')
+        </if>
+    </select>
+
+
 </mapper>
 

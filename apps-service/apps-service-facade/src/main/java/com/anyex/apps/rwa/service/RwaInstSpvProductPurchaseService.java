@@ -8,6 +8,7 @@ import com.anyex.apps.bean.GenericService;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.model.Pagination;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
+import com.anyex.apps.rwa.model.RwaInstSpvProductPurchaseResultModel;
 
 /**
  * RWA机构SPV产品申购记录 服务接口
@@ -28,4 +29,6 @@ public interface RwaInstSpvProductPurchaseService extends GenericService<RwaInst
      * @param rwaInstSpvProductPurchase
      */
     void submitRwaInstSpvProductPurchase(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
+
+    PaginateResult<RwaInstSpvProductPurchaseResultModel> findListRwaOrder(Pagination pagin, RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
 }
