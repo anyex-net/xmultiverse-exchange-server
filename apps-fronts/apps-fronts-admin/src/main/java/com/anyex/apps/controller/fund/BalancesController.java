@@ -4,11 +4,15 @@
  */
 package com.anyex.apps.controller.fund;
 
+import com.anyex.apps.controller.fund.req.ReqBalancesTransHistory;
+import com.anyex.apps.fund.entity.BalancesTransHistory;
+import com.anyex.apps.fund.service.BalancesTransHistoryService;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import com.anyex.apps.fund.entity.Balances;
 import com.anyex.apps.fund.service.BalancesService;
 
-import com.anyex.apps.controller.fund.req.ReqBalances;
 import com.anyex.apps.controller.fund.req.ReqBalancesPagination;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 
@@ -44,6 +46,9 @@ public class BalancesController extends GenericController
     @Autowired(required = false)
     private BalancesService balancesService;
 
+    @Autowired(required = false)
+    private BalancesTransHistoryService balancesTransHistoryService;
+
     @GetMapping(value = "/findBy")
     @RequiresPermissions("fund:balances:data")
     @ApiOperation(value = "根据ID取资金账户余额", httpMethod = "GET")
@@ -62,6 +67,45 @@ public class BalancesController extends GenericController
         BeanUtils.copyProperties(pagin, entity);
         PaginateResult<Balances> result = balancesService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
+    }
+
+    @PostMapping(value = "/adjust")
+    @RequiresPermissions("fund:balances:operator")
+    @ApiOperation(value = "调整资金账户余额", httpMethod = "POST")
+    public JsonMessage adjust(@ModelAttribute ReqBalancesTransHistory reqBalancesTransHistory) throws BusinessException
+    {
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        if (beanValidator(json, reqBalancesTransHistory))
+        {
+            Balances balancesSearch = new Balances();
+            balancesSearch.setUserId(OnLineUserUtils.getPrincipal().getId());
+            balancesSearch.setCurrency(reqBalancesTransHistory.getCurrency());
+            Balances balancesDB = balancesService.selectOne(balancesSearch);
+            if(null != balancesDB){
+                //
+                BalancesTransHistory balancesTransHistory = new BalancesTransHistory();
+                BeanUtils.copyProperties(balancesDB, balancesTransHistory);
+                balancesTransHistory.setType(reqBalancesTransHistory.getType()); // adjustAdd、adjustSub
+                balancesTransHistory.setBeforeBal(balancesDB.getBalance());
+                balancesTransHistory.setChangeAmt(reqBalancesTransHistory.getChangeAmt());
+                balancesTransHistory.setAfterBal(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
+                balancesTransHistory.setState("success");
+                balancesTransHistory.setCreateTime(System.currentTimeMillis());
+                log.info("balancesTransHistory:{}", balancesTransHistory);
+                balancesTransHistoryService.insert(balancesTransHistory);
+                //
+                balancesDB.setBalance(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
+                balancesDB.setRemark(reqBalancesTransHistory.getType());
+                balancesDB.setUpdateTime(System.currentTimeMillis());
+                log.info("balancesDB:{}", balancesDB);
+                balancesService.updateByPrimaryKeySelective(balancesDB);
+            } else {
+                log.error("balancesDB is null 请检查相关资金账户数据!");
+                throw new BusinessException("balancesDB is null, please check fund acct data!");
+            }
+        }
+        //
+        return json;
     }
 
 //    @PostMapping(value = "/save")

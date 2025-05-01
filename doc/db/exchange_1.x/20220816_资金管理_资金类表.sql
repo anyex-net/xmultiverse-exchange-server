@@ -21,7 +21,7 @@ create table BalancesTransHistory
     id                bigint(20)               not null comment '主键' primary key,
     userId            bigint(20)               not null comment '用户ID',
     currency          varchar(32)              not null comment '币种(BTC、ETH、USDT)',
-    type              varchar(32)              not null comment '类型(充值、提现、冻结、解冻、转入、转出)',
+    type              varchar(32)              not null comment '类型(充值、提现、冻结、解冻、转入、转出、调增、调减)',
     beforeBal         decimal(22, 8) default 0 not null comment '前余额',
     changeAmt         decimal(22, 8) default 0 not null comment '发生数量',
     afterBal          decimal(22, 8) default 0 not null comment '后余额',

@@ -35,8 +35,8 @@ public class ReqBalancesTransHistoryPagination extends Pagination
 	@ApiModelProperty(value = "币种(BTC、ETH、USDT)", position = 2)
 	private String currency;
 
-	/**类型(充值、提现、冻结、解冻、转入、转出)*/
-	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出)", position = 3)
+	/**类型(充值、提现、冻结、解冻、转入、转出、调增、调减)*/
+	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出、调增、调减)", position = 3)
 	private String type;
 
 //	/**前余额*/

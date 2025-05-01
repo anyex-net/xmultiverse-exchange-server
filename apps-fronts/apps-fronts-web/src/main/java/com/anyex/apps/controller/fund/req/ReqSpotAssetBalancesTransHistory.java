@@ -38,9 +38,9 @@ public class ReqSpotAssetBalancesTransHistory implements Serializable
 	@ApiModelProperty(value = "币种(BTC、ETH、USDT)", position = 2, required = true)
 	private String currency;
 
-	/**类型(充值、提现、冻结、解冻、转入、转出)*/
-	@NotEmpty(message = "类型(充值、提现、冻结、解冻、转入、转出)不可为空")
-	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出)", position = 3, required = true)
+	/**类型(充值、提现、冻结、解冻、转入、转出、调增、调减)*/
+	@NotEmpty(message = "类型(充值、提现、冻结、解冻、转入、转出、调增、调减)不可为空")
+	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出、调增、调减)", position = 3, required = true)
 	private String type;
 
 //	/**前余额*/

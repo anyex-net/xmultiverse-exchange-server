@@ -31,52 +31,52 @@ public class ReqBalancesTransHistory extends GenericEntity
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**用户ID*/
-	@NotNull(message = "用户ID不可为空")
-	@ApiModelProperty(value = "用户ID", position = 1, required = true)
-	private java.lang.Long userId;
+//	/**用户ID*/
+//	@NotNull(message = "用户ID不可为空")
+//	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+//	private java.lang.Long userId;
 
 	/**币种(BTC、ETH、USDT)*/
 	@NotEmpty(message = "币种(BTC、ETH、USDT)不可为空")
 	@ApiModelProperty(value = "币种(BTC、ETH、USDT)", position = 2, required = true)
 	private java.lang.String currency;
 
-	/**类型(充值、提现、冻结、解冻、转入、转出)*/
-	@NotEmpty(message = "类型(充值、提现、冻结、解冻、转入、转出)不可为空")
-	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出)", position = 3, required = true)
+	/**类型(充值、提现、冻结、解冻、转入、转出、调增、调减)*/
+	@NotEmpty(message = "类型(充值、提现、冻结、解冻、转入、转出、调增、调减)不可为空")
+	@ApiModelProperty(value = "类型(充值、提现、冻结、解冻、转入、转出、调增、调减)", position = 3, required = true)
 	private java.lang.String type;
 
-	/**前余额*/
-	@NotNull(message = "前余额不可为空")
-	@ApiModelProperty(value = "前余额", position = 4, required = true)
-	private java.math.BigDecimal beforeBal;
+//	/**前余额*/
+//	@NotNull(message = "前余额不可为空")
+//	@ApiModelProperty(value = "前余额", position = 4, required = true)
+//	private java.math.BigDecimal beforeBal;
 
 	/**发生数量*/
 	@NotNull(message = "发生数量不可为空")
 	@ApiModelProperty(value = "发生数量", position = 5, required = true)
 	private java.math.BigDecimal changeAmt;
 
-	/**后余额*/
-	@NotNull(message = "后余额不可为空")
-	@ApiModelProperty(value = "后余额", position = 6, required = true)
-	private java.math.BigDecimal afterBal;
+//	/**后余额*/
+//	@NotNull(message = "后余额不可为空")
+//	@ApiModelProperty(value = "后余额", position = 6, required = true)
+//	private java.math.BigDecimal afterBal;
 
-	/**原业务ID*/
-	@ApiModelProperty(value = "原业务ID", position = 7)
-	private java.lang.String businessId;
-
-	/**转出账户*/
-	@ApiModelProperty(value = "转出账户", position = 8)
-	private java.lang.String fromAcct;
-
-	/**转入账户*/
-	@ApiModelProperty(value = "转入账户", position = 9)
-	private java.lang.String toAcct;
-
-	/**状态(成功success、处理中pending、失败failed)*/
-	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
-	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 10, required = true)
-	private java.lang.String state;
+//	/**原业务ID*/
+//	@ApiModelProperty(value = "原业务ID", position = 7)
+//	private java.lang.String businessId;
+//
+//	/**转出账户*/
+//	@ApiModelProperty(value = "转出账户", position = 8)
+//	private java.lang.String fromAcct;
+//
+//	/**转入账户*/
+//	@ApiModelProperty(value = "转入账户", position = 9)
+//	private java.lang.String toAcct;
+//
+//	/**状态(成功success、处理中pending、失败failed)*/
+//	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
+//	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 10, required = true)
+//	private java.lang.String state;
 
 	/**交易描述*/
 	@NotEmpty(message = "交易描述不可为空")
