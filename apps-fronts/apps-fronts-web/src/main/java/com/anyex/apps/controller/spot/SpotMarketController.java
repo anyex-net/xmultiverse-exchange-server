@@ -4,6 +4,7 @@
  */
 package com.anyex.apps.controller.spot;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,11 +41,28 @@ public class SpotMarketController extends GenericController
     @ResponseBody
     @PostMapping(value = "/marketList")
     @ApiOperation(value = "所有交易对列表marketList", httpMethod = "POST")
-    public JsonMessage<JSONObject> marketList() throws BusinessException
+    public JsonMessage<List<JSONObject>> marketList() throws BusinessException
     {
-        JSONObject respJsonObject = ViabtcMarketApi.marketList();
-        log.info("marketList respJsonObject:{}", respJsonObject);
-        return getJsonMessage(CommonEnums.SUCCESS, respJsonObject);
+        List<JSONObject> listJSONObject = new ArrayList<JSONObject>();
+        //
+        JSONObject marketListJsonObject = ViabtcMarketApi.marketList();
+        log.info("marketList marketListJsonObject:{}", marketListJsonObject);
+        if(null != marketListJsonObject && marketListJsonObject.size() > 0)
+        {
+            JSONArray marketListJsonObjectArray = marketListJsonObject.getJSONArray("result");
+            //
+            for(int i=0; i<marketListJsonObjectArray.size(); i++)
+            {
+                //
+                JSONObject itemJsonObject = marketListJsonObjectArray.getJSONObject(i);
+                itemJsonObject.put("tradepair", itemJsonObject.getString("stock") + "/" + itemJsonObject.getString("money"));
+                log.info("marketList itemJsonObject:{}", itemJsonObject);
+                //
+                listJSONObject.add(itemJsonObject);
+            }
+        }
+        //
+        return getJsonMessage(CommonEnums.SUCCESS, listJSONObject);
     }
 
     @ResponseBody

@@ -267,7 +267,7 @@ public class ViabtcMarketApi extends ViabtcApi {
      */
     public static List<JSONObject> marketListStatusToday() throws BusinessException
     {
-        List<JSONObject> list = new ArrayList<JSONObject>();
+        List<JSONObject> listJSONObject = new ArrayList<JSONObject>();
         //
         JSONObject marketListJsonObject = ViabtcMarketApi.marketList();
         if(null != marketListJsonObject && marketListJsonObject.size() > 0)
@@ -282,20 +282,22 @@ public class ViabtcMarketApi extends ViabtcApi {
                 System.out.println("marketListStatusToday reqMarketStatusToday:" + reqMarketStatusToday);
                 JSONObject respJsonObject = ViabtcMarketApi.marketStatusToday(reqMarketStatusToday);
                 respJsonObject.put("name", reqMarketStatusToday.getMarket());
+                respJsonObject.put("tradepair", marketListJsonObjectArray.getJSONObject(i).getString("stock") +
+                                                    "/" + marketListJsonObjectArray.getJSONObject(i).getString("money"));
                 respJsonObject.remove("id");
                 respJsonObject.remove("error");
                 System.out.println("marketListStatusToday respJsonObject:" + respJsonObject);
                 //
-                list.add(respJsonObject);
+                listJSONObject.add(respJsonObject);
             }
         }
         //
-        for(int j=0; j<list.size(); j++)
-        {
-            System.out.println("list index j:" + list.get(j));
-        }
+//        for(int j=0; j<list.size(); j++)
+//        {
+//            System.out.println("list index j:" + list.get(j));
+//        }
 
-        return list;
+        return listJSONObject;
     }
 
     /**
