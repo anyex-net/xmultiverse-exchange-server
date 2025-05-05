@@ -13,6 +13,7 @@ import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.utils.OnLineUserUtils;
+import com.anyex.apps.utils.SerialnoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,24 +79,40 @@ public class BalancesController extends GenericController
         if (beanValidator(json, reqBalancesTransHistory))
         {
             Balances balancesSearch = new Balances();
-            balancesSearch.setUserId(OnLineUserUtils.getPrincipal().getId());
+//            balancesSearch.setUserId(OnLineUserUtils.getPrincipal().getId());
+            balancesSearch.setId(reqBalancesTransHistory.getId());
             balancesSearch.setCurrency(reqBalancesTransHistory.getCurrency());
             Balances balancesDB = balancesService.selectOne(balancesSearch);
             if(null != balancesDB){
                 //
                 BalancesTransHistory balancesTransHistory = new BalancesTransHistory();
                 BeanUtils.copyProperties(balancesDB, balancesTransHistory);
+                balancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
+                balancesTransHistory.setUserId(balancesDB.getUserId());
                 balancesTransHistory.setType(reqBalancesTransHistory.getType()); // adjustAdd、adjustSub
                 balancesTransHistory.setBeforeBal(balancesDB.getBalance());
                 balancesTransHistory.setChangeAmt(reqBalancesTransHistory.getChangeAmt());
+                if ("adjustAdd".equals(reqBalancesTransHistory.getType())){
+                    balancesTransHistory.setAfterBal(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
+                } else if ("adjustSub".equals(reqBalancesTransHistory.getType())){
+                    balancesTransHistory.setAfterBal(balancesDB.getBalance().subtract(reqBalancesTransHistory.getChangeAmt()));
+                }
                 balancesTransHistory.setAfterBal(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
+                balancesTransHistory.setTransDesc(reqBalancesTransHistory.getTransDesc());
                 balancesTransHistory.setState("success");
                 balancesTransHistory.setCreateTime(System.currentTimeMillis());
                 log.info("balancesTransHistory:{}", balancesTransHistory);
                 balancesTransHistoryService.insert(balancesTransHistory);
                 //
-                balancesDB.setBalance(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
+//                balancesDB.setBalance(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
                 balancesDB.setRemark(reqBalancesTransHistory.getType());
+                if ("adjustAdd".equals(reqBalancesTransHistory.getType())){
+                    balancesDB.setBalance(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
+                    balancesDB.setAvailBal(balancesDB.getAvailBal().add(reqBalancesTransHistory.getChangeAmt()));
+                } else if ("adjustSub".equals(reqBalancesTransHistory.getType())){
+                    balancesDB.setBalance(balancesDB.getBalance().subtract(reqBalancesTransHistory.getChangeAmt()));
+                    balancesDB.setAvailBal(balancesDB.getAvailBal().subtract(reqBalancesTransHistory.getChangeAmt()));
+                }
                 balancesDB.setUpdateTime(System.currentTimeMillis());
                 log.info("balancesDB:{}", balancesDB);
                 balancesService.updateByPrimaryKeySelective(balancesDB);
