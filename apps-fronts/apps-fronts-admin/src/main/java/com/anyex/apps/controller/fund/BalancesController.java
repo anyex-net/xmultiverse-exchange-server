@@ -97,7 +97,6 @@ public class BalancesController extends GenericController
                 } else if ("adjustSub".equals(reqBalancesTransHistory.getType())){
                     balancesTransHistory.setAfterBal(balancesDB.getBalance().subtract(reqBalancesTransHistory.getChangeAmt()));
                 }
-                balancesTransHistory.setAfterBal(balancesDB.getBalance().add(reqBalancesTransHistory.getChangeAmt()));
                 balancesTransHistory.setTransDesc(reqBalancesTransHistory.getTransDesc());
                 balancesTransHistory.setState("success");
                 balancesTransHistory.setCreateTime(System.currentTimeMillis());
