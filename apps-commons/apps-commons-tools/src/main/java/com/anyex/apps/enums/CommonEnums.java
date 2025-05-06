@@ -125,6 +125,7 @@ public enum CommonEnums implements EnumDescribable
     ERROR_RWA_RAISE_USER_BALANCE_NOT_FOUND(10007, "The Rwa raise user balance not found"), //募集用户资产不存在
     ERROR_RWA_USER_INSUFFICIENT_AVAILABLE_BALANCE(10008, "insufficient available balance"),// 资产可用余额不足
     ERROR_RWA_INST_SPV_PRODUCT_NOT_FOUND(10009, "The RWA institution SPV product not found"),// RWA产品不存在
+    ERROR_RWA_USER_PURCHASE_AMOUNT_OVER_LIMIT(10010, "The purchase amount exceeds the limit"), //申购金额超过限制
     ;
     public Integer code;
 

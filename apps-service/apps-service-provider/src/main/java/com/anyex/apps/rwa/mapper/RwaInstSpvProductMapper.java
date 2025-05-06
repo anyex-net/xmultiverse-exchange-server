@@ -24,4 +24,6 @@ import java.util.List;
 public interface RwaInstSpvProductMapper extends GenericMapper<RwaInstSpvProduct>
 {
     List<RwaInstSpvProduct> findListByState(RwaInstSpvProduct entity);
+
+    RwaInstSpvProduct selectOneForUpdate(RwaInstSpvProduct rwaInstSpvProduct);
 }

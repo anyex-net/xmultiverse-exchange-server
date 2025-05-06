@@ -99,4 +99,9 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date1).equals(sdf.format(date2));
     }
+
+    @Override
+    public RwaInstSpvProduct selectOneForUpdate(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException {
+        return rwaInstSpvProductMapper.selectOneForUpdate(rwaInstSpvProduct);
+    }
 }

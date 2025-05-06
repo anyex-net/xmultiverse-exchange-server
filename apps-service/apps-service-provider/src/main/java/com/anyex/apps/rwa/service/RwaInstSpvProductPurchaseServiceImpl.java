@@ -94,7 +94,16 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             log.error("用户认证状态不能进行申购！");
             throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_PURCHASE);
         };
-        //
+        //先查看提交的数量是否满足
+        RwaInstSpvProduct rwaInstSpvProductNew = new RwaInstSpvProduct();
+        rwaInstSpvProductNew.setId(rwaInstSpvProductPurchase.getInstSpvProductId());
+        RwaInstSpvProduct rwaInstSpvProductDB = rwaInstSpvProductService.selectOneForUpdate(rwaInstSpvProductNew);
+        BigDecimal purchaseAmount = rwaInstSpvProductPurchase.getPurchaseAmount();
+        BigDecimal purchaseSumAmount = rwaInstSpvProductDB.getPurchasedSumAmount();
+        if (purchaseAmount.add(purchaseSumAmount).compareTo(rwaInstSpvProductDB.getTokenIssueNumber()) > 0) {
+            log.error("申购数量超出剩余数量");
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_PURCHASE_AMOUNT_OVER_LIMIT);
+        }
         //先查询可用余额是否足够(usdt)
 //        rwaBalancesService.purchaseFrozenBalCheckBefore(rwaInstSpvProductPurchase);
         //申购前 申购者 总余额不变，冻结增加，可用余额减少

@@ -25,4 +25,6 @@ import java.util.List;
 public interface RwaInstSpvProductService extends GenericService<RwaInstSpvProduct>
 {
     PaginateResult<RwaInstSpvProduct> findListByState(Pagination pagin, RwaInstSpvProduct rwaInstSpvProduct);
+
+    RwaInstSpvProduct selectOneForUpdate(RwaInstSpvProduct rwaInstSpvProduct);
 }
