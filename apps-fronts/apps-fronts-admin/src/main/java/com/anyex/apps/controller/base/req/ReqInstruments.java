@@ -165,21 +165,29 @@ public class ReqInstruments extends GenericEntity
 	@ApiModelProperty(value = "合约或现货止盈止损委托的单笔最大委托数量", position = 27, required = true)
 	private java.lang.Integer maxStopSz;
 
+	/**板块分区标签*/
+	@ApiModelProperty(value = "板块分区标签", position = 28)
+	private java.lang.String tags;
+
+	/**详情描述*/
+	@ApiModelProperty(value = "详情描述", position = 29)
+	private java.lang.String detailDesc;
+
 	/**备注*/
-	@ApiModelProperty(value = "备注", position = 28)
+	@ApiModelProperty(value = "备注", position = 30)
 	private java.lang.String remark;
 
 //	/**创建时间*/
 //	@NotNull(message = "创建时间不可为空")
-//	@ApiModelProperty(value = "创建时间", position = 29, required = true)
+//	@ApiModelProperty(value = "创建时间", position = 31, required = true)
 //	private java.lang.Long createTime;
 //
 //	/**更新人*/
-//	@ApiModelProperty(value = "更新人", position = 30)
+//	@ApiModelProperty(value = "更新人", position = 32)
 //	private java.lang.String updateBy;
 //
 //	/**更新时间*/
-//	@ApiModelProperty(value = "更新时间", position = 31)
+//	@ApiModelProperty(value = "更新时间", position = 33)
 //	private java.lang.Long updateTime;
 }
 

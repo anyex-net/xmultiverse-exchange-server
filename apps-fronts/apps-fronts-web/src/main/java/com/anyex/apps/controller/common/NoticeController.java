@@ -42,6 +42,7 @@ public class NoticeController extends GenericController
     public JsonMessage data() throws BusinessException
     {
         SysNotice notice = new SysNotice();
+        notice.setStatus(true); // 1已发布
         List<SysNotice> result = noticeService.findList(notice);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }

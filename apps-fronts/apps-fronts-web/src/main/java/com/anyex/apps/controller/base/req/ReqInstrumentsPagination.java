@@ -4,9 +4,9 @@
  */
 package com.anyex.apps.controller.base.req;
 
+import com.anyex.apps.model.Pagination;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.anyex.apps.model.Pagination;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,31 +29,31 @@ public class ReqInstrumentsPagination extends Pagination
 	
 	/**产品类型 币币SPOT 币币杠杆MARGIN 永续合约SWAP 交割合约FUTURES 期权OPTION*/
 	@ApiModelProperty(value = "产品类型 币币SPOT 币币杠杆MARGIN 永续合约SWAP 交割合约FUTURES 期权OPTION", position = 1)
-	private java.lang.String instType;
+	private String instType;
 
 	/**产品ID 如BTC-USD-SWAP*/
 	@ApiModelProperty(value = "产品ID 如BTC-USD-SWAP", position = 2)
-	private java.lang.String instId;
+	private String instId;
 
 	/**标的指数 仅适用于instType为交割/永续/期权 如BTC-USD*/
 	@ApiModelProperty(value = "标的指数 仅适用于instType为交割/永续/期权 如BTC-USD", position = 3)
-	private java.lang.String uly;
+	private String uly;
 
 	/**手续费档位 每个交易产品属于哪个档位手续费*/
 	@ApiModelProperty(value = "手续费档位 每个交易产品属于哪个档位手续费", position = 4)
-	private java.lang.String category;
+	private String category;
 
 	/**交易货币币种 如BTC-USDT中的BTC 仅适用于币币*/
 	@ApiModelProperty(value = "交易货币币种 如BTC-USDT中的BTC 仅适用于币币", position = 5)
-	private java.lang.String baseCcy;
+	private String baseCcy;
 
 	/**计价货币币种 如BTC-USDT中的USDT 仅适用于币币*/
 	@ApiModelProperty(value = "计价货币币种 如BTC-USDT中的USDT 仅适用于币币", position = 6)
-	private java.lang.String quoteCcy;
+	private String quoteCcy;
 
 	/**盈亏结算和保证金币种 如BTC 仅适用于交割/永续/期权*/
 	@ApiModelProperty(value = "盈亏结算和保证金币种 如BTC 仅适用于交割/永续/期权", position = 7)
-	private java.lang.String settleCcy;
+	private String settleCcy;
 
 	/**合约面值 仅适用于交割/永续/期权*/
 	@ApiModelProperty(value = "合约面值 仅适用于交割/永续/期权", position = 8)
@@ -61,15 +61,15 @@ public class ReqInstrumentsPagination extends Pagination
 
 	/**合约乘数 仅适用于交割/永续/期权*/
 	@ApiModelProperty(value = "合约乘数 仅适用于交割/永续/期权", position = 9)
-	private java.lang.Integer ctMult;
+	private Integer ctMult;
 
 	/**合约面值计价币种 仅适用于交割/永续/期权*/
 	@ApiModelProperty(value = "合约面值计价币种 仅适用于交割/永续/期权", position = 10)
-	private java.lang.String ctValCcy;
+	private String ctValCcy;
 
 	/**期权类型 C或P 仅适用于期权*/
 	@ApiModelProperty(value = "期权类型 C或P 仅适用于期权", position = 11)
-	private java.lang.String optType;
+	private String optType;
 
 	/**行权价格 仅适用于期权*/
 	@ApiModelProperty(value = "行权价格 仅适用于期权", position = 12)
@@ -77,15 +77,15 @@ public class ReqInstrumentsPagination extends Pagination
 
 	/**上线日期 Unix时间戳的毫秒数格式 如1597026383085*/
 	@ApiModelProperty(value = "上线日期 Unix时间戳的毫秒数格式 如1597026383085", position = 13)
-	private java.lang.Long listTime;
+	private Long listTime;
 
 	/**交割/行权日期 仅适用于交割和期权 Unix时间戳的毫秒数格式 如1597026383085*/
 	@ApiModelProperty(value = "交割/行权日期 仅适用于交割和期权 Unix时间戳的毫秒数格式 如1597026383085", position = 14)
-	private java.lang.Long expTime;
+	private Long expTime;
 
 	/**该instId支持的最大杠杆倍数 不适用于币币、期权*/
 	@ApiModelProperty(value = "该instId支持的最大杠杆倍数 不适用于币币、期权", position = 15)
-	private java.lang.Integer lever;
+	private Integer lever;
 
 	/**下单价格精度 如0.0001*/
 	@ApiModelProperty(value = "下单价格精度 如0.0001", position = 16)
@@ -101,39 +101,39 @@ public class ReqInstrumentsPagination extends Pagination
 
 	/**正向合约linear 反向合约inverse 仅适用于交割/永续*/
 	@ApiModelProperty(value = "正向合约linear 反向合约inverse 仅适用于交割/永续", position = 19)
-	private java.lang.String ctType;
+	private String ctType;
 
 	/**合约日期别名 本周this_week 次周next_week 季度quarter 次季度next_quarter 仅适用于交割*/
 	@ApiModelProperty(value = "合约日期别名 本周this_week 次周next_week 季度quarter 次季度next_quarter 仅适用于交割", position = 20)
-	private java.lang.String alias;
+	private String alias;
 
 	/**产品状态 关闭中closed 交易中live 暂停中suspend 预上线preopen 资金费结算settlement*/
 	@ApiModelProperty(value = "产品状态 关闭中closed 交易中live 暂停中suspend 预上线preopen 资金费结算settlement", position = 21)
-	private java.lang.String state;
+	private String state;
 
 	/**合约或现货限价单的单笔最大委托数量*/
 	@ApiModelProperty(value = "合约或现货限价单的单笔最大委托数量", position = 22)
-	private java.lang.Integer maxLmtSz;
+	private Integer maxLmtSz;
 
 	/**合约或现货市价单的单笔最大委托数量*/
 	@ApiModelProperty(value = "合约或现货市价单的单笔最大委托数量", position = 23)
-	private java.lang.Integer maxMktSz;
+	private Integer maxMktSz;
 
 	/**合约或现货时间加权单的单笔最大委托数量*/
 	@ApiModelProperty(value = "合约或现货时间加权单的单笔最大委托数量", position = 24)
-	private java.lang.Integer maxTwapSz;
+	private Integer maxTwapSz;
 
 	/**合约或现货冰山委托的单笔最大委托数量*/
 	@ApiModelProperty(value = "合约或现货冰山委托的单笔最大委托数量", position = 25)
-	private java.lang.Integer maxIcebergSz;
+	private Integer maxIcebergSz;
 
 	/**合约或现货计划委托委托的单笔最大委托数量*/
 	@ApiModelProperty(value = "合约或现货计划委托委托的单笔最大委托数量", position = 26)
-	private java.lang.Integer maxTriggerSz;
+	private Integer maxTriggerSz;
 
 	/**合约或现货止盈止损委托的单笔最大委托数量*/
 	@ApiModelProperty(value = "合约或现货止盈止损委托的单笔最大委托数量", position = 27)
-	private java.lang.Integer maxStopSz;
+	private Integer maxStopSz;
 
 	/**板块分区标签*/
 	@ApiModelProperty(value = "板块分区标签", position = 28)
@@ -145,7 +145,7 @@ public class ReqInstrumentsPagination extends Pagination
 
 	/**备注*/
 	@ApiModelProperty(value = "备注", position = 30)
-	private java.lang.String remark;
+	private String remark;
 
 //	/**创建时间*/
 //	@ApiModelProperty(value = "创建时间", position = 31)

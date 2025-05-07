@@ -31,6 +31,8 @@
         a.maxIcebergSz as maxIcebergSz,
         a.maxTriggerSz as maxTriggerSz,
         a.maxStopSz as maxStopSz,
+        a.tags as tags,
+        a.detailDesc as detailDesc,
         a.remark as remark,
         a.createTime as createTime,
         a.updateBy as updateBy,
@@ -66,6 +68,8 @@
         <result column="maxIcebergSz" property="maxIcebergSz"/>
         <result column="maxTriggerSz" property="maxTriggerSz"/>
         <result column="maxStopSz" property="maxStopSz"/>
+        <result column="tags" property="tags"/>
+        <result column="detailDesc" property="detailDesc"/>
         <result column="remark" property="remark"/>
         <result column="createTime" property="createTime"/>
         <result column="updateBy" property="updateBy"/>
@@ -103,6 +107,8 @@
             maxIcebergSz ,
             maxTriggerSz ,
             maxStopSz ,
+            tags ,
+            detailDesc ,
             remark ,
             createTime ,
             updateBy ,
@@ -136,6 +142,8 @@
             #{maxIcebergSz} ,
             #{maxTriggerSz} ,
             #{maxStopSz} ,
+            #{tags} ,
+            #{detailDesc} ,
             #{remark} ,
             #{createTime} ,
             #{updateBy} ,
@@ -241,8 +249,14 @@
         <if test="maxStopSz != null">
                 maxStopSz ,
         </if>
+        <if test="tags != null">
+            tags ,
+        </if>
+        <if test="detailDesc != null">
+            detailDesc ,
+        </if>
         <if test="remark != null">
-                remark ,
+            remark ,
         </if>
         <if test="createTime != null">
                 createTime ,
@@ -338,6 +352,12 @@
         </if>
         <if test="maxStopSz != null">
                 #{maxStopSz} ,
+        </if>
+        <if test="tags != null">
+                #{tags} ,
+        </if>
+        <if test="detailDesc != null">
+                #{detailDesc} ,
         </if>
         <if test="remark != null">
                 #{remark} ,
@@ -439,6 +459,12 @@
             <if test="maxStopSz != null">
                 maxStopSz = #{maxStopSz} ,
             </if>
+            <if test="tags != null">
+                tags = #{tags} ,
+            </if>
+            <if test="detailDesc != null">
+                detailDesc = #{detailDesc} ,
+            </if>
             <if test="remark != null">
                 remark = #{remark} ,
             </if>
@@ -486,6 +512,8 @@
             maxIcebergSz ,
             maxTriggerSz ,
             maxStopSz ,
+            tags ,
+            detailDesc ,
             remark ,
             createTime ,
             updateBy ,
@@ -521,6 +549,8 @@
             #{item.maxIcebergSz} ,
             #{item.maxTriggerSz} ,
             #{item.maxStopSz} ,
+            #{item.tags} ,
+            #{item.detailDesc} ,
             #{item.remark} ,
             #{item.createTime} ,
             #{item.updateBy} ,
@@ -560,6 +590,8 @@
             maxIcebergSz = #{item.maxIcebergSz} ,
             maxTriggerSz = #{item.maxTriggerSz} ,
             maxStopSz = #{item.maxStopSz} ,
+            tags = #{item.tags} ,
+            detailDesc = #{item.detailDesc} ,
             remark = #{item.remark} ,
             createTime = #{item.createTime} ,
             updateBy = #{item.updateBy} ,
@@ -598,6 +630,8 @@
             maxIcebergSz = #{maxIcebergSz} ,
             maxTriggerSz = #{maxTriggerSz} ,
             maxStopSz = #{maxStopSz} ,
+            tags = #{tags} ,
+            detailDesc = #{detailDesc} ,
             remark = #{remark} ,
             createTime = #{createTime} ,
             updateBy = #{updateBy} ,
@@ -695,6 +729,12 @@
         </if>
         <if test="maxStopSz != null">
             AND a.maxStopSz = #{maxStopSz}
+        </if>
+        <if test="tags != null and tags != ''">
+            AND a.tags = #{tags}
+        </if>
+        <if test="detailDesc != null and detailDesc != ''">
+            AND a.detailDesc = #{detailDesc}
         </if>
         <if test="remark != null and remark != ''">
             AND a.remark = #{remark}
@@ -797,6 +837,12 @@
         <if test="maxStopSz != null">
             AND a.maxStopSz = #{maxStopSz}
         </if>
+        <if test="tags != null and tags != ''">
+            AND a.tags LIKE CONCAT('%',#{tags}, '%')
+        </if>
+        <if test="detailDesc != null and detailDesc != ''">
+            AND a.detailDesc LIKE CONCAT('%',#{detailDesc}, '%')
+        </if>
         <if test="remark != null and remark != ''">
             AND a.remark LIKE CONCAT('%',#{remark}, '%')
         </if>
@@ -817,7 +863,6 @@
         <include refid="instrumentsColumns"/>
         FROM Instruments a
     </select>
-
 
 </mapper>
 
