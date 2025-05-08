@@ -166,11 +166,11 @@ public class ReqInstruments extends GenericEntity
 
 	/**板块分区标签*/
 	@ApiModelProperty(value = "板块分区标签", position = 28)
-	private java.lang.String tags;
+	private String tags;
 
 	/**详情描述*/
 	@ApiModelProperty(value = "详情描述", position = 29)
-	private java.lang.String detailDesc;
+	private String detailDesc;
 
 	/**备注*/
 	@ApiModelProperty(value = "备注", position = 30)

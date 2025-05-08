@@ -27,10 +27,10 @@ public class InstrumentsTagsModel implements Serializable
 
 	/**分区*/
 	@ApiModelProperty(value = "分区")
-	private String partition;
+	private String tags;
 
 	/**分区名*/
 	@ApiModelProperty(value = "分区名")
-	private String partitionName;
+	private String tagsName;
 }
 
