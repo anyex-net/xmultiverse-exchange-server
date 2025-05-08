@@ -106,7 +106,7 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
         }
         //先查询可用余额是否足够(usdt)
 //        rwaBalancesService.purchaseFrozenBalCheckBefore(rwaInstSpvProductPurchase);
-        //申购前 申购者 总余额不变，冻结增加，可用余额减少
+
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
@@ -149,7 +149,7 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
 //        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(purchaseBalance));
         rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().subtract(purchaseBalance));
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
-        //募集者 总余额增加，冻结不变，可用余额增加
+        //募集者 总余额增加，冻结增加，可用余额不变
         RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
         if (null == rwaInstSpvProduct){
             log.error("Spv产品不存在");
@@ -164,8 +164,8 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             throw new BusinessException(CommonEnums.ERROR_RWA_RAISE_USER_BALANCE_NOT_FOUND);
         }
         rwaBalancesRaiseDB.setBalance(rwaBalancesRaiseDB.getBalance().add(purchaseBalance));
-//        rwaBalancesRaiseDB.setFrozenBal(rwaBalancesRaiseDB.getFrozenBal().add(purchaseBalance));
-        rwaBalancesRaiseDB.setAvailBal(rwaBalancesRaiseDB.getAvailBal().add(purchaseBalance));
+        rwaBalancesRaiseDB.setFrozenBal(rwaBalancesRaiseDB.getFrozenBal().add(purchaseBalance));
+//        rwaBalancesRaiseDB.setAvailBal(rwaBalancesRaiseDB.getAvailBal().add(purchaseBalance));
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesRaiseDB);
         //更新Rwa产品总申购数量
 //        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
