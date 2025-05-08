@@ -57,7 +57,7 @@ public class UserLogsController extends GenericController
         UserLog userLogSearch = new UserLog();
         userLogSearch.setUserId(principal.getId());
         userLogSearch.setOpType("login");
-        List<UserLog> result = userLogService.findList(userLogSearch);
+        List<UserLog> result = userLogService.findTopTenUserLog(userLogSearch);
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
     
@@ -77,7 +77,7 @@ public class UserLogsController extends GenericController
         UserLog userLogSearch = new UserLog();
         userLogSearch.setUserId(principal.getId());
         userLogSearch.setOpType("setting");
-        List<UserLog> result = userLogService.findList(userLogSearch);
+        List<UserLog> result = userLogService.findTopTenUserLog(userLogSearch);
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
 }

@@ -306,7 +306,7 @@
             AND a.systemName LIKE CONCAT('%',#{systemName}, '%')
         </if>
         <if test="opType != null and opType != ''">
-            AND a.opType LIKE CONCAT('%',#{opType}, '%')
+            AND a.opType = #{opType}
         </if>
         <if test="ipAddr != null and ipAddr != ''">
             AND a.ipAddr LIKE CONCAT('%',#{ipAddr}, '%')
@@ -335,6 +335,20 @@
         FROM UserLog a
     </select>
 
+    <!-- 查询TopTenUserLog列表 -->
+    <select id="findTopTenUserLog" resultType="com.anyex.apps.user.entity.UserLog">
+        SELECT
+        <include refid="userLogColumns"/>
+        FROM UserLog a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="opType != null and opType != ''">
+            AND a.opType = #{opType}
+        </if>
+        order by a.createTime desc
+        limit 10
+    </select>
 
 </mapper>
 

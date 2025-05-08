@@ -4,12 +4,18 @@
  */
 package com.anyex.apps.user.service;
 
+import com.anyex.apps.annotation.SlaveDataSource;
+import com.anyex.apps.exception.BusinessException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.user.entity.UserLog;
 import com.anyex.apps.user.mapper.UserLogMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 用户日志 服务实现类
@@ -31,5 +37,13 @@ public class UserLogServiceImpl extends GenericServiceImpl<UserLog> implements U
     {
         super(userLogMapper);
         this.userLogMapper = userLogMapper;
+    }
+
+    @Override
+    @SlaveDataSource()
+    @Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, readOnly = true)
+    public List<UserLog> findTopTenUserLog(UserLog userLog) throws BusinessException
+    {
+        return userLogMapper.findTopTenUserLog(userLog);
     }
 }
