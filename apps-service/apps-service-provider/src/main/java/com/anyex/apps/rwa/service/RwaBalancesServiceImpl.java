@@ -161,6 +161,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalances.setCurrency(rwaInstSpvProductAsset.getCurrency());
         RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
         if (rwaBalancesDB == null) {
+            log.error("RWA用户资产不存在");
             throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
         BigDecimal lastAmount = rwaInstSpvProductAsset.getLastAmount();

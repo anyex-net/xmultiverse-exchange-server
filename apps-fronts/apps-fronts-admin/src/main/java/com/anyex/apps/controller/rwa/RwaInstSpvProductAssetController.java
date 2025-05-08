@@ -115,7 +115,9 @@ public class RwaInstSpvProductAssetController extends GenericController
         entity.setUpdateTime(System.currentTimeMillis());
         rwaInstSpvProductAssetService.updateByPrimaryKeySelective(entity);
         //审核通过后解冻冻结
-        rwaBalancesService.unFrozenBal(entity);
+        if (entity.getState() == 1){
+            rwaBalancesService.unFrozenBal(entity);
+        }
         return json;
     }
 
