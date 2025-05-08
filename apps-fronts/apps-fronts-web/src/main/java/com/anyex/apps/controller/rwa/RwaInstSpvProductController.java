@@ -28,6 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -207,7 +208,9 @@ public class RwaInstSpvProductController extends GenericController
         BigDecimal productAmount = rwaInstSpvProduct.getTokenIssueNumber().subtract(purchasedSumAmount);
         respRwaInstSpvProductAsset.setInvestorAmount(purchasedSumAmount);
         respRwaInstSpvProductAsset.setProductAmount(productAmount);
-        respRwaInstSpvProductAsset.setTotalAmount(purchasedSumAmount);
+        //调整总融资为融资金额乘以已申购数量
+        BigDecimal productPrice = rwaInstSpvProduct.getRaiseAmount().divide(rwaInstSpvProduct.getTokenIssueNumber(), 8, RoundingMode.HALF_UP);
+        respRwaInstSpvProductAsset.setTotalAmount(purchasedSumAmount.multiply(productPrice));
         BigDecimal amount = rwaInstSpvProductAssetService.selectAmountSum(instSpvProductId);
         if (null == amount) {
             amount = BigDecimal.valueOf(0);
