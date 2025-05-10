@@ -343,6 +343,20 @@ public class UserSettingController extends GenericController
         {// 验证邮件地址
             throw new BusinessException(CommonEnums.ERROR_EMAIL_FORMAT_FAILED);
         }
+        //
+        User userDB = userService.selectByPrimaryKey(principal.getId());
+        if (null == userDB || !userDB.verifySignature())
+        {// 校验数据
+            throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
+        }
+        if (StringUtils.isNotBlank(userDB.getEmail()))
+        {// 表示当前帐户已绑定过邮箱,防止用户串改会话ID来修改绑定的邮箱
+            throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
+        }
+        if(null != userService.findByEmail(userDB.getEmail()))
+        {// 表示当前邮箱已经绑定存在了不能重复绑定
+            throw new BusinessException(CommonEnums.ERROR_EMAIL_BIND);
+        }
 //        if (userService.valiEmail(email))
 //        {// 一个邮箱只能绑定一个帐号
 //            throw new BusinessException(UserEnums.ACCOUNT_EMAIL_HAS_BIND);
@@ -449,6 +463,8 @@ public class UserSettingController extends GenericController
     @AccessLimit(limit = 1, timeScope = 60, isLogin = true) // 登录情况下限制60秒内最多请求1次
     public JsonMessage bindMobileSendSMS(HttpServletRequest request, @Validated @RequestBody ReqSendSms reqSendSms) throws BusinessException
     {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         log.info("bindMobileSendSMS reqSendSms:{}", reqSendSms);
         //
         String ip = NetworkUtils.getIpAddr(request);
@@ -457,6 +473,20 @@ public class UserSettingController extends GenericController
         if (captchaText == null || !captchaText.equalsIgnoreCase(reqSendSms.getCaptcha()))
         {// 验证码检验
             throw new BusinessException(CommonEnums.ERROR_VALID_CAPTCHA);
+        }
+        //
+        User userDB = userService.selectByPrimaryKey(principal.getId());
+        if (null == userDB || !userDB.verifySignature())
+        {// 校验数据
+            throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
+        }
+        if (StringUtils.isNotBlank(userDB.getMobileNo()))
+        {// 表示当前帐户已绑定过手机号,防止用户串改会话ID来修改绑定的手机
+            throw new BusinessException(CommonEnums.ERROR_DATA_VALID_ERR);
+        }
+        if(null != userService.findByMobileNoAndCountry(reqSendSms.getMobileNo(), reqSendSms.getCountry()))
+        {// 表示当前手机已经绑定存在了不能重复绑定
+            throw new BusinessException(CommonEnums.ERROR_PHONE_BIND);
         }
         //
         StringBuffer mobileNum = new StringBuffer(reqSendSms.getCountry()).append(reqSendSms.getMobileNo());

@@ -73,6 +73,7 @@ public enum CommonEnums implements EnumDescribable
     WAIT_ONE_HOUR(2029, "Newly registered users will review in 1 hour"), //新注册用户1小时后再评论
     SWITCH_ROLES(2030, "Requires the administrator to switch roles when working on Admin and Website"), //要求管理员在Admin和Website操作时角色切换
     ERROR_PHONE_BIND(2031, "The mobile phone number has been bound"), //手机号已经被绑定
+    ERROR_EMAIL_BIND(2031, "The email has been bound"), //邮箱已经被绑定
     BIND_YOUR_PHONE(2032, "When logging in to a third-party app, please bind your mobile phone number"), //app端第三方登录时,请绑定手机号
     ERROR_PASSWORD_TYPE(2033,"Please use a combination of numbers and letters from 6-12 for your password"), //密码请使用6-12的数字和字母组合
     ERROR_BINDPHONE_VALID_FAILED(2034, "Please enter a valid original mobile phone number"),//手机号验证失败 请输入正确的原手机号
