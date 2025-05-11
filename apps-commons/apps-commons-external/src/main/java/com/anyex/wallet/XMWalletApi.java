@@ -283,6 +283,7 @@ public class XMWalletApi {
             {
                 for(int i=0; i<jsonArray.size(); i++) {
                     log.info("get_support_chain_list jsonArray index {} : {}", i+1, jsonArray.get(i));
+                    // get_support_chain_list jsonArray index 1 : {"chain_code":"ETH","chain_name":"Ethereum"}
                 }
             }
         }
@@ -296,6 +297,8 @@ public class XMWalletApi {
             {
                 for(int i=0; i<jsonArray.size(); i++) {
                     log.info("get_coin_list_by_chain_code jsonArray index {} : {}", i+1, jsonArray.get(i));
+                    // get_coin_list_by_chain_code jsonArray index 1 : {"coin_no":"c2577bd5-9043-4bfd-ae88-177673a533e4","coin_name":"Ethereum","coin_code":"ETH"}
+                    // get_coin_list_by_chain_code jsonArray index 2 : {"coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","coin_name":"USDT test","coin_code":"USDTF"}
                 }
             }
         }
@@ -320,10 +323,10 @@ public class XMWalletApi {
 //            // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
 //        }
 
-
         // 6. 获取交易列表
         jsonObjectResp = get_tx_list();
         log.info("get_tx_list jsonObjectResp:{}", jsonObjectResp);
+        // get_tx_list jsonObjectResp:{"code":0,"data":[],"signature":"c9f1687f554e37ddea67fe6efdf651687036afc9e99a7043abd8e9ea7c36f11c","message":"Success"}
         if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
             JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
             if(null != jsonArray && jsonArray.size() > 0)
@@ -345,9 +348,10 @@ public class XMWalletApi {
 //            // request_no: 771d4761-8dc0-4e6e-a35a-30f8d07f85c0
 //        }
 
-        //
+        // 7. 推送交易状态
         jsonObjectResp = push_tx_status("771d4761-8dc0-4e6e-a35a-30f8d07f85c0");
         log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
+        // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
         if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
             JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
             log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);

@@ -50,7 +50,7 @@ public class WebConfig
         properties.setProperty("kaptcha.textproducer.font.size", "30");
         properties.setProperty("kaptcha.textproducer.char.space", "10");
         properties.setProperty("kaptcha.textproducer.font.color", "red");
-        properties.setProperty("kaptcha.textproducer.char.length", "6");
+        properties.setProperty("kaptcha.textproducer.char.length", "8");
         properties.setProperty("kaptcha.textproducer.char.string", "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
         // properties.setProperty("kaptcha.textproducer.char.string", "1234567890");
         Config config = new Config(properties);

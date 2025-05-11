@@ -136,15 +136,15 @@ public class User extends SignableEntity
 
 	/**创建时间*/
 	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 26, required = true)
+	@ApiModelProperty(value = "创建时间", position = 24, required = true)
 	private java.lang.Long createTime;
 
 	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 27)
+	@ApiModelProperty(value = "更新人", position = 25)
 	private java.lang.String updateBy;
 
 	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 28)
+	@ApiModelProperty(value = "更新时间", position = 26)
 	private java.lang.Long updateTime;
 
 	@Override
