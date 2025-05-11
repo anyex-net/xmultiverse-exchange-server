@@ -27,7 +27,7 @@ public class MonitorAccountProfitAndLossTask
      * 账户浮动盈亏监控
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 2/3 * * * ?")
+//    @Scheduled(cron = "0 2/3 * * * ?")
     public void monitorWalletAssetFlowsTask() throws RuntimeException
     {
         log.info("账户浮动盈亏监控 开始任务");

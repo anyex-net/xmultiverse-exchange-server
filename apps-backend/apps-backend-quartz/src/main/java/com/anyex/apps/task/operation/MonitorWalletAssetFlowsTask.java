@@ -27,7 +27,7 @@ public class MonitorWalletAssetFlowsTask
      * 资金流水监控
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 3/3 * * * ?")
+//    @Scheduled(cron = "0 3/3 * * * ?")
     public void monitorWalletAssetFlowsTask() throws RuntimeException
     {
         log.info("资金流水监控 开始任务");
