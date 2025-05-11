@@ -258,10 +258,10 @@ public class RwaInstSpvProductController extends GenericController
             }
 //            rwaInstSpvProductAsset.setUpdateTime(System.currentTimeMillis());
             rwaInstSpvProductAsset.setState(0);
-            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
-            rwaCertInstInvestor.setUserId(principal.getId());
-            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
-            rwaInstSpvProductAsset.setInstInvestorId(rwaCertInstInvestor1.getId());
+//            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
+//            rwaCertInstInvestor.setUserId(principal.getId());
+//            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
+//            rwaInstSpvProductAsset.setInstInvestorId(rwaCertInstInvestor1.getId());
             RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductAsset.getInstSpvProductId());
             rwaInstSpvProductAsset.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
             //
@@ -311,10 +311,6 @@ public class RwaInstSpvProductController extends GenericController
             }
 //            rwaInstSpvProductDividend.setUpdateTime(System.currentTimeMillis());
             rwaInstSpvProductDividend.setState("pending");
-            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
-            rwaCertInstInvestor.setUserId(principal.getId());
-            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
-            rwaInstSpvProductDividend.setInstInvestorId(rwaCertInstInvestor1.getId());
             //
             log.info("entity:{}", rwaInstSpvProductDividend);
             if (null == rwaInstSpvProductDividend.getId()) {

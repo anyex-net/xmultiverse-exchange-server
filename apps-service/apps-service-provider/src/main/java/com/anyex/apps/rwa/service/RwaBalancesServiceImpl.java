@@ -20,6 +20,7 @@ import com.anyex.apps.rwa.mapper.RwaBalancesMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * RWA账户余额 服务实现类
@@ -154,7 +155,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
     }
 
     @Transactional
-    public void unFrozenBal(RwaInstSpvProductAsset rwaInstSpvProductAsset) throws BusinessException{
+    public void unFrozenBal(RwaInstSpvProductAsset rwaInstSpvProductAsset) throws BusinessException {
         //申请资产解冻 总余额不变，冻结减少，可用余额增加
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductAsset.getUserId());
@@ -164,7 +165,15 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
             log.error("RWA用户资产不存在");
             throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
-        BigDecimal lastAmount = rwaInstSpvProductAsset.getLastAmount();
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductMapper.selectByPrimaryKey(rwaInstSpvProductAsset.getInstSpvProductId());
+        if (rwaInstSpvProduct == null) {
+            log.error("RWA机构SPV产品不存在");
+        }
+        BigDecimal issuePrice = null;
+        if (rwaInstSpvProduct != null) {
+            issuePrice = rwaInstSpvProduct.getRaiseAmount().divide(rwaInstSpvProduct.getRaiseAmount(), 8, RoundingMode.HALF_UP);
+        }
+        BigDecimal lastAmount = (rwaInstSpvProductAsset.getLastAmount()).multiply(issuePrice);
         rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().add(lastAmount));
         rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(lastAmount));
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);

@@ -112,6 +112,10 @@ public class RwaInstSpvProductAssetController extends GenericController
         if (principal != null) {
             entity.setUpdateBy(principal.getUserName());
         }
+        if (entity.getState() == 1) {
+            BigDecimal lastAmount = entity.getLastAmount();
+            entity.setAmount(lastAmount);
+        }
         entity.setUpdateTime(System.currentTimeMillis());
         rwaInstSpvProductAssetService.updateByPrimaryKeySelective(entity);
         //审核通过后解冻冻结

@@ -428,7 +428,7 @@
     </select>
 
     <select id="selectAmountSum" resultType="java.math.BigDecimal">
-        select sum(a.amount) as amount from RwaInstSpvProductAsset a where a.instSpvProductId = #{instSpvProductId}
+        select sum(a.amount) as amount from RwaInstSpvProductAsset a where a.instSpvProductId = #{instSpvProductId} and a.state = 1
     </select>
 
 
