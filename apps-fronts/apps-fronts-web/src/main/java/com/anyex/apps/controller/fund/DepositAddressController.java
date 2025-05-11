@@ -45,7 +45,7 @@ public class DepositAddressController extends GenericController
 {
     @Autowired(required = false)
     private UserService userService;
-    
+
     @Autowired(required = false)
     private DepositAddressService depositAddressService;
 
