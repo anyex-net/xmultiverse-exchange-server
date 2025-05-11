@@ -473,12 +473,12 @@ public class ViabtcTradeApi extends ViabtcApi {
 //        reqTradeOrderDeals.setLimit(100);
 //        System.out.println("tradeOrderDeals respJson:" + tradeOrderDeals(reqTradeOrderDeals));
 
-        ReqTradeOrderBook reqTradeOrderBook = new ReqTradeOrderBook();
-        reqTradeOrderBook.setMarket("BIEXBCH");
-        reqTradeOrderBook.setSide(2);
-        reqTradeOrderBook.setOffset(0);
-        reqTradeOrderBook.setLimit(100);
-        System.out.println("tradeOrderBook respJson:" + tradeOrderBook(reqTradeOrderBook));
+//        ReqTradeOrderBook reqTradeOrderBook = new ReqTradeOrderBook();
+//        reqTradeOrderBook.setMarket("BIEXBCH");
+//        reqTradeOrderBook.setSide(2);
+//        reqTradeOrderBook.setOffset(0);
+//        reqTradeOrderBook.setLimit(100);
+//        System.out.println("tradeOrderBook respJson:" + tradeOrderBook(reqTradeOrderBook));
 
 //        ReqTradeOrderDepth reqTradeOrderDepth = new ReqTradeOrderDepth();
 //        reqTradeOrderDepth.setMarket("BIEXBCH");
