@@ -26,4 +26,6 @@ import java.math.BigDecimal;
 public interface RwaInstSpvProductAssetMapper extends GenericMapper<RwaInstSpvProductAsset>
 {
     BigDecimal selectAmountSum(@Param("instSpvProductId") Long instSpvProductId);
+
+    BigDecimal selectLastAmountSum(@Param("instSpvProductId") Long instSpvProductId);
 }

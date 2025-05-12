@@ -258,11 +258,14 @@ public class RwaInstSpvProductController extends GenericController
             }
 //            rwaInstSpvProductAsset.setUpdateTime(System.currentTimeMillis());
             rwaInstSpvProductAsset.setState(0);
-//            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
-//            rwaCertInstInvestor.setUserId(principal.getId());
-//            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
-//            rwaInstSpvProductAsset.setInstInvestorId(rwaCertInstInvestor1.getId());
             RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductAsset.getInstSpvProductId());
+            //查看数量是否满足
+            // 查看申请数量
+            BigDecimal lastAmountSum = rwaInstSpvProductAssetService.selectLastAmountSum(reqRwaInstSpvProductAsset.getInstSpvProductId());
+            if (lastAmountSum.add(rwaInstSpvProductAsset.getLastAmount()).compareTo(rwaInstSpvProduct.getPurchasedSumAmount()) > 0) {
+                log.error("申请解冻数量超出剩余数量");
+                throw new BusinessException(CommonEnums.ERROR_RWA_USER_ASSET_AMOUNT_OVER_LIMIT);
+            }
             rwaInstSpvProductAsset.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
             //
             log.info("entity:{}", rwaInstSpvProductAsset);

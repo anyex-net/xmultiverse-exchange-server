@@ -22,4 +22,11 @@ import java.math.BigDecimal;
 public interface RwaInstSpvProductAssetService extends GenericService<RwaInstSpvProductAsset>
 {
     BigDecimal selectAmountSum(Long instSpvProductId);
+
+    /**
+     *  查询机构SPV产品资产已申请的数量
+     * @param instSpvProductId
+     * @return
+     */
+    BigDecimal selectLastAmountSum(Long instSpvProductId);
 }

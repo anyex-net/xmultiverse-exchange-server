@@ -431,6 +431,10 @@
         select sum(a.amount) as amount from RwaInstSpvProductAsset a where a.instSpvProductId = #{instSpvProductId} and a.state = 1
     </select>
 
+    <select id="selectLastAmountSum" resultType="java.math.BigDecimal">
+        select sum(a.lastAmount) as lastAmount from RwaInstSpvProductAsset a where a.instSpvProductId = #{instSpvProductId} and a.state IN (0, 1)
+    </select>
+
 
 </mapper>
 

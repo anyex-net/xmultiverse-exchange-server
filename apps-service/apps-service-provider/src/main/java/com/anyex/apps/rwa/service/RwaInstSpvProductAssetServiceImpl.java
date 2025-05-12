@@ -41,4 +41,10 @@ public class RwaInstSpvProductAssetServiceImpl extends GenericServiceImpl<RwaIns
     {
         return rwaInstSpvProductAssetMapper.selectAmountSum(instSpvProductId);
     }
+
+    @Override
+    public BigDecimal selectLastAmountSum(Long instSpvProductId) throws BusinessException
+    {
+        return rwaInstSpvProductAssetMapper.selectLastAmountSum(instSpvProductId);
+    }
 }
