@@ -262,6 +262,9 @@ public class RwaInstSpvProductController extends GenericController
             //查看数量是否满足
             // 查看申请数量
             BigDecimal lastAmountSum = rwaInstSpvProductAssetService.selectLastAmountSum(reqRwaInstSpvProductAsset.getInstSpvProductId());
+            if (null == lastAmountSum) {
+                lastAmountSum = BigDecimal.valueOf(0);
+            }
             if (lastAmountSum.add(rwaInstSpvProductAsset.getLastAmount()).compareTo(rwaInstSpvProduct.getPurchasedSumAmount()) > 0) {
                 log.error("申请解冻数量超出剩余数量");
                 throw new BusinessException(CommonEnums.ERROR_RWA_USER_ASSET_AMOUNT_OVER_LIMIT);
