@@ -174,15 +174,16 @@ public class XMWalletApi {
     }
 
     /**
-     * 获取交易列表
+     * 获取交易列表 tx_type的值：DEPOSIT传回充值列表，WITHDRAW传回提现列表，其他值传回所有列表
      *
      * @return
      */
-    public static JSONObject get_tx_list()
+    public static JSONObject get_tx_list(String txType)
     {
         Long timestamp = System.currentTimeMillis();
         JSONObject jsonParam = new JSONObject();
         jsonParam.put("merchant_no", "52a99509-5e42-4dac-9876-f5a1518f8e8d");
+        jsonParam.put("tx_type", txType);
         String signStr =    "POST"+ "\n" +
                 "/api/v1/get_tx_list" + "\n" +
                 timestamp/1000+ "\n" +
@@ -324,7 +325,8 @@ public class XMWalletApi {
 //        }
 
         // 6. 获取交易列表
-        jsonObjectResp = get_tx_list();
+        // tx_type的值：DEPOSIT传回充值列表，WITHDRAW传回提现列表，其他值传回所有列表
+        jsonObjectResp = get_tx_list("DEPOSIT");
         log.info("get_tx_list jsonObjectResp:{}", jsonObjectResp);
         // get_tx_list jsonObjectResp:{"code":0,"data":[],"signature":"c9f1687f554e37ddea67fe6efdf651687036afc9e99a7043abd8e9ea7c36f11c","message":"Success"}
         if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){

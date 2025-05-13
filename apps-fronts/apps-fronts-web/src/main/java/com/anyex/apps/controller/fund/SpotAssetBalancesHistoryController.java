@@ -134,7 +134,7 @@ public class SpotAssetBalancesHistoryController extends GenericController
             reqAssetBalanceUpdate.setCurrency(reqSpotAssetBalancesTransHistory.getCurrency());
             reqAssetBalanceUpdate.setBusiness("transferOut");
             reqAssetBalanceUpdate.setBusinessId(businessId);
-            reqAssetBalanceUpdate.setChange(String.valueOf(reqSpotAssetBalancesTransHistory.getChangeAmt()));
+            reqAssetBalanceUpdate.setChange("-"+String.valueOf(reqSpotAssetBalancesTransHistory.getChangeAmt())); // 现货减少 要用负数
             // 更新明细说明Json对象
             JSONObject detailJsonObject = new JSONObject();
             detailJsonObject.put("detail", JSON.toJSONString(reqAssetBalanceUpdate));
