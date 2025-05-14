@@ -192,7 +192,6 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             rwaBalancesPurchase.setAvailBal(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
             rwaBalancesService.insert(rwaBalancesPurchase);
         }
-
     }
 
     @Override

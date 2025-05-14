@@ -7,6 +7,8 @@ import com.anyex.apps.controller.rwa.resp.RespRwaMarketPrEnterprise;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketTokenInfo;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.fund.entity.DepositAddress;
+import com.anyex.apps.fund.service.DepositAddressService;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.rwa.entity.*;
@@ -14,6 +16,8 @@ import com.anyex.apps.rwa.service.*;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
+import com.anyex.exchange.contract.api.ContractMintApi;
+import com.anyex.exchange.contract.req.ReqMint;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +64,9 @@ public class RwaMarketController extends GenericController
 
     @Autowired(required = false)
     private UserService userService;
+
+    @Autowired(required = false)
+    private DepositAddressService depositAddressService;
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询RWA市场产品列表", httpMethod = "POST")
@@ -120,7 +127,27 @@ public class RwaMarketController extends GenericController
         BeanUtils.copyProperties(reqRwaInstSpvProductPurchase, rwaInstSpvProductPurchase);
         rwaInstSpvProductPurchase.setUserId(principal.getId());
 
+        //给用户铸造代币
+        //先找用户eth钱包地址有无
+        DepositAddress depositAddress = new DepositAddress();
+        depositAddress.setUserId(principal.getId());
+        depositAddress.setCurrency("ETH");
+        DepositAddress depositAddressDB = depositAddressService.selectOne(depositAddress);
+        if (null == depositAddressDB) {
+            log.error("用户ETH钱包地址不存在");
+            throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
+        }
+        //中心化业务处理
         rwaInstSpvProductPurchaseService.submitRwaInstSpvProductPurchase(rwaInstSpvProductPurchase);
+
+        //钱包存在 进行铸币
+        ReqMint reqMint = new ReqMint();
+        reqMint.setRecipient_address(depositAddressDB.getDepositAddress());
+
+        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
+        reqMint.setContract_address(rwaInstSpvProduct.getTokenContractAddress());
+        reqMint.setAmount(rwaInstSpvProductPurchase.getPurchaseAmount());
+        ContractMintApi.mint(reqMint);
 
         return json;
     }
@@ -144,6 +171,7 @@ public class RwaMarketController extends GenericController
         respRwaMarketTokenInfo.setHolderCount(rwaInstSpvProductPurchases.size());
 
         BigDecimal distributedAmount = rwaInstSpvProductDividendService.selectDividendAmount(id);
+        if (null == distributedAmount) distributedAmount = BigDecimal.ZERO;
         respRwaMarketTokenInfo.setDistributedAmount(distributedAmount);
 
         return this.getJsonMessage(CommonEnums.SUCCESS, respRwaMarketTokenInfo);

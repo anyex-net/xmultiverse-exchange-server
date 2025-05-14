@@ -127,7 +127,8 @@ public enum CommonEnums implements EnumDescribable
     ERROR_RWA_USER_INSUFFICIENT_AVAILABLE_BALANCE(10008, "insufficient available balance"),// 资产可用余额不足
     ERROR_RWA_INST_SPV_PRODUCT_NOT_FOUND(10009, "The RWA institution SPV product not found"),// RWA产品不存在
     ERROR_RWA_USER_PURCHASE_AMOUNT_OVER_LIMIT(10010, "The purchase amount exceeds the limit"), //申购金额超过限制
-    ERROR_RWA_USER_ASSET_AMOUNT_OVER_LIMIT(10011, "The asset amount exceeds the limit")
+    ERROR_RWA_USER_ASSET_AMOUNT_OVER_LIMIT(10011, "The asset amount exceeds the limit"),
+    ERROR_RWA_CONTRACT_DIVIDEND_DEPOSIT_NOT_ENOUGH(10012, "The deposit amount is not enough"), // 合约分红的保证金不足
     ;
     public Integer code;
 

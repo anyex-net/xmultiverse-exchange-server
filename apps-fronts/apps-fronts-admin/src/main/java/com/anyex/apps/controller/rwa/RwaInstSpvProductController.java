@@ -4,6 +4,7 @@
  */
 package com.anyex.apps.controller.rwa;
 
+import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
@@ -12,6 +13,9 @@ import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.rwa.service.RwaBalancesService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
+import com.anyex.exchange.contract.api.ContractApi;
+import com.anyex.exchange.contract.api.ContractDeployApi;
+import com.anyex.exchange.contract.req.ReqDeploy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,9 +79,27 @@ public class RwaInstSpvProductController extends GenericController {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         RwaInstSpvProduct entity = rwaInstSpvProductService.selectByPrimaryKey(id);
-        entity.setState(state);
         if ("1".equals(state)) {
-            rwaBalancesService.raiseMarginFrozenBal(entity);
+            entity.setState(state);
+            ReqDeploy reqDeploy = new ReqDeploy();
+            reqDeploy.setToken_name(entity.getTokenName());
+            reqDeploy.setToken_symbol(entity.getTokenName());//简写
+            reqDeploy.setTotal_supply(String.valueOf(entity.getRaiseAmount()));
+            JSONObject jsonObject = ContractDeployApi.deploy(reqDeploy);
+            if (jsonObject.getInteger("code") == 200) {
+                entity.setTokenContractAddress(jsonObject.getString("project_token_address"));
+                entity.setShareContractAddress(jsonObject.getString("dividend_contract_address"));
+                entity.setState("4");
+                rwaBalancesService.raiseMarginFrozenBal(entity);
+            }
+            if (jsonObject.getInteger("code") == 502){
+                log.error(jsonObject.getString("msg"));
+                entity.setState("6");
+            }
+            if (jsonObject.getInteger("code") == 500){
+                throw new BusinessException(jsonObject.getString("msg"));
+            }
+
         }
         if ("2".equals(state)) {
             rwaBalancesService.raiseMarginFrozenBalUncheck(entity);
