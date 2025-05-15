@@ -4,13 +4,17 @@
  */
 package com.anyex.apps.controller.fund;
 
+import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.User;
+import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
+import com.anyex.wallet.XMWalletApi;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +46,9 @@ import org.springframework.beans.BeanUtils;
 public class WithdrawalHistoryController extends GenericController
 {
     @Autowired(required = false)
+    private UserService userService;
+
+    @Autowired(required = false)
     private WithdrawalHistoryService withdrawalHistoryService;
 
     @GetMapping(value = "/findBy")
@@ -71,14 +78,43 @@ public class WithdrawalHistoryController extends GenericController
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        WithdrawalHistory withdrawalHistory = withdrawalHistoryService.selectByPrimaryKey(id);
+        //
+        WithdrawalHistory withdrawalHistoryDB = withdrawalHistoryService.selectByPrimaryKey(id);
         if (principal != null) {
-            withdrawalHistory.setCheckBy(principal.getUserName());
+            withdrawalHistoryDB.setCheckBy(principal.getUserName());
         }
-        withdrawalHistory.setCheckTime(System.currentTimeMillis());
-        withdrawalHistory.setState("checked");
-        withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistory);
-        return json;
+        withdrawalHistoryDB.setCheckTime(System.currentTimeMillis());
+        withdrawalHistoryDB.setState("checked");
+        log.info("updateByPrimaryKeySelective withdrawalHistoryDB:{}", withdrawalHistoryDB);
+        withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistoryDB);
+        //
+
+        //
+        // 调用钱包接口发起提现交易
+        User userDB = userService.selectByPrimaryKey(OnLineUserUtils.getPrincipal().getId());
+        //
+        // 5.发送交易
+        String userNo = userDB.getRemark();
+        JSONObject jsonObjectResp = XMWalletApi.create_transaction(userNo, withdrawalHistoryDB.getCurrency(), withdrawalHistoryDB.getBlockchain(),
+                String.valueOf(withdrawalHistoryDB.getAmount()), withdrawalHistoryDB.getToAddress());
+        log.info("create_transaction jsonObjectResp:{}", jsonObjectResp);
+        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+            JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+            log.info("create_transaction jsonObjectData request_no: {}", jsonObjectData.getString("request_no"));
+            // request_no: 771d4761-8dc0-4e6e-a35a-30f8d07f85c0
+            //
+            withdrawalHistoryDB.setTransId(jsonObjectData.getString("request_no")); // 唯一的
+            withdrawalHistoryDB.setState("exporting");
+            withdrawalHistoryDB.setUpdateTime(System.currentTimeMillis());
+            log.info("withdrawalHistoryDB:{}", withdrawalHistoryDB);
+            withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistoryDB);
+            return getJsonMessage(CommonEnums.SUCCESS);
+            //
+        } else {
+            log.error("create_transaction error: {}", jsonObjectResp);
+            throw new BusinessException("create_transaction error");
+        }
+        //
     }
 
 //    @PostMapping(value = "/save")

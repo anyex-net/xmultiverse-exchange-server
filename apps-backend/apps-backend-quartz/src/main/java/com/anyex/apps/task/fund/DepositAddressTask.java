@@ -31,7 +31,7 @@ public class DepositAddressTask
      * 充值地址调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 5/5 * * * ?")
+//    @Scheduled(cron = "0 5/5 * * * ?")
     public void depositAddressTask() throws RuntimeException
     {
         log.info("充值地址调度 开始任务");
@@ -39,7 +39,7 @@ public class DepositAddressTask
         RedisLock redisLock = new RedisLock(redisTemplate, redisLockName.toString(), 3);
         if (redisLock.lock()) {
             try {
-                // monitorWalletAssetFlowsService.monitorWalletAssetFlowsTask();
+
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("充值地址调度异常：error={}",e.getMessage());

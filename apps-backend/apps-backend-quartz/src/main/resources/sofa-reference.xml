@@ -22,5 +22,11 @@
             <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
         </sofa:binding.bolt>
     </sofa:reference>
+    <!-- 提现历史服务 -->
+    <sofa:reference id="withdrawalHistoryService" interface="com.anyex.apps.fund.service.WithdrawalHistoryService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
 
 </beans>

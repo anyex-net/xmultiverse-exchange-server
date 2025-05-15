@@ -69,9 +69,9 @@ public class WithdrawalHistory extends GenericEntity
 	@ApiModelProperty(value = "交易ID", position = 8)
 	private java.lang.String transId;
 
-	/**提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)*/
-	@NotEmpty(message = "提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)不可为空")
-	@ApiModelProperty(value = "提现状态(canceled已撤销、applied已申请、checked已复核、exported已汇出)", position = 9, required = true)
+	/**提现状态(canceled已撤销、applied已申请、checked已复核、exporting汇出中、exported已汇出、exportfail汇出失败)*/
+	@NotEmpty(message = "提现状态(canceled已撤销、applied已申请、checked已复核、exporting汇出中、exported已汇出、exportfail汇出失败)不可为空")
+	@ApiModelProperty(value = "提现状态(canceled已撤销、applied已申请、checked已复核、exporting汇出中、exported已汇出、exportfail汇出失败)", position = 9, required = true)
 	private java.lang.String state;
 
 	/**备注*/

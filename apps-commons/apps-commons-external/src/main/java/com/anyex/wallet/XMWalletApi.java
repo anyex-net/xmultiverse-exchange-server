@@ -208,18 +208,20 @@ public class XMWalletApi {
      * 发送交易
      *
      * @param userNo
-     * @param coinNo
+     * @param coinCode
+     * @param chainCode
      * @param amount
      * @param toAddress
      * @return
      */
-    public static JSONObject create_transaction(String userNo, String coinNo, String amount, String toAddress)
+    public static JSONObject create_transaction(String userNo, String coinCode, String chainCode, String amount, String toAddress)
     {
         Long timestamp = System.currentTimeMillis();
         JSONObject jsonParam = new JSONObject();
         jsonParam.put("merchant_no", "52a99509-5e42-4dac-9876-f5a1518f8e8d");
         jsonParam.put("user_no", userNo);
-        jsonParam.put("coin_no", coinNo);
+        jsonParam.put("coin_code", coinCode);
+        jsonParam.put("chain_code", chainCode);
         jsonParam.put("amount", amount);
         jsonParam.put("to_address", toAddress);
         String signStr =    "POST"+ "\n" +
@@ -276,33 +278,33 @@ public class XMWalletApi {
 
     public static void main(String[] args) {
         // 3. 获取支持的链列表
-        JSONObject jsonObjectResp = get_support_chain_list();
-        log.info("get_support_chain_list jsonObjectResp:{}", jsonObjectResp);
-        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-            JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
-            if(null != jsonArray && jsonArray.size() > 0)
-            {
-                for(int i=0; i<jsonArray.size(); i++) {
-                    log.info("get_support_chain_list jsonArray index {} : {}", i+1, jsonArray.get(i));
-                    // get_support_chain_list jsonArray index 1 : {"chain_code":"ETH","chain_name":"Ethereum"}
-                }
-            }
-        }
+//        JSONObject jsonObjectResp = get_support_chain_list();
+//        log.info("get_support_chain_list jsonObjectResp:{}", jsonObjectResp);
+//        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//            JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
+//            if(null != jsonArray && jsonArray.size() > 0)
+//            {
+//                for(int i=0; i<jsonArray.size(); i++) {
+//                    log.info("get_support_chain_list jsonArray index {} : {}", i+1, jsonArray.get(i));
+//                    // get_support_chain_list jsonArray index 1 : {"chain_code":"ETH","chain_name":"Ethereum"}
+//                }
+//            }
+//        }
 
         // 4. 根据链名称获取该链支持的代币列表
-        jsonObjectResp = get_coin_list_by_chain_code("ETH");
-        log.info("get_coin_list_by_chain_code jsonObjectResp:{}", jsonObjectResp);
-        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-            JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
-            if(null != jsonArray && jsonArray.size() > 0)
-            {
-                for(int i=0; i<jsonArray.size(); i++) {
-                    log.info("get_coin_list_by_chain_code jsonArray index {} : {}", i+1, jsonArray.get(i));
-                    // get_coin_list_by_chain_code jsonArray index 1 : {"coin_no":"c2577bd5-9043-4bfd-ae88-177673a533e4","coin_name":"Ethereum","coin_code":"ETH"}
-                    // get_coin_list_by_chain_code jsonArray index 2 : {"coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","coin_name":"USDT test","coin_code":"USDTF"}
-                }
-            }
-        }
+//        JSONObject jsonObjectResp = get_coin_list_by_chain_code("ETH");
+//        log.info("get_coin_list_by_chain_code jsonObjectResp:{}", jsonObjectResp);
+//        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//            JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
+//            if(null != jsonArray && jsonArray.size() > 0)
+//            {
+//                for(int i=0; i<jsonArray.size(); i++) {
+//                    log.info("get_coin_list_by_chain_code jsonArray index {} : {}", i+1, jsonArray.get(i));
+//                    // get_coin_list_by_chain_code jsonArray index 1 : {"coin_no":"c2577bd5-9043-4bfd-ae88-177673a533e4","coin_name":"Ethereum","coin_code":"ETH"}
+//                    // get_coin_list_by_chain_code jsonArray index 2 : {"coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","coin_name":"USDT test","coin_code":"USDTF"}
+//                }
+//            }
+//        }
 
         // 1. 注册用户
 //        jsonObjectResp = register_user();
@@ -315,7 +317,7 @@ public class XMWalletApi {
 
         // 2. 获取钱包地址
 //        String userNo = "e2a58b28-db67-4fc6-a27f-5d11d6de322e";
-//        String coinNo="c2577bd5-9043-4bfd-ae88-177673a533e4";
+//        String coinNo = "c2577bd5-9043-4bfd-ae88-177673a533e4";
 //        jsonObjectResp = get_address(userNo, coinNo);
 //        log.info("get_address jsonObjectResp:{}", jsonObjectResp);
 //        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
@@ -326,23 +328,26 @@ public class XMWalletApi {
 
         // 6. 获取交易列表
         // tx_type的值：DEPOSIT传回充值列表，WITHDRAW传回提现列表，其他值传回所有列表
-        jsonObjectResp = get_tx_list("DEPOSIT");
+        JSONObject jsonObjectResp = get_tx_list("ALL");
         log.info("get_tx_list jsonObjectResp:{}", jsonObjectResp);
         // get_tx_list jsonObjectResp:{"code":0,"data":[],"signature":"c9f1687f554e37ddea67fe6efdf651687036afc9e99a7043abd8e9ea7c36f11c","message":"Success"}
+        // get_tx_list jsonObjectResp:{"code":0,"data":[{"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}],
+        //                          "signature":"791cc120f32be32f84f99024048025a98f8d8b1706f3ba49567575106ff24b0a","message":"Success"}
         if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
             JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
             if(null != jsonArray && jsonArray.size() > 0)
             {
                 for(int i=0; i<jsonArray.size(); i++) {
-                    log.info("get_tx_list jsonArray index {} : {}", i+1, jsonArray.get(i));
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    log.info("get_tx_list jsonArray index {} : {}", i+1, jsonObject);
+                    // get_tx_list jsonArray index 1 : {"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}
                 }
             }
         }
 
         // 5.发送交易
 //        String userNo = "e2a58b28-db67-4fc6-a27f-5d11d6de322e";
-//        String coinNo="c2577bd5-9043-4bfd-ae88-177673a533e4";
-//        jsonObjectResp = create_transaction(userNo, coinNo, "0.12345", "0x39f03686b2d673f94f0b555e42bf33167cf033e2");
+//        jsonObjectResp = create_transaction(userNo, "USDT", "ETH","0.0010", "0x39f03686b2d673f94f0b555e42bf33167cf033e2");
 //        log.info("create_transaction jsonObjectResp:{}", jsonObjectResp);
 //        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
 //            JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
@@ -351,13 +356,13 @@ public class XMWalletApi {
 //        }
 
         // 7. 推送交易状态
-        jsonObjectResp = push_tx_status("771d4761-8dc0-4e6e-a35a-30f8d07f85c0");
-        log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
-        // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
-        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-            JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-            log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
-        }
+//        jsonObjectResp = push_tx_status("771d4761-8dc0-4e6e-a35a-30f8d07f85c0");
+//        log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
+//        // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
+//        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//            JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+//            log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
+//        }
 
     }
 }

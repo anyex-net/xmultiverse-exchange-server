@@ -53,7 +53,7 @@ public class WithdrawalController extends GenericController
         WithdrawalHistory withdrawalHistory = new WithdrawalHistory();
         BeanUtils.copyProperties(reqWithdrawalHistory, withdrawalHistory);
         withdrawalHistory.setUserId(OnLineUserUtils.getPrincipal().getId());
-        withdrawalHistory.setFromAddress("fromAddress");
+        withdrawalHistory.setFromAddress("fromWalletAddress");
         withdrawalHistory.setFee(BigDecimal.ZERO);
         withdrawalHistory.setTransId(SerialnoUtils.getOrderNum());
         withdrawalHistory.setState("applied");
