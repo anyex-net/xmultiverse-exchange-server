@@ -23,6 +23,7 @@ public class ContractDividendApi extends ContractApi{
             if (response == null || response.trim().isEmpty()) {
                 throw new BusinessException("API 返回为空");
             }
+            System.out.println("response:" + response);
             return JSON.parseObject(response);
         } catch (JSONException e) {
             throw new BusinessException("API 返回内容不是合法的 JSON：" + response);
@@ -52,15 +53,15 @@ public class ContractDividendApi extends ContractApi{
     }
 
     public static void main(String[] args) {
-        ReqDividend reqDividend = new ReqDividend();
-//        reqDividend.setAmount(BigDecimal.valueOf(10));
-//        reqDividend.setBlock_height(8287421L);
-        reqDividend.setContract_address("0xe021fB725d85761515BA7267A802Ee0D6f1E43EB");
-//        reqDividend.setProject_address("0x9fFbE399236CcB097e0752B353e5DD355Ee6CFc0");
-//        JSONObject jsonObject = ContractDividendApi.dividend(reqDividend);
-//        System.out.println(jsonObject);
-
-        JSONObject jsonObject1 = ContractDividendApi.getDividend(reqDividend);
-        System.out.println(jsonObject1);
+//        ReqDividend reqDividend = new ReqDividend();
+////        reqDividend.setAmount(BigDecimal.valueOf(10));
+////        reqDividend.setBlock_height(8287421L);
+//        reqDividend.setContract_address("0xe021fB725d85761515BA7267A802Ee0D6f1E43EB");
+////        reqDividend.setProject_address("0x9fFbE399236CcB097e0752B353e5DD355Ee6CFc0");
+////        JSONObject jsonObject = ContractDividendApi.dividend(reqDividend);
+////        System.out.println(jsonObject);
+//
+//        JSONObject jsonObject1 = ContractDividendApi.getDividend(reqDividend);
+//        System.out.println(jsonObject1);
     }
 }

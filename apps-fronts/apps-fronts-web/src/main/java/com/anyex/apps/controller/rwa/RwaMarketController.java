@@ -1,6 +1,7 @@
 package com.anyex.apps.controller.rwa;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.controller.rwa.req.*;
 import com.anyex.apps.controller.rwa.resp.RespRwaMarketPrEnterprise;
@@ -126,28 +127,35 @@ public class RwaMarketController extends GenericController
         RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
         BeanUtils.copyProperties(reqRwaInstSpvProductPurchase, rwaInstSpvProductPurchase);
         rwaInstSpvProductPurchase.setUserId(principal.getId());
-
-        //给用户铸造代币
-        //先找用户eth钱包地址有无
-        DepositAddress depositAddress = new DepositAddress();
-        depositAddress.setUserId(principal.getId());
-        depositAddress.setCurrency("ETH");
-        DepositAddress depositAddressDB = depositAddressService.selectOne(depositAddress);
-        if (null == depositAddressDB) {
-            log.error("用户ETH钱包地址不存在");
-            throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
-        }
         //中心化业务处理
         rwaInstSpvProductPurchaseService.submitRwaInstSpvProductPurchase(rwaInstSpvProductPurchase);
 
-        //钱包存在 进行铸币
-        ReqMint reqMint = new ReqMint();
-        reqMint.setRecipient_address(depositAddressDB.getDepositAddress());
+//        //给用户铸造代币
+//        //先找用户eth钱包地址有无
+//        DepositAddress depositAddress = new DepositAddress();
+//        depositAddress.setUserId(principal.getId());
+//        depositAddress.setCurrency("ETH");
+//        DepositAddress depositAddressDB = depositAddressService.selectOne(depositAddress);
+//        if (null == depositAddressDB) {
+//            log.error("用户ETH钱包地址不存在");
+//            throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
+//        }
 
-        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
-        reqMint.setContract_address(rwaInstSpvProduct.getTokenContractAddress());
-        reqMint.setAmount(rwaInstSpvProductPurchase.getPurchaseAmount());
-        ContractMintApi.mint(reqMint);
+//        //钱包存在 进行铸币
+//        ReqMint reqMint = new ReqMint();
+//        reqMint.setRecipient_address(depositAddressDB.getDepositAddress());
+//
+//        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
+//        reqMint.setContract_address(rwaInstSpvProduct.getTokenContractAddress());
+//        reqMint.setAmount(rwaInstSpvProductPurchase.getPurchaseAmount());
+//        JSONObject jsonObject = ContractMintApi.mint(reqMint);
+//        if (jsonObject.getInteger("code") != 200) {
+//            log.error("代币铸币失败");
+//            throw new BusinessException(CommonEnums.ERROR_RWA_TOKEN_MINT_FAIL);
+//        }else {
+//            System.out.println(jsonObject);
+//
+//        }
 
         return json;
     }

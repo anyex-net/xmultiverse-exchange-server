@@ -31,6 +31,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * RWA机构SPV产品 控制器
@@ -84,13 +85,17 @@ public class RwaInstSpvProductController extends GenericController {
             ReqDeploy reqDeploy = new ReqDeploy();
             reqDeploy.setToken_name(entity.getTokenName());
             reqDeploy.setToken_symbol(entity.getTokenName());//简写
-            reqDeploy.setTotal_supply(String.valueOf(entity.getRaiseAmount()));
+
+            BigDecimal oneE18 = new BigDecimal("1000000000000000000");
+            BigInteger totalSupply = entity.getRaiseAmount().multiply(oneE18).toBigIntegerExact();
+            reqDeploy.setTotal_supply(totalSupply.toString());
             JSONObject jsonObject = ContractDeployApi.deploy(reqDeploy);
             if (jsonObject.getInteger("code") == 200) {
-                entity.setTokenContractAddress(jsonObject.getString("project_token_address"));
-                entity.setShareContractAddress(jsonObject.getString("dividend_contract_address"));
+                JSONObject jsonData = jsonObject.getJSONObject("data");
+                entity.setTokenContractAddress(jsonData.getString("project_token_address"));
+                entity.setShareContractAddress(jsonData.getString("dividend_contract_address"));
                 entity.setState("4");
-                rwaBalancesService.raiseMarginFrozenBal(entity);
+//                rwaBalancesService.raiseMarginFrozenBal(entity);
             }
             if (jsonObject.getInteger("code") == 502){
                 log.error(jsonObject.getString("msg"));
@@ -100,9 +105,11 @@ public class RwaInstSpvProductController extends GenericController {
                 throw new BusinessException(jsonObject.getString("msg"));
             }
 
-        }
-        if ("2".equals(state)) {
+        }else if ("2".equals(state)) {
             rwaBalancesService.raiseMarginFrozenBalUncheck(entity);
+            entity.setState("2");
+        }else {
+            entity.setState(state);
         }
         if (principal != null) {
             entity.setCheckBy(principal.getUserName());

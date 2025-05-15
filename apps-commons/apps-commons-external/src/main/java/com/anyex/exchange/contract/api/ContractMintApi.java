@@ -31,6 +31,7 @@ public class ContractMintApi extends ContractApi{
             if (response == null || response.trim().isEmpty()) {
                 throw new BusinessException("API 返回为空");
             }
+            System.out.println("response:" + response);
             return JSON.parseObject(response);
         } catch (JSONException e) {
             throw new BusinessException("API 返回内容不是合法的 JSON：" + response);
@@ -62,14 +63,14 @@ public class ContractMintApi extends ContractApi{
         }
     }
     public static void main(String[] args) {
-        ReqMint reqMint = new ReqMint();
-        reqMint.setContract_address("0x9fFbE399236CcB097e0752B353e5DD355Ee6CFc0");
-        reqMint.setRecipient_address("0x104fe772a9c1269b57272ef42be1b27a8daa9064");
-//        reqMint.setAmount(BigDecimal.valueOf(1000));
-//        JSONObject jsonObject = ContractMintApi.mint(reqMint);
-//        System.out.println(jsonObject);
-
-        JSONObject jsonObject1 = ContractMintApi.getMint(reqMint);
-        System.out.println(jsonObject1);
+//        ReqMint reqMint = new ReqMint();
+//        reqMint.setContract_address("0x9fFbE399236CcB097e0752B353e5DD355Ee6CFc0");
+//        reqMint.setRecipient_address("0x104fe772a9c1269b57272ef42be1b27a8daa9064");
+////        reqMint.setAmount(BigDecimal.valueOf(1000));
+////        JSONObject jsonObject = ContractMintApi.mint(reqMint);
+////        System.out.println(jsonObject);
+//
+//        JSONObject jsonObject1 = ContractMintApi.getMint(reqMint);
+//        System.out.println(jsonObject1);
     }
 }
