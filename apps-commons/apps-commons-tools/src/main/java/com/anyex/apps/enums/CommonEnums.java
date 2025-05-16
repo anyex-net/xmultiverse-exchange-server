@@ -130,6 +130,7 @@ public enum CommonEnums implements EnumDescribable
     ERROR_RWA_USER_ASSET_AMOUNT_OVER_LIMIT(10011, "The asset amount exceeds the limit"),
     ERROR_RWA_CONTRACT_DIVIDEND_DEPOSIT_NOT_ENOUGH(10012, "The deposit amount is not enough"), // 合约分红的保证金不足
     ERROR_RWA_TOKEN_MINT_FAIL(10013, "The token mint fail"),// token mint失败
+    ERROR_RWA_TOKEN_CONTRACT_ADDRESS_NOT_FOUND(10014, "The token contract address not found"), // token合约地址不存在
     ;
     public Integer code;
 

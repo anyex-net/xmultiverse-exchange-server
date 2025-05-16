@@ -149,6 +149,10 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             log.error("Spv产品不存在");
             throw new BusinessException(CommonEnums.ERROR_RWA_INST_SPV_PRODUCT_NOT_FOUND);
         }
+        if (null == rwaInstSpvProduct.getTokenContractAddress() || null == rwaInstSpvProduct.getShareContractAddress()){
+            log.error("代币合约地址不存在");
+            throw new BusinessException(CommonEnums.ERROR_RWA_TOKEN_CONTRACT_ADDRESS_NOT_FOUND);
+        }
         reqMint.setContract_address(rwaInstSpvProduct.getTokenContractAddress());
         reqMint.setAmount(rwaInstSpvProductPurchase.getPurchaseAmount());
         JSONObject jsonObject = ContractMintApi.mint(reqMint);
@@ -158,6 +162,7 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             rwaInstSpvProductPurchase.setState("failed");
             log.info("rwaInstSpvProductPurchase failed:{}", rwaInstSpvProductPurchase);
             rwaInstSpvProductPurchase.setId(SerialnoUtils.buildPrimaryKey());
+            rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
             rwaInstSpvProductPurchaseMapper.insert(rwaInstSpvProductPurchase);
         }else {
             System.out.println(jsonObject);
