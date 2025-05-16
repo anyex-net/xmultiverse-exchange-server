@@ -35,25 +35,25 @@ public class ReqRwaInstSpvProductDividendSnapshotPagination extends Pagination
 //	@ApiModelProperty(value = "机构投资者ID", position = 2)
 //	private Long instInvestorId;
 
-//	/**机构SPV产品ID*/
-//	@ApiModelProperty(value = "机构SPV产品ID", position = 3)
-//	private Long instSpvProductId;
+	/**机构SPV产品ID*/
+	@ApiModelProperty(value = "机构SPV产品ID", position = 3)
+	private Long instSpvProductId;
 
 	/**机构SPV产品分红记录编号*/
 	@ApiModelProperty(value = "机构SPV产品分红记录编号", position = 4)
 	private String instSpvProductDividendNo;
 
-	/**链上钱包地址*/
-	@ApiModelProperty(value = "链上钱包地址", position = 5)
-	private String walletAddress;
-
-	/**平台分成持币数量*/
-	@ApiModelProperty(value = "平台分成持币数量", position = 6)
-	private java.math.BigDecimal holdAmount;
-
-	/**平台分成金额*/
-	@ApiModelProperty(value = "平台分成金额", position = 7)
-	private java.math.BigDecimal dividendAmount;
+//	/**链上钱包地址*/
+//	@ApiModelProperty(value = "链上钱包地址", position = 5)
+//	private String walletAddress;
+//
+//	/**平台分成持币数量*/
+//	@ApiModelProperty(value = "平台分成持币数量", position = 6)
+//	private java.math.BigDecimal holdAmount;
+//
+//	/**平台分成金额*/
+//	@ApiModelProperty(value = "平台分成金额", position = 7)
+//	private java.math.BigDecimal dividendAmount;
 
 //	/**备注*/
 //	@ApiModelProperty(value = "备注", position = 8)

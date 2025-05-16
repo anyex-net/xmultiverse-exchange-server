@@ -6,8 +6,11 @@ package com.anyex.apps.rwa.mapper;
 
 
 import com.anyex.apps.bean.GenericMapper;
+import com.anyex.apps.rwa.model.RwaDividendSnapshotInfoResultModel;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductDividendSnapshot;
+
+import java.util.List;
 
 /**
  * RWA机构SPV产品投资者分红快照 持久层接口
@@ -22,5 +25,5 @@ import com.anyex.apps.rwa.entity.RwaInstSpvProductDividendSnapshot;
 @Mapper
 public interface RwaInstSpvProductDividendSnapshotMapper extends GenericMapper<RwaInstSpvProductDividendSnapshot>
 {
-
+    List<RwaDividendSnapshotInfoResultModel> selectGroupByUserId(RwaInstSpvProductDividendSnapshot rwaInstSpvProductDividendSnapshot);
 }

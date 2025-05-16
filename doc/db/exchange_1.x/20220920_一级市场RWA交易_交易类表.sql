@@ -292,6 +292,8 @@ create table RwaInstSpvProductDividendSnapshot
     instSpvProductId            bigint(20)               not null comment '机构SPV产品ID',
     instSpvProductDividendNo    varchar(32)              not null comment '机构SPV产品分红记录编号',
     walletAddress               varchar(128)             not null comment '链上钱包地址',
+    chainHoldAmount             decimal(20, 8)           not null comment '链上持币数量',
+    chainDividendAmount         decimal(20, 8)           not null comment '链上分成金额',
     holdAmount                  decimal(20, 8)           not null comment '平台分成持币数量',
     dividendAmount              decimal(20, 8)           not null comment '平台分成金额',
     remark                      varchar(64)                       comment '备注',

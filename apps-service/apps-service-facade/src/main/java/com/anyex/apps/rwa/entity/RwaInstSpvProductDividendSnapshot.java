@@ -54,31 +54,40 @@ public class RwaInstSpvProductDividendSnapshot extends GenericEntity
 	@ApiModelProperty(value = "链上钱包地址", position = 5, required = true)
 	private String walletAddress;
 
+
+	@NotNull(message = "链上持币数量不可为空")
+	@ApiModelProperty(value = "链上持币数量", position = 6, required = true)
+	private java.math.BigDecimal chainHoldAmount;
+
+	@NotNull(message = "链上分成金额不可为空")
+	@ApiModelProperty(value = "链上分成金额", position = 7, required = true)
+	private java.math.BigDecimal chainDividendAmount;
+
 	/**平台分成持币数量*/
 	@NotNull(message = "平台分成持币数量不可为空")
-	@ApiModelProperty(value = "平台分成持币数量", position = 6, required = true)
+	@ApiModelProperty(value = "平台分成持币数量", position = 8, required = true)
 	private java.math.BigDecimal holdAmount;
 
 	/**平台分成金额*/
 	@NotNull(message = "平台分成金额不可为空")
-	@ApiModelProperty(value = "平台分成金额", position = 7, required = true)
+	@ApiModelProperty(value = "平台分成金额", position = 9, required = true)
 	private java.math.BigDecimal dividendAmount;
 
 	/**备注*/
-	@ApiModelProperty(value = "备注", position = 8)
+	@ApiModelProperty(value = "备注", position = 10)
 	private String remark;
 
 	/**创建时间*/
 	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 9, required = true)
+	@ApiModelProperty(value = "创建时间", position = 11, required = true)
 	private Long createTime;
 
 	/**更新人*/
-	@ApiModelProperty(value = "更新人", position = 10)
+	@ApiModelProperty(value = "更新人", position = 12)
 	private String updateBy;
 
 	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 11)
+	@ApiModelProperty(value = "更新时间", position = 13)
 	private Long updateTime;
 
 

@@ -14,6 +14,7 @@ import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;;
 import com.anyex.apps.rwa.entity.*;
+import com.anyex.apps.rwa.model.RwaDividendSnapshotInfoResultModel;
 import com.anyex.apps.rwa.service.*;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.user.entity.User;
@@ -395,7 +396,7 @@ public class RwaInstSpvProductController extends GenericController
                         productDividendSnapshot.setHoldAmount(holdAmount);
                         BigDecimal dividendAmount = holdAmount.divide(totalBalance, 8, RoundingMode.HALF_UP)
                                 .multiply(rwaInstSpvProductDividendDB.getDividendAmount())
-                                .setScale(2, RoundingMode.HALF_UP);
+                                .setScale(8, RoundingMode.HALF_UP);
                         productDividendSnapshot.setDividendAmount(dividendAmount);
                         productDividendSnapshot.setCreateTime(System.currentTimeMillis());
                         rwaInstSpvProductDividendSnapshotService.insert(productDividendSnapshot);
@@ -409,16 +410,16 @@ public class RwaInstSpvProductController extends GenericController
         return json;
     }
 
-    @GetMapping(value = "/getRwaInstSpvProductDividend")
-    @ApiOperation(value = "获取RWA机构SPV产品分红详情", httpMethod = "GET")
-    public JsonMessage<PaginateResult<RwaInstSpvProductDividendSnapshot>> getRwaInstSpvProductDividend(@Validated @RequestBody ReqRwaInstSpvProductDividendSnapshotPagination pagination) throws BusinessException
+    @PostMapping(value = "/rwaInstSpvProductDividendInfo")
+    @ApiOperation(value = "获取RWA机构SPV产品分红详情", httpMethod = "POST")
+    public JsonMessage<PaginateResult<RwaDividendSnapshotInfoResultModel>> rwaInstSpvProductDividendInfo(@Validated @RequestBody ReqRwaInstSpvProductDividendSnapshotPagination pagination) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
         //
         RwaInstSpvProductDividendSnapshot rwaInstSpvProductDividendSnapshot = new RwaInstSpvProductDividendSnapshot();
         BeanUtils.copyProperties(pagination, rwaInstSpvProductDividendSnapshot);
-        PaginateResult<RwaInstSpvProductDividendSnapshot> result = rwaInstSpvProductDividendSnapshotService.search(pagination,rwaInstSpvProductDividendSnapshot);
+        PaginateResult<RwaDividendSnapshotInfoResultModel> result = rwaInstSpvProductDividendSnapshotService.selectGroupByUserId(pagination,rwaInstSpvProductDividendSnapshot);
         return this.getJsonMessage(CommonEnums.SUCCESS, result);
     }
 
