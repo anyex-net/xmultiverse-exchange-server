@@ -392,6 +392,8 @@ public class RwaInstSpvProductController extends GenericController
 
                         productDividendSnapshot.setInstSpvProductDividendNo(String.valueOf(rwaInstSpvProductDividendDB.getId()));
                         productDividendSnapshot.setWalletAddress(txHash);
+                        productDividendSnapshot.setChainHoldAmount(totalBalance);
+                        productDividendSnapshot.setChainDividendAmount(rwaInstSpvProductDividendDB.getDividendAmount());
                         BigDecimal holdAmount = rwaInstSpvProductPurchases.get(i).getPurchaseAmount();
                         productDividendSnapshot.setHoldAmount(holdAmount);
                         BigDecimal dividendAmount = holdAmount.divide(totalBalance, 8, RoundingMode.HALF_UP)
