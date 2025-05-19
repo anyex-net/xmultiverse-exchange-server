@@ -121,6 +121,19 @@ public class RwaInstSpvProductController extends GenericController
         if (reqRwaInstSpvProduct.getOperationStarDate().compareTo(reqRwaInstSpvProduct.getPurchaseEndDate()) < 0){
             throw new BusinessException(CommonEnums.ERROR_RWA_INST_SPV_PRODUCT_OPERATION_DATE_ERROR);
         }
+        //不能存在代币名称同名
+        List<RwaInstSpvProduct> rwaInstSpvProductList = rwaInstSpvProductService.selectAll();
+        rwaInstSpvProductList.forEach(rwaInstSpvProduct -> {
+            if (rwaInstSpvProduct.getTokenName().equals(reqRwaInstSpvProduct.getTokenName())){
+                log.error("代币名称重复");
+                throw new BusinessException(CommonEnums.ERROR_RWA_INST_SPV_PRODUCT_TOKEN_NAME_EXIST);
+            }
+        });
+        String tokenName = reqRwaInstSpvProduct.getTokenName();
+        if ("BTC".equals(tokenName) || "ETH".equals(tokenName) || "USDT".equals(tokenName)) {
+            log.error("代币名称重复");
+            throw new BusinessException(CommonEnums.ERROR_RWA_INST_SPV_PRODUCT_TOKEN_NAME_EXIST);
+        }
         JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
         if (beanValidator(json, reqRwaInstSpvProduct))
         {
