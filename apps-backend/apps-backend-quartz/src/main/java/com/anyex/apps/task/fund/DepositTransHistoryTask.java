@@ -2,13 +2,19 @@ package com.anyex.apps.task.fund;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.anyex.apps.exception.BusinessException;
+import com.anyex.apps.fund.entity.Balances;
+import com.anyex.apps.fund.entity.BalancesTransHistory;
 import com.anyex.apps.fund.entity.DepositTransHistory;
+import com.anyex.apps.fund.service.BalancesService;
 import com.anyex.apps.fund.service.DepositTransHistoryService;
 import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.RedisLock;
+import com.anyex.apps.utils.SerialnoUtils;
 import com.anyex.wallet.XMWalletApi;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,10 +32,13 @@ import java.math.BigDecimal;
 public class DepositTransHistoryTask
 {
     @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Autowired(required = false)
-    UserService userService;
+    private UserService userService;
+
+    @Autowired(required = false)
+    private BalancesService balancesService;
 
     @Autowired(required = false)
     private DepositTransHistoryService depositTransHistoryService;
@@ -38,7 +47,7 @@ public class DepositTransHistoryTask
      * 充值交易历史调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 5/5 * * * ?")
+    @Scheduled(cron = "0 */11 * * * ?")
     public void depositTransHistoryTask() throws RuntimeException
     {
         log.info("充值交易历史调度 开始任务");
@@ -66,9 +75,10 @@ public class DepositTransHistoryTask
                             depositTransHistorySearch.setTransId(jsonObject.getString("request_no"));
                             DepositTransHistory depositTransHistoryDB = depositTransHistoryService.selectOne(depositTransHistorySearch);
                             if(null == depositTransHistoryDB){
-                                userSearch.setRemark("user_no");
+                                userSearch.setRemark(jsonObject.getString("user_no"));
                                 User userDB = userService.selectOne(userSearch);
                                 if(null != userDB){
+                                    log.info("userDB:{}", userDB);
                                     depositTransHistoryDB = new DepositTransHistory();
                                     depositTransHistoryDB.setUserId(userDB.getId());
                                     depositTransHistoryDB.setCurrency(jsonObject.getString("coin_code"));
@@ -84,16 +94,44 @@ public class DepositTransHistoryTask
                                     log.info("待插入depositTransHistoryDB:{}", depositTransHistoryDB);
                                     depositTransHistoryService.insert(depositTransHistoryDB);
                                     //
-                                    // 推送交易状态
-                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
-                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
-                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
-                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
+                                    // 钱包资产入账
+                                    Balances balancesSearch = new Balances();
+                                    balancesSearch.setId(userDB.getId());
+                                    balancesSearch.setCurrency(depositTransHistoryDB.getCurrency());
+                                    Balances balancesDB = balancesService.selectOne(balancesSearch);
+                                    if(null != balancesDB){
+                                        //
+                                        balancesDB.setBalance(balancesDB.getBalance().add(depositTransHistoryDB.getAmount()));
+                                        balancesDB.setAvailBal(balancesDB.getAvailBal().add(depositTransHistoryDB.getAmount()));
+                                        balancesDB.setUpdateTime(System.currentTimeMillis());
+                                        balancesDB.setRemark("deposit");
+                                        log.info("更新 balancesDB:{}", balancesDB);
+                                        balancesService.updateByPrimaryKeySelective(balancesDB);
                                     } else {
-                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
+                                        log.info("balancesDB is null 需要新插入!");
+                                        balancesDB = new Balances();
+                                        balancesDB.setUserId(userDB.getId());
+                                        balancesDB.setCurrency(depositTransHistoryDB.getCurrency());
+                                        balancesDB.setBalance(depositTransHistoryDB.getAmount());
+                                        balancesDB.setFrozenBal(BigDecimal.ZERO);
+                                        balancesDB.setAvailBal(depositTransHistoryDB.getAmount());
+                                        balancesDB.setUpdateTime(System.currentTimeMillis());
+                                        balancesDB.setRemark("deposit");
+                                        log.info("插入 balancesDB:{}", balancesDB);
+                                        balancesService.insert(balancesDB);
                                     }
+                                    //
+                                    //
+//                                    // 推送交易状态
+//                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
+//                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
+//                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
+//                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+//                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
+//                                    } else {
+//                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
+//                                    }
                                 } else {
                                     log.error("对应的用户不存在，暂时无法执行入库，请检查！");
                                 }

@@ -91,7 +91,7 @@ public class WithdrawalHistoryController extends GenericController
 
         //
         // 调用钱包接口发起提现交易
-        User userDB = userService.selectByPrimaryKey(OnLineUserUtils.getPrincipal().getId());
+        User userDB = userService.selectByPrimaryKey(withdrawalHistoryDB.getUserId()); // 注意这里是提现记录中的发起用户ID
         //
         // 5.发送交易
         String userNo = userDB.getRemark();

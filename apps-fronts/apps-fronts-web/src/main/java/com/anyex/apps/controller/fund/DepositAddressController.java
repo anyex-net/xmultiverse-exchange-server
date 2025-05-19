@@ -54,17 +54,11 @@ public class DepositAddressController extends GenericController
     public JsonMessage<DepositAddress> getDepositAddress(@Validated @RequestBody ReqDepositAddress reqDepositAddress) throws BusinessException
     {
         DepositAddress depositAddressQuery = new DepositAddress();
-        BeanUtils.copyProperties(depositAddressQuery, reqDepositAddress);
+        BeanUtils.copyProperties(reqDepositAddress, depositAddressQuery);
         depositAddressQuery.setUserId(OnLineUserUtils.getPrincipal().getId());
         DepositAddress depositAddressDB = depositAddressService.selectOne(depositAddressQuery);
-        // 先写死
-//        DepositAddress result = new DepositAddress();
-//        result.setUserId(OnLineUserUtils.getPrincipal().getId());
-//        result.setCurrency(reqDepositAddress.getCurrency());
-//        result.setBlockchain(reqDepositAddress.getBlockchain());
-//        result.setDepositAddress("0x123456");
-//        result.setRemark("先写死");
-
+        //
+        //
         if(null != depositAddressDB) {
             // 数据库中已经存在对应公链对应币种的充值地址 直接返回
             return getJsonMessage(CommonEnums.SUCCESS, depositAddressDB);
@@ -90,7 +84,7 @@ public class DepositAddressController extends GenericController
             }
             //
             if("BTC".equals(reqDepositAddress.getCurrency())){
-                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "BTC编码");
+                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "BTC", "BTC");
                 log.info("get_address jsonObjectResp:{}", jsonObjectResp);
                 if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
                     JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
@@ -104,6 +98,7 @@ public class DepositAddressController extends GenericController
                     result.setAccDeposit(BigDecimal.ZERO);
                     result.setUnconfAccDeposit(BigDecimal.ZERO);
                     result.setRemark("address init");
+                    result.setCreateTime(System.currentTimeMillis());
                     log.info("插入 depositAddress: {}", result);
                     depositAddressService.insert(result);
                     return getJsonMessage(CommonEnums.SUCCESS, result);
@@ -113,7 +108,7 @@ public class DepositAddressController extends GenericController
                     throw new BusinessException("call XMWalletApi get_address error, please check!");
                 }
             } else if("ETH".equals(reqDepositAddress.getCurrency())){
-                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "c2577bd5-9043-4bfd-ae88-177673a533e4");
+                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "ETH", "ETH");
                 log.info("get_address jsonObjectResp:{}", jsonObjectResp);
                 if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
                     JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
@@ -127,6 +122,7 @@ public class DepositAddressController extends GenericController
                     result.setAccDeposit(BigDecimal.ZERO);
                     result.setUnconfAccDeposit(BigDecimal.ZERO);
                     result.setRemark("address init");
+                    result.setCreateTime(System.currentTimeMillis());
                     log.info("插入 depositAddress: {}", result);
                     depositAddressService.insert(result);
                     return getJsonMessage(CommonEnums.SUCCESS, result);
@@ -136,7 +132,29 @@ public class DepositAddressController extends GenericController
                     throw new BusinessException("call XMWalletApi get_address error, please check!");
                 }
             } else if("USDT".equals(reqDepositAddress.getCurrency())){
-                return getJsonMessage(CommonEnums.SUCCESS, null);
+                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "USDT", reqDepositAddress.getBlockchain());
+                log.info("get_address jsonObjectResp:{}", jsonObjectResp);
+                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+                    JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+                    log.info("get_address jsonObjectData address: {}", jsonObjectData.getString("address"));
+                    // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
+                    DepositAddress result = new DepositAddress();
+                    result.setUserId(OnLineUserUtils.getPrincipal().getId());
+                    result.setCurrency(reqDepositAddress.getCurrency());
+                    result.setBlockchain(reqDepositAddress.getBlockchain());
+                    result.setDepositAddress(jsonObjectData.getString("address"));
+                    result.setAccDeposit(BigDecimal.ZERO);
+                    result.setUnconfAccDeposit(BigDecimal.ZERO);
+                    result.setRemark("address init");
+                    result.setCreateTime(System.currentTimeMillis());
+                    log.info("插入 depositAddress: {}", result);
+                    depositAddressService.insert(result);
+                    return getJsonMessage(CommonEnums.SUCCESS, result);
+                    //
+                } else {
+                    log.error("XMWalletApi.get_address error:{}", jsonObjectResp);
+                    throw new BusinessException("call XMWalletApi get_address error, please check!");
+                }
             } else {
                 return getJsonMessage(CommonEnums.SUCCESS, null);
             }

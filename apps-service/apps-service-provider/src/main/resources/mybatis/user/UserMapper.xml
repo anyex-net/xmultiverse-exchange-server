@@ -630,9 +630,9 @@
         <if test="stableCoinPreference != null and stableCoinPreference != ''">
             AND a.stableCoinPreference = #{stableCoinPreference}
         </if>
-<!--        <if test="remark != null and remark != ''">-->
-<!--            AND a.remark = #{remark}-->
-<!--        </if>-->
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
 <!--        <if test="sign != null and sign != ''">-->
 <!--            AND a.sign = #{sign}-->
 <!--        </if>-->
@@ -722,9 +722,9 @@
         <if test="stableCoinPreference != null and stableCoinPreference != ''">
             AND a.stableCoinPreference LIKE CONCAT('%',#{stableCoinPreference}, '%')
         </if>
-<!--        <if test="remark != null and remark != ''">-->
-<!--            AND a.remark LIKE CONCAT('%',#{remark}, '%')-->
-<!--        </if>-->
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
 <!--        <if test="sign != null and sign != ''">-->
 <!--            AND a.sign LIKE CONCAT('%',#{sign}, '%')-->
 <!--        </if>-->

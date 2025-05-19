@@ -36,7 +36,7 @@ public class WithdrawalHistoryTask
      * 提现历史调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 5/5 * * * ?")
+    @Scheduled(cron = "0 */13 * * * ?")
     public void withdrawalHistoryTask() throws RuntimeException
     {
         log.info("提现历史调度 开始任务");
@@ -64,24 +64,25 @@ public class WithdrawalHistoryTask
                             withdrawalHistorySearch.setTransId(jsonObject.getString("request_no"));
                             WithdrawalHistory withdrawalHistoryDB = withdrawalHistoryService.selectOne(withdrawalHistorySearch);
                             if(null != withdrawalHistoryDB){
-                                userSearch.setRemark("user_no");
+                                userSearch.setRemark(jsonObject.getString("user_no"));
                                 User userDB = userService.selectOne(userSearch);
                                 if(null != userDB){
+                                    log.info("userDB:{}", userDB);
                                     withdrawalHistoryDB.setState("completed".equals( jsonObject.getString("tx_status")) ? "exported":"exportfail");
                                     withdrawalHistoryDB.setUpdateTime(System.currentTimeMillis());
                                     log.info("待更新withdrawalHistoryDB:{}", withdrawalHistoryDB);
-                                    withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistoryDB);
-                                    //
-                                    // 推送交易状态
-                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
-                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
-                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
-                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
-                                    } else {
-                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
-                                    }
+//                                    withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistoryDB);
+//                                    //
+//                                    // 推送交易状态
+//                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
+//                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
+//                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
+//                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+//                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
+//                                    } else {
+//                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
+//                                    }
                                 } else {
                                     log.error("对应的用户不存在，暂时无法执行，请检查！");
                                 }
