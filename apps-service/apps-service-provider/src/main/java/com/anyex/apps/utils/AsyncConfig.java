@@ -1,5 +1,4 @@
-package com.anyex.apps.config;
-
+package com.anyex.apps.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,13 +9,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 public class AsyncConfig {
+
     @Bean(name = "mintTaskExecutor")
     public Executor mintTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(10);
         executor.setQueueCapacity(200);
-        executor.setThreadNamePrefix("MintExecutor");
+        executor.setThreadNamePrefix("MintExecutor-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;

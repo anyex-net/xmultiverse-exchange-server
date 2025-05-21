@@ -24,6 +24,7 @@ import com.anyex.exchange.contract.req.ReqMint;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ import com.anyex.apps.rwa.mapper.RwaInstSpvProductPurchaseMapper;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -73,7 +73,8 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
     @Autowired(required = false)
     private DepositAddressService depositAddressService;
 
-    @Resource(name = "mintTaskExecutor")
+    @Autowired(required = false)
+    @Qualifier("mintTaskExecutor")
     private Executor mintTaskExecutor;
 
 
