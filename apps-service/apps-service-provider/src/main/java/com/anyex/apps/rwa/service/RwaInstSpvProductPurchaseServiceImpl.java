@@ -168,13 +168,19 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             log.error("mintTaskExecutor is not initialized.");
             throw new BusinessException("mintTaskExecutor is not initialized.");
         } else {
-            CompletableFuture.runAsync(() -> asyncMint(reqMint, rwaInstSpvProductPurchase, rwaBalancesDB, rwaInstSpvProduct, user), mintTaskExecutor);
             rwaInstSpvProductPurchase.setState("processing");
             if (rwaInstSpvProductPurchase.getId() == null) {
                 rwaInstSpvProductPurchase.setId(SerialnoUtils.buildPrimaryKey());
                 rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
                 rwaInstSpvProductPurchaseMapper.insert(rwaInstSpvProductPurchase);
             }
+            CompletableFuture.runAsync(() -> {
+                try {
+                    asyncMint(reqMint, rwaInstSpvProductPurchase, rwaBalancesDB, rwaInstSpvProduct, user);
+                } catch (Exception e) {
+                    log.error("Error during asyncMint execution", e);
+                }
+            }, mintTaskExecutor);
         }
 
 //
@@ -276,9 +282,9 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
 
     private void handleMintFailed(RwaInstSpvProductPurchase purchase) {
         purchase.setState("failed");
-        purchase.setId(SerialnoUtils.buildPrimaryKey());
-        purchase.setCreateTime(System.currentTimeMillis());
-        rwaInstSpvProductPurchaseMapper.insert(purchase);
+//        purchase.setId(SerialnoUtils.buildPrimaryKey());
+        purchase.setUpdateTime(System.currentTimeMillis());
+        rwaInstSpvProductPurchaseMapper.updateByPrimaryKeySelective(purchase);
     }
 
     private void handleMintSuccess(RwaInstSpvProductPurchase rwaInstSpvProductPurchase, RwaBalances rwaBalancesDB,
