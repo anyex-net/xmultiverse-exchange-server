@@ -24,6 +24,7 @@ import com.anyex.exchange.contract.req.ReqMint;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,8 +34,11 @@ import com.anyex.apps.rwa.mapper.RwaInstSpvProductPurchaseMapper;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 /**
  * RWA机构SPV产品申购记录 服务实现类
@@ -69,6 +73,8 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
     @Autowired(required = false)
     private DepositAddressService depositAddressService;
 
+    @Resource(name = "mintTaskExecutor")
+    private Executor mintTaskExecutor;
 
 
     @Autowired(required = false)
@@ -155,82 +161,191 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
         }
         reqMint.setContract_address(rwaInstSpvProduct.getTokenContractAddress());
         reqMint.setAmount(rwaInstSpvProductPurchase.getPurchaseAmount());
-        JSONObject jsonObject = ContractMintApi.mint(reqMint);
-        if (jsonObject.getInteger("code") != 200) {
-            log.error("代币铸币失败");
-//            throw new BusinessException(CommonEnums.ERROR_RWA_TOKEN_MINT_FAIL);
-            rwaInstSpvProductPurchase.setState("failed");
-            log.info("rwaInstSpvProductPurchase failed:{}", rwaInstSpvProductPurchase);
-            rwaInstSpvProductPurchase.setId(SerialnoUtils.buildPrimaryKey());
-            rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
-            rwaInstSpvProductPurchaseMapper.insert(rwaInstSpvProductPurchase);
-        }else {
-            System.out.println(jsonObject);
-            //中心化业务处理
-            //
-            if (user.getCertState() == 2){
-                RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
-                rwaCertInstInvestor.setUserId(rwaInstSpvProductPurchase.getUserId());
-                RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
-                rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
-            }
-            if (null == rwaInstSpvProductPurchase.getId())
-            {
-                rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
-            }
-//        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
-            rwaInstSpvProductPurchase.setState("success");
-            //
-            log.info("rwaInstSpvProductPurchase:{}", rwaInstSpvProductPurchase);
-            if(null == rwaInstSpvProductPurchase.getId()){
+
+        //异步执行
+        // 异步调用铸币
+        if (mintTaskExecutor == null) {
+            log.error("mintTaskExecutor is not initialized.");
+            throw new BusinessException("mintTaskExecutor is not initialized.");
+        } else {
+            CompletableFuture.runAsync(() -> asyncMint(reqMint, rwaInstSpvProductPurchase, rwaBalancesDB, rwaInstSpvProduct, user), mintTaskExecutor);
+            rwaInstSpvProductPurchase.setState("processing");
+            if (rwaInstSpvProductPurchase.getId() == null) {
                 rwaInstSpvProductPurchase.setId(SerialnoUtils.buildPrimaryKey());
+                rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
                 rwaInstSpvProductPurchaseMapper.insert(rwaInstSpvProductPurchase);
             }
-            //申购者资产更新 总余额减少，冻结不变，可用减少
-            rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().subtract(purchaseBalance));
+        }
+
+//
+        //同步
+//        JSONObject jsonObject = ContractMintApi.mint(reqMint);
+//        if (jsonObject.getInteger("code") != 200) {
+//            log.error("代币铸币失败");
+////            throw new BusinessException(CommonEnums.ERROR_RWA_TOKEN_MINT_FAIL);
+//            rwaInstSpvProductPurchase.setState("failed");
+//            log.info("rwaInstSpvProductPurchase failed:{}", rwaInstSpvProductPurchase);
+//            rwaInstSpvProductPurchase.setId(SerialnoUtils.buildPrimaryKey());
+//            rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
+//            rwaInstSpvProductPurchaseMapper.insert(rwaInstSpvProductPurchase);
+//        }else {
+//            System.out.println(jsonObject);
+//            //中心化业务处理
+//            //
+//            if (user.getCertState() == 2){
+//                RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
+//                rwaCertInstInvestor.setUserId(rwaInstSpvProductPurchase.getUserId());
+//                RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
+//                rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
+//            }
+//            if (null == rwaInstSpvProductPurchase.getId())
+//            {
+//                rwaInstSpvProductPurchase.setCreateTime(System.currentTimeMillis());
+//            }
+////        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
+//            rwaInstSpvProductPurchase.setState("success");
+//            //
+//            log.info("rwaInstSpvProductPurchase:{}", rwaInstSpvProductPurchase);
+//            if(null == rwaInstSpvProductPurchase.getId()){
+//                rwaInstSpvProductPurchase.setId(SerialnoUtils.buildPrimaryKey());
+//                rwaInstSpvProductPurchaseMapper.insert(rwaInstSpvProductPurchase);
+//            }
+//            //申购者资产更新 总余额减少，冻结不变，可用减少
+//            rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().subtract(purchaseBalance));
+////        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(purchaseBalance));
+//            rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().subtract(purchaseBalance));
+//            rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
+//            //募集者 总余额增加，冻结增加，可用余额不变
+////            RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
+//
+//            RwaBalances rwaBalancesRaise = new RwaBalances();
+//            rwaBalancesRaise.setUserId(rwaInstSpvProduct.getUserId());
+//            rwaBalancesRaise.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
+//            RwaBalances rwaBalancesRaiseDB = rwaBalancesMapper.selectOneForUpdate(rwaBalancesRaise);
+//            if (null == rwaBalancesRaiseDB) {
+//                log.error("募集者的资产不存在");
+//                throw new BusinessException(CommonEnums.ERROR_RWA_RAISE_USER_BALANCE_NOT_FOUND);
+//            }
+//            rwaBalancesRaiseDB.setBalance(rwaBalancesRaiseDB.getBalance().add(purchaseBalance));
+//            rwaBalancesRaiseDB.setFrozenBal(rwaBalancesRaiseDB.getFrozenBal().add(purchaseBalance));
+////        rwaBalancesRaiseDB.setAvailBal(rwaBalancesRaiseDB.getAvailBal().add(purchaseBalance));
+//            rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesRaiseDB);
+//            //更新Rwa产品总申购数量
+////        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
+//            rwaInstSpvProduct.setPurchasedSumAmount(rwaInstSpvProduct.getPurchasedSumAmount().add(rwaInstSpvProductPurchase.getPurchaseAmount()));
+//            rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
+//            //
+//
+//            //记录申购记录代币到Rwa账户
+//            RwaBalances rwaBalancesPurchase  = new RwaBalances();
+//            rwaBalancesPurchase.setUserId(rwaInstSpvProductPurchase.getUserId());
+//            rwaBalancesPurchase.setCurrency(rwaInstSpvProduct.getTokenName());
+//            RwaBalances rwaBalancesPurchaseDB = rwaBalancesService.selectOne(rwaBalancesPurchase);
+//            if (null != rwaBalancesPurchaseDB){
+//                BigDecimal totalPurchaseAmount = rwaInstSpvProductPurchaseMapper.findTotalPurchaseAmountByUserIdAndProductId(rwaInstSpvProductPurchase);
+//                //累计申购数量+现购数量
+//                BigDecimal balance = totalPurchaseAmount.multiply(rwaInstSpvProductPurchase.getPurchasePrice());
+//                rwaBalancesPurchaseDB.setBalance(balance);
+////            rwaBalancesDB.setFrozenBal(BigDecimal.valueOf(0));
+//                rwaBalancesPurchaseDB.setAvailBal(balance);
+//                rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesPurchaseDB);
+//            }else {
+//                rwaBalancesPurchase.setBalance(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
+//                rwaBalancesPurchase.setFrozenBal(BigDecimal.valueOf(0));
+//                rwaBalancesPurchase.setAvailBal(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
+//                rwaBalancesService.insert(rwaBalancesPurchase);
+//            }
+//        }
+    }
+
+    @Async
+    public void asyncMint(ReqMint reqMint, RwaInstSpvProductPurchase purchase, RwaBalances userBalance,
+                          RwaInstSpvProduct spvProduct, User user) {
+        try {
+            JSONObject result = ContractMintApi.mint(reqMint);
+            if (result.getInteger("code") != 200) {
+                handleMintFailed(purchase);
+            } else {
+                handleMintSuccess(purchase, userBalance, spvProduct, user);
+            }
+        } catch (Exception e) {
+            log.error("铸币调用异常", e);
+            handleMintFailed(purchase);
+        }
+    }
+
+    private void handleMintFailed(RwaInstSpvProductPurchase purchase) {
+        purchase.setState("failed");
+        purchase.setId(SerialnoUtils.buildPrimaryKey());
+        purchase.setCreateTime(System.currentTimeMillis());
+        rwaInstSpvProductPurchaseMapper.insert(purchase);
+    }
+
+    private void handleMintSuccess(RwaInstSpvProductPurchase rwaInstSpvProductPurchase, RwaBalances rwaBalancesDB,
+                                   RwaInstSpvProduct rwaInstSpvProduct, User user) {
+        //中心化业务处理
+        //
+        if (user.getCertState() == 2){
+            RwaCertInstInvestor rwaCertInstInvestor = new RwaCertInstInvestor();
+            rwaCertInstInvestor.setUserId(rwaInstSpvProductPurchase.getUserId());
+            RwaCertInstInvestor rwaCertInstInvestor1 = rwaCertInstInvestorService.selectOne(rwaCertInstInvestor);
+            rwaInstSpvProductPurchase.setInstInvestorId(rwaCertInstInvestor1.getId());
+        }
+        rwaInstSpvProductPurchase.setUpdateTime(System.currentTimeMillis());
+        rwaInstSpvProductPurchase.setState("success");
+        //
+        log.info("rwaInstSpvProductPurchase:{}", rwaInstSpvProductPurchase);
+        if(null == rwaInstSpvProductPurchase.getId()){
+            rwaInstSpvProductPurchase.setId(SerialnoUtils.buildPrimaryKey());
+            rwaInstSpvProductPurchaseMapper.insert(rwaInstSpvProductPurchase);
+        }else {
+            rwaInstSpvProductPurchaseMapper.updateByPrimaryKeySelective(rwaInstSpvProductPurchase);
+        }
+        BigDecimal purchaseBalance = rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice());
+        //申购者资产更新 总余额减少，冻结不变，可用减少
+        rwaBalancesDB.setBalance(rwaBalancesDB.getBalance().subtract(purchaseBalance));
 //        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(purchaseBalance));
-            rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().subtract(purchaseBalance));
-            rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
-            //募集者 总余额增加，冻结增加，可用余额不变
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().subtract(purchaseBalance));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
+        //募集者 总余额增加，冻结增加，可用余额不变
 //            RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
 
-            RwaBalances rwaBalancesRaise = new RwaBalances();
-            rwaBalancesRaise.setUserId(rwaInstSpvProduct.getUserId());
-            rwaBalancesRaise.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
-            RwaBalances rwaBalancesRaiseDB = rwaBalancesMapper.selectOneForUpdate(rwaBalancesRaise);
-            if (null == rwaBalancesRaiseDB) {
-                log.error("募集者的资产不存在");
-                throw new BusinessException(CommonEnums.ERROR_RWA_RAISE_USER_BALANCE_NOT_FOUND);
-            }
-            rwaBalancesRaiseDB.setBalance(rwaBalancesRaiseDB.getBalance().add(purchaseBalance));
-            rwaBalancesRaiseDB.setFrozenBal(rwaBalancesRaiseDB.getFrozenBal().add(purchaseBalance));
+        RwaBalances rwaBalancesRaise = new RwaBalances();
+        rwaBalancesRaise.setUserId(rwaInstSpvProduct.getUserId());
+        rwaBalancesRaise.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
+        RwaBalances rwaBalancesRaiseDB = rwaBalancesMapper.selectOneForUpdate(rwaBalancesRaise);
+        if (null == rwaBalancesRaiseDB) {
+            log.error("募集者的资产不存在");
+            throw new BusinessException(CommonEnums.ERROR_RWA_RAISE_USER_BALANCE_NOT_FOUND);
+        }
+        rwaBalancesRaiseDB.setBalance(rwaBalancesRaiseDB.getBalance().add(purchaseBalance));
+        rwaBalancesRaiseDB.setFrozenBal(rwaBalancesRaiseDB.getFrozenBal().add(purchaseBalance));
 //        rwaBalancesRaiseDB.setAvailBal(rwaBalancesRaiseDB.getAvailBal().add(purchaseBalance));
-            rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesRaiseDB);
-            //更新Rwa产品总申购数量
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesRaiseDB);
+        //更新Rwa产品总申购数量
 //        RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
-            rwaInstSpvProduct.setPurchasedSumAmount(rwaInstSpvProduct.getPurchasedSumAmount().add(rwaInstSpvProductPurchase.getPurchaseAmount()));
-            rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
-            //
+        rwaInstSpvProduct.setPurchasedSumAmount(rwaInstSpvProduct.getPurchasedSumAmount().add(rwaInstSpvProductPurchase.getPurchaseAmount()));
+        rwaInstSpvProductService.updateByPrimaryKeySelective(rwaInstSpvProduct);
+        //
 
-            //记录申购记录代币到Rwa账户
-            RwaBalances rwaBalancesPurchase  = new RwaBalances();
-            rwaBalancesPurchase.setUserId(rwaInstSpvProductPurchase.getUserId());
-            rwaBalancesPurchase.setCurrency(rwaInstSpvProduct.getTokenName());
-            RwaBalances rwaBalancesPurchaseDB = rwaBalancesService.selectOne(rwaBalancesPurchase);
-            if (null != rwaBalancesPurchaseDB){
-                BigDecimal totalPurchaseAmount = rwaInstSpvProductPurchaseMapper.findTotalPurchaseAmountByUserIdAndProductId(rwaInstSpvProductPurchase);
-                //累计申购数量+现购数量
-                BigDecimal balance = totalPurchaseAmount.multiply(rwaInstSpvProductPurchase.getPurchasePrice());
-                rwaBalancesPurchaseDB.setBalance(balance);
+        //记录申购记录代币到Rwa账户
+        RwaBalances rwaBalancesPurchase  = new RwaBalances();
+        rwaBalancesPurchase.setUserId(rwaInstSpvProductPurchase.getUserId());
+        rwaBalancesPurchase.setCurrency(rwaInstSpvProduct.getTokenName());
+        RwaBalances rwaBalancesPurchaseDB = rwaBalancesService.selectOne(rwaBalancesPurchase);
+        if (null != rwaBalancesPurchaseDB){
+            BigDecimal totalPurchaseAmount = rwaInstSpvProductPurchaseMapper.findTotalPurchaseAmountByUserIdAndProductId(rwaInstSpvProductPurchase);
+            //累计申购数量+现购数量
+            BigDecimal balance = totalPurchaseAmount.multiply(rwaInstSpvProductPurchase.getPurchasePrice());
+            rwaBalancesPurchaseDB.setBalance(balance);
 //            rwaBalancesDB.setFrozenBal(BigDecimal.valueOf(0));
-                rwaBalancesPurchaseDB.setAvailBal(balance);
-                rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesPurchaseDB);
-            }else {
-                rwaBalancesPurchase.setBalance(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
-                rwaBalancesPurchase.setFrozenBal(BigDecimal.valueOf(0));
-                rwaBalancesPurchase.setAvailBal(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
-                rwaBalancesService.insert(rwaBalancesPurchase);
-            }
+            rwaBalancesPurchaseDB.setAvailBal(balance);
+            rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesPurchaseDB);
+        }else {
+            rwaBalancesPurchase.setBalance(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
+            rwaBalancesPurchase.setFrozenBal(BigDecimal.valueOf(0));
+            rwaBalancesPurchase.setAvailBal(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
+            rwaBalancesService.insert(rwaBalancesPurchase);
         }
     }
 
