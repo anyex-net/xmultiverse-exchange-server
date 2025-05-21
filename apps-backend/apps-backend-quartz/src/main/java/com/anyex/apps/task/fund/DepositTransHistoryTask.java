@@ -2,19 +2,15 @@ package com.anyex.apps.task.fund;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.fund.entity.Balances;
-import com.anyex.apps.fund.entity.BalancesTransHistory;
 import com.anyex.apps.fund.entity.DepositTransHistory;
 import com.anyex.apps.fund.service.BalancesService;
 import com.anyex.apps.fund.service.DepositTransHistoryService;
 import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.RedisLock;
-import com.anyex.apps.utils.SerialnoUtils;
 import com.anyex.wallet.XMWalletApi;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -47,7 +43,7 @@ public class DepositTransHistoryTask
      * 充值交易历史调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */11 * * * ?")
+    @Scheduled(cron = "0 */6 * * * ?")
     public void depositTransHistoryTask() throws RuntimeException
     {
         log.info("充值交易历史调度 开始任务");
@@ -62,13 +58,17 @@ public class DepositTransHistoryTask
                 // get_tx_list jsonObjectResp:{"code":0,"data":[],"signature":"c9f1687f554e37ddea67fe6efdf651687036afc9e99a7043abd8e9ea7c36f11c","message":"Success"}
                 // get_tx_list jsonObjectResp:{"code":0,"data":[{"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}],
                 //                          "signature":"791cc120f32be32f84f99024048025a98f8d8b1706f3ba49567575106ff24b0a","message":"Success"}
-                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code")))
+                {
                     JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
                     if(null != jsonArray && jsonArray.size() > 0)
                     {
                         DepositTransHistory depositTransHistorySearch = new DepositTransHistory();
                         User userSearch = new User();
-                        for(int i=0; i<jsonArray.size(); i++) {
+                        Balances balancesSearch = new Balances();
+                        //
+                        for(int i=0; i<jsonArray.size(); i++)
+                        {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             log.info("get_tx_list jsonArray index {} : {}", i+1, jsonObject);
                             // get_tx_list jsonArray index 1 : {"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}
@@ -88,19 +88,19 @@ public class DepositTransHistoryTask
                                     depositTransHistoryDB.setAmount(BigDecimal.valueOf(Double.valueOf(jsonObject.getString("amount"))));
                                     depositTransHistoryDB.setNetFee(BigDecimal.ZERO);
                                     depositTransHistoryDB.setConfirmState("completed".equals( jsonObject.getString("tx_status")) ? "confirmed":"unconfirm");
-                                    depositTransHistoryDB.setDepositState("undeposit");
+                                    depositTransHistoryDB.setDepositState("deposited");
                                     depositTransHistoryDB.setRemark("deposit trans");
                                     depositTransHistoryDB.setCreateTime(System.currentTimeMillis());
                                     log.info("待插入depositTransHistoryDB:{}", depositTransHistoryDB);
                                     depositTransHistoryService.insert(depositTransHistoryDB);
                                     //
                                     // 钱包资产入账
-                                    Balances balancesSearch = new Balances();
-                                    balancesSearch.setId(userDB.getId());
+                                    balancesSearch.setUserId(userDB.getId());
                                     balancesSearch.setCurrency(depositTransHistoryDB.getCurrency());
                                     Balances balancesDB = balancesService.selectOne(balancesSearch);
                                     if(null != balancesDB){
                                         //
+                                        log.info("balancesDB:{}", balancesDB);
                                         balancesDB.setBalance(balancesDB.getBalance().add(depositTransHistoryDB.getAmount()));
                                         balancesDB.setAvailBal(balancesDB.getAvailBal().add(depositTransHistoryDB.getAmount()));
                                         balancesDB.setUpdateTime(System.currentTimeMillis());
@@ -122,16 +122,16 @@ public class DepositTransHistoryTask
                                     }
                                     //
                                     //
-//                                    // 推送交易状态
-//                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
-//                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
-//                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
-//                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-//                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-//                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
-//                                    } else {
-//                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
-//                                    }
+                                    // 推送交易状态
+                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
+                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
+                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
+                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
+                                    } else {
+                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
+                                    }
                                 } else {
                                     log.error("对应的用户不存在，暂时无法执行入库，请检查！");
                                 }

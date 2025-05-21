@@ -3,6 +3,7 @@ package com.anyex.wallet;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.utils.HttpUtils;
+import com.anyex.apps.utils.RandomUtils;
 import com.anyex.exchange.binance.ApiClient;
 import com.anyex.exchange.binance.security.HmacSHA256Signer;
 import lombok.extern.slf4j.Slf4j;
@@ -57,10 +58,11 @@ public class XMWalletApi {
         Long timestamp = System.currentTimeMillis();
         JSONObject jsonParam = new JSONObject();
         jsonParam.put("merchant_no", "52a99509-5e42-4dac-9876-f5a1518f8e8d");
+        String randomNum = RandomUtils.getFixLenthString(6);
         String signStr =    "POST"+ "\n" +
                             "/api/v1/get_support_chain_list" + "\n" +
                             timestamp/1000+ "\n" +
-                            "req_"+timestamp + "\n" +
+                            "req_"+timestamp + randomNum + "\n" +
                             jsonParam.toJSONString();
         log.info("signStr:{}", signStr);
         String sign = ApiClient.sign(signStr, api_secret);
@@ -69,7 +71,7 @@ public class XMWalletApi {
         Map<String, Object> headerMap = new HashMap<>();
         headerMap.put("X-Timestamp", timestamp/1000);
         headerMap.put("X-Signature", sign);
-        headerMap.put("X-Request-Id", "req_"+timestamp);
+        headerMap.put("X-Request-Id", "req_"+timestamp + randomNum);
         headerMap.put("Content-Type", "application/json");
         String jsonStr = ApiClient.httpPostWithJSON(client,baseUrl+"/api/v1/get_support_chain_list", headerMap, jsonParam,null);
         log.info("jsonStr:{}", jsonStr);
@@ -89,10 +91,11 @@ public class XMWalletApi {
         JSONObject jsonParam = new JSONObject();
         jsonParam.put("merchant_no", "52a99509-5e42-4dac-9876-f5a1518f8e8d");
         jsonParam.put("chain_code", chainCode);
+        String randomNum = RandomUtils.getFixLenthString(6);
         String signStr =    "POST"+ "\n" +
                 "/api/v1/get_coin_list_by_chain_code" + "\n" +
                 timestamp/1000+ "\n" +
-                "req_"+timestamp + "\n" +
+                "req_"+timestamp + randomNum + "\n" +
                 jsonParam.toJSONString();
         log.info("signStr:{}", signStr);
         String sign = ApiClient.sign(signStr, api_secret);
@@ -101,7 +104,7 @@ public class XMWalletApi {
         Map<String, Object> headerMap = new HashMap<>();
         headerMap.put("X-Timestamp", timestamp/1000);
         headerMap.put("X-Signature", sign);
-        headerMap.put("X-Request-Id", "req_"+timestamp);
+        headerMap.put("X-Request-Id", "req_"+timestamp + randomNum);
         headerMap.put("Content-Type", "application/json");
         String jsonStr = ApiClient.httpPostWithJSON(client,baseUrl+"/api/v1/get_coin_list_by_chain_code", headerMap, jsonParam,null);
         log.info("jsonStr:{}", jsonStr);
@@ -119,10 +122,11 @@ public class XMWalletApi {
         Long timestamp = System.currentTimeMillis();
         JSONObject jsonParam = new JSONObject();
         jsonParam.put("merchant_no", "52a99509-5e42-4dac-9876-f5a1518f8e8d");
+        String randomNum = RandomUtils.getFixLenthString(6);
         String signStr =    "POST"+ "\n" +
                 "/api/v1/register_user" + "\n" +
                 timestamp/1000+ "\n" +
-                "req_"+timestamp + "\n" +
+                "req_"+timestamp + randomNum + "\n" +
                 jsonParam.toJSONString();
         log.info("signStr:{}", signStr);
         String sign = ApiClient.sign(signStr, api_secret);
@@ -131,7 +135,7 @@ public class XMWalletApi {
         Map<String, Object> headerMap = new HashMap<>();
         headerMap.put("X-Timestamp", timestamp/1000);
         headerMap.put("X-Signature", sign);
-        headerMap.put("X-Request-Id", "req_"+timestamp);
+        headerMap.put("X-Request-Id", "req_"+timestamp + randomNum);
         headerMap.put("Content-Type", "application/json");
         String jsonStr = ApiClient.httpPostWithJSON(client,baseUrl+"/api/v1/register_user", headerMap, jsonParam,null);
         log.info("jsonStr:{}", jsonStr);
@@ -155,10 +159,11 @@ public class XMWalletApi {
         jsonParam.put("user_no", userNo);
         jsonParam.put("coin_code", coinCode);
         jsonParam.put("chain_code", chainCode);
+        String randomNum = RandomUtils.getFixLenthString(6);
         String signStr =    "POST"+ "\n" +
                 "/api/v1/get_address" + "\n" +
                 timestamp/1000+ "\n" +
-                "req_"+timestamp + "\n" +
+                "req_"+timestamp + randomNum + "\n" +
                 jsonParam.toJSONString();
         log.info("signStr:{}", signStr);
         String sign = ApiClient.sign(signStr, api_secret);
@@ -167,7 +172,7 @@ public class XMWalletApi {
         Map<String, Object> headerMap = new HashMap<>();
         headerMap.put("X-Timestamp", timestamp/1000);
         headerMap.put("X-Signature", sign);
-        headerMap.put("X-Request-Id", "req_"+timestamp);
+        headerMap.put("X-Request-Id", "req_"+timestamp + randomNum);
         headerMap.put("Content-Type", "application/json");
         String jsonStr = ApiClient.httpPostWithJSON(client,baseUrl+"/api/v1/get_address", headerMap, jsonParam,null);
         log.info("jsonStr:{}", jsonStr);
@@ -186,10 +191,11 @@ public class XMWalletApi {
         JSONObject jsonParam = new JSONObject();
         jsonParam.put("merchant_no", "52a99509-5e42-4dac-9876-f5a1518f8e8d");
         jsonParam.put("tx_type", txType);
+        String randomNum = RandomUtils.getFixLenthString(6);
         String signStr =    "POST"+ "\n" +
                 "/api/v1/get_tx_list" + "\n" +
                 timestamp/1000+ "\n" +
-                "req_"+timestamp + "\n" +
+                "req_"+timestamp + randomNum + "\n" +
                 jsonParam.toJSONString();
         log.info("signStr:{}", signStr);
         String sign = ApiClient.sign(signStr, api_secret);
@@ -198,7 +204,7 @@ public class XMWalletApi {
         Map<String, Object> headerMap = new HashMap<>();
         headerMap.put("X-Timestamp", timestamp/1000);
         headerMap.put("X-Signature", sign);
-        headerMap.put("X-Request-Id", "req_"+timestamp);
+        headerMap.put("X-Request-Id", "req_"+timestamp + randomNum);
         headerMap.put("Content-Type", "application/json");
         String jsonStr = ApiClient.httpPostWithJSON(client,baseUrl+"/api/v1/get_tx_list", headerMap, jsonParam,null);
         log.info("jsonStr:{}", jsonStr);
@@ -226,10 +232,11 @@ public class XMWalletApi {
         jsonParam.put("chain_code", chainCode);
         jsonParam.put("amount", amount);
         jsonParam.put("to_address", toAddress);
+        String randomNum = RandomUtils.getFixLenthString(6);
         String signStr =    "POST"+ "\n" +
                 "/api/v1/create_transaction" + "\n" +
                 timestamp/1000+ "\n" +
-                "req_"+timestamp + "\n" +
+                "req_"+timestamp + randomNum + "\n" +
                 jsonParam.toJSONString();
         log.info("signStr:{}", signStr);
         String sign = ApiClient.sign(signStr, api_secret);
@@ -238,7 +245,7 @@ public class XMWalletApi {
         Map<String, Object> headerMap = new HashMap<>();
         headerMap.put("X-Timestamp", timestamp/1000);
         headerMap.put("X-Signature", sign);
-        headerMap.put("X-Request-Id", "req_"+timestamp);
+        headerMap.put("X-Request-Id", "req_"+timestamp + randomNum);
         headerMap.put("Content-Type", "application/json");
         String jsonStr = ApiClient.httpPostWithJSON(client,baseUrl+"/api/v1/create_transaction", headerMap, jsonParam,null);
         log.info("jsonStr:{}", jsonStr);
@@ -258,10 +265,11 @@ public class XMWalletApi {
         JSONObject jsonParam = new JSONObject();
         jsonParam.put("merchant_no", "52a99509-5e42-4dac-9876-f5a1518f8e8d");
         jsonParam.put("request_no", requestNo);
+        String randomNum = RandomUtils.getFixLenthString(6);
         String signStr =    "POST"+ "\n" +
                 "/api/v1/push_tx_status" + "\n" +
                 timestamp/1000+ "\n" +
-                "req_"+timestamp + "\n" +
+                "req_"+timestamp + randomNum + "\n" +
                 jsonParam.toJSONString();
         log.info("signStr:{}", signStr);
         String sign = ApiClient.sign(signStr, api_secret);
@@ -270,7 +278,7 @@ public class XMWalletApi {
         Map<String, Object> headerMap = new HashMap<>();
         headerMap.put("X-Timestamp", timestamp/1000);
         headerMap.put("X-Signature", sign);
-        headerMap.put("X-Request-Id", "req_"+timestamp);
+        headerMap.put("X-Request-Id", "req_"+timestamp + randomNum);
         headerMap.put("Content-Type", "application/json");
         String jsonStr = ApiClient.httpPostWithJSON(client,baseUrl+"/api/v1/push_tx_status", headerMap, jsonParam,null);
         log.info("jsonStr:{}", jsonStr);
@@ -329,34 +337,35 @@ public class XMWalletApi {
 
         // 6. 获取交易列表
         // tx_type的值：DEPOSIT传回充值列表，WITHDRAW传回提现列表，其他值传回所有列表
-//        JSONObject jsonObjectResp = get_tx_list("WITHDRAW");
-//        log.info("get_tx_list jsonObjectResp:{}", jsonObjectResp);
-//        // get_tx_list jsonObjectResp:{"code":0,"data":[],"signature":"c9f1687f554e37ddea67fe6efdf651687036afc9e99a7043abd8e9ea7c36f11c","message":"Success"}
-//        // get_tx_list jsonObjectResp:{"code":0,"data":[{"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}],
-//        //                          "signature":"791cc120f32be32f84f99024048025a98f8d8b1706f3ba49567575106ff24b0a","message":"Success"}
-//        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-//            JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
-//            if(null != jsonArray && jsonArray.size() > 0)
-//            {
-//                for(int i=0; i<jsonArray.size(); i++) {
-//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                    log.info("get_tx_list jsonArray index {} : {}", i+1, jsonObject);
-//                    // get_tx_list jsonArray index 1 : {"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}
-//                }
-//            }
-//        }
+        // 402aec7d-30d5-40d6-a3fd-b51c003747c9
+        JSONObject jsonObjectResp = get_tx_list("DEPOSIT");
+        log.info("get_tx_list jsonObjectResp:{}", jsonObjectResp);
+        // get_tx_list jsonObjectResp:{"code":0,"data":[],"signature":"c9f1687f554e37ddea67fe6efdf651687036afc9e99a7043abd8e9ea7c36f11c","message":"Success"}
+        // get_tx_list jsonObjectResp:{"code":0,"data":[{"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}],
+        //                          "signature":"791cc120f32be32f84f99024048025a98f8d8b1706f3ba49567575106ff24b0a","message":"Success"}
+        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+            JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
+            if(null != jsonArray && jsonArray.size() > 0)
+            {
+                for(int i=0; i<jsonArray.size(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    log.info("get_tx_list jsonArray index {} : {}", i+1, jsonObject);
+                    // get_tx_list jsonArray index 1 : {"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}
+                }
+            }
+        }
 
         // 5.发送交易
-        String userNo = "e2a58b28-db67-4fc6-a27f-5d11d6de322e1";
-        JSONObject jsonObjectResp = create_transaction(userNo, "USDT", "ETH","0.01234", "0x39f03686b2d673f94f0b555e42bf33167cf033e2");
-        log.info("create_transaction jsonObjectResp:{}", jsonObjectResp);
-        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-            JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-            log.info("create_transaction jsonObjectData request_no: {}", jsonObjectData.getString("request_no"));
-            // request_no: 771d4761-8dc0-4e6e-a35a-30f8d07f85c0
-        } else {
-            log.error("error create_transaction jsonObjectResp:{}", jsonObjectResp);
-        }
+//        String userNo = "e2a58b28-db67-4fc6-a27f-5d11d6de322e1";
+//        JSONObject jsonObjectResp = create_transaction(userNo, "USDT", "ETH","0.01234", "0x39f03686b2d673f94f0b555e42bf33167cf033e2");
+//        log.info("create_transaction jsonObjectResp:{}", jsonObjectResp);
+//        if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//            JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+//            log.info("create_transaction jsonObjectData request_no: {}", jsonObjectData.getString("request_no"));
+//            // request_no: 771d4761-8dc0-4e6e-a35a-30f8d07f85c0
+//        } else {
+//            log.error("error create_transaction jsonObjectResp:{}", jsonObjectResp);
+//        }
 
         // 7. 推送交易状态
 //        jsonObjectResp = push_tx_status("771d4761-8dc0-4e6e-a35a-30f8d07f85c0");
