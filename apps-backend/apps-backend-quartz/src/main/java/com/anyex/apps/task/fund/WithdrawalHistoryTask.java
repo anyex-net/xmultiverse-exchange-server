@@ -36,7 +36,7 @@ public class WithdrawalHistoryTask
      * 提现历史调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */13 * * * ?")
+    @Scheduled(cron = "0 */9 * * * ?")
     public void withdrawalHistoryTask() throws RuntimeException
     {
         log.info("提现历史调度 开始任务");
@@ -51,7 +51,8 @@ public class WithdrawalHistoryTask
                 // get_tx_list jsonObjectResp:{"code":0,"data":[],"signature":"c9f1687f554e37ddea67fe6efdf651687036afc9e99a7043abd8e9ea7c36f11c","message":"Success"}
                 // get_tx_list jsonObjectResp:{"code":0,"data":[{"tx_status":"completed","coin_no":"b5c70cd1-5bdc-4783-beba-f515bd3581ad","amount":"1.100000","request_no":"0f61a212-86ff-4e2a-a543-4a0c796608bd","chain_code":"ETH","tx_hash":"0xb1e9ee372e44124a806bb0a84450d2d306f7c8474e9b854446a654ac8458b9e5","from":"","to":"0xDb6B16F3381CC3482bE7ca2EDCC465d0c0aCD6e1","tx_type":"WITHDRAW","coin_code":"USDTF","user_no":"85d94e47-157d-4f57-bd60-ce07d9b6ac35"}],
                 //                          "signature":"791cc120f32be32f84f99024048025a98f8d8b1706f3ba49567575106ff24b0a","message":"Success"}
-                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code")))
+                {
                     JSONArray jsonArray = jsonObjectResp.getJSONArray("data");
                     if(null != jsonArray && jsonArray.size() > 0)
                     {
@@ -71,18 +72,18 @@ public class WithdrawalHistoryTask
                                     withdrawalHistoryDB.setState("completed".equals( jsonObject.getString("tx_status")) ? "exported":"exportfail");
                                     withdrawalHistoryDB.setUpdateTime(System.currentTimeMillis());
                                     log.info("待更新withdrawalHistoryDB:{}", withdrawalHistoryDB);
-//                                    withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistoryDB);
-//                                    //
-//                                    // 推送交易状态
-//                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
-//                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
-//                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
-//                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-//                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-//                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
-//                                    } else {
-//                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
-//                                    }
+                                    withdrawalHistoryService.updateByPrimaryKeySelective(withdrawalHistoryDB);
+                                    //
+                                    // 推送交易状态
+                                    jsonObjectResp = XMWalletApi.push_tx_status(jsonObject.getString("request_no"));
+                                    log.info("push_tx_status jsonObjectResp:{}", jsonObjectResp);
+                                    // push_tx_status jsonObjectResp:{"code":0,"signature":"ea19a979f4afcaafafef882a7a6e546ef6f8947565550437d2644c819ae47cb3","message":"Success"}
+                                    if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+                                        JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+                                        log.info("push_tx_status jsonObjectData data: {}", jsonObjectData);
+                                    } else {
+                                        log.error("push_tx_status jsonObjectResp data: {}", jsonObjectResp);
+                                    }
                                 } else {
                                     log.error("对应的用户不存在，暂时无法执行，请检查！");
                                 }
