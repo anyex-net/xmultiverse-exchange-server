@@ -46,10 +46,10 @@ public class ReqRwaInstSpvProduct extends GenericEntity
 	@ApiModelProperty(value = "机构SPV公司ID", position = 3, required = true)
 	private java.lang.Long instSpvCompanyId;
 
-	/**产品编号*/
-	@NotEmpty(message = "产品编号不可为空")
-	@ApiModelProperty(value = "产品编号", position = 4, required = true)
-	private java.lang.String productNo;
+//	/**产品编号*/
+//	@NotEmpty(message = "产品编号不可为空")
+//	@ApiModelProperty(value = "产品编号", position = 4, required = true)
+//	private java.lang.String productNo;
 
 	/**产品名称*/
 	@NotEmpty(message = "产品名称不可为空")
@@ -139,20 +139,20 @@ public class ReqRwaInstSpvProduct extends GenericEntity
 //	@ApiModelProperty(value = "分润合约地址", position = 21)
 //	private java.lang.String shareContractAddress;
 
-	/**分红比例*/
-	@NotNull(message = "分红比例不可为空")
-	@ApiModelProperty(value = "分红比例", position = 22, required = true)
-	private java.math.BigDecimal dividendRatio;
+//	/**分红比例*/
+//	@NotNull(message = "分红比例不可为空")
+//	@ApiModelProperty(value = "分红比例", position = 22, required = true)
+//	private java.math.BigDecimal dividendRatio;
 
 //	/**分红频率*/
 //	@NotEmpty(message = "分红频率不可为空")
 //	@ApiModelProperty(value = "分红频率", position = 23, required = true)
 //	private java.lang.String dividendFrequency;
 
-	/**分红日期*/
-	@NotNull(message = "分红周期不可为空")
-	@ApiModelProperty(value = "分红周期", position = 24, required = true)
-	private java.util.Date dividendDate;
+//	/**分红日期*/
+//	@NotNull(message = "分红周期不可为空")
+//	@ApiModelProperty(value = "分红周期", position = 24, required = true)
+//	private java.util.Date dividendDate;
 
 //	/**分红冻结天数*/
 //	@NotNull(message = "分红冻结天数不可为空")

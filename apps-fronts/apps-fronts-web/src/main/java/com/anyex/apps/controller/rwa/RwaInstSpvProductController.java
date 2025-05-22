@@ -21,8 +21,6 @@ import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import com.anyex.apps.utils.SerialnoUtils;
-import com.anyex.exchange.contract.api.ContractDividendApi;
-import com.anyex.exchange.contract.req.ReqDividend;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +30,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.sql.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -158,6 +157,12 @@ public class RwaInstSpvProductController extends GenericController
             rwaInstSpvProduct.setIsActive(1);
             rwaInstSpvProduct.setRaiseMargin(BigDecimal.valueOf(0));
             //
+            Random random = new Random();
+            // 生成 [10000000, 99999999] 之间的整数
+            int number = random.nextInt(90000000) + 10000000;
+            rwaInstSpvProduct.setProductNo(String.valueOf(number));
+            rwaInstSpvProduct.setDividendRatio(BigDecimal.valueOf(0));
+            rwaInstSpvProduct.setDividendDate(Date.valueOf("1970-01-01"));
             log.info("entity:{}", rwaInstSpvProduct);
             if(null == rwaInstSpvProduct.getId()){
                 rwaInstSpvProductService.insert(rwaInstSpvProduct);
@@ -357,7 +362,7 @@ public class RwaInstSpvProductController extends GenericController
             RwaInstSpvProductDividend rwaInstSpvProductDividend = new RwaInstSpvProductDividend();
             BeanUtils.copyProperties(reqrwaInstSpvProductDividend, rwaInstSpvProductDividend);
             RwaInstSpvProductDividend rwaInstSpvProductDividendDB = rwaInstSpvProductDividendService.selectOne(rwaInstSpvProductDividend);
-            if (null == rwaInstSpvProductDividend.getId()) {
+            if (null == rwaInstSpvProductDividendDB) {
                 log.error("没有找到分红单");
                 throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
             }
@@ -367,60 +372,94 @@ public class RwaInstSpvProductController extends GenericController
                 log.error("没有找到产品");
                 throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);
             }
-            ReqDividend reqDividend = new ReqDividend();
-            reqDividend.setContract_address(rwaInstSpvProduct.getShareContractAddress());
-            JSONObject jsonObject = ContractDividendApi.getDividend(reqDividend);
-            String txHash = null;
-            BigDecimal totalBalance = null;
-            if (jsonObject.getInteger("code") == 200) {
-                JSONObject data = jsonObject.getJSONObject("data");
-                BigDecimal depositedBD = new BigDecimal(new BigInteger(data.getString("deposited")), 18);
-                BigDecimal distributedBD = new BigDecimal(new BigInteger(data.getString("distributed")), 18);
-                if ("0".equals(data.getString("deposited")) || depositedBD.subtract(distributedBD).compareTo(rwaInstSpvProductDividend.getDividendAmount()) < 0) {
-                    log.error("分红合约地址存款不足");
-                    throw new BusinessException(CommonEnums.ERROR_RWA_CONTRACT_DIVIDEND_DEPOSIT_NOT_ENOUGH);
-                }
-                reqDividend.setProject_address(rwaInstSpvProduct.getTokenContractAddress());
-                reqDividend.setAmount(rwaInstSpvProductDividend.getDividendAmount());
-                JSONObject jsonDividend = ContractDividendApi.dividend(reqDividend);
-                if (jsonDividend.getInteger("code") == 200) {
-                    System.out.println("jsonDividend:"+jsonDividend);
-                    rwaInstSpvProductDividend.setState("success");
-                    JSONObject dataDividend = jsonDividend.getJSONObject("data");
-                    txHash = dataDividend.getString("txHash");
-                    log.info("分红交易：" + dataDividend.getString("txHash"));
-                    totalBalance  = new BigDecimal(new BigInteger(dataDividend.getString("totalBalance")), 18);
-                    System.out.println("最新分红总额：" + totalBalance);
-
-                    //该产品下的申购记录 根据记录进行分红
-//            RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductDividend1.getInstSpvProductId());
-                    RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
-                    rwaInstSpvProductPurchase.setInstSpvProductId(rwaInstSpvProductDividendDB.getInstSpvProductId());
-                    List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchase);
-                    for (int i = 0; i < rwaInstSpvProductPurchases.size(); i++) {
-                        RwaInstSpvProductDividendSnapshot productDividendSnapshot = new RwaInstSpvProductDividendSnapshot();
-                        productDividendSnapshot.setUserId(rwaInstSpvProductPurchases.get(i).getUserId());
-                        productDividendSnapshot.setInstInvestorId(rwaInstSpvProductPurchases.get(i).getInstInvestorId());
-                        productDividendSnapshot.setInstSpvProductId(rwaInstSpvProductPurchases.get(i).getInstSpvProductId());
-
-                        productDividendSnapshot.setInstSpvProductDividendNo(String.valueOf(rwaInstSpvProductDividendDB.getId()));
-                        productDividendSnapshot.setWalletAddress(txHash);
-                        productDividendSnapshot.setChainHoldAmount(totalBalance);
-                        productDividendSnapshot.setChainDividendAmount(rwaInstSpvProductDividendDB.getDividendAmount());
-                        BigDecimal holdAmount = rwaInstSpvProductPurchases.get(i).getPurchaseAmount();
-                        productDividendSnapshot.setHoldAmount(holdAmount);
-                        BigDecimal dividendAmount = holdAmount.divide(totalBalance, 8, RoundingMode.HALF_UP)
-                                .multiply(rwaInstSpvProductDividendDB.getDividendAmount())
-                                .setScale(8, RoundingMode.HALF_UP);
-                        productDividendSnapshot.setDividendAmount(dividendAmount);
-                        productDividendSnapshot.setCreateTime(System.currentTimeMillis());
-                        rwaInstSpvProductDividendSnapshotService.insert(productDividendSnapshot);
-                    }
-                }else {
-                    rwaInstSpvProductDividend.setState("failed");
-                }
-                rwaInstSpvProductDividendService.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
+            RwaBalances rwaBalances = new RwaBalances();
+            rwaBalances.setUserId(principal.getId());
+            rwaBalances.setCurrency(reqrwaInstSpvProductDividend.getDividendCurrency());
+            RwaBalances  rwaBalancesDB = rwaBalancesService.selectOne(rwaBalances);
+            if (null == rwaBalancesDB) {
+                log.error("没有找到用户rwa资产");
+                throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
             }
+            if (rwaBalancesDB.getAvailBal().compareTo(reqrwaInstSpvProductDividend.getDividendAmount()) < 0) {
+                log.error("用户rwa可用余额资产不足,请充值");
+                throw new BusinessException(CommonEnums.ERROR_RWA_USER_INSUFFICIENT_AVAILABLE_BALANCE);
+            }
+            //
+            rwaInstSpvProductDividendService.executedRwaInstSpvProductDividend(rwaInstSpvProductDividendDB);
+
+//            //余额足够支付分红金额，可用余额减少，冻结余额增加
+//            rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().subtract(reqrwaInstSpvProductDividend.getDividendAmount()));
+//            rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().add(reqrwaInstSpvProductDividend.getDividendAmount()));
+//            rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesDB);
+//            //给项目方管理地址转分红金额 项目方地址0x104fE772a9c1269b57272eF42be1B27A8dAA9064
+//
+//            //应该从一个钱包到管理地址中，然后调用存入金额（分红合约就有总存入资金）
+//            ReqDeposit reqDeposit = new ReqDeposit();
+//            reqDeposit.setContract_address(rwaInstSpvProduct.getShareContractAddress());
+//            reqDeposit.setDeposited_total(reqrwaInstSpvProductDividend.getDividendAmount());
+//            JSONObject jsonDeposit = ContractDepositApi.deposit(reqDeposit);
+//            if (jsonDeposit.getInteger("code") != 200) {
+//                log.error("存入金额失败");
+////                throw new BusinessException(CommonEnums.ERROR_CONTRACT_DEPOSIT_FAILED);
+//            }else {
+//                System.out.println("自动存入金额："+jsonDeposit);
+//            }
+//
+//            //
+//            ReqDividend reqDividend = new ReqDividend();
+//            reqDividend.setContract_address(rwaInstSpvProduct.getShareContractAddress());
+//            JSONObject jsonObject = ContractDividendApi.getDividend(reqDividend);
+//            String walletAddress = "0x104fE772a9c1269b57272eF42be1B27A8dAA9064";
+//            BigDecimal totalBalance = null;
+//            if (jsonObject.getInteger("code") == 200) {
+//                JSONObject data = jsonObject.getJSONObject("data");
+//                BigDecimal depositedBD = new BigDecimal(new BigInteger(data.getString("deposited")), 18);
+//                BigDecimal distributedBD = new BigDecimal(new BigInteger(data.getString("distributed")), 18);
+//                if ("0".equals(data.getString("deposited")) || depositedBD.subtract(distributedBD).compareTo(rwaInstSpvProductDividend.getDividendAmount()) < 0) {
+//                    log.error("分红合约地址存款不足");
+//                    throw new BusinessException(CommonEnums.ERROR_RWA_CONTRACT_DIVIDEND_DEPOSIT_NOT_ENOUGH);
+//                }
+//                reqDividend.setProject_address(rwaInstSpvProduct.getTokenContractAddress());
+//                reqDividend.setAmount(rwaInstSpvProductDividend.getDividendAmount());
+//                JSONObject jsonDividend = ContractDividendApi.dividend(reqDividend);
+//                if (jsonDividend.getInteger("code") == 200) {
+//                    System.out.println("jsonDividend:"+jsonDividend);
+//                    rwaInstSpvProductDividend.setState("success");
+//                    JSONObject dataDividend = jsonDividend.getJSONObject("data");
+//                    String txHash = dataDividend.getString("txHash");
+//                    log.info("分红交易：" + dataDividend.getString("txHash"));
+//                    totalBalance  = new BigDecimal(new BigInteger(dataDividend.getString("totalBalance")), 18);
+//                    System.out.println("最新分红总额：" + totalBalance);
+//
+//                    //该产品下的申购记录 根据记录进行分红
+////            RwaInstSpvProduct rwaInstSpvProduct = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductDividend1.getInstSpvProductId());
+//                    RwaInstSpvProductPurchase rwaInstSpvProductPurchase = new RwaInstSpvProductPurchase();
+//                    rwaInstSpvProductPurchase.setInstSpvProductId(rwaInstSpvProductDividendDB.getInstSpvProductId());
+//                    List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchase);
+//                    for (int i = 0; i < rwaInstSpvProductPurchases.size(); i++) {
+//                        RwaInstSpvProductDividendSnapshot productDividendSnapshot = new RwaInstSpvProductDividendSnapshot();
+//                        productDividendSnapshot.setUserId(rwaInstSpvProductPurchases.get(i).getUserId());
+//                        productDividendSnapshot.setInstInvestorId(rwaInstSpvProductPurchases.get(i).getInstInvestorId());
+//                        productDividendSnapshot.setInstSpvProductId(rwaInstSpvProductPurchases.get(i).getInstSpvProductId());
+//
+//                        productDividendSnapshot.setInstSpvProductDividendNo(String.valueOf(rwaInstSpvProductDividendDB.getId()));
+//                        productDividendSnapshot.setWalletAddress(walletAddress);
+//                        productDividendSnapshot.setChainHoldAmount(totalBalance);
+//                        productDividendSnapshot.setChainDividendAmount(rwaInstSpvProductDividendDB.getDividendAmount());
+//                        BigDecimal holdAmount = rwaInstSpvProductPurchases.get(i).getPurchaseAmount();
+//                        productDividendSnapshot.setHoldAmount(holdAmount);
+//                        BigDecimal dividendAmount = holdAmount.divide(totalBalance, 8, RoundingMode.HALF_UP)
+//                                .multiply(rwaInstSpvProductDividendDB.getDividendAmount())
+//                                .setScale(8, RoundingMode.HALF_UP);
+//                        productDividendSnapshot.setDividendAmount(dividendAmount);
+//                        productDividendSnapshot.setCreateTime(System.currentTimeMillis());
+//                        rwaInstSpvProductDividendSnapshotService.insert(productDividendSnapshot);
+//                    }
+//                }else {
+//                    rwaInstSpvProductDividend.setState("failed");
+//                }
+//                rwaInstSpvProductDividendService.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
+//            }
         }
         return json;
     }

@@ -22,4 +22,6 @@ import java.math.BigDecimal;
 public interface RwaInstSpvProductDividendService extends GenericService<RwaInstSpvProductDividend>
 {
     BigDecimal selectDividendAmount(Long instSpvProductId);
+
+    void executedRwaInstSpvProductDividend(RwaInstSpvProductDividend rwaInstSpvProductDividend);
 }
