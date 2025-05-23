@@ -112,6 +112,8 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
             } else {
                 CompletableFuture.runAsync(() -> {
                     try {
+                        rwaInstSpvProductDividend.setState("processing");
+                        rwaInstSpvProductDividendMapper.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
                         asyncExecutedRwaInstSpvProductDividend(rwaInstSpvProductDividend,  walletAddress);
                     } catch (Exception e) {
                         log.error("Error during asyncMint execution", e);

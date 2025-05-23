@@ -7,6 +7,9 @@ package com.anyex.apps.rwa.entity;
 import com.anyex.apps.bean.GenericEntity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -42,6 +45,7 @@ public class RwaInstSpvProductDividend extends GenericEntity
 	/**机构SPV产品ID*/
 	@NotNull(message = "机构SPV产品ID不可为空")
 	@ApiModelProperty(value = "机构SPV产品ID", position = 3, required = true)
+	@JsonSerialize(using = ToStringSerializer.class)
 	private java.lang.Long instSpvProductId;
 
 	/**分红开始时间*/
@@ -66,7 +70,7 @@ public class RwaInstSpvProductDividend extends GenericEntity
 
 	/**状态(成功success、处理中pending、失败failed)*/
 	@NotEmpty(message = "状态(成功success、处理中pending、失败failed)不可为空")
-	@ApiModelProperty(value = "状态(成功success、处理中pending、失败failed)", position = 8, required = true)
+	@ApiModelProperty(value = "状态(成功success、待处理pending、处理中processing、失败failed)", position = 8, required = true)
 	private java.lang.String state;
 
 	/**备注*/

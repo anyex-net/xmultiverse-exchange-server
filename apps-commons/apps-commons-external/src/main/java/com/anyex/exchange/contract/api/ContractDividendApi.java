@@ -16,14 +16,14 @@ public class ContractDividendApi extends ContractApi{
         String response = null;
         try {
             String reqJson = JSON.toJSONString(reqDividend);
-            System.out.println("reqDeploy reqJson:" + reqJson);
+            System.out.println("dividend reqJson:" + reqJson);
 
             response = postWithJSON(ContractConfig.baseUrl + apiUrl, reqJson);
 
             if (response == null || response.trim().isEmpty()) {
                 throw new BusinessException("API 返回为空");
             }
-            System.out.println("response:" + response);
+            System.out.println("response_dividend:" + response);
             return JSON.parseObject(response);
         } catch (JSONException e) {
             throw new BusinessException("API 返回内容不是合法的 JSON：" + response);
