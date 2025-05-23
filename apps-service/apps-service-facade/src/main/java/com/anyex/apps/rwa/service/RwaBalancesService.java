@@ -5,10 +5,7 @@
 package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.bean.GenericService;
-import com.anyex.apps.rwa.entity.RwaBalances;
-import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
-import com.anyex.apps.rwa.entity.RwaInstSpvProductAsset;
-import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
+import com.anyex.apps.rwa.entity.*;
 
 /**
  * RWA账户余额 服务接口
@@ -57,4 +54,10 @@ public interface RwaBalancesService extends GenericService<RwaBalances>
      * @param rwaInstSpvProductAsset
      */
     void unFrozenBal(RwaInstSpvProductAsset rwaInstSpvProductAsset);
+
+    /**
+     *执行失败 分红解冻 总余额不变，冻结减少，可用余额增加
+     * @param rwaInstSpvProductDividend
+     */
+    void unDividendFrozenBal(RwaInstSpvProductDividend rwaInstSpvProductDividend);
 }

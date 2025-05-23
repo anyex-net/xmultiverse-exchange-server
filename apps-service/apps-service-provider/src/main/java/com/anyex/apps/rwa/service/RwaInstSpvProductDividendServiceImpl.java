@@ -64,6 +64,9 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
     private RwaInstSpvProductDividendSnapshotService  rwaInstSpvProductDividendSnapshotService;
 
     @Autowired(required = false)
+    private RwaBalancesService rwaBalancesService;
+
+    @Autowired(required = false)
     @Qualifier("mintTaskExecutor")
     private Executor dividendTaskExecutor;
 
@@ -146,6 +149,8 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
                 rwaInstSpvProductDividend.setState("failed");
                 rwaInstSpvProductDividend.setUpdateTime(System.currentTimeMillis());
                 rwaInstSpvProductDividendMapper.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
+                //执行失败 退分红冻结
+                rwaBalancesService.unDividendFrozenBal(rwaInstSpvProductDividend);
                 return;
             }
 
@@ -197,6 +202,8 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
                     }
                 } else {
                     rwaInstSpvProductDividend.setState("failed");
+                    //执行失败 退分红冻结
+                    rwaBalancesService.unDividendFrozenBal(rwaInstSpvProductDividend);
                 }
             }
 
@@ -208,6 +215,8 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
             rwaInstSpvProductDividend.setState("failed");
             rwaInstSpvProductDividend.setUpdateTime(System.currentTimeMillis());
             rwaInstSpvProductDividendMapper.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
+            //执行失败 退分红冻结
+            rwaBalancesService.unDividendFrozenBal(rwaInstSpvProductDividend);
         }
     }
 

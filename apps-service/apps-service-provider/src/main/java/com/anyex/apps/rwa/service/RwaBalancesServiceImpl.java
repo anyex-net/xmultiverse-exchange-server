@@ -6,16 +6,13 @@ package com.anyex.apps.rwa.service;
 
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
-import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
-import com.anyex.apps.rwa.entity.RwaInstSpvProductAsset;
-import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
+import com.anyex.apps.rwa.entity.*;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.anyex.apps.bean.GenericServiceImpl;
-import com.anyex.apps.rwa.entity.RwaBalances;
 import com.anyex.apps.rwa.mapper.RwaBalancesMapper;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -178,4 +175,21 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(lastAmount));
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
+
+    @Transactional
+    public void unDividendFrozenBal(RwaInstSpvProductDividend rwaInstSpvProductDividend) throws BusinessException {
+        //执行失败 分红解冻 总余额不变，冻结减少，可用余额增加
+        RwaBalances rwaBalances = new RwaBalances();
+        rwaBalances.setUserId(rwaInstSpvProductDividend.getUserId());
+        rwaBalances.setCurrency(rwaInstSpvProductDividend.getDividendCurrency());
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        if (rwaBalancesDB== null) {
+            log.error("RWA用户资产不存在");
+            throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
+        }
+        rwaBalancesDB.setAvailBal(rwaBalancesDB.getAvailBal().add(rwaInstSpvProductDividend.getDividendAmount()));
+        rwaBalancesDB.setFrozenBal(rwaBalancesDB.getFrozenBal().subtract(rwaInstSpvProductDividend.getDividendAmount()));
+        rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
+    }
+
 }
