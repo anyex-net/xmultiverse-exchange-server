@@ -7,6 +7,8 @@ package com.anyex.apps.rwa.service;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.model.Pagination;
+import com.anyex.apps.rwa.entity.RwaBalances;
+import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -42,6 +46,14 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
     protected RwaInstSpvProductMapper rwaInstSpvProductMapper;
 
     @Autowired(required = false)
+    private RwaBalancesService rwaBalancesService;
+
+    @Autowired(required = false)
+    private RwaInstSpvProductPurchaseService rwaInstSpvProductPurchaseService;
+
+
+
+    @Autowired(required = false)
     public RwaInstSpvProductServiceImpl(RwaInstSpvProductMapper rwaInstSpvProductMapper)
     {
         super(rwaInstSpvProductMapper);
@@ -59,6 +71,7 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
     }
 
     @Scheduled(cron = "15 0 0 * * ?")
+    @Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void productPerformTask() throws BusinessException, ParseException {
         log.info("===============开始执行产品定时任务================");
         List<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductMapper.selectAll();
@@ -85,6 +98,18 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
                         log.info("产品状态为申购数量小于募集金额的成立比例, 募集条件不成立, 状态更新为发行失败: {}", rwaInstSpvProduct.getId());
                         rwaInstSpvProduct.setState("6");
                         rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
+                        //产品发行失败后进行保证金和申购 退还
+                        //保证金退还
+                        rwaBalancesService.raiseMarginFrozenBalUncheck(rwaInstSpvProduct);
+                        //申购者退还
+                        RwaInstSpvProductPurchase rwaInstSpvProductPurchaseDB = new RwaInstSpvProductPurchase();
+                        rwaInstSpvProductPurchaseDB.setInstSpvProductId(rwaInstSpvProduct.getId());
+                        List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchaseDB);
+                        for (RwaInstSpvProductPurchase rwaInstSpvProductPurchase : rwaInstSpvProductPurchases)
+                        {
+                            rwaBalancesService.purchaseFrozenBalUncheck(rwaInstSpvProductPurchase);
+                        }
+                        //
                         continue;
                     }
                     if (operationStartDate != null && today.before(operationStartDate)) {
