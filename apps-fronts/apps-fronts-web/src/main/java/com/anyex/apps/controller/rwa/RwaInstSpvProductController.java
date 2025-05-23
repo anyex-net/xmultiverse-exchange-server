@@ -4,7 +4,6 @@
  */
 package com.anyex.apps.controller.rwa;
 
-import com.alibaba.fastjson.JSONObject;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.controller.rwa.req.*;
 import com.anyex.apps.controller.rwa.resp.RespRwaInstSpvProduct;
@@ -21,6 +20,10 @@ import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.OnLineUserUtils;
 import com.anyex.apps.utils.SerialnoUtils;
+import com.anyex.exchange.contract.api.ContractDepositApi;
+import com.anyex.exchange.contract.api.ContractDividendApi;
+import com.anyex.exchange.contract.req.ReqDeposit;
+import com.anyex.exchange.contract.req.ReqDividend;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +33,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.List;
@@ -343,10 +347,12 @@ public class RwaInstSpvProductController extends GenericController
             //
             log.info("entity:{}", rwaInstSpvProductDividend);
             if (null == rwaInstSpvProductDividend.getId()) {
+                rwaInstSpvProductDividend.setId(SerialnoUtils.buildPrimaryKey());
                 rwaInstSpvProductDividendService.insert(rwaInstSpvProductDividend);
             } else {
                 rwaInstSpvProductDividendService.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
             }
+            rwaInstSpvProductDividendService.executedRwaInstSpvProductDividend(rwaInstSpvProductDividend);
         }
         return json;
     }
@@ -362,6 +368,10 @@ public class RwaInstSpvProductController extends GenericController
             RwaInstSpvProductDividend rwaInstSpvProductDividend = new RwaInstSpvProductDividend();
             BeanUtils.copyProperties(reqrwaInstSpvProductDividend, rwaInstSpvProductDividend);
             RwaInstSpvProductDividend rwaInstSpvProductDividendDB = rwaInstSpvProductDividendService.selectOne(rwaInstSpvProductDividend);
+            if ("6".equals(rwaInstSpvProductDividendDB.getState())){
+                log.error("该产品为发行失败，不能进行分红");
+                throw new BusinessException(CommonEnums.ERROR_RWA_PROUDCT_ISSUE_FAIL);
+            }
             if (null == rwaInstSpvProductDividendDB) {
                 log.error("没有找到分红单");
                 throw new BusinessException(CommonEnums.ERROR_DATA_NO_FOUND_ERR);

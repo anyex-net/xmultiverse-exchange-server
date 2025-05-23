@@ -138,7 +138,7 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
             // 存入金额
             ReqDeposit reqDeposit = new ReqDeposit();
             reqDeposit.setContract_address(rwaInstSpvProduct.getShareContractAddress());
-            reqDeposit.setDeposited_total(rwaInstSpvProductDividend.getDividendAmount());
+            reqDeposit.setDeposited_total(rwaInstSpvProductDividend.getDividendAmount().intValue());
             JSONObject jsonDeposit = ContractDepositApi.deposit(reqDeposit);
 
             if (jsonDeposit.getInteger("code") != 200) {
@@ -165,7 +165,7 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
                 }
 
                 reqDividend.setProject_address(rwaInstSpvProduct.getTokenContractAddress());
-                reqDividend.setAmount(rwaInstSpvProductDividend.getDividendAmount());
+                reqDividend.setAmount(rwaInstSpvProductDividend.getDividendAmount().intValue());
                 JSONObject jsonDividend = ContractDividendApi.dividend(reqDividend);
 
                 if (jsonDividend.getInteger("code") == 200) {

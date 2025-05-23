@@ -14,7 +14,7 @@ public class ReqDividend implements Serializable {
 
     @NotNull(message = "分红金额不可为空")
     @ApiModelProperty(value = "分红金额", position = 1, required = true)
-    private BigDecimal amount;
+    private Integer amount;
 
     @NotNull(message = "分红合约地址不可为空")
     @ApiModelProperty(value = "分红合约地址", position = 1, required = true)

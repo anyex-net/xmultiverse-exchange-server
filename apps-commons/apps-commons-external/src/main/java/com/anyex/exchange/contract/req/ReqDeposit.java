@@ -22,5 +22,5 @@ public class ReqDeposit implements Serializable {
 
     @NotNull(message = "存入金额不可为空")
     @ApiModelProperty(value = "存入金额", position = 3, required = true)
-    private BigDecimal deposited_total;
+    private Integer deposited_total;
 }
