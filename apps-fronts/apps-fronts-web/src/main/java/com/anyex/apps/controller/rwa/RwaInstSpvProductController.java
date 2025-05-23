@@ -347,12 +347,10 @@ public class RwaInstSpvProductController extends GenericController
             //
             log.info("entity:{}", rwaInstSpvProductDividend);
             if (null == rwaInstSpvProductDividend.getId()) {
-                rwaInstSpvProductDividend.setId(SerialnoUtils.buildPrimaryKey());
                 rwaInstSpvProductDividendService.insert(rwaInstSpvProductDividend);
             } else {
                 rwaInstSpvProductDividendService.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
             }
-            rwaInstSpvProductDividendService.executedRwaInstSpvProductDividend(rwaInstSpvProductDividend);
         }
         return json;
     }
