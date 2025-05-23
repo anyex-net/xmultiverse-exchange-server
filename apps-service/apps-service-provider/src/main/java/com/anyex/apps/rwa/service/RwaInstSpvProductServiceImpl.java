@@ -7,7 +7,6 @@ package com.anyex.apps.rwa.service;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.PaginateResult;
 import com.anyex.apps.model.Pagination;
-import com.anyex.apps.system.entity.SysUserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,7 @@ import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -75,16 +75,42 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
                 }
             }
             if ("5".equals(rwaInstSpvProduct.getState())) {
-                Date purchaseStartDate = rwaInstSpvProduct.getOperationStarDate();
-                if (purchaseStartDate != null && isSameDay(purchaseStartDate, today)) {
+                // 运营开始日期未到，申购结束 ，状态为待运营
+                Date purchaseEndDate = rwaInstSpvProduct.getPurchaseEndDate();
+                Date operationStartDate = rwaInstSpvProduct.getOperationStarDate();
+                if (purchaseEndDate != null && isSameDay(purchaseEndDate, today)) {
+                    // 募集条件不成立 发行失败
+                    BigDecimal raiseEstablished = rwaInstSpvProduct.getRaiseAmount().multiply(rwaInstSpvProduct.getRaiseEstablishedRatio());
+                    if (raiseEstablished.compareTo(rwaInstSpvProduct.getPurchasedSumAmount()) > 0) {
+                        log.info("产品状态为申购数量小于募集金额的成立比例, 募集条件不成立, 状态更新为发行失败: {}", rwaInstSpvProduct.getId());
+                        rwaInstSpvProduct.setState("6");
+                        rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
+                        continue;
+                    }
+                    if (operationStartDate != null && today.before(operationStartDate)) {
+                        log.info("产品申购结束，运营尚未开始，进入待运营状态: {}", rwaInstSpvProduct.getId());
+                        rwaInstSpvProduct.setState("9");
+                        rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
+                        continue;
+                    }
+                }
+                if (operationStartDate != null && isSameDay(operationStartDate, today)) {
                     log.info("产品状态为申购结束且运营开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
                     rwaInstSpvProduct.setState("7");
                     rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
                 }
             }
+            if ("9".equals(rwaInstSpvProduct.getState())) {
+                Date operationStartDate = rwaInstSpvProduct.getOperationStarDate();
+                if (operationStartDate != null && isSameDay(operationStartDate, today)) {
+                    log.info("产品状态为待运营且运营开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
+                    rwaInstSpvProduct.setState("7");
+                    rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
+                }
+            }
             if ("7".equals(rwaInstSpvProduct.getState())) {
-                Date purchaseStartDate = rwaInstSpvProduct.getOperationEndDate();
-                if (purchaseStartDate != null && isSameDay(purchaseStartDate, today)) {
+                Date operationEndDate = rwaInstSpvProduct.getOperationEndDate();
+                if (operationEndDate != null && isSameDay(operationEndDate, today)) {
                     log.info("产品状态为运营结束且运营结束日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
                     rwaInstSpvProduct.setState("8");
                     rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
