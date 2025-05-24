@@ -74,7 +74,7 @@ public class InstrumentsCurrencyController extends GenericController
             if(null == entity.getId()){
                 instrumentsCurrencyService.insert(entity);
             } else {
-                instrumentsCurrencyService.updateByPrimaryKey(entity);
+                instrumentsCurrencyService.updateByPrimaryKeySelective(entity);
             }
         }
         return json;
