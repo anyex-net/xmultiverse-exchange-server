@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.base.mapper.InstrumentsCurrencyMapper">
+    <!-- 基础列 -->
+    <sql id="instrumentsCurrencyColumns">
+        a.id as id,
+        a.instType as instType,
+        a.instId as instId,
+        a.blockchain as blockchain,
+        a.currencyName as currencyName,
+        a.currencyDesc as currencyDesc,
+        a.currencyNum as currencyNum,
+        a.currencyContract as currencyContract,
+        a.currencyPmDesc as currencyPmDesc,
+        a.currencyLink as currencyLink,
+        a.currencySite as currencySite,
+        a.currencyBrowser as currencyBrowser,
+        a.currencyWhitepaperUrl as currencyWhitepaperUrl,
+        a.currencyX as currencyX,
+        a.currencyTelegram as currencyTelegram,
+        a.currencyLogoUrl as currencyLogoUrl,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="instrumentsCurrencyResultMap" type="com.anyex.apps.base.entity.InstrumentsCurrency">
+        <id column="ID" property="id" />
+        <result column="instType" property="instType"/>
+        <result column="instId" property="instId"/>
+        <result column="blockchain" property="blockchain"/>
+        <result column="currencyName" property="currencyName"/>
+        <result column="currencyDesc" property="currencyDesc"/>
+        <result column="currencyNum" property="currencyNum"/>
+        <result column="currencyContract" property="currencyContract"/>
+        <result column="currencyPmDesc" property="currencyPmDesc"/>
+        <result column="currencyLink" property="currencyLink"/>
+        <result column="currencySite" property="currencySite"/>
+        <result column="currencyBrowser" property="currencyBrowser"/>
+        <result column="currencyWhitepaperUrl" property="currencyWhitepaperUrl"/>
+        <result column="currencyX" property="currencyX"/>
+        <result column="currencyTelegram" property="currencyTelegram"/>
+        <result column="currencyLogoUrl" property="currencyLogoUrl"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        INSERT INTO InstrumentsCurrency(
+            id ,
+            instType ,
+            instId ,
+            blockchain ,
+            currencyName ,
+            currencyDesc ,
+            currencyNum ,
+            currencyContract ,
+            currencyPmDesc ,
+            currencyLink ,
+            currencySite ,
+            currencyBrowser ,
+            currencyWhitepaperUrl ,
+            currencyX ,
+            currencyTelegram ,
+            currencyLogoUrl ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{instType} ,
+            #{instId} ,
+            #{blockchain} ,
+            #{currencyName} ,
+            #{currencyDesc} ,
+            #{currencyNum} ,
+            #{currencyContract} ,
+            #{currencyPmDesc} ,
+            #{currencyLink} ,
+            #{currencySite} ,
+            #{currencyBrowser} ,
+            #{currencyWhitepaperUrl} ,
+            #{currencyX} ,
+            #{currencyTelegram} ,
+            #{currencyLogoUrl} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM InstrumentsCurrency WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE InstrumentsCurrency SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        INSERT INTO InstrumentsCurrency
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="instType != null">
+                instType ,
+        </if>
+        <if test="instId != null">
+                instId ,
+        </if>
+        <if test="blockchain != null">
+                blockchain ,
+        </if>
+        <if test="currencyName != null">
+                currencyName ,
+        </if>
+        <if test="currencyDesc != null">
+                currencyDesc ,
+        </if>
+        <if test="currencyNum != null">
+                currencyNum ,
+        </if>
+        <if test="currencyContract != null">
+                currencyContract ,
+        </if>
+        <if test="currencyPmDesc != null">
+                currencyPmDesc ,
+        </if>
+        <if test="currencyLink != null">
+                currencyLink ,
+        </if>
+        <if test="currencySite != null">
+                currencySite ,
+        </if>
+        <if test="currencyBrowser != null">
+                currencyBrowser ,
+        </if>
+        <if test="currencyWhitepaperUrl != null">
+                currencyWhitepaperUrl ,
+        </if>
+        <if test="currencyX != null">
+                currencyX ,
+        </if>
+        <if test="currencyTelegram != null">
+                currencyTelegram ,
+        </if>
+        <if test="currencyLogoUrl != null">
+                currencyLogoUrl ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="instType != null">
+                #{instType} ,
+        </if>
+        <if test="instId != null">
+                #{instId} ,
+        </if>
+        <if test="blockchain != null">
+                #{blockchain} ,
+        </if>
+        <if test="currencyName != null">
+                #{currencyName} ,
+        </if>
+        <if test="currencyDesc != null">
+                #{currencyDesc} ,
+        </if>
+        <if test="currencyNum != null">
+                #{currencyNum} ,
+        </if>
+        <if test="currencyContract != null">
+                #{currencyContract} ,
+        </if>
+        <if test="currencyPmDesc != null">
+                #{currencyPmDesc} ,
+        </if>
+        <if test="currencyLink != null">
+                #{currencyLink} ,
+        </if>
+        <if test="currencySite != null">
+                #{currencySite} ,
+        </if>
+        <if test="currencyBrowser != null">
+                #{currencyBrowser} ,
+        </if>
+        <if test="currencyWhitepaperUrl != null">
+                #{currencyWhitepaperUrl} ,
+        </if>
+        <if test="currencyX != null">
+                #{currencyX} ,
+        </if>
+        <if test="currencyTelegram != null">
+                #{currencyTelegram} ,
+        </if>
+        <if test="currencyLogoUrl != null">
+                #{currencyLogoUrl} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        UPDATE InstrumentsCurrency
+           <set>
+            <if test="instType != null">
+                instType = #{instType} ,
+            </if>
+            <if test="instId != null">
+                instId = #{instId} ,
+            </if>
+            <if test="blockchain != null">
+                blockchain = #{blockchain} ,
+            </if>
+            <if test="currencyName != null">
+                currencyName = #{currencyName} ,
+            </if>
+            <if test="currencyDesc != null">
+                currencyDesc = #{currencyDesc} ,
+            </if>
+            <if test="currencyNum != null">
+                currencyNum = #{currencyNum} ,
+            </if>
+            <if test="currencyContract != null">
+                currencyContract = #{currencyContract} ,
+            </if>
+            <if test="currencyPmDesc != null">
+                currencyPmDesc = #{currencyPmDesc} ,
+            </if>
+            <if test="currencyLink != null">
+                currencyLink = #{currencyLink} ,
+            </if>
+            <if test="currencySite != null">
+                currencySite = #{currencySite} ,
+            </if>
+            <if test="currencyBrowser != null">
+                currencyBrowser = #{currencyBrowser} ,
+            </if>
+            <if test="currencyWhitepaperUrl != null">
+                currencyWhitepaperUrl = #{currencyWhitepaperUrl} ,
+            </if>
+            <if test="currencyX != null">
+                currencyX = #{currencyX} ,
+            </if>
+            <if test="currencyTelegram != null">
+                currencyTelegram = #{currencyTelegram} ,
+            </if>
+            <if test="currencyLogoUrl != null">
+                currencyLogoUrl = #{currencyLogoUrl} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO InstrumentsCurrency(
+            id ,
+            instType ,
+            instId ,
+            blockchain ,
+            currencyName ,
+            currencyDesc ,
+            currencyNum ,
+            currencyContract ,
+            currencyPmDesc ,
+            currencyLink ,
+            currencySite ,
+            currencyBrowser ,
+            currencyWhitepaperUrl ,
+            currencyX ,
+            currencyTelegram ,
+            currencyLogoUrl ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.instType} ,
+            #{item.instId} ,
+            #{item.blockchain} ,
+            #{item.currencyName} ,
+            #{item.currencyDesc} ,
+            #{item.currencyNum} ,
+            #{item.currencyContract} ,
+            #{item.currencyPmDesc} ,
+            #{item.currencyLink} ,
+            #{item.currencySite} ,
+            #{item.currencyBrowser} ,
+            #{item.currencyWhitepaperUrl} ,
+            #{item.currencyX} ,
+            #{item.currencyTelegram} ,
+            #{item.currencyLogoUrl} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE InstrumentsCurrency SET
+            instType = #{item.instType} ,
+            instId = #{item.instId} ,
+            blockchain = #{item.blockchain} ,
+            currencyName = #{item.currencyName} ,
+            currencyDesc = #{item.currencyDesc} ,
+            currencyNum = #{item.currencyNum} ,
+            currencyContract = #{item.currencyContract} ,
+            currencyPmDesc = #{item.currencyPmDesc} ,
+            currencyLink = #{item.currencyLink} ,
+            currencySite = #{item.currencySite} ,
+            currencyBrowser = #{item.currencyBrowser} ,
+            currencyWhitepaperUrl = #{item.currencyWhitepaperUrl} ,
+            currencyX = #{item.currencyX} ,
+            currencyTelegram = #{item.currencyTelegram} ,
+            currencyLogoUrl = #{item.currencyLogoUrl} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        UPDATE InstrumentsCurrency SET
+            instType = #{instType} ,
+            instId = #{instId} ,
+            blockchain = #{blockchain} ,
+            currencyName = #{currencyName} ,
+            currencyDesc = #{currencyDesc} ,
+            currencyNum = #{currencyNum} ,
+            currencyContract = #{currencyContract} ,
+            currencyPmDesc = #{currencyPmDesc} ,
+            currencyLink = #{currencyLink} ,
+            currencySite = #{currencySite} ,
+            currencyBrowser = #{currencyBrowser} ,
+            currencyWhitepaperUrl = #{currencyWhitepaperUrl} ,
+            currencyX = #{currencyX} ,
+            currencyTelegram = #{currencyTelegram} ,
+            currencyLogoUrl = #{currencyLogoUrl} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        SELECT <include refid="instrumentsCurrencyColumns"/> FROM InstrumentsCurrency a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        SELECT
+        <include refid="instrumentsCurrencyColumns"/>
+        FROM InstrumentsCurrency a WHERE 1 = 1
+        <if test="instType != null and instType != ''">
+            AND a.instType = #{instType}
+        </if>
+        <if test="instId != null and instId != ''">
+            AND a.instId = #{instId}
+        </if>
+        <if test="blockchain != null and blockchain != ''">
+            AND a.blockchain = #{blockchain}
+        </if>
+        <if test="currencyName != null and currencyName != ''">
+            AND a.currencyName = #{currencyName}
+        </if>
+        <if test="currencyDesc != null and currencyDesc != ''">
+            AND a.currencyDesc = #{currencyDesc}
+        </if>
+        <if test="currencyNum != null and currencyNum != ''">
+            AND a.currencyNum = #{currencyNum}
+        </if>
+        <if test="currencyContract != null and currencyContract != ''">
+            AND a.currencyContract = #{currencyContract}
+        </if>
+        <if test="currencyPmDesc != null and currencyPmDesc != ''">
+            AND a.currencyPmDesc = #{currencyPmDesc}
+        </if>
+        <if test="currencyLink != null and currencyLink != ''">
+            AND a.currencyLink = #{currencyLink}
+        </if>
+        <if test="currencySite != null and currencySite != ''">
+            AND a.currencySite = #{currencySite}
+        </if>
+        <if test="currencyBrowser != null and currencyBrowser != ''">
+            AND a.currencyBrowser = #{currencyBrowser}
+        </if>
+        <if test="currencyWhitepaperUrl != null and currencyWhitepaperUrl != ''">
+            AND a.currencyWhitepaperUrl = #{currencyWhitepaperUrl}
+        </if>
+        <if test="currencyX != null and currencyX != ''">
+            AND a.currencyX = #{currencyX}
+        </if>
+        <if test="currencyTelegram != null and currencyTelegram != ''">
+            AND a.currencyTelegram = #{currencyTelegram}
+        </if>
+        <if test="currencyLogoUrl != null and currencyLogoUrl != ''">
+            AND a.currencyLogoUrl = #{currencyLogoUrl}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        SELECT
+        <include refid="instrumentsCurrencyColumns"/>
+        FROM InstrumentsCurrency a WHERE 1 = 1
+        <if test="instType != null and instType != ''">
+            AND a.instType LIKE CONCAT('%',#{instType}, '%')
+        </if>
+        <if test="instId != null and instId != ''">
+            AND a.instId LIKE CONCAT('%',#{instId}, '%')
+        </if>
+        <if test="blockchain != null and blockchain != ''">
+            AND a.blockchain LIKE CONCAT('%',#{blockchain}, '%')
+        </if>
+        <if test="currencyName != null and currencyName != ''">
+            AND a.currencyName LIKE CONCAT('%',#{currencyName}, '%')
+        </if>
+        <if test="currencyDesc != null and currencyDesc != ''">
+            AND a.currencyDesc LIKE CONCAT('%',#{currencyDesc}, '%')
+        </if>
+        <if test="currencyNum != null and currencyNum != ''">
+            AND a.currencyNum LIKE CONCAT('%',#{currencyNum}, '%')
+        </if>
+        <if test="currencyContract != null and currencyContract != ''">
+            AND a.currencyContract LIKE CONCAT('%',#{currencyContract}, '%')
+        </if>
+        <if test="currencyPmDesc != null and currencyPmDesc != ''">
+            AND a.currencyPmDesc LIKE CONCAT('%',#{currencyPmDesc}, '%')
+        </if>
+        <if test="currencyLink != null and currencyLink != ''">
+            AND a.currencyLink LIKE CONCAT('%',#{currencyLink}, '%')
+        </if>
+        <if test="currencySite != null and currencySite != ''">
+            AND a.currencySite LIKE CONCAT('%',#{currencySite}, '%')
+        </if>
+        <if test="currencyBrowser != null and currencyBrowser != ''">
+            AND a.currencyBrowser LIKE CONCAT('%',#{currencyBrowser}, '%')
+        </if>
+        <if test="currencyWhitepaperUrl != null and currencyWhitepaperUrl != ''">
+            AND a.currencyWhitepaperUrl LIKE CONCAT('%',#{currencyWhitepaperUrl}, '%')
+        </if>
+        <if test="currencyX != null and currencyX != ''">
+            AND a.currencyX LIKE CONCAT('%',#{currencyX}, '%')
+        </if>
+        <if test="currencyTelegram != null and currencyTelegram != ''">
+            AND a.currencyTelegram LIKE CONCAT('%',#{currencyTelegram}, '%')
+        </if>
+        <if test="currencyLogoUrl != null and currencyLogoUrl != ''">
+            AND a.currencyLogoUrl LIKE CONCAT('%',#{currencyLogoUrl}, '%')
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.base.entity.InstrumentsCurrency">
+        SELECT
+        <include refid="instrumentsCurrencyColumns"/>
+        FROM InstrumentsCurrency a
+    </select>
+
+
+</mapper>
+

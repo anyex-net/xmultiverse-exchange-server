@@ -147,6 +147,12 @@
             <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
         </sofa:binding.bolt>
     </sofa:reference>
+    <!-- 平台交易产品币种信息 -->
+    <sofa:reference id="instrumentsCurrencyService" interface="com.anyex.apps.base.service.InstrumentsCurrencyService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
     <!-- 平台交易手续费费率 -->
     <sofa:reference id="instTradeFeeService" interface="com.anyex.apps.base.service.InstTradeFeeService" jvm-first="false">
         <sofa:binding.bolt>
@@ -155,6 +161,12 @@
     </sofa:reference>
     <!-- 用户交易手续费费率 -->
     <sofa:reference id="userInstTradeFeeService" interface="com.anyex.apps.base.service.UserInstTradeFeeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户交易产品收藏 -->
+    <sofa:reference id="userInstrumentsFavoriteService" interface="com.anyex.apps.base.service.UserInstrumentsFavoriteService" jvm-first="false">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
         </sofa:binding.bolt>
