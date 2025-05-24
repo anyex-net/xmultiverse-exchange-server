@@ -18,10 +18,11 @@ public class GeneratorDemo
         GeneratorFile file = new GeneratorFile();
          file.generateCRUDByTables(new String[]{
 //                 "Currencies", "Instruments", "InstTradeFee", "UserInstTradeFee"
+                 "UserInstrumentsFavorite",
 //                 "User", "UserCertKyc",
 //                 "Balances", "BalancesTransHistory", "DepositAddress", "DepositTransHistory", "WithdrawalHistory"
-                 "RwaCertInstSpvPromoter", "RwaCertInstInvestor", "RwaBalances", "RwaBalancesTransHistory",
-                 "RwaInstSpvCompany", "RwaInstSpvProduct", "RwaInstSpvProductPurchase", "RwaInstSpvProductDividend", "RwaInstSpvProductRedemption"
+//                 "RwaCertInstSpvPromoter", "RwaCertInstInvestor", "RwaBalances", "RwaBalancesTransHistory",
+//                 "RwaInstSpvCompany", "RwaInstSpvProduct", "RwaInstSpvProductPurchase", "RwaInstSpvProductDividend", "RwaInstSpvProductRedemption"
 //                 "AppDownloadInfo", "AppActivationInfo"
 //                 "RoleInfoTest","ROLEINFO", "sys_config1", "SYS_CONFIG",
 //                 "Information","NewsInfo",

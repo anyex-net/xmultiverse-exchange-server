@@ -83,10 +83,11 @@ public class DepositAddressController extends GenericController
                 }
             }
             //
-            if("BTC".equals(reqDepositAddress.getCurrency())){
-                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "BTC", "BTC");
+            if(StringUtils.isNotEmpty(reqDepositAddress.getCurrency()))
+            {
+                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), reqDepositAddress.getCurrency(), reqDepositAddress.getBlockchain());
                 log.info("get_address jsonObjectResp:{}", jsonObjectResp);
-                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+                if (null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))) {
                     JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
                     log.info("get_address jsonObjectData address: {}", jsonObjectData.getString("address"));
                     // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
@@ -107,59 +108,86 @@ public class DepositAddressController extends GenericController
                     log.error("XMWalletApi.get_address error:{}", jsonObjectResp);
                     throw new BusinessException("call XMWalletApi get_address error, please check!");
                 }
-            } else if("ETH".equals(reqDepositAddress.getCurrency())){
-                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "ETH", "ETH");
-                log.info("get_address jsonObjectResp:{}", jsonObjectResp);
-                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-                    JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-                    log.info("get_address jsonObjectData address: {}", jsonObjectData.getString("address"));
-                    // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
-                    DepositAddress result = new DepositAddress();
-                    result.setUserId(OnLineUserUtils.getPrincipal().getId());
-                    result.setCurrency(reqDepositAddress.getCurrency());
-                    result.setBlockchain(reqDepositAddress.getBlockchain());
-                    result.setDepositAddress(jsonObjectData.getString("address"));
-                    result.setAccDeposit(BigDecimal.ZERO);
-                    result.setUnconfAccDeposit(BigDecimal.ZERO);
-                    result.setRemark("address init");
-                    result.setCreateTime(System.currentTimeMillis());
-                    log.info("插入 depositAddress: {}", result);
-                    depositAddressService.insert(result);
-                    return getJsonMessage(CommonEnums.SUCCESS, result);
-                    //
-                } else {
-                    log.error("XMWalletApi.get_address error:{}", jsonObjectResp);
-                    throw new BusinessException("call XMWalletApi get_address error, please check!");
-                }
-            } else if("USDT".equals(reqDepositAddress.getCurrency())){
-                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "USDT", reqDepositAddress.getBlockchain());
-                log.info("get_address jsonObjectResp:{}", jsonObjectResp);
-                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
-                    JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
-                    log.info("get_address jsonObjectData address: {}", jsonObjectData.getString("address"));
-                    // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
-                    DepositAddress result = new DepositAddress();
-                    result.setUserId(OnLineUserUtils.getPrincipal().getId());
-                    result.setCurrency(reqDepositAddress.getCurrency());
-                    result.setBlockchain(reqDepositAddress.getBlockchain());
-                    result.setDepositAddress(jsonObjectData.getString("address"));
-                    result.setAccDeposit(BigDecimal.ZERO);
-                    result.setUnconfAccDeposit(BigDecimal.ZERO);
-                    result.setRemark("address init");
-                    result.setCreateTime(System.currentTimeMillis());
-                    log.info("插入 depositAddress: {}", result);
-                    depositAddressService.insert(result);
-                    return getJsonMessage(CommonEnums.SUCCESS, result);
-                    //
-                } else {
-                    log.error("XMWalletApi.get_address error:{}", jsonObjectResp);
-                    throw new BusinessException("call XMWalletApi get_address error, please check!");
-                }
-            } else {
-                return getJsonMessage(CommonEnums.SUCCESS, null);
             }
+//            if("BTC".equals(reqDepositAddress.getCurrency())){
+//                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "BTC", "BTC");
+//                log.info("get_address jsonObjectResp:{}", jsonObjectResp);
+//                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//                    JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+//                    log.info("get_address jsonObjectData address: {}", jsonObjectData.getString("address"));
+//                    // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
+//                    DepositAddress result = new DepositAddress();
+//                    result.setUserId(OnLineUserUtils.getPrincipal().getId());
+//                    result.setCurrency(reqDepositAddress.getCurrency());
+//                    result.setBlockchain(reqDepositAddress.getBlockchain());
+//                    result.setDepositAddress(jsonObjectData.getString("address"));
+//                    result.setAccDeposit(BigDecimal.ZERO);
+//                    result.setUnconfAccDeposit(BigDecimal.ZERO);
+//                    result.setRemark("address init");
+//                    result.setCreateTime(System.currentTimeMillis());
+//                    log.info("插入 depositAddress: {}", result);
+//                    depositAddressService.insert(result);
+//                    return getJsonMessage(CommonEnums.SUCCESS, result);
+//                    //
+//                } else {
+//                    log.error("XMWalletApi.get_address error:{}", jsonObjectResp);
+//                    throw new BusinessException("call XMWalletApi get_address error, please check!");
+//                }
+//            } else if("ETH".equals(reqDepositAddress.getCurrency())){
+//                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "ETH", "ETH");
+//                log.info("get_address jsonObjectResp:{}", jsonObjectResp);
+//                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//                    JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+//                    log.info("get_address jsonObjectData address: {}", jsonObjectData.getString("address"));
+//                    // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
+//                    DepositAddress result = new DepositAddress();
+//                    result.setUserId(OnLineUserUtils.getPrincipal().getId());
+//                    result.setCurrency(reqDepositAddress.getCurrency());
+//                    result.setBlockchain(reqDepositAddress.getBlockchain());
+//                    result.setDepositAddress(jsonObjectData.getString("address"));
+//                    result.setAccDeposit(BigDecimal.ZERO);
+//                    result.setUnconfAccDeposit(BigDecimal.ZERO);
+//                    result.setRemark("address init");
+//                    result.setCreateTime(System.currentTimeMillis());
+//                    log.info("插入 depositAddress: {}", result);
+//                    depositAddressService.insert(result);
+//                    return getJsonMessage(CommonEnums.SUCCESS, result);
+//                    //
+//                } else {
+//                    log.error("XMWalletApi.get_address error:{}", jsonObjectResp);
+//                    throw new BusinessException("call XMWalletApi get_address error, please check!");
+//                }
+//            } else if("USDT".equals(reqDepositAddress.getCurrency())){
+//                JSONObject jsonObjectResp = XMWalletApi.get_address(userDB.getRemark(), "USDT", reqDepositAddress.getBlockchain());
+//                log.info("get_address jsonObjectResp:{}", jsonObjectResp);
+//                if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
+//                    JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
+//                    log.info("get_address jsonObjectData address: {}", jsonObjectData.getString("address"));
+//                    // address: 0x39f03686b2d673f94f0b555e42bf33167cf033e2
+//                    DepositAddress result = new DepositAddress();
+//                    result.setUserId(OnLineUserUtils.getPrincipal().getId());
+//                    result.setCurrency(reqDepositAddress.getCurrency());
+//                    result.setBlockchain(reqDepositAddress.getBlockchain());
+//                    result.setDepositAddress(jsonObjectData.getString("address"));
+//                    result.setAccDeposit(BigDecimal.ZERO);
+//                    result.setUnconfAccDeposit(BigDecimal.ZERO);
+//                    result.setRemark("address init");
+//                    result.setCreateTime(System.currentTimeMillis());
+//                    log.info("插入 depositAddress: {}", result);
+//                    depositAddressService.insert(result);
+//                    return getJsonMessage(CommonEnums.SUCCESS, result);
+//                    //
+//                } else {
+//                    log.error("XMWalletApi.get_address error:{}", jsonObjectResp);
+//                    throw new BusinessException("call XMWalletApi get_address error, please check!");
+//                }
+//            } else {
+//                return getJsonMessage(CommonEnums.SUCCESS, null);
+//            }
             //
         }
+        //
+        return getJsonMessage(CommonEnums.SUCCESS, null);
     }
 
 //    @PostMapping(value = "/data")

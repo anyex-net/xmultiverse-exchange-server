@@ -4,6 +4,7 @@
  */
 package com.anyex.apps.controller.fund.req;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,7 +28,12 @@ import java.io.Serializable;
 public class ReqWithdrawalHistory implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	
+
+	/**交易密码*/
+	@NotEmpty(message = "交易密码不可为空")
+	@ApiModelProperty(value = "交易密码", position = 0, required = true)
+	private String tradePwd;
+
 //	/**用户ID*/
 //	@NotNull(message = "用户ID不可为空")
 //	@ApiModelProperty(value = "用户ID", position = 1, required = true)

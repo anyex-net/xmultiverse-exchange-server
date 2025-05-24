@@ -65,3 +65,19 @@ create table Instruments
     updateTime        bigint(13)                        comment '更新时间',
     constraint index_Instruments unique (instType, instId)
 ) comment '平台交易产品';
+
+
+--用户交易产品收藏
+drop table if exists UserInstrumentsFavorite;
+create table UserInstrumentsFavorite
+(
+    id                bigint(20)               not null comment '主键' primary key,
+    userId            bigint(20)               not null comment '用户ID',
+    instType          varchar(16)              not null comment '产品类型 币币SPOT 币币杠杆MARGIN 永续合约SWAP 交割合约FUTURES 期权OPTION',
+    instId            varchar(16)              not null comment '产品ID 如BTC-USD-SWAP',
+    remark            varchar(64)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间',
+    updateBy          varchar(32)                       comment '更新人',
+    updateTime        bigint(13)                        comment '更新时间',
+    constraint index_UserInstrumentsFavorite unique (userId, instType, instId)
+) comment '用户交易产品收藏';
