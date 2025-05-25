@@ -195,19 +195,19 @@
         </sofa:binding.bolt>
     </sofa:service>
     <!-- 用户API -->
-    <sofa:service interface="com.anyex.apps.base.service.UserApiService" ref="userApiServiceImpl">
+    <sofa:service interface="com.anyex.apps.user.service.UserApiService" ref="userApiServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
     <!-- 用户持有数量奖励配置 -->
-    <sofa:service interface="com.anyex.apps.base.service.UserHoldAmountRewardConfigService" ref="userHoldAmountRewardConfigServiceImpl">
+    <sofa:service interface="com.anyex.apps.user.service.UserHoldAmountRewardConfigService" ref="userHoldAmountRewardConfigServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
     <!-- 用户邀请返佣奖励配置 -->
-    <sofa:service interface="com.anyex.apps.base.service.UserInviteRewardConfigService" ref="userInviteRewardConfigServiceImpl">
+    <sofa:service interface="com.anyex.apps.user.service.UserInviteRewardConfigService" ref="userInviteRewardConfigServiceImpl">
         <sofa:binding.bolt>
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>

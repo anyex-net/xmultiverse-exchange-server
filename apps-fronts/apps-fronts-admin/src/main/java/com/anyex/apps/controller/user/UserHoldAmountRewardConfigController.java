@@ -9,6 +9,9 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
+import com.anyex.apps.shiro.model.UserPrincipal;
+import com.anyex.apps.user.entity.UserApi;
+import com.anyex.apps.utils.OnLineUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +77,7 @@ public class UserHoldAmountRewardConfigController extends GenericController
             if(null == entity.getId()){
                 userHoldAmountRewardConfigService.insert(entity);
             } else {
-                userHoldAmountRewardConfigService.updateByPrimaryKey(entity);
+                userHoldAmountRewardConfigService.updateByPrimaryKeySelective(entity);
             }
         }
         return json;
@@ -99,5 +102,21 @@ public class UserHoldAmountRewardConfigController extends GenericController
     {
         userHoldAmountRewardConfigService.removeBatch(ids.split(","));
         return getJsonMessage(CommonEnums.SUCCESS);
+    }
+
+    @PostMapping(value = "/check")
+    @RequiresPermissions("user:userHoldAmountRewardConfig:operator")
+    @ApiOperation(value = "审核", httpMethod = "POST")
+    public JsonMessage check(Long id, Integer state) throws BusinessException
+    {
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+        UserHoldAmountRewardConfig config = userHoldAmountRewardConfigService.selectByPrimaryKey(id);
+        if (null == config) throw new BusinessException(CommonEnums.ERROR_PARAMS_VALID);
+        config.setState(state);
+        config.setUpdateBy(principal.getUserName());
+        config.setUpdateTime(System.currentTimeMillis());
+        userHoldAmountRewardConfigService.updateByPrimaryKeySelective(config);
+        return json;
     }
 }
