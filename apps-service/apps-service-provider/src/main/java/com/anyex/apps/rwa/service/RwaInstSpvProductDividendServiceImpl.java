@@ -12,6 +12,7 @@ import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.exchange.contract.api.ContractDepositApi;
 import com.anyex.exchange.contract.api.ContractDividendApi;
+import com.anyex.exchange.contract.config.ContractConfig;
 import com.anyex.exchange.contract.req.ReqDeposit;
 import com.anyex.exchange.contract.req.ReqDividend;
 import com.anyex.wallet.XMWalletApi;
@@ -89,9 +90,10 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
     public void executedRwaInstSpvProductDividend(RwaInstSpvProductDividend rwaInstSpvProductDividend) throws BusinessException
     {
         //给项目方管理地址转分红金额 项目方地址0x104fE772a9c1269b57272eF42be1B27A8dAA9064
-        String walletAddress = "0x104fE772a9c1269b57272eF42be1B27A8dAA9064";
+        String walletAddress = ContractConfig.project_management_wallet_address;
         User userDB = userService.selectByPrimaryKey(rwaInstSpvProductDividend.getUserId());
         String userNo = userDB.getRemark();
+        //转钱给项目方管理地址
         JSONObject jsonObjectResp = XMWalletApi.create_transaction(userNo, rwaInstSpvProductDividend.getDividendCurrency(), "Ethereum",
                 String.valueOf(rwaInstSpvProductDividend.getDividendAmount()), walletAddress);
         log.info("create_transaction jsonObjectResp:{}", jsonObjectResp);
