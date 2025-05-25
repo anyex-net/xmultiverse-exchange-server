@@ -25,6 +25,7 @@ create table User
     lang                    varchar(32)                       comment '语言',
     localCurrency           varchar(16)                       comment '本地货币',
     stableCoinPreference    varchar(16)                       comment '稳定币偏好',
+    userLevel               varchar(16)             default 0 comment '用户等级',
     remark                  varchar(64)                       comment '备注',
     sign                    varchar(64)              not null comment 'sign',
     randomKey               varchar(128)             not null comment 'randomKey',
@@ -74,3 +75,60 @@ create table UserCertKyc
     checkTime         bigint(13)                        comment '复核时间',
     constraint index_UserCertKyc unique (userId)
 ) comment '用户认证个人KYC';
+
+
+--用户等级，根据用户持有USDT数量划分等级，后台可设置等级，不同等级交易手续费享受不同折扣
+--用户持有数量奖励配置
+drop table if exists UserHoldAmountRewardConfig;
+create table UserHoldAmountRewardConfig
+(
+    id                bigint(20)               not null comment 'ID' primary key,
+    currency          varchar(32)              not null comment '币种(BTC、ETH、USDT)',
+    holdAmount1       decimal(22, 8) default 0 not null comment '持有数量1(起)',
+    holdAmount2       decimal(22, 8) default 0 not null comment '持有数量2(终)',
+    holdLevel         varchar(16)    default 0 not null comment '持有等级',
+    holdRateDiscount  decimal(22, 8) default 0 not null comment '持有对应交易手续费费率折扣',
+    state             int                      not null comment '状态(0不可用、1可用)',
+    remark            varchar(64)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间',
+    updateBy          varchar(32)                       comment '更新人',
+    updateTime        bigint(13)                        comment '更新时间'
+) comment '用户持有数量奖励配置';
+
+--邀请返佣，返给邀请人被邀请人的交易手续费的一定比例，这个比例后台可配置
+--用户邀请返佣奖励配置
+drop table if exists UserInviteRewardConfig;
+create table UserInviteRewardConfig
+(
+    id                bigint(20)               not null comment 'ID' primary key,
+    currency          varchar(32)              not null comment '币种(BTC、ETH、USDT)',
+    tradeFeeSum1      decimal(22, 8) default 0 not null comment '交易手续费累积1(起)',
+    tradeFeeSum2      decimal(22, 8) default 0 not null comment '交易手续费累积2(终)',
+    rewardLevel       varchar(16)    default 0 not null comment '奖励等级',
+    rewardDiscount    decimal(22, 8) default 0 not null comment '奖励折扣(交易手续费)',
+    state             int                      not null comment '状态(0不可用、1可用)',
+    remark            varchar(64)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间',
+    updateBy          varchar(32)                       comment '更新人',
+    updateTime        bigint(13)                        comment '更新时间'
+) comment '用户邀请返佣奖励配置';
+
+--用户API
+drop table if exists UserApi;
+create table UserApi
+(
+    id                bigint(20)               not null comment 'ID' primary key,
+    userId            bigint(20)               not null comment '用户ID',
+    keyType           int                      not null comment '密钥类型(0:只读、1:交易、2:提币)',
+    apiKey            varchar(64)              not null comment 'apiKey',
+    pubKey            varchar(128)             not null comment '公钥',
+    priKey            varchar(128)             not null comment '私钥',
+    closeTime         bigint(13)               not null comment '过期时间',
+    ipGroup           varchar(128)             not null comment 'ip地址',
+    state             int                      not null comment '状态(0不可用、1可用)',
+    remark            varchar(64)                       comment '备注',
+    createTime        bigint(13)               not null comment '创建时间',
+    updateBy          varchar(32)                       comment '更新人',
+    updateTime        bigint(13)                        comment '更新时间',
+    constraint index_UserApi unique (userId, keyType, apiKey)
+) comment '用户API';

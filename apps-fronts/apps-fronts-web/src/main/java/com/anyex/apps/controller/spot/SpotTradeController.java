@@ -5,6 +5,8 @@
 package com.anyex.apps.controller.spot;
 
 import com.alibaba.fastjson.JSONObject;
+import com.anyex.apps.base.service.InstTradeFeeService;
+import com.anyex.apps.base.service.UserInstTradeFeeService;
 import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.controller.spot.req.*;
 import com.anyex.apps.enums.CommonEnums;
@@ -19,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +41,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "现货交易SpotTrade")
 public class SpotTradeController extends GenericController
 {
+    @Autowired(required = false)
+    private InstTradeFeeService instTradeFeeService;
+
+    @Autowired(required = false)
+    private UserInstTradeFeeService userInstTradeFeeService;
+
     @ResponseBody
     @PostMapping(value = "/orderPutLimit")
     @ApiOperation(value = "下单限价单orderPutLimit", httpMethod = "POST")
@@ -48,6 +57,8 @@ public class SpotTradeController extends GenericController
         ReqTradeOrderPutLimit reqTradeOrderPutLimit = new ReqTradeOrderPutLimit();
         BeanUtils.copyProperties(reqSpotTradeOrderPutLimit, reqTradeOrderPutLimit);
         reqTradeOrderPutLimit.setUserId(OnLineUserUtils.getPrincipal().getId());
+        // 动态获取交易手续费费率
+
         //
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderPutLimit(reqTradeOrderPutLimit);
         log.info("tradeOrderPutLimit respJsonObject:{}", respJsonObject);
@@ -64,6 +75,8 @@ public class SpotTradeController extends GenericController
         ReqTradeOrderPutMarket reqTradeOrderPutMarket = new ReqTradeOrderPutMarket();
         BeanUtils.copyProperties(reqSpotTradeOrderPutMarket, reqTradeOrderPutMarket);
         reqTradeOrderPutMarket.setUserId(OnLineUserUtils.getPrincipal().getId());
+        // 动态获取交易手续费费率
+
         //
         JSONObject respJsonObject = ViabtcTradeApi.tradeOrderPutMarket(reqTradeOrderPutMarket);
         log.info("tradeOrderPutMarket respJsonObject:{}", respJsonObject);

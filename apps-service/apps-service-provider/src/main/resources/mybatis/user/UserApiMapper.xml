@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.user.mapper.UserApiMapper">
+    <!-- 基础列 -->
+    <sql id="userApiColumns">
+        a.id as id,
+        a.userId as userId,
+        a.keyType as keyType,
+        a.apiKey as apiKey,
+        a.pubKey as pubKey,
+        a.priKey as priKey,
+        a.closeTime as closeTime,
+        a.ipGroup as ipGroup,
+        a.state as state,
+        a.remark as remark,
+        a.createTime as createTime,
+        a.updateBy as updateBy,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="userApiResultMap" type="com.anyex.apps.user.entity.UserApi">
+        <id column="ID" property="id" />
+        <result column="userId" property="userId"/>
+        <result column="keyType" property="keyType"/>
+        <result column="apiKey" property="apiKey"/>
+        <result column="pubKey" property="pubKey"/>
+        <result column="priKey" property="priKey"/>
+        <result column="closeTime" property="closeTime"/>
+        <result column="ipGroup" property="ipGroup"/>
+        <result column="state" property="state"/>
+        <result column="remark" property="remark"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.user.entity.UserApi">
+        INSERT INTO UserApi(
+            id ,
+            userId ,
+            keyType ,
+            apiKey ,
+            pubKey ,
+            priKey ,
+            closeTime ,
+            ipGroup ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{keyType} ,
+            #{apiKey} ,
+            #{pubKey} ,
+            #{priKey} ,
+            #{closeTime} ,
+            #{ipGroup} ,
+            #{state} ,
+            #{remark} ,
+            #{createTime} ,
+            #{updateBy} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM UserApi WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE UserApi SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.user.entity.UserApi">
+        INSERT INTO UserApi
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="userId != null">
+                userId ,
+        </if>
+        <if test="keyType != null">
+                keyType ,
+        </if>
+        <if test="apiKey != null">
+                apiKey ,
+        </if>
+        <if test="pubKey != null">
+                pubKey ,
+        </if>
+        <if test="priKey != null">
+                priKey ,
+        </if>
+        <if test="closeTime != null">
+                closeTime ,
+        </if>
+        <if test="ipGroup != null">
+                ipGroup ,
+        </if>
+        <if test="state != null">
+                state ,
+        </if>
+        <if test="remark != null">
+                remark ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateBy != null">
+                updateBy ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="userId != null">
+                #{userId} ,
+        </if>
+        <if test="keyType != null">
+                #{keyType} ,
+        </if>
+        <if test="apiKey != null">
+                #{apiKey} ,
+        </if>
+        <if test="pubKey != null">
+                #{pubKey} ,
+        </if>
+        <if test="priKey != null">
+                #{priKey} ,
+        </if>
+        <if test="closeTime != null">
+                #{closeTime} ,
+        </if>
+        <if test="ipGroup != null">
+                #{ipGroup} ,
+        </if>
+        <if test="state != null">
+                #{state} ,
+        </if>
+        <if test="remark != null">
+                #{remark} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateBy != null">
+                #{updateBy} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.user.entity.UserApi">
+        UPDATE UserApi
+           <set>
+            <if test="userId != null">
+                userId = #{userId} ,
+            </if>
+            <if test="keyType != null">
+                keyType = #{keyType} ,
+            </if>
+            <if test="apiKey != null">
+                apiKey = #{apiKey} ,
+            </if>
+            <if test="pubKey != null">
+                pubKey = #{pubKey} ,
+            </if>
+            <if test="priKey != null">
+                priKey = #{priKey} ,
+            </if>
+            <if test="closeTime != null">
+                closeTime = #{closeTime} ,
+            </if>
+            <if test="ipGroup != null">
+                ipGroup = #{ipGroup} ,
+            </if>
+            <if test="state != null">
+                state = #{state} ,
+            </if>
+            <if test="remark != null">
+                remark = #{remark} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateBy != null">
+                updateBy = #{updateBy} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO UserApi(
+            id ,
+            userId ,
+            keyType ,
+            apiKey ,
+            pubKey ,
+            priKey ,
+            closeTime ,
+            ipGroup ,
+            state ,
+            remark ,
+            createTime ,
+            updateBy ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.userId} ,
+            #{item.keyType} ,
+            #{item.apiKey} ,
+            #{item.pubKey} ,
+            #{item.priKey} ,
+            #{item.closeTime} ,
+            #{item.ipGroup} ,
+            #{item.state} ,
+            #{item.remark} ,
+            #{item.createTime} ,
+            #{item.updateBy} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE UserApi SET
+            userId = #{item.userId} ,
+            keyType = #{item.keyType} ,
+            apiKey = #{item.apiKey} ,
+            pubKey = #{item.pubKey} ,
+            priKey = #{item.priKey} ,
+            closeTime = #{item.closeTime} ,
+            ipGroup = #{item.ipGroup} ,
+            state = #{item.state} ,
+            remark = #{item.remark} ,
+            createTime = #{item.createTime} ,
+            updateBy = #{item.updateBy} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.user.entity.UserApi">
+        UPDATE UserApi SET
+            userId = #{userId} ,
+            keyType = #{keyType} ,
+            apiKey = #{apiKey} ,
+            pubKey = #{pubKey} ,
+            priKey = #{priKey} ,
+            closeTime = #{closeTime} ,
+            ipGroup = #{ipGroup} ,
+            state = #{state} ,
+            remark = #{remark} ,
+            createTime = #{createTime} ,
+            updateBy = #{updateBy} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.user.entity.UserApi">
+        SELECT <include refid="userApiColumns"/> FROM UserApi a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.user.entity.UserApi">
+        SELECT
+        <include refid="userApiColumns"/>
+        FROM UserApi a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="keyType != null">
+            AND a.keyType = #{keyType}
+        </if>
+        <if test="apiKey != null and apiKey != ''">
+            AND a.apiKey = #{apiKey}
+        </if>
+        <if test="pubKey != null and pubKey != ''">
+            AND a.pubKey = #{pubKey}
+        </if>
+        <if test="priKey != null and priKey != ''">
+            AND a.priKey = #{priKey}
+        </if>
+        <if test="closeTime != null">
+            AND a.closeTime = #{closeTime}
+        </if>
+        <if test="ipGroup != null and ipGroup != ''">
+            AND a.ipGroup = #{ipGroup}
+        </if>
+        <if test="state != null">
+            AND a.state = #{state}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark = #{remark}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy = #{updateBy}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.user.entity.UserApi">
+        SELECT
+        <include refid="userApiColumns"/>
+        FROM UserApi a WHERE 1 = 1
+        <if test="userId != null">
+            AND a.userId = #{userId}
+        </if>
+        <if test="keyType != null">
+            AND a.keyType = #{keyType}
+        </if>
+        <if test="apiKey != null and apiKey != ''">
+            AND a.apiKey LIKE CONCAT('%',#{apiKey}, '%')
+        </if>
+        <if test="pubKey != null and pubKey != ''">
+            AND a.pubKey LIKE CONCAT('%',#{pubKey}, '%')
+        </if>
+        <if test="priKey != null and priKey != ''">
+            AND a.priKey LIKE CONCAT('%',#{priKey}, '%')
+        </if>
+        <if test="closeTime != null">
+            AND a.closeTime = #{closeTime}
+        </if>
+        <if test="ipGroup != null and ipGroup != ''">
+            AND a.ipGroup LIKE CONCAT('%',#{ipGroup}, '%')
+        </if>
+        <if test="state != null">
+            AND a.state = #{state}
+        </if>
+        <if test="remark != null and remark != ''">
+            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateBy != null and updateBy != ''">
+            AND a.updateBy LIKE CONCAT('%',#{updateBy}, '%')
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.user.entity.UserApi">
+        SELECT
+        <include refid="userApiColumns"/>
+        FROM UserApi a
+    </select>
+
+
+</mapper>
+

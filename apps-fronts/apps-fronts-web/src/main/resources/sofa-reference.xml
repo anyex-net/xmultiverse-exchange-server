@@ -189,6 +189,24 @@
             <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
         </sofa:binding.bolt>
     </sofa:reference>
+    <!-- 用户API -->
+    <sofa:reference id="userApiService" interface="com.anyex.apps.base.service.UserApiService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户持有数量奖励配置 -->
+    <sofa:reference id="userHoldAmountRewardConfigService" interface="com.anyex.apps.base.service.UserHoldAmountRewardConfigService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户邀请返佣奖励配置 -->
+    <sofa:reference id="userInviteRewardConfigService" interface="com.anyex.apps.base.service.UserInviteRewardConfigService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
 
     <!-- 资金账户余额 -->
     <sofa:reference id="balancesService" interface="com.anyex.apps.fund.service.BalancesService" jvm-first="false">
