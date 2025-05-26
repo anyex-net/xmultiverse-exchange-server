@@ -100,7 +100,10 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
         if(null != jsonObjectResp && "0".equals(jsonObjectResp.getString("code"))){
             JSONObject jsonObjectData = jsonObjectResp.getJSONObject("data");
             log.info("create_transaction jsonObjectData request_no: {}", jsonObjectData.getString("request_no"));
-
+            //交易确认序号 写入分红表中
+            rwaInstSpvProductDividend.setRemark(jsonObjectData.getString("request_no"));
+            rwaInstSpvProductDividendMapper.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
+             //
             RwaBalances rwaBalances = new RwaBalances();
             rwaBalances.setUserId(rwaInstSpvProductDividend.getUserId());
             rwaBalances.setCurrency(rwaInstSpvProductDividend.getDividendCurrency());
