@@ -41,4 +41,11 @@
         </sofa:binding.bolt>
     </sofa:reference>
 
+    <!-- RWA机构SPV产品分红记录 -->
+    <sofa:reference id="rwaInstSpvProductDividendService" interface="com.anyex.apps.rwa.service.RwaInstSpvProductDividendService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
 </beans>
