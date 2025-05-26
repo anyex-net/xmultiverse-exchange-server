@@ -76,22 +76,22 @@ create table InstrumentsCurrency
     instId                  varchar(16)              not null comment '产品ID 如BTC-USD-SWAP',
     blockchain              varchar(16)              not null comment '区块链(BTC、ETH、TRON、BSC)',
     currencyName            varchar(32)              not null comment '币种中文名',
-    currencyDesc            varchar(128)             not null comment '资产介绍',
+    currencyDesc            varchar(256)                      comment '资产介绍',
     currencyNum             varchar(16)              not null comment '资产总量',
-    currencyContract        varchar(64)              not null comment '资产合约',
+    currencyContract        varchar(128)             not null comment '资产合约',
     currencyPmDesc          varchar(128)             not null comment '项目简介',
-    currencyLink            varchar(64)              not null comment '资产链接',
-    currencySite            varchar(64)              not null comment '项目网址',
-    currencyBrowser         varchar(64)              not null comment '区块浏览器',
-    currencyWhitepaperUrl   varchar(64)              not null comment '白皮书',
-    currencyX               varchar(32)              not null comment 'X',
-    currencyTelegram        varchar(32)              not null comment 'Telegram',
-    currencyLogoUrl         varchar(32)              not null comment 'Logo',
-    remark                  varchar(64)                       comment '备注',
+    currencyLink            varchar(256)             not null comment '资产链接',
+    currencySite            varchar(256)                       comment '项目网址',
+    currencyBrowser         varchar(256)             not null comment '区块浏览器',
+    currencyWhitepaperUrl   varchar(256)             not null comment '白皮书',
+    currencyX               varchar(64)              not null comment 'X',
+    currencyTelegram        varchar(64)              not null comment 'Telegram',
+    currencyLogoUrl         varchar(64)              not null comment 'Logo',
+    remark                  varchar(128)                      comment '备注',
     createTime              bigint(13)               not null comment '创建时间',
     updateBy                varchar(32)                       comment '更新人',
     updateTime              bigint(13)                        comment '更新时间',
-    constraint index_InstrumentsCurrency unique (instType, instId, blockchain, currencyName)
+    constraint index_InstrumentsCurrency unique (instType, instId, currencyName)
 ) comment '平台交易产品币种信息';
 
 

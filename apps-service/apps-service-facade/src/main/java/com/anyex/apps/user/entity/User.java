@@ -130,6 +130,10 @@ public class User extends SignableEntity
 	@ApiModelProperty(value = "稳定币偏好", position = 22)
 	private java.lang.String stableCoinPreference;
 
+	/**用户等级*/
+	@ApiModelProperty(value = "用户等级", position = 22)
+	private java.lang.String userLevel;
+
 	/**备注*/
 	@ApiModelProperty(value = "备注", position = 23)
 	private java.lang.String remark;

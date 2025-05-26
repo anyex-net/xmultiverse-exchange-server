@@ -26,6 +26,7 @@
         a.lang as lang,
         a.localCurrency as localCurrency,
         a.stableCoinPreference as stableCoinPreference,
+        a.userLevel as userLevel,
         a.remark as remark,
         a.sign as sign,
         a.randomKey as randomKey,
@@ -58,6 +59,7 @@
         <result column="lang" property="lang"/>
         <result column="localCurrency" property="localCurrency"/>
         <result column="stableCoinPreference" property="stableCoinPreference"/>
+        <result column="userLevel" property="userLevel"/>
         <result column="remark" property="remark"/>
         <result column="sign" property="sign"/>
         <result column="randomKey" property="randomKey"/>
@@ -92,6 +94,7 @@
             lang ,
             localCurrency ,
             stableCoinPreference ,
+            userLevel ,
             remark ,
             sign ,
             randomKey ,
@@ -122,6 +125,7 @@
             #{lang} ,
             #{localCurrency} ,
             #{stableCoinPreference} ,
+            #{userLevel} ,
             #{remark} ,
             #{sign} ,
             #{randomKey} ,
@@ -214,6 +218,9 @@
         <if test="stableCoinPreference != null">
                 stableCoinPreference ,
         </if>
+        <if test="userLevel != null">
+                userLevel ,
+        </if>
         <if test="remark != null">
                 remark ,
         </if>
@@ -302,6 +309,9 @@
         </if>
         <if test="stableCoinPreference != null">
                 #{stableCoinPreference} ,
+        </if>
+        <if test="userLevel != null">
+                #{userLevel} ,
         </if>
         <if test="remark != null">
                 #{remark} ,
@@ -394,6 +404,9 @@
             <if test="stableCoinPreference != null">
                 stableCoinPreference = #{stableCoinPreference} ,
             </if>
+            <if test="userLevel != null">
+                userLevel = #{userLevel} ,
+            </if>
             <if test="remark != null">
                 remark = #{remark} ,
             </if>
@@ -442,6 +455,7 @@
             lang ,
             localCurrency ,
             stableCoinPreference ,
+            userLevel ,
             remark ,
             sign ,
             randomKey ,
@@ -474,6 +488,7 @@
             #{item.lang} ,
             #{item.localCurrency} ,
             #{item.stableCoinPreference} ,
+            #{item.userLevel} ,
             #{item.remark} ,
             #{item.sign} ,
             #{item.randomKey} ,
@@ -510,6 +525,7 @@
             lang = #{item.lang} ,
             localCurrency = #{item.localCurrency} ,
             stableCoinPreference = #{item.stableCoinPreference} ,
+            userLevel = #{item.userLevel} ,
             remark = #{item.remark} ,
             sign = #{item.sign} ,
             randomKey = #{item.randomKey} ,
@@ -545,6 +561,7 @@
             lang = #{lang} ,
             localCurrency = #{localCurrency} ,
             stableCoinPreference = #{stableCoinPreference} ,
+            userLevel = #{userLevel} ,
             remark = #{remark} ,
             sign = #{sign} ,
             randomKey = #{randomKey} ,
@@ -633,6 +650,9 @@
         <if test="remark != null and remark != ''">
             AND a.remark = #{remark}
         </if>
+        <if test="userLevel != null and userLevel != ''">
+            AND a.userLevel = #{userLevel}
+        </if>
 <!--        <if test="sign != null and sign != ''">-->
 <!--            AND a.sign = #{sign}-->
 <!--        </if>-->
@@ -714,16 +734,19 @@
             AND a.certState = #{certState}
         </if>
         <if test="lang != null and lang != ''">
-            AND a.lang LIKE CONCAT('%',#{lang}, '%')
+            AND a.lang = #{lang}
         </if>
         <if test="localCurrency != null and localCurrency != ''">
-            AND a.localCurrency LIKE CONCAT('%',#{localCurrency}, '%')
+            AND a.localCurrency = #{localCurrency}
         </if>
         <if test="stableCoinPreference != null and stableCoinPreference != ''">
-            AND a.stableCoinPreference LIKE CONCAT('%',#{stableCoinPreference}, '%')
+            AND a.stableCoinPreference = #{stableCoinPreference}
+        </if>
+        <if test="userLevel != null and userLevel != ''">
+            AND a.remark = #{userLevel}
         </if>
         <if test="remark != null and remark != ''">
-            AND a.remark LIKE CONCAT('%',#{remark}, '%')
+            AND a.remark = #{remark}
         </if>
 <!--        <if test="sign != null and sign != ''">-->
 <!--            AND a.sign LIKE CONCAT('%',#{sign}, '%')-->

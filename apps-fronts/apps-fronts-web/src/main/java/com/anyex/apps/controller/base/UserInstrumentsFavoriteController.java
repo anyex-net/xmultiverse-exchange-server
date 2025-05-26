@@ -52,6 +52,7 @@ public class UserInstrumentsFavoriteController extends GenericController
         UserInstrumentsFavorite entity = new UserInstrumentsFavorite();
         BeanUtils.copyProperties(reqUserInstrumentsFavorite, entity);
         entity.setUserId(principal.getId());
+        entity.setCreateTime(System.currentTimeMillis());
         log.info("entity:{}", entity);
         userInstrumentsFavoriteService.insert(entity);
         //
