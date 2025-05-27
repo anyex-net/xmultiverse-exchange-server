@@ -66,7 +66,7 @@ public class InstrumentsCurrencyController extends GenericController
             //
             if (null == info.getId())
             {
-            entity.setCreateTime(System.currentTimeMillis());
+                entity.setCreateTime(System.currentTimeMillis());
             }
             entity.setUpdateTime(System.currentTimeMillis());
             //

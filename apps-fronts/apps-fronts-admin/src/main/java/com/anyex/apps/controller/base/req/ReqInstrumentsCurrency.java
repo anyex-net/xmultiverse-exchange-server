@@ -53,7 +53,7 @@ public class ReqInstrumentsCurrency extends GenericEntity
 
 	/**资产介绍*/
 	@NotEmpty(message = "资产介绍不可为空")
-	@ApiModelProperty(value = "资产介绍", position = 5, required = true)
+	@ApiModelProperty(value = "资产介绍", position = 5)
 	private java.lang.String currencyDesc;
 
 	/**资产总量*/
@@ -68,7 +68,7 @@ public class ReqInstrumentsCurrency extends GenericEntity
 
 	/**项目简介*/
 	@NotEmpty(message = "项目简介不可为空")
-	@ApiModelProperty(value = "项目简介", position = 8, required = true)
+	@ApiModelProperty(value = "项目简介", position = 8)
 	private java.lang.String currencyPmDesc;
 
 	/**资产链接*/
