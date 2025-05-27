@@ -5,6 +5,7 @@
     <sql id="rwaBalancesColumns">
         a.id as id,
         a.userId as userId,
+        a.instSpvProductId as instSpvProductId,
         a.currency as currency,
         a.balance as balance,
         a.frozenBal as frozenBal,
@@ -16,6 +17,7 @@
     <resultMap id="rwaBalancesResultMap" type="com.anyex.apps.rwa.entity.RwaBalances">
         <id column="ID" property="id" />
         <result column="userId" property="userId"/>
+        <result column="instSpvProductId" property="instSpvProductId"/>
         <result column="currency" property="currency"/>
         <result column="balance" property="balance"/>
         <result column="frozenBal" property="frozenBal"/>
@@ -29,22 +31,24 @@
         INSERT INTO RwaBalances(
             id ,
             userId ,
+            instSpvProductId ,
             currency ,
             balance ,
             frozenBal ,
             availBal ,
             remark ,
-            updateTime 
+            updateTime
         ) VALUES (
-            #{id} ,
-            #{userId} ,
-            #{currency} ,
-            #{balance} ,
-            #{frozenBal} ,
-            #{availBal} ,
-            #{remark} ,
-            #{updateTime} 
-        )
+                     #{id} ,
+                     #{userId} ,
+                     #{instSpvProductId} ,
+                     #{currency} ,
+                     #{balance} ,
+                     #{frozenBal} ,
+                     #{availBal} ,
+                     #{remark} ,
+                     #{updateTime}
+                 )
     </insert>
     <!-- 根据主键物理删除 -->
     <delete id="remove" parameterType="java.lang.Long">
@@ -61,65 +65,74 @@
     <insert id="insertSelective" parameterType="com.anyex.apps.rwa.entity.RwaBalances">
         INSERT INTO RwaBalances
         <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="id != null">
+            <if test="id != null">
                 id ,
-        </if>
-        <if test="userId != null">
+            </if>
+            <if test="userId != null">
                 userId ,
-        </if>
-        <if test="currency != null">
+            </if>
+            <if test="instSpvProductId != null">
+                instSpvProductId ,
+            </if>
+            <if test="currency != null">
                 currency ,
-        </if>
-        <if test="balance != null">
+            </if>
+            <if test="balance != null">
                 balance ,
-        </if>
-        <if test="frozenBal != null">
+            </if>
+            <if test="frozenBal != null">
                 frozenBal ,
-        </if>
-        <if test="availBal != null">
+            </if>
+            <if test="availBal != null">
                 availBal ,
-        </if>
-        <if test="remark != null">
+            </if>
+            <if test="remark != null">
                 remark ,
-        </if>
-        <if test="updateTime != null">
-                updateTime 
-        </if>
+            </if>
+            <if test="updateTime != null">
+                updateTime
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-        <if test="id != null">
+            <if test="id != null">
                 #{id} ,
-        </if>
-        <if test="userId != null">
+            </if>
+            <if test="userId != null">
                 #{userId} ,
-        </if>
-        <if test="currency != null">
+            </if>
+            <if test="instSpvProductId != null">
+                #{instSpvProductId} ,
+            </if>
+            <if test="currency != null">
                 #{currency} ,
-        </if>
-        <if test="balance != null">
+            </if>
+            <if test="balance != null">
                 #{balance} ,
-        </if>
-        <if test="frozenBal != null">
+            </if>
+            <if test="frozenBal != null">
                 #{frozenBal} ,
-        </if>
-        <if test="availBal != null">
+            </if>
+            <if test="availBal != null">
                 #{availBal} ,
-        </if>
-        <if test="remark != null">
+            </if>
+            <if test="remark != null">
                 #{remark} ,
-        </if>
-        <if test="updateTime != null">
-                #{updateTime} 
-        </if>
+            </if>
+            <if test="updateTime != null">
+                #{updateTime}
+            </if>
         </trim>
     </insert>
 
     <!-- 选择性更新数据 -->
     <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.rwa.entity.RwaBalances">
         UPDATE RwaBalances
-           <set>
+        <set>
             <if test="userId != null">
                 userId = #{userId} ,
+            </if>
+            <if test="instSpvProductId != null">
+                instSpvProductId = #{instSpvProductId} ,
             </if>
             <if test="currency != null">
                 currency = #{currency} ,
@@ -137,34 +150,36 @@
                 remark = #{remark} ,
             </if>
             <if test="updateTime != null">
-                updateTime = #{updateTime} 
+                updateTime = #{updateTime}
             </if>
-           </set>
+        </set>
         WHERE ID = #{id}
     </update>
 
     <!-- 批量插入 -->
     <insert id="insertBatch" parameterType="list">
         INSERT INTO RwaBalances(
-            id ,
-            userId ,
-            currency ,
-            balance ,
-            frozenBal ,
-            availBal ,
-            remark ,
-            updateTime 
+        id ,
+        userId ,
+        instSpvProductId ,
+        currency ,
+        balance ,
+        frozenBal ,
+        availBal ,
+        remark ,
+        updateTime
         ) VALUES
         <foreach collection="list" item="item" separator=",">
             (
             #{item.id} ,
             #{item.userId} ,
+            #{item.instSpvProductId} ,
             #{item.currency} ,
             #{item.balance} ,
             #{item.frozenBal} ,
             #{item.availBal} ,
             #{item.remark} ,
-            #{item.updateTime} 
+            #{item.updateTime}
             )
         </foreach>
     </insert>
@@ -174,12 +189,13 @@
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE RwaBalances SET
             userId = #{item.userId} ,
+            instSpvProductId = #{item.instSpvProductId} ,
             currency = #{item.currency} ,
             balance = #{item.balance} ,
             frozenBal = #{item.frozenBal} ,
             availBal = #{item.availBal} ,
             remark = #{item.remark} ,
-            updateTime = #{item.updateTime} 
+            updateTime = #{item.updateTime}
             WHERE ID = #{item.id}
         </foreach>
     </update>
@@ -187,13 +203,14 @@
     <!-- 根据主键更新一条信息所有数据 -->
     <update id="updateByPrimaryKey" parameterType="com.anyex.apps.rwa.entity.RwaBalances">
         UPDATE RwaBalances SET
-            userId = #{userId} ,
-            currency = #{currency} ,
-            balance = #{balance} ,
-            frozenBal = #{frozenBal} ,
-            availBal = #{availBal} ,
-            remark = #{remark} ,
-            updateTime = #{updateTime} 
+                               userId = #{userId} ,
+                               instSpvProductId = #{instSpvProductId} ,
+                               currency = #{currency} ,
+                               balance = #{balance} ,
+                               frozenBal = #{frozenBal} ,
+                               availBal = #{availBal} ,
+                               remark = #{remark} ,
+                               updateTime = #{updateTime}
         WHERE ID = #{id}
     </update>
 
@@ -209,6 +226,9 @@
         FROM RwaBalances a WHERE 1 = 1
         <if test="userId != null">
             AND a.userId = #{userId}
+        </if>
+        <if test="instSpvProductId != null">
+            AND a.instSpvProductId = #{instSpvProductId}
         </if>
         <if test="currency != null and currency != ''">
             AND a.currency = #{currency}
@@ -239,6 +259,9 @@
         <if test="userId != null">
             AND a.userId = #{userId}
         </if>
+        <if test="instSpvProductId != null">
+            AND a.instSpvProductId = #{instSpvProductId}
+        </if>
         <if test="currency != null and currency != ''">
             AND a.currency LIKE CONCAT('%',#{currency}, '%')
         </if>
@@ -266,7 +289,7 @@
         FROM RwaBalances a
     </select>
 
-    <!-- 查询并锁定记录 -->
+        <!-- 查询并锁定记录 -->
     <select id="selectOneForUpdate" resultMap="rwaBalancesResultMap">
         SELECT <include refid="rwaBalancesColumns"/> FROM RwaBalances a
         WHERE a.userId = #{userId}

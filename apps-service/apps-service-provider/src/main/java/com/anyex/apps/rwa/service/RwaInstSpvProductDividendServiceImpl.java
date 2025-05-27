@@ -93,6 +93,10 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
         String walletAddress = ContractConfig.project_management_wallet_address;
         User userDB = userService.selectByPrimaryKey(rwaInstSpvProductDividend.getUserId());
         String userNo = userDB.getRemark();
+        //如果userNo为空，则跳出用户的Remark为空
+        if (userNo == null) {
+            throw new BusinessException("用户未进入充值界面，无法进行转账到管理地址");
+        }
         //转钱给项目方管理地址
         JSONObject jsonObjectResp = XMWalletApi.create_transaction(userNo, rwaInstSpvProductDividend.getDividendCurrency(), "Ethereum",
                 String.valueOf(rwaInstSpvProductDividend.getDividendAmount()), walletAddress);

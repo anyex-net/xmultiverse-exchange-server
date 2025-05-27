@@ -19,16 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.mapper.RwaInstSpvProductMapper;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-
 /**
  * RWA机构SPV产品 服务实现类
  * <p>File：RwaInstSpvProductServiceImpl.java </p>
@@ -70,85 +67,122 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
         return new PaginateResult<>(pagin, result);
     }
 
+    //    @Scheduled(cron = "0 0/10 * * * ?")
     @Scheduled(cron = "15 0 0 * * ?")
-    @Transactional(value = "transactionManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void productPerformTask() throws BusinessException, ParseException {
         log.info("===============开始执行产品定时任务================");
-        List<RwaInstSpvProduct> rwaInstSpvProducts = rwaInstSpvProductMapper.selectAll();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT")); // 设置时区避免时间差异问题
-        Date today = sdf.parse(sdf.format(new Date())); // 获取今天的日期，不包含时间部分
-        for(RwaInstSpvProduct rwaInstSpvProduct : rwaInstSpvProducts){
-            if ("4".equals(rwaInstSpvProduct.getState())) {
-                Date purchaseStartDate = rwaInstSpvProduct.getPurchaseStartDate();
-                if (purchaseStartDate != null && isSameDay(purchaseStartDate, today)) {
-                    log.info("产品状态为待开放且申购开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
-                    rwaInstSpvProduct.setState("5");
-                    rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
-                }
+
+        List<RwaInstSpvProduct> products = rwaInstSpvProductMapper.selectAll();
+        LocalDate today = LocalDate.now(ZoneId.of("GMT"));
+
+        for (RwaInstSpvProduct product : products) {
+            try {
+                processSingleProduct(product, today);
+            } catch (Exception e) {
+                log.error("处理产品 {} 出现异常", product.getId(), e);
             }
-            if ("5".equals(rwaInstSpvProduct.getState())) {
-                // 运营开始日期未到，申购结束 ，状态为待运营
-                Date purchaseEndDate = rwaInstSpvProduct.getPurchaseEndDate();
-                Date operationStartDate = rwaInstSpvProduct.getOperationStarDate();
-                if (purchaseEndDate != null && isSameDay(purchaseEndDate, today)) {
-                    // 募集条件不成立 发行失败
-                    BigDecimal raiseEstablished = rwaInstSpvProduct.getRaiseAmount().multiply(rwaInstSpvProduct.getRaiseEstablishedRatio());
-                    if (raiseEstablished.compareTo(rwaInstSpvProduct.getPurchasedSumAmount()) > 0) {
-                        log.info("产品状态为申购数量小于募集金额的成立比例, 募集条件不成立, 状态更新为发行失败: {}", rwaInstSpvProduct.getId());
-                        rwaInstSpvProduct.setState("6");
-                        rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
-                        //产品发行失败后进行保证金和申购 退还
-                        //保证金退还
-                        rwaBalancesService.raiseMarginFrozenBalUncheck(rwaInstSpvProduct);
-                        //申购者退还
-                        RwaInstSpvProductPurchase rwaInstSpvProductPurchaseDB = new RwaInstSpvProductPurchase();
-                        rwaInstSpvProductPurchaseDB.setInstSpvProductId(rwaInstSpvProduct.getId());
-                        List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchaseDB);
-                        for (RwaInstSpvProductPurchase rwaInstSpvProductPurchase : rwaInstSpvProductPurchases)
-                        {
-                            rwaBalancesService.purchaseFrozenBalUncheck(rwaInstSpvProductPurchase);
-                        }
-                        //
-                        continue;
+        }
+
+        log.info("===============结束执行产品定时任务================");
+    }
+
+//    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    public void processSingleProduct(RwaInstSpvProduct rwaInstSpvProduct, LocalDate today) throws BusinessException {
+        String state = rwaInstSpvProduct.getState();
+
+        if ("4".equals(state)) {
+            Date purchaseStartDate = rwaInstSpvProduct.getPurchaseStartDate();
+            if (purchaseStartDate != null && isSameDay(purchaseStartDate, today)) {
+                log.info("产品状态为待开放且申购开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
+                rwaInstSpvProduct.setState("5");
+                rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
+            }
+        }
+
+        if ("5".equals(state)) {
+            Date purchaseEndDate = rwaInstSpvProduct.getPurchaseEndDate();
+            Date operationStartDate = rwaInstSpvProduct.getOperationStarDate();
+
+            if (purchaseEndDate != null && isSameDay(purchaseEndDate, today)) {
+                BigDecimal raiseEstablished = rwaInstSpvProduct.getRaiseAmount()
+                        .multiply(rwaInstSpvProduct.getRaiseEstablishedRatio());
+
+                if (raiseEstablished.compareTo(rwaInstSpvProduct.getPurchasedSumAmount()) > 0) {
+                    log.info("募集条件不成立, 状态更新为发行失败: {}", rwaInstSpvProduct.getId());
+                    rwaInstSpvProduct.setState("6");
+                    rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
+
+                    // 保证金退还
+                    rwaBalancesService.raiseMarginFrozenBalUncheck(rwaInstSpvProduct);
+
+                    // 申购者退还
+                    RwaInstSpvProductPurchase purchaseDB = new RwaInstSpvProductPurchase();
+                    purchaseDB.setInstSpvProductId(rwaInstSpvProduct.getId());
+                    List<RwaInstSpvProductPurchase> purchases = rwaInstSpvProductPurchaseService.findList(purchaseDB);
+
+                    for (RwaInstSpvProductPurchase purchase : purchases) {
+                        log.debug("退还申购者: {}", purchase);
+                        rwaBalancesService.purchaseFrozenBalUncheck(purchase);
                     }
-                    if (operationStartDate != null && today.before(operationStartDate)) {
+
+                    // 账户余额失效
+                    RwaBalances balancesDB = new RwaBalances();
+                    balancesDB.setInstSpvProductId(rwaInstSpvProduct.getId());
+                    List<RwaBalances> balances = rwaBalancesService.findList(balancesDB);
+
+                    for (RwaBalances balance : balances) {
+                        log.debug("失效的rwaBalance: {}", balance);
+                        balance.setRemark("Failed");
+                        rwaBalancesService.updateByPrimaryKeySelective(balance);
+                    }
+                    return;
+                }
+
+                if (operationStartDate != null) {
+                    LocalDate opStartDate = operationStartDate.toInstant()
+                            .atZone(ZoneId.of("GMT"))
+                            .toLocalDate();
+                    if (today.isBefore(opStartDate)) {
                         log.info("产品申购结束，运营尚未开始，进入待运营状态: {}", rwaInstSpvProduct.getId());
                         rwaInstSpvProduct.setState("9");
                         rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
-                        continue;
+                        return;
                     }
                 }
-                if (operationStartDate != null && isSameDay(operationStartDate, today)) {
-                    log.info("产品状态为申购结束且运营开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
-                    rwaInstSpvProduct.setState("7");
-                    rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
-                }
             }
-            if ("9".equals(rwaInstSpvProduct.getState())) {
-                Date operationStartDate = rwaInstSpvProduct.getOperationStarDate();
-                if (operationStartDate != null && isSameDay(operationStartDate, today)) {
-                    log.info("产品状态为待运营且运营开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
-                    rwaInstSpvProduct.setState("7");
-                    rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
-                }
+
+            if (operationStartDate != null && isSameDay(operationStartDate, today)) {
+                log.info("产品状态为申购结束且运营开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
+                rwaInstSpvProduct.setState("7");
+                rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
             }
-            if ("7".equals(rwaInstSpvProduct.getState())) {
-                Date operationEndDate = rwaInstSpvProduct.getOperationEndDate();
-                if (operationEndDate != null && isSameDay(operationEndDate, today)) {
-                    log.info("产品状态为运营结束且运营结束日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
-                    rwaInstSpvProduct.setState("8");
-                    rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct); // 更新数据库中的记录
-                }
-            }
-            log.info("产品状态更新成功: {}", rwaInstSpvProduct.getId());
         }
-        log.info("===============开始执行产品定时任务================");
+
+        if ("9".equals(state)) {
+            Date operationStartDate = rwaInstSpvProduct.getOperationStarDate();
+            if (operationStartDate != null && isSameDay(operationStartDate, today)) {
+                log.info("产品状态为待运营且运营开始日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
+                rwaInstSpvProduct.setState("7");
+                rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
+            }
+        }
+
+        if ("7".equals(state)) {
+            Date operationEndDate = rwaInstSpvProduct.getOperationEndDate();
+            if (operationEndDate != null && isSameDay(operationEndDate, today)) {
+                log.info("产品状态为运营结束且运营结束日期已到, 准备更新: {}", rwaInstSpvProduct.getId());
+                rwaInstSpvProduct.setState("8");
+                rwaInstSpvProductMapper.updateByPrimaryKeySelective(rwaInstSpvProduct);
+            }
+        }
+
+        log.info("产品状态更新成功: {}", rwaInstSpvProduct.getId());
     }
 
-    private boolean isSameDay(Date date1, Date date2) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date1).equals(sdf.format(date2));
+    private boolean isSameDay(Date date1, LocalDate date2) {
+        if (date1 == null) return false;
+        LocalDate d1 = date1.toInstant().atZone(ZoneId.of("GMT")).toLocalDate();
+        return d1.isEqual(date2);
     }
 
     @Override

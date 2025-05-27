@@ -35,6 +35,9 @@ public class RwaBalances extends GenericEntity
 	@ApiModelProperty(value = "用户ID", position = 1, required = true)
 	private java.lang.Long userId;
 
+	@ApiModelProperty(value = "机构SPV产品ID", position = 2, required = true)
+	private Long instSpvProductId;
+
 	/**币种(BTC、ETH、USDT)*/
 	@NotEmpty(message = "币种(BTC、ETH、USDT)不可为空")
 	@ApiModelProperty(value = "币种(BTC、ETH、USDT)", position = 2, required = true)

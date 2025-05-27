@@ -80,6 +80,7 @@ create table RwaBalances
 (
     id                bigint(20)               not null comment '主键' primary key,
     userId            bigint(20)               not null comment '用户ID',
+    instSpvProductId  bigint(20)                   null comment '机构SPV产品ID',
     currency          varchar(8)               not null comment '币种(BTC、ETH、USDT)',
     balance           decimal(20, 8) default 0 not null comment '余额',
     frozenBal         decimal(20, 8) default 0 not null comment '冻结(不可用)',

@@ -338,6 +338,7 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
         //记录申购记录代币到Rwa账户
         RwaBalances rwaBalancesPurchase  = new RwaBalances();
         rwaBalancesPurchase.setUserId(rwaInstSpvProductPurchase.getUserId());
+        rwaBalancesPurchase.setInstSpvProductId(rwaInstSpvProductPurchase.getInstSpvProductId());
         rwaBalancesPurchase.setCurrency(rwaInstSpvProduct.getTokenName());
         RwaBalances rwaBalancesPurchaseDB = rwaBalancesService.selectOne(rwaBalancesPurchase);
         if (null != rwaBalancesPurchaseDB){

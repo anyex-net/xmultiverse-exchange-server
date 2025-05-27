@@ -45,7 +45,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         this.rwaInstSpvProductMapper = rwaInstSpvProductMapper;
     }
 
-    @Transactional
+    @Override
     public void purchaseFrozenBalCheckBefore(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
 //        申购前 申购者 总余额不变，冻结增加，可用余额减少
         RwaBalances rwaBalances = new RwaBalances();
@@ -65,7 +65,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
-    @Transactional
+    @Override
     public void purchaseFrozenBalUncheck(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
         //申购拒绝 申购者 总余额不变，冻结减少，可用余额增加
         RwaBalances rwaBalances = new RwaBalances();
@@ -81,7 +81,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
-    @Transactional
+    @Override
     public void purchaseFrozenBalCheckAfter(RwaInstSpvProductPurchase rwaInstSpvProductPurchase) throws BusinessException{
         //申购审核后 申购者 总余额减少，冻结减少，可用余额不变
         RwaBalances rwaBalances = new RwaBalances();
@@ -116,7 +116,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesRaise);
     }
 
-    @Transactional
+    @Override
     public void raiseMarginFrozenBal(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
         //保证金 缴纳 总余额不变，冻结增加，可用余额减少
         RwaBalances rwaBalances = new RwaBalances();
@@ -135,7 +135,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
-    @Transactional
+    @Override
     public void raiseMarginFrozenBalUncheck(RwaInstSpvProduct rwaInstSpvProduct) throws BusinessException{
         //保证金审核被拒绝 总余额不变，冻结减少，可用余额增加
         RwaBalances rwaBalances = new RwaBalances();
@@ -151,7 +151,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
-    @Transactional
+    @Override
     public void unFrozenBal(RwaInstSpvProductAsset rwaInstSpvProductAsset) throws BusinessException {
         //申请资产解冻 总余额不变，冻结减少，可用余额增加
         RwaBalances rwaBalances = new RwaBalances();
@@ -176,7 +176,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         rwaBalancesMapper.updateByPrimaryKeySelective(rwaBalancesDB);
     }
 
-    @Transactional
+    @Override
     public void unDividendFrozenBal(RwaInstSpvProductDividend rwaInstSpvProductDividend) throws BusinessException {
         //执行失败 分红解冻 总余额不变，冻结减少，可用余额增加
         RwaBalances rwaBalances = new RwaBalances();
