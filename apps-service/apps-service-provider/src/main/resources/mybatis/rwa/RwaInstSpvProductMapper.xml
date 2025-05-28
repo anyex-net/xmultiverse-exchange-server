@@ -952,6 +952,7 @@
         <if test="checkTime != null">
             AND a.checkTime = #{checkTime}
         </if>
+        order by a.createTime desc
     </select>
 
     <!-- 查询所有 -->
@@ -1066,6 +1067,7 @@
             AND a.checkTime = #{checkTime}
         </if>
         AND a.state > 3 and a.isActive = 1
+        order by a.createTime desc
     </select>
 
     <!-- 查询并锁定记录 -->

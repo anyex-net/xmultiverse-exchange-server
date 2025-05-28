@@ -763,6 +763,7 @@
         <if test="checkTime != null">
             AND a.checkTime = #{checkTime}
         </if>
+        order by a.createTime desc
     </select>
 
     <!-- 查询所有 -->
