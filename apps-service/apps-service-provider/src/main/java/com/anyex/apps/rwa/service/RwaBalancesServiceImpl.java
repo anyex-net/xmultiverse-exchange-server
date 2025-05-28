@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.anyex.apps.bean.GenericServiceImpl;
 import com.anyex.apps.rwa.mapper.RwaBalancesMapper;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -71,7 +70,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProductPurchase.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProductPurchase.getPurchaseCurrency());
-        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOne(rwaBalances);
         if (rwaBalancesDB == null) {
             throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }
@@ -141,7 +140,7 @@ public class RwaBalancesServiceImpl extends GenericServiceImpl<RwaBalances> impl
         RwaBalances rwaBalances = new RwaBalances();
         rwaBalances.setUserId(rwaInstSpvProduct.getUserId());
         rwaBalances.setCurrency(rwaInstSpvProduct.getRaiseCurrency());
-        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOneForUpdate(rwaBalances);
+        RwaBalances rwaBalancesDB = rwaBalancesMapper.selectOne(rwaBalances);
         if (rwaBalancesDB == null) {
             throw new BusinessException(CommonEnums.ERROR_RWA_USER_BALANCE_NOT_FOUND);
         }

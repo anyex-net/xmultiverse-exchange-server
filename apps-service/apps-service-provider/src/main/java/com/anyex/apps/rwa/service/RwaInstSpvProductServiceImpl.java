@@ -67,12 +67,13 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
         return new PaginateResult<>(pagin, result);
     }
 
-    //    @Scheduled(cron = "0 0/10 * * * ?")
+//    @Scheduled(fixedRate = 5 * 60 * 1000)
     @Scheduled(cron = "15 0 0 * * ?")
     public void productPerformTask() throws BusinessException, ParseException {
         log.info("===============开始执行产品定时任务================");
 
-        List<RwaInstSpvProduct> products = rwaInstSpvProductMapper.selectAll();
+        RwaInstSpvProduct rwaInstSpvProduct = new RwaInstSpvProduct();
+        List<RwaInstSpvProduct> products = rwaInstSpvProductMapper.findListByState(rwaInstSpvProduct);
         LocalDate today = LocalDate.now(ZoneId.of("GMT"));
 
         for (RwaInstSpvProduct product : products) {
@@ -131,7 +132,7 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
                     List<RwaBalances> balances = rwaBalancesService.findList(balancesDB);
 
                     for (RwaBalances balance : balances) {
-                        log.debug("失效的rwaBalance: {}", balance);
+                        log.info("失效的rwaBalance: {}", balance);
                         balance.setRemark("Failed");
                         rwaBalancesService.updateByPrimaryKeySelective(balance);
                     }
@@ -181,7 +182,10 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
 
     private boolean isSameDay(Date date1, LocalDate date2) {
         if (date1 == null) return false;
-        LocalDate d1 = date1.toInstant().atZone(ZoneId.of("GMT")).toLocalDate();
+        // 使用系统默认时区来转换 Date 到 LocalDate
+        LocalDate d1 = date1.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
         return d1.isEqual(date2);
     }
 

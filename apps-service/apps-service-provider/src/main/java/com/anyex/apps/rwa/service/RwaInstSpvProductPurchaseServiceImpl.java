@@ -110,9 +110,9 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
             throw new BusinessException(CommonEnums.ERROR_USER_CERT_STATE_NOT_PURCHASE);
         };
         //先查看提交的数量是否满足
-        RwaInstSpvProduct rwaInstSpvProductNew = new RwaInstSpvProduct();
-        rwaInstSpvProductNew.setId(rwaInstSpvProductPurchase.getInstSpvProductId());
-        RwaInstSpvProduct rwaInstSpvProductDB = rwaInstSpvProductService.selectOneForUpdate(rwaInstSpvProductNew);
+//        RwaInstSpvProduct rwaInstSpvProductNew = new RwaInstSpvProduct();
+//        rwaInstSpvProductNew.setId(rwaInstSpvProductPurchase.getInstSpvProductId());
+        RwaInstSpvProduct rwaInstSpvProductDB = rwaInstSpvProductService.selectByPrimaryKey(rwaInstSpvProductPurchase.getInstSpvProductId());
         BigDecimal purchaseAmount = rwaInstSpvProductPurchase.getPurchaseAmount();
         BigDecimal purchaseSumAmount = rwaInstSpvProductDB.getPurchasedSumAmount();
         if (purchaseAmount.add(purchaseSumAmount).compareTo(rwaInstSpvProductDB.getTokenIssueNumber()) > 0) {

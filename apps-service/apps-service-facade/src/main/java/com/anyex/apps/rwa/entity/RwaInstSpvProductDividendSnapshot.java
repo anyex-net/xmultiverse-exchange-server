@@ -7,6 +7,9 @@ package com.anyex.apps.rwa.entity;
 import com.anyex.apps.bean.GenericEntity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -33,6 +36,7 @@ public class RwaInstSpvProductDividendSnapshot extends GenericEntity
 	/**用户ID*/
 	@NotNull(message = "用户ID不可为空")
 	@ApiModelProperty(value = "用户ID", position = 1, required = true)
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long userId;
 
 	/**机构投资者ID*/

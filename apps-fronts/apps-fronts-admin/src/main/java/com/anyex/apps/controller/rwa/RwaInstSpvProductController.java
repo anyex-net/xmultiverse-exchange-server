@@ -87,7 +87,7 @@ public class RwaInstSpvProductController extends GenericController {
             reqDeploy.setToken_symbol(entity.getTokenName());//简写
 
             BigDecimal oneE18 = new BigDecimal("1000000000000000000");
-            BigInteger totalSupply = entity.getRaiseAmount().multiply(oneE18).toBigIntegerExact();
+            BigInteger totalSupply = entity.getTokenIssueNumber().multiply(oneE18).toBigIntegerExact();
             reqDeploy.setTotal_supply(totalSupply.toString());
             JSONObject jsonObject = ContractDeployApi.deploy(reqDeploy);
             if (jsonObject.getInteger("code") == 200) {
