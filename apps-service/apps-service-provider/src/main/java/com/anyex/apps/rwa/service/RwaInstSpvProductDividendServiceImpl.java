@@ -10,6 +10,7 @@ import com.anyex.apps.rwa.entity.*;
 import com.anyex.apps.rwa.mapper.RwaBalancesMapper;
 import com.anyex.apps.user.entity.User;
 import com.anyex.apps.user.service.UserService;
+import com.anyex.apps.utils.SerialnoUtils;
 import com.anyex.exchange.contract.api.ContractDepositApi;
 import com.anyex.exchange.contract.api.ContractDividendApi;
 import com.anyex.exchange.contract.config.ContractConfig;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -66,6 +68,9 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
 
     @Autowired(required = false)
     private RwaBalancesService rwaBalancesService;
+
+    @Autowired(required = false)
+    private RwaBalancesTransHistoryService rwaBalancesTransHistoryService;
 
     @Autowired(required = false)
     @Qualifier("mintTaskExecutor")
@@ -191,8 +196,11 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
                     rwaInstSpvProductPurchase.setInstSpvProductId(rwaInstSpvProductDividend.getInstSpvProductId());
                     List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases = rwaInstSpvProductPurchaseService.findList(rwaInstSpvProductPurchase);
 
+                    List<RwaInstSpvProductDividendSnapshot> snapshotList = new ArrayList<>();
+
                     for (RwaInstSpvProductPurchase purchase : rwaInstSpvProductPurchases) {
                         RwaInstSpvProductDividendSnapshot productDividendSnapshot = new RwaInstSpvProductDividendSnapshot();
+                        productDividendSnapshot.setId(SerialnoUtils.buildPrimaryKey());
                         productDividendSnapshot.setUserId(purchase.getUserId());
                         productDividendSnapshot.setInstInvestorId(purchase.getInstInvestorId());
                         productDividendSnapshot.setInstSpvProductId(purchase.getInstSpvProductId());
@@ -207,8 +215,37 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
                                 .setScale(8, RoundingMode.HALF_UP);
                         productDividendSnapshot.setDividendAmount(dividendAmount);
                         productDividendSnapshot.setCreateTime(System.currentTimeMillis());
-                        rwaInstSpvProductDividendSnapshotService.insert(productDividendSnapshot);
+                        snapshotList.add(productDividendSnapshot);
                     }
+                    rwaInstSpvProductDividendSnapshotService.insertBatch(snapshotList);
+                    //
+                    List<RwaBalancesTransHistory> rwaBalancesTransHistoryList = new ArrayList<>();
+                    RwaBalances rwaBalances = new RwaBalances();
+                    rwaBalances.setCurrency(rwaInstSpvProductDividend.getDividendCurrency());
+                    List<RwaBalances> rwaBalancesList = rwaBalancesService.findList(rwaBalances);
+                    for (RwaInstSpvProductPurchase productPurchase : rwaInstSpvProductPurchases){
+                        for (RwaBalances rwaBalance : rwaBalancesList) {
+                            if (rwaBalance.getUserId().equals(productPurchase.getUserId())){
+                                RwaBalancesTransHistory rwaBalancesTransHistory = new RwaBalancesTransHistory();
+                                rwaBalancesTransHistory.setId(SerialnoUtils.buildPrimaryKey());
+                                rwaBalancesTransHistory.setUserId(productPurchase.getUserId());
+                                rwaBalancesTransHistory.setCurrency(productPurchase.getPurchaseCurrency());
+                                rwaBalancesTransHistory.setType("dividend");
+                                rwaBalancesTransHistory.setBeforeBal(rwaBalance.getAvailBal());
+                                BigDecimal holdAmount = productPurchase.getPurchaseAmount();
+                                BigDecimal dividendAmount = holdAmount.divide(totalBalance, 8, RoundingMode.HALF_UP)
+                                        .multiply(rwaInstSpvProductDividend.getDividendAmount())
+                                        .setScale(8, RoundingMode.HALF_UP);
+                                rwaBalancesTransHistory.setChangeAmt(dividendAmount);
+                                rwaBalancesTransHistory.setAfterBal(rwaBalance.getAvailBal().add(dividendAmount));
+                                rwaBalancesTransHistory.setState("success");
+                                rwaBalancesTransHistory.setTransDesc("分红");
+                                rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
+                                rwaBalancesTransHistoryList.add(rwaBalancesTransHistory);
+                            }
+                        }
+                    }
+                    rwaBalancesTransHistoryService.insertBatch(rwaBalancesTransHistoryList);
                 } else {
                     rwaInstSpvProductDividend.setState("failed");
                     //执行失败 退分红冻结

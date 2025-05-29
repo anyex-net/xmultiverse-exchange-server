@@ -1,5 +1,7 @@
 package com.anyex.apps.rwa.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,6 +12,7 @@ import lombok.Data;
 public class RwaDividendSnapshotInfoResultModel{
 
     @ApiModelProperty(value = "用户ID", position = 1, required = true)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long userId;
 
     @ApiModelProperty(value = "机构SPV产品ID", position = 3, required = true)

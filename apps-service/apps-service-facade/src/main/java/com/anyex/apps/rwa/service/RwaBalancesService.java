@@ -7,6 +7,8 @@ package com.anyex.apps.rwa.service;
 import com.anyex.apps.bean.GenericService;
 import com.anyex.apps.rwa.entity.*;
 
+import java.util.List;
+
 /**
  * RWA账户余额 服务接口
  * <p>File：RwaBalancesService.java </p>
@@ -25,11 +27,17 @@ public interface RwaBalancesService extends GenericService<RwaBalances>
      */
     void purchaseFrozenBalCheckBefore(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
 
+//    /**
+//     * 申购拒绝 申购者 资产还原
+//     * @param rwaInstSpvProductPurchase
+//     */
+//    void purchaseFrozenBalUncheck(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
+
     /**
      * 申购拒绝 申购者 资产还原
-     * @param rwaInstSpvProductPurchase
+     * @param rwaInstSpvProductPurchases
      */
-    void purchaseFrozenBalUncheck(RwaInstSpvProductPurchase rwaInstSpvProductPurchase);
+    void purchaseFrozenBalUncheck(List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchases);
 
     /**
      * 申购通过 申购者 资产减少 募集者  资产冻结

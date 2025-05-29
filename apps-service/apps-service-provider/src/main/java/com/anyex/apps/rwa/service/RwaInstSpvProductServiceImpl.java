@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 /**
@@ -120,22 +121,20 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
                     RwaInstSpvProductPurchase purchaseDB = new RwaInstSpvProductPurchase();
                     purchaseDB.setInstSpvProductId(rwaInstSpvProduct.getId());
                     List<RwaInstSpvProductPurchase> purchases = rwaInstSpvProductPurchaseService.findList(purchaseDB);
-
-                    for (RwaInstSpvProductPurchase purchase : purchases) {
-                        log.debug("退还申购者: {}", purchase);
-                        rwaBalancesService.purchaseFrozenBalUncheck(purchase);
-                    }
+                    rwaBalancesService.purchaseFrozenBalUncheck(purchases);
 
                     // 账户余额失效
                     RwaBalances balancesDB = new RwaBalances();
                     balancesDB.setInstSpvProductId(rwaInstSpvProduct.getId());
                     List<RwaBalances> balances = rwaBalancesService.findList(balancesDB);
 
+                    List<RwaBalances> rwaBalancesList = new ArrayList<>();
                     for (RwaBalances balance : balances) {
                         log.info("失效的rwaBalance: {}", balance);
                         balance.setRemark("Failed");
-                        rwaBalancesService.updateByPrimaryKeySelective(balance);
+                        rwaBalancesList.add(balance);
                     }
+                    rwaBalancesService.updateBatch(rwaBalancesList);
                     return;
                 }
 

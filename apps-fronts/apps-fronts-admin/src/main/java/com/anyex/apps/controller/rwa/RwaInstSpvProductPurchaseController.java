@@ -9,7 +9,6 @@ import com.anyex.apps.bean.GenericController;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
-import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.rwa.service.RwaBalancesService;
 import com.anyex.apps.shiro.model.UserPrincipal;
 import com.anyex.apps.utils.OnLineUserUtils;
@@ -21,13 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import com.anyex.apps.rwa.entity.RwaInstSpvProductPurchase;
 import com.anyex.apps.rwa.service.RwaInstSpvProductPurchaseService;
 
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchase;
 import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPurchasePagination;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * RWA机构SPV产品申购记录 控制器
@@ -81,8 +81,10 @@ public class RwaInstSpvProductPurchaseController extends GenericController
         RwaInstSpvProductPurchase entity = rwaInstSpvProductPurchaseService.selectByPrimaryKey(id);
         entity.setState(state);
         if ("failed".equals(state)){
+            List<RwaInstSpvProductPurchase> rwaInstSpvProductPurchaseList = new ArrayList<>();
             entity.setRemark("审核失败");
-            balancesService.purchaseFrozenBalUncheck(entity);
+            rwaInstSpvProductPurchaseList.add(entity);
+            balancesService.purchaseFrozenBalUncheck(rwaInstSpvProductPurchaseList);
         }
         if ("success".equals(state)){
             balancesService.purchaseFrozenBalCheckAfter(entity);
