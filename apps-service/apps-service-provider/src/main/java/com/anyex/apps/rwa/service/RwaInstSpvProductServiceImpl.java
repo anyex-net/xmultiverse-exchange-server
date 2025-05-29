@@ -106,7 +106,7 @@ public class RwaInstSpvProductServiceImpl extends GenericServiceImpl<RwaInstSpvP
             Date operationStartDate = rwaInstSpvProduct.getOperationStarDate();
 
             if (purchaseEndDate != null && isSameDay(purchaseEndDate, today)) {
-                BigDecimal raiseEstablished = rwaInstSpvProduct.getRaiseAmount()
+                BigDecimal raiseEstablished = rwaInstSpvProduct.getTokenIssueNumber()
                         .multiply(rwaInstSpvProduct.getRaiseEstablishedRatio());
 
                 if (raiseEstablished.compareTo(rwaInstSpvProduct.getPurchasedSumAmount()) > 0) {
