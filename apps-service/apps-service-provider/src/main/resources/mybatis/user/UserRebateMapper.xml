@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.user.mapper.UserRebateMapper">
+    <!-- 基础列 -->
+    <sql id="userRebateColumns">
+        a.id as id,
+        a.inviterId as inviterId,
+        a.inviteeId as inviteeId,
+        a.tradeId as tradeId,
+        a.tradeAmount as tradeAmount,
+        a.feeAmount as feeAmount,
+        a.rebateRate as rebateRate,
+        a.rebateAmount as rebateAmount,
+        a.status as status,
+        a.settleDate as settleDate,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="userRebateResultMap" type="com.anyex.apps.user.entity.UserRebate">
+        <id column="ID" property="id" />
+        <result column="inviterId" property="inviterId"/>
+        <result column="inviteeId" property="inviteeId"/>
+        <result column="tradeId" property="tradeId"/>
+        <result column="tradeAmount" property="tradeAmount"/>
+        <result column="feeAmount" property="feeAmount"/>
+        <result column="rebateRate" property="rebateRate"/>
+        <result column="rebateAmount" property="rebateAmount"/>
+        <result column="status" property="status"/>
+        <result column="settleDate" property="settleDate"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.user.entity.UserRebate">
+        INSERT INTO UserRebate(
+            id ,
+            inviterId ,
+            inviteeId ,
+            tradeId ,
+            tradeAmount ,
+            feeAmount ,
+            rebateRate ,
+            rebateAmount ,
+            status ,
+            settleDate ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{inviterId} ,
+            #{inviteeId} ,
+            #{tradeId} ,
+            #{tradeAmount} ,
+            #{feeAmount} ,
+            #{rebateRate} ,
+            #{rebateAmount} ,
+            #{status} ,
+            #{settleDate} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM UserRebate WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE UserRebate SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.user.entity.UserRebate">
+        INSERT INTO UserRebate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="inviterId != null">
+                inviterId ,
+        </if>
+        <if test="inviteeId != null">
+                inviteeId ,
+        </if>
+        <if test="tradeId != null">
+                tradeId ,
+        </if>
+        <if test="tradeAmount != null">
+                tradeAmount ,
+        </if>
+        <if test="feeAmount != null">
+                feeAmount ,
+        </if>
+        <if test="rebateRate != null">
+                rebateRate ,
+        </if>
+        <if test="rebateAmount != null">
+                rebateAmount ,
+        </if>
+        <if test="status != null">
+                status ,
+        </if>
+        <if test="settleDate != null">
+                settleDate ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="inviterId != null">
+                #{inviterId} ,
+        </if>
+        <if test="inviteeId != null">
+                #{inviteeId} ,
+        </if>
+        <if test="tradeId != null">
+                #{tradeId} ,
+        </if>
+        <if test="tradeAmount != null">
+                #{tradeAmount} ,
+        </if>
+        <if test="feeAmount != null">
+                #{feeAmount} ,
+        </if>
+        <if test="rebateRate != null">
+                #{rebateRate} ,
+        </if>
+        <if test="rebateAmount != null">
+                #{rebateAmount} ,
+        </if>
+        <if test="status != null">
+                #{status} ,
+        </if>
+        <if test="settleDate != null">
+                #{settleDate} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.user.entity.UserRebate">
+        UPDATE UserRebate
+           <set>
+            <if test="inviterId != null">
+                inviterId = #{inviterId} ,
+            </if>
+            <if test="inviteeId != null">
+                inviteeId = #{inviteeId} ,
+            </if>
+            <if test="tradeId != null">
+                tradeId = #{tradeId} ,
+            </if>
+            <if test="tradeAmount != null">
+                tradeAmount = #{tradeAmount} ,
+            </if>
+            <if test="feeAmount != null">
+                feeAmount = #{feeAmount} ,
+            </if>
+            <if test="rebateRate != null">
+                rebateRate = #{rebateRate} ,
+            </if>
+            <if test="rebateAmount != null">
+                rebateAmount = #{rebateAmount} ,
+            </if>
+            <if test="status != null">
+                status = #{status} ,
+            </if>
+            <if test="settleDate != null">
+                settleDate = #{settleDate} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO UserRebate(
+            id ,
+            inviterId ,
+            inviteeId ,
+            tradeId ,
+            tradeAmount ,
+            feeAmount ,
+            rebateRate ,
+            rebateAmount ,
+            status ,
+            settleDate ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.inviterId} ,
+            #{item.inviteeId} ,
+            #{item.tradeId} ,
+            #{item.tradeAmount} ,
+            #{item.feeAmount} ,
+            #{item.rebateRate} ,
+            #{item.rebateAmount} ,
+            #{item.status} ,
+            #{item.settleDate} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE UserRebate SET
+            inviterId = #{item.inviterId} ,
+            inviteeId = #{item.inviteeId} ,
+            tradeId = #{item.tradeId} ,
+            tradeAmount = #{item.tradeAmount} ,
+            feeAmount = #{item.feeAmount} ,
+            rebateRate = #{item.rebateRate} ,
+            rebateAmount = #{item.rebateAmount} ,
+            status = #{item.status} ,
+            settleDate = #{item.settleDate} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.user.entity.UserRebate">
+        UPDATE UserRebate SET
+            inviterId = #{inviterId} ,
+            inviteeId = #{inviteeId} ,
+            tradeId = #{tradeId} ,
+            tradeAmount = #{tradeAmount} ,
+            feeAmount = #{feeAmount} ,
+            rebateRate = #{rebateRate} ,
+            rebateAmount = #{rebateAmount} ,
+            status = #{status} ,
+            settleDate = #{settleDate} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.user.entity.UserRebate">
+        SELECT <include refid="userRebateColumns"/> FROM UserRebate a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.user.entity.UserRebate">
+        SELECT
+        <include refid="userRebateColumns"/>
+        FROM UserRebate a WHERE 1 = 1
+        <if test="inviterId != null">
+            AND a.inviterId = #{inviterId}
+        </if>
+        <if test="inviteeId != null">
+            AND a.inviteeId = #{inviteeId}
+        </if>
+        <if test="tradeId != null">
+            AND a.tradeId = #{tradeId}
+        </if>
+        <if test="tradeAmount != null">
+            AND a.tradeAmount = #{tradeAmount}
+        </if>
+        <if test="feeAmount != null">
+            AND a.feeAmount = #{feeAmount}
+        </if>
+        <if test="rebateRate != null">
+            AND a.rebateRate = #{rebateRate}
+        </if>
+        <if test="rebateAmount != null">
+            AND a.rebateAmount = #{rebateAmount}
+        </if>
+        <if test="status != null and status != ''">
+            AND a.status = #{status}
+        </if>
+        <if test="settleDate != null">
+            AND a.settleDate = #{settleDate}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.user.entity.UserRebate">
+        SELECT
+        <include refid="userRebateColumns"/>
+        FROM UserRebate a WHERE 1 = 1
+        <if test="inviterId != null">
+            AND a.inviterId = #{inviterId}
+        </if>
+        <if test="inviteeId != null">
+            AND a.inviteeId = #{inviteeId}
+        </if>
+        <if test="tradeId != null">
+            AND a.tradeId = #{tradeId}
+        </if>
+        <if test="tradeAmount != null">
+            AND a.tradeAmount = #{tradeAmount}
+        </if>
+        <if test="feeAmount != null">
+            AND a.feeAmount = #{feeAmount}
+        </if>
+        <if test="rebateRate != null">
+            AND a.rebateRate = #{rebateRate}
+        </if>
+        <if test="rebateAmount != null">
+            AND a.rebateAmount = #{rebateAmount}
+        </if>
+        <if test="status != null and status != ''">
+            AND a.status LIKE CONCAT('%',#{status}, '%')
+        </if>
+        <if test="settleDate != null">
+            AND a.settleDate = #{settleDate}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.user.entity.UserRebate">
+        SELECT
+        <include refid="userRebateColumns"/>
+        FROM UserRebate a
+    </select>
+
+
+</mapper>
+

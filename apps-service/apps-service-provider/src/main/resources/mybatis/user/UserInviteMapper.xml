@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anyex.apps.user.mapper.UserInviteMapper">
+    <!-- 基础列 -->
+    <sql id="userInviteColumns">
+        a.id as id,
+        a.inviterId as inviterId,
+        a.inviteeId as inviteeId,
+        a.inviteType as inviteType,
+        a.inviteCodeUsed as inviteCodeUsed,
+        a.isValid as isValid,
+        a.createTime as createTime,
+        a.updateTime as updateTime
+    </sql>
+
+    <resultMap id="userInviteResultMap" type="com.anyex.apps.user.entity.UserInvite">
+        <id column="ID" property="id" />
+        <result column="inviterId" property="inviterId"/>
+        <result column="inviteeId" property="inviteeId"/>
+        <result column="inviteType" property="inviteType"/>
+        <result column="inviteCodeUsed" property="inviteCodeUsed"/>
+        <result column="isValid" property="isValid"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.anyex.apps.user.entity.UserInvite">
+        INSERT INTO UserInvite(
+            id ,
+            inviterId ,
+            inviteeId ,
+            inviteType ,
+            inviteCodeUsed ,
+            isValid ,
+            createTime ,
+            updateTime 
+        ) VALUES (
+            #{id} ,
+            #{inviterId} ,
+            #{inviteeId} ,
+            #{inviteType} ,
+            #{inviteCodeUsed} ,
+            #{isValid} ,
+            #{createTime} ,
+            #{updateTime} 
+        )
+    </insert>
+    <!-- 根据主键物理删除 -->
+    <delete id="remove" parameterType="java.lang.Long">
+        DELETE FROM UserInvite WHERE ID = #{id}
+    </delete>
+
+    <!-- 根据主键逻辑删除
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE UserInvite SET DEL_FLAG = 1 WHERE ID = #{id}
+    </update>
+    -->
+
+    <!--根据条件是否插入数据 -->
+    <insert id="insertSelective" parameterType="com.anyex.apps.user.entity.UserInvite">
+        INSERT INTO UserInvite
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                id ,
+        </if>
+        <if test="inviterId != null">
+                inviterId ,
+        </if>
+        <if test="inviteeId != null">
+                inviteeId ,
+        </if>
+        <if test="inviteType != null">
+                inviteType ,
+        </if>
+        <if test="inviteCodeUsed != null">
+                inviteCodeUsed ,
+        </if>
+        <if test="isValid != null">
+                isValid ,
+        </if>
+        <if test="createTime != null">
+                createTime ,
+        </if>
+        <if test="updateTime != null">
+                updateTime 
+        </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+                #{id} ,
+        </if>
+        <if test="inviterId != null">
+                #{inviterId} ,
+        </if>
+        <if test="inviteeId != null">
+                #{inviteeId} ,
+        </if>
+        <if test="inviteType != null">
+                #{inviteType} ,
+        </if>
+        <if test="inviteCodeUsed != null">
+                #{inviteCodeUsed} ,
+        </if>
+        <if test="isValid != null">
+                #{isValid} ,
+        </if>
+        <if test="createTime != null">
+                #{createTime} ,
+        </if>
+        <if test="updateTime != null">
+                #{updateTime} 
+        </if>
+        </trim>
+    </insert>
+
+    <!-- 选择性更新数据 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.anyex.apps.user.entity.UserInvite">
+        UPDATE UserInvite
+           <set>
+            <if test="inviterId != null">
+                inviterId = #{inviterId} ,
+            </if>
+            <if test="inviteeId != null">
+                inviteeId = #{inviteeId} ,
+            </if>
+            <if test="inviteType != null">
+                inviteType = #{inviteType} ,
+            </if>
+            <if test="inviteCodeUsed != null">
+                inviteCodeUsed = #{inviteCodeUsed} ,
+            </if>
+            <if test="isValid != null">
+                isValid = #{isValid} ,
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime} ,
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime} 
+            </if>
+           </set>
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO UserInvite(
+            id ,
+            inviterId ,
+            inviteeId ,
+            inviteType ,
+            inviteCodeUsed ,
+            isValid ,
+            createTime ,
+            updateTime 
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id} ,
+            #{item.inviterId} ,
+            #{item.inviteeId} ,
+            #{item.inviteType} ,
+            #{item.inviteCodeUsed} ,
+            #{item.isValid} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE UserInvite SET
+            inviterId = #{item.inviterId} ,
+            inviteeId = #{item.inviteeId} ,
+            inviteType = #{item.inviteType} ,
+            inviteCodeUsed = #{item.inviteCodeUsed} ,
+            isValid = #{item.isValid} ,
+            createTime = #{item.createTime} ,
+            updateTime = #{item.updateTime} 
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键更新一条信息所有数据 -->
+    <update id="updateByPrimaryKey" parameterType="com.anyex.apps.user.entity.UserInvite">
+        UPDATE UserInvite SET
+            inviterId = #{inviterId} ,
+            inviteeId = #{inviteeId} ,
+            inviteType = #{inviteType} ,
+            inviteCodeUsed = #{inviteCodeUsed} ,
+            isValid = #{isValid} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 根据主键取数据 -->
+    <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultType="com.anyex.apps.user.entity.UserInvite">
+        SELECT <include refid="userInviteColumns"/> FROM UserInvite a WHERE a.ID = #{id}
+    </select>
+
+    <!-- 查询一条记录 -->
+    <select id="selectOne" resultType="com.anyex.apps.user.entity.UserInvite">
+        SELECT
+        <include refid="userInviteColumns"/>
+        FROM UserInvite a WHERE 1 = 1
+        <if test="inviterId != null">
+            AND a.inviterId = #{inviterId}
+        </if>
+        <if test="inviteeId != null">
+            AND a.inviteeId = #{inviteeId}
+        </if>
+        <if test="inviteType != null and inviteType != ''">
+            AND a.inviteType = #{inviteType}
+        </if>
+        <if test="inviteCodeUsed != null and inviteCodeUsed != ''">
+            AND a.inviteCodeUsed = #{inviteCodeUsed}
+        </if>
+        <if test="isValid != null">
+            AND a.isValid = #{isValid}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+        limit 1
+    </select>
+
+    <!-- 可分页的对象查询 -->
+    <select id="findList" resultType="com.anyex.apps.user.entity.UserInvite">
+        SELECT
+        <include refid="userInviteColumns"/>
+        FROM UserInvite a WHERE 1 = 1
+        <if test="inviterId != null">
+            AND a.inviterId = #{inviterId}
+        </if>
+        <if test="inviteeId != null">
+            AND a.inviteeId = #{inviteeId}
+        </if>
+        <if test="inviteType != null and inviteType != ''">
+            AND a.inviteType LIKE CONCAT('%',#{inviteType}, '%')
+        </if>
+        <if test="inviteCodeUsed != null and inviteCodeUsed != ''">
+            AND a.inviteCodeUsed LIKE CONCAT('%',#{inviteCodeUsed}, '%')
+        </if>
+        <if test="isValid != null">
+            AND a.isValid = #{isValid}
+        </if>
+        <if test="createTime != null">
+            AND a.createTime = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            AND a.updateTime = #{updateTime}
+        </if>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.anyex.apps.user.entity.UserInvite">
+        SELECT
+        <include refid="userInviteColumns"/>
+        FROM UserInvite a
+    </select>
+
+    <select id="selectInviteRebateSummary" resultType="com.anyex.apps.user.model.InviteRebateSummaryModel">
+        SELECT
+            COUNT(DISTINCT a.inviteeId) AS totalInvites,
+            COUNT(DISTINCT CASE WHEN b.status = 'settled' THEN b.inviteeId END) AS tradedUsers,
+            SUM(b.rebateAmount) AS totalRebate
+        FROM UserInvite a
+                 LEFT JOIN UserRebate b
+                           ON a.inviteeId = b.inviteeId AND b.status = 'settled'
+        WHERE a.inviterId = #{inviterId}
+    </select>
+
+
+</mapper>
+

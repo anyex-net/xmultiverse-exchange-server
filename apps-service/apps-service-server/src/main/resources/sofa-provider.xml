@@ -212,6 +212,16 @@
             <sofa:global-attrs timeout="600000"/>
         </sofa:binding.bolt>
     </sofa:service>
+    <sofa:service interface="com.anyex.apps.user.service.UserInviteService" ref="userInviteServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
+    <sofa:service interface="com.anyex.apps.user.service.UserRebateService" ref="userRebateServiceImpl">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="600000"/>
+        </sofa:binding.bolt>
+    </sofa:service>
 
     <!-- 资金账户余额 -->
     <sofa:service interface="com.anyex.apps.fund.service.BalancesService" ref="balancesServiceImpl">

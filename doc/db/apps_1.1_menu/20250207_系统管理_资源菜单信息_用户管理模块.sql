@@ -46,5 +46,18 @@ VALUES (310000000019, 310000000018, 'user:userInviteRewardConfig:operator', '操
 INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
 VALUES (310000000020, 310000000018, 'user:userInviteRewardConfig:data', '查询权限', null, true, null, null, 'userInviteRewardConfig', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000021, 310000000001, 'user:userInvite:index', '用户邀请关系', null, false, 'Icon30n', 6, 'userInvite', '/user/userInvite', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000022, 310000000021, 'user:userInvite:operator', '操作权限', null, true, null, null, 'userInvite', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000023, 310000000021, 'user:userInvite:data', '查询权限', null, true, null, null, 'userInvite', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000024, 310000000001, 'user:userRebate:index', '用户返佣记录', null, false, 'Icon30n', 6, 'userRebate', '/user/userRebate', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000025, 310000000024, 'user:userRebate:operator', '操作权限', null, true, null, null, 'userRebate', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
+INSERT INTO SysResources (id, parentId, resCode, resName, resDest, type, icon, sortNum, resShortUrl, resUrl, createBy, createDate, updateBy, updateDate)
+VALUES (310000000026, 310000000024, 'user:userRebate:data', '查询权限', null, true, null, null, 'userRebate', '#', 200000000000, 1501467844534, 200000000000, 1501467844534);
 
 commit;

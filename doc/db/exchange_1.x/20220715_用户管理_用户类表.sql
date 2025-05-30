@@ -132,3 +132,34 @@ create table UserApi
     updateTime        bigint(13)                        comment '更新时间',
     constraint index_UserApi unique (userId, keyType, apiKey)
 ) comment '用户API';
+
+drop table if exists UserInvite;
+create table UserInvite
+(
+    id	             bigint(20)               not null comment 'ID' primary key,
+    inviterId	     bigint(20)	              not null comment '邀请人用户ID（若系统为默认邀请人，可设为0或特定值）',
+    inviteeId	     bigint(20)	              not null comment '被邀请人用户ID（必须唯一，不能重复被邀请）',
+    inviteType	     VARCHAR(50)	          not null comment '邀请方式（如链接邀请、推荐码邀请）',
+    inviteCodeUsed   VARCHAR(50)	                   comment '使用的推荐码（如果有的话）',
+    isValid	         int                      not null comment '是否为有效邀请（是否完成实名认证后才算有效）',
+    createTime	     bigint(13) 	          not null comment '邀请时间（即被邀请人注册时间）',
+    updateTime       bigint(13)                        comment '更新时间',
+    constraint index_UserInvite unique (inviteeId)
+) comment '用户邀请关系';
+
+drop table if exists UserRebate;
+create table UserRebate
+(
+    id	           bigint(20)               not null comment 'ID' primary key,
+    inviterId      bigint(20)	            not null comment '邀请人用户ID（若系统为默认邀请人，可设为0或特定值）',
+    inviteeId	   bigint(20)	            not null comment '被邀请人用户ID（必须唯一，不能重复被邀请）',
+    tradeId	       bigint(20)	            not null comment '关联交易ID（如订单ID）',
+    tradeAmount    decimal(22, 8)	        default 0 not null comment '交易金额',
+    feeAmount	   decimal(22, 8)	        default 0 not null comment '手续费金额（真实产生）',
+    rebateRate	   decimal(22, 8)	        default 0 not null comment '返佣比例（如 0.2 表示20%）',
+    rebateAmount   decimal(22, 8)	        default 0 not null comment '实际返佣金额（fee_amount × rebate_rate）',
+    status	       VARCHAR(30)	            not null comment '状态（如 pending, settled, canceled）',
+    settleDate	   DATE	                    not null comment '结算日期（可为空，直到结算时写入）',
+    createTime	   bigint(13) 	            not null comment '创建时间',
+    updateTime     bigint(13)                        comment '更新时间'
+) comment '用户返佣记录';
