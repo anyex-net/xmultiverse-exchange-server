@@ -132,7 +132,8 @@ public enum CommonEnums implements EnumDescribable
     ERROR_RWA_TOKEN_MINT_FAIL(10013, "The token mint fail"),// token mint失败
     ERROR_RWA_TOKEN_CONTRACT_ADDRESS_NOT_FOUND(10014, "The token contract address not found"), // token合约地址不存在
     ERROR_RWA_INST_SPV_PRODUCT_TOKEN_NAME_EXIST(10015, "The token name already exists"),
-    ERROR_RWA_PROUDCT_ISSUE_FAIL(10016, "The product issue fail") // 产品发行失败
+    ERROR_RWA_PROUDCT_ISSUE_FAIL(10016, "The product issue fail"), // 产品发行失败
+    ERROR_RWA_PROUDCT_ISSUE_NOT_START(10017, "The product issue not start"),
     ;
     public Integer code;
 
