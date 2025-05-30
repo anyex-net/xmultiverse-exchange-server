@@ -31,7 +31,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/user/userInviteRebate")
 @Api(tags = "用户邀请返佣")
 public class UserInviteRebate extends GenericController {
