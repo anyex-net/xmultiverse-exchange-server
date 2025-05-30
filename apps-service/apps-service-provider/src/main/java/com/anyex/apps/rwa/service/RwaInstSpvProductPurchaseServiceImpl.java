@@ -344,15 +344,15 @@ public class RwaInstSpvProductPurchaseServiceImpl extends GenericServiceImpl<Rwa
         if (null != rwaBalancesPurchaseDB){
             BigDecimal totalPurchaseAmount = rwaInstSpvProductPurchaseMapper.findTotalPurchaseAmountByUserIdAndProductId(rwaInstSpvProductPurchase);
             //累计申购数量+现购数量
-            BigDecimal balance = totalPurchaseAmount.multiply(rwaInstSpvProductPurchase.getPurchasePrice());
-            rwaBalancesPurchaseDB.setBalance(balance);
+//            BigDecimal balance = totalPurchaseAmount.multiply(rwaInstSpvProductPurchase.getPurchasePrice());
+            rwaBalancesPurchaseDB.setBalance(totalPurchaseAmount);
 //            rwaBalancesDB.setFrozenBal(BigDecimal.valueOf(0));
-            rwaBalancesPurchaseDB.setAvailBal(balance);
+            rwaBalancesPurchaseDB.setAvailBal(totalPurchaseAmount);
             rwaBalancesService.updateByPrimaryKeySelective(rwaBalancesPurchaseDB);
         }else {
-            rwaBalancesPurchase.setBalance(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
+            rwaBalancesPurchase.setBalance(rwaInstSpvProductPurchase.getPurchaseAmount());
             rwaBalancesPurchase.setFrozenBal(BigDecimal.valueOf(0));
-            rwaBalancesPurchase.setAvailBal(rwaInstSpvProductPurchase.getPurchaseAmount().multiply(rwaInstSpvProductPurchase.getPurchasePrice()));
+            rwaBalancesPurchase.setAvailBal(rwaInstSpvProductPurchase.getPurchaseAmount());
             rwaBalancesService.insert(rwaBalancesPurchase);
         }
     }
