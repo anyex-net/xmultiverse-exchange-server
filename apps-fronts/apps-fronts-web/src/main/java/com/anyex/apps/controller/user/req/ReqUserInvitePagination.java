@@ -27,9 +27,9 @@ public class ReqUserInvitePagination extends Pagination
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**邀请人用户ID（若系统为默认邀请人，可设为0或特定值）*/
-	@ApiModelProperty(value = "邀请人用户ID（若系统为默认邀请人，可设为0或特定值）", position = 1)
-	private Long inviterId;
+//	/**邀请人用户ID（若系统为默认邀请人，可设为0或特定值）*/
+//	@ApiModelProperty(value = "邀请人用户ID（若系统为默认邀请人，可设为0或特定值）", position = 1)
+//	private Long inviterId;
 
 	/**被邀请人用户ID（必须唯一，不能重复被邀请）*/
 	@ApiModelProperty(value = "被邀请人用户ID（必须唯一，不能重复被邀请）", position = 2)
@@ -47,13 +47,13 @@ public class ReqUserInvitePagination extends Pagination
 	@ApiModelProperty(value = "是否为有效邀请（是否完成实名认证后才算有效）", position = 5)
 	private Integer isValid;
 
-	/**邀请时间（即被邀请人注册时间）*/
-	@ApiModelProperty(value = "邀请时间（即被邀请人注册时间）", position = 6)
-	private Long createTime;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 7)
-	private Long updateTime;
+//	/**邀请时间（即被邀请人注册时间）*/
+//	@ApiModelProperty(value = "邀请时间（即被邀请人注册时间）", position = 6)
+//	private Long createTime;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 7)
+//	private Long updateTime;
 
 
 }

@@ -27,9 +27,9 @@ public class ReqUserRebatePagination extends Pagination
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**邀请人用户ID（若系统为默认邀请人，可设为0或特定值）*/
-	@ApiModelProperty(value = "邀请人用户ID（若系统为默认邀请人，可设为0或特定值）", position = 1)
-	private Long inviterId;
+//	/**邀请人用户ID（若系统为默认邀请人，可设为0或特定值）*/
+//	@ApiModelProperty(value = "邀请人用户ID（若系统为默认邀请人，可设为0或特定值）", position = 1)
+//	private Long inviterId;
 
 	/**被邀请人用户ID（必须唯一，不能重复被邀请）*/
 	@ApiModelProperty(value = "被邀请人用户ID（必须唯一，不能重复被邀请）", position = 2)
@@ -63,13 +63,13 @@ public class ReqUserRebatePagination extends Pagination
 	@ApiModelProperty(value = "结算日期（可为空，直到结算时写入）", position = 9)
 	private java.util.Date settleDate;
 
-	/**创建时间*/
-	@ApiModelProperty(value = "创建时间", position = 10)
-	private Long createTime;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 11)
-	private Long updateTime;
+//	/**创建时间*/
+//	@ApiModelProperty(value = "创建时间", position = 10)
+//	private Long createTime;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 11)
+//	private Long updateTime;
 
 
 }

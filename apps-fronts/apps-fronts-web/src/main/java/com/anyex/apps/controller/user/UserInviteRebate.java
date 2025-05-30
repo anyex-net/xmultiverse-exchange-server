@@ -57,6 +57,7 @@ public class UserInviteRebate extends GenericController {
 
         UserInvite userInvite = new UserInvite();
         BeanUtils.copyProperties(pagin, userInvite);
+        userInvite.setInviterId(principal.getId());
         PaginateResult<UserInvite> uerInvites = userInviteService.search(pagin,userInvite);
         return getJsonMessage(CommonEnums.SUCCESS, uerInvites);
     }
@@ -75,6 +76,7 @@ public class UserInviteRebate extends GenericController {
 
         UserRebate userRebate = new UserRebate();
         BeanUtils.copyProperties(pagin, userRebate);
+        userRebate.setInviterId(principal.getId());
         PaginateResult<UserRebate> userRebates= userRebateService.search(pagin,userRebate);
         return getJsonMessage(CommonEnums.SUCCESS, userRebates);
     }
