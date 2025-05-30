@@ -220,6 +220,7 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
                     rwaInstSpvProductDividendSnapshotService.insertBatch(snapshotList);
                     //
                     List<RwaBalancesTransHistory> rwaBalancesTransHistoryList = new ArrayList<>();
+                    List<RwaBalances> rwaBalancesUpdateList = new ArrayList<>();
                     RwaBalances rwaBalances = new RwaBalances();
                     rwaBalances.setCurrency(rwaInstSpvProductDividend.getDividendCurrency());
                     List<RwaBalances> rwaBalancesList = rwaBalancesService.findList(rwaBalances);
@@ -242,17 +243,22 @@ public class RwaInstSpvProductDividendServiceImpl extends GenericServiceImpl<Rwa
                                 rwaBalancesTransHistory.setTransDesc("分红");
                                 rwaBalancesTransHistory.setCreateTime(System.currentTimeMillis());
                                 rwaBalancesTransHistoryList.add(rwaBalancesTransHistory);
+
+                                // 更新余额
+                                rwaBalance.setAvailBal(rwaBalance.getAvailBal().add(dividendAmount));
+                                rwaBalance.setBalance(rwaBalance.getBalance().add(dividendAmount));
+                                rwaBalancesUpdateList.add(rwaBalance); // 加入更新列表
                             }
                         }
                     }
                     rwaBalancesTransHistoryService.insertBatch(rwaBalancesTransHistoryList);
+                    rwaBalancesService.updateBatch(rwaBalancesUpdateList);
                 } else {
                     rwaInstSpvProductDividend.setState("failed");
                     //执行失败 退分红冻结
                     rwaBalancesService.unDividendFrozenBal(rwaInstSpvProductDividend);
                 }
             }
-
             rwaInstSpvProductDividend.setUpdateTime(System.currentTimeMillis());
             rwaInstSpvProductDividendMapper.updateByPrimaryKeySelective(rwaInstSpvProductDividend);
 

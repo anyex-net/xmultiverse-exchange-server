@@ -370,7 +370,7 @@ public class RwaInstSpvProductController extends GenericController
         if (beanValidator(json, reqrwaInstSpvProductDividend)) {
             RwaInstSpvProductDividend rwaInstSpvProductDividend = new RwaInstSpvProductDividend();
             BeanUtils.copyProperties(reqrwaInstSpvProductDividend, rwaInstSpvProductDividend);
-            RwaInstSpvProductDividend rwaInstSpvProductDividendDB = rwaInstSpvProductDividendService.selectOne(rwaInstSpvProductDividend);
+            RwaInstSpvProductDividend rwaInstSpvProductDividendDB = rwaInstSpvProductDividendService.selectByPrimaryKey(rwaInstSpvProductDividend.getId());
             if ("6".equals(rwaInstSpvProductDividendDB.getState())){
                 log.error("该产品为发行失败，不能进行分红");
                 throw new BusinessException(CommonEnums.ERROR_RWA_PROUDCT_ISSUE_FAIL);
