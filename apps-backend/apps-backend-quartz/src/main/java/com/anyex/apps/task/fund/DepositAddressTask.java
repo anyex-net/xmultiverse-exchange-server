@@ -31,7 +31,7 @@ public class DepositAddressTask
      * 充值地址调度
      * @throws RuntimeException
      */
-//    @Scheduled(cron = "0 5/5 * * * ?")
+//    @Scheduled(cron = "0 */5 * * * ?")
     public void depositAddressTask() throws RuntimeException
     {
         log.info("充值地址调度 开始任务");

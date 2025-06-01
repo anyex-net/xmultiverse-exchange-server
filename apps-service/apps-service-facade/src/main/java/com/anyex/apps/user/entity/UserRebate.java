@@ -83,7 +83,5 @@ public class UserRebate extends GenericEntity
 	/**更新时间*/
 	@ApiModelProperty(value = "更新时间", position = 11)
 	private Long updateTime;
-
-
 }
 

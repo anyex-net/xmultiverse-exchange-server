@@ -123,6 +123,10 @@ public class RespUser implements Serializable
 	@ApiModelProperty(value = "稳定币偏好", position = 22)
 	private String stableCoinPreference;
 
+	/**用户等级*/
+	@ApiModelProperty(value = "用户等级", position = 22)
+	private String userLevel;
+
 //	/**备注*/
 //	@ApiModelProperty(value = "备注", position = 23)
 //	private String remark;

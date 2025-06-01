@@ -62,7 +62,5 @@ public class UserInvite extends GenericEntity
 	/**更新时间*/
 	@ApiModelProperty(value = "更新时间", position = 7)
 	private Long updateTime;
-
-
 }
 
