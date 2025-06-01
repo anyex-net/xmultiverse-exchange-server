@@ -48,4 +48,47 @@
         </sofa:binding.bolt>
     </sofa:reference>
 
+    <!-- 平台交易产品 -->
+    <sofa:reference id="instrumentsService" interface="com.anyex.apps.base.service.InstrumentsService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 平台交易手续费费率 -->
+    <sofa:reference id="instTradeFeeService" interface="com.anyex.apps.base.service.InstTradeFeeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户交易手续费费率 -->
+    <sofa:reference id="userInstTradeFeeService" interface="com.anyex.apps.base.service.UserInstTradeFeeService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <!-- 用户持有数量奖励配置 -->
+    <sofa:reference id="userHoldAmountRewardConfigService" interface="com.anyex.apps.user.service.UserHoldAmountRewardConfigService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <!-- 用户邀请返佣奖励配置 -->
+    <sofa:reference id="userInviteRewardConfigService" interface="com.anyex.apps.user.service.UserInviteRewardConfigService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
+    <sofa:reference id="userInviteService" interface="com.anyex.apps.user.service.UserInviteService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+    <sofa:reference id="userRebateService" interface="com.anyex.apps.user.service.UserRebateService" jvm-first="false">
+        <sofa:binding.bolt>
+            <sofa:global-attrs timeout="30000" address-wait-time="30000"/>
+        </sofa:binding.bolt>
+    </sofa:reference>
+
 </beans>
