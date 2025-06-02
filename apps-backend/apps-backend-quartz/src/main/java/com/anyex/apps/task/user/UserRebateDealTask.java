@@ -36,7 +36,7 @@ public class UserRebateDealTask
      * 用户返佣记录每个周期返现处理调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */2 * * * ?")
+//    @Scheduled(cron = "0 */19 * * * ?")
     public void userRebateDealTask() throws RuntimeException
     {
         log.info("用户返佣记录每个周期返现处理调度 开始任务");
