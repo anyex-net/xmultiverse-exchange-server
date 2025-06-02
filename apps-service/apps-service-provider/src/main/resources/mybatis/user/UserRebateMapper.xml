@@ -7,9 +7,12 @@
         a.inviterId as inviterId,
         a.inviteeId as inviteeId,
         a.tradeId as tradeId,
+        a.symbol as symbol,
+        a.tradeSide as tradeSide,
         a.tradeAmount as tradeAmount,
         a.feeAmount as feeAmount,
         a.rebateRate as rebateRate,
+        a.priceUSDT as priceUSDT,
         a.rebateAmount as rebateAmount,
         a.status as status,
         a.settleDate as settleDate,
@@ -22,9 +25,12 @@
         <result column="inviterId" property="inviterId"/>
         <result column="inviteeId" property="inviteeId"/>
         <result column="tradeId" property="tradeId"/>
+        <result column="symbol" property="symbol"/>
+        <result column="tradeSide" property="tradeSide"/>
         <result column="tradeAmount" property="tradeAmount"/>
         <result column="feeAmount" property="feeAmount"/>
         <result column="rebateRate" property="rebateRate"/>
+        <result column="priceUSDT" property="priceUSDT"/>
         <result column="rebateAmount" property="rebateAmount"/>
         <result column="status" property="status"/>
         <result column="settleDate" property="settleDate"/>
@@ -39,9 +45,12 @@
             inviterId ,
             inviteeId ,
             tradeId ,
+            symbol ,
+            tradeSide ,
             tradeAmount ,
             feeAmount ,
             rebateRate ,
+            priceUSDT ,
             rebateAmount ,
             status ,
             settleDate ,
@@ -52,9 +61,12 @@
             #{inviterId} ,
             #{inviteeId} ,
             #{tradeId} ,
+            #{symbol} ,
+            #{tradeSide} ,
             #{tradeAmount} ,
             #{feeAmount} ,
             #{rebateRate} ,
+            #{priceUSDT} ,
             #{rebateAmount} ,
             #{status} ,
             #{settleDate} ,
@@ -89,6 +101,12 @@
         <if test="tradeId != null">
                 tradeId ,
         </if>
+        <if test="symbol != null">
+                symbol ,
+        </if>
+        <if test="tradeSide != null">
+                tradeSide ,
+        </if>
         <if test="tradeAmount != null">
                 tradeAmount ,
         </if>
@@ -97,6 +115,9 @@
         </if>
         <if test="rebateRate != null">
                 rebateRate ,
+        </if>
+        <if test="priceUSDT != null">
+                priceUSDT ,
         </if>
         <if test="rebateAmount != null">
                 rebateAmount ,
@@ -127,6 +148,12 @@
         <if test="tradeId != null">
                 #{tradeId} ,
         </if>
+        <if test="symbol != null">
+                #{symbol} ,
+        </if>
+        <if test="tradeSide != null">
+                #{tradeSide} ,
+        </if>
         <if test="tradeAmount != null">
                 #{tradeAmount} ,
         </if>
@@ -135,6 +162,9 @@
         </if>
         <if test="rebateRate != null">
                 #{rebateRate} ,
+        </if>
+        <if test="priceUSDT != null">
+                #{priceUSDT} ,
         </if>
         <if test="rebateAmount != null">
                 #{rebateAmount} ,
@@ -167,6 +197,12 @@
             <if test="tradeId != null">
                 tradeId = #{tradeId} ,
             </if>
+            <if test="symbol != null">
+                symbol = #{symbol} ,
+            </if>
+            <if test="tradeSide != null">
+                tradeSide = #{tradeSide} ,
+            </if>
             <if test="tradeAmount != null">
                 tradeAmount = #{tradeAmount} ,
             </if>
@@ -175,6 +211,9 @@
             </if>
             <if test="rebateRate != null">
                 rebateRate = #{rebateRate} ,
+            </if>
+            <if test="priceUSDT != null">
+                priceUSDT = #{priceUSDT} ,
             </if>
             <if test="rebateAmount != null">
                 rebateAmount = #{rebateAmount} ,
@@ -202,9 +241,12 @@
             inviterId ,
             inviteeId ,
             tradeId ,
+            symbol ,
+            tradeSide ,
             tradeAmount ,
             feeAmount ,
             rebateRate ,
+            priceUSDT ,
             rebateAmount ,
             status ,
             settleDate ,
@@ -217,9 +259,12 @@
             #{item.inviterId} ,
             #{item.inviteeId} ,
             #{item.tradeId} ,
+            #{item.symbol} ,
+            #{item.tradeSide} ,
             #{item.tradeAmount} ,
             #{item.feeAmount} ,
             #{item.rebateRate} ,
+            #{item.priceUSDT} ,
             #{item.rebateAmount} ,
             #{item.status} ,
             #{item.settleDate} ,
@@ -236,9 +281,12 @@
             inviterId = #{item.inviterId} ,
             inviteeId = #{item.inviteeId} ,
             tradeId = #{item.tradeId} ,
+            symbol = #{item.symbol} ,
+            tradeSide = #{item.tradeSide} ,
             tradeAmount = #{item.tradeAmount} ,
             feeAmount = #{item.feeAmount} ,
             rebateRate = #{item.rebateRate} ,
+            priceUSDT = #{item.priceUSDT} ,
             rebateAmount = #{item.rebateAmount} ,
             status = #{item.status} ,
             settleDate = #{item.settleDate} ,
@@ -254,9 +302,12 @@
             inviterId = #{inviterId} ,
             inviteeId = #{inviteeId} ,
             tradeId = #{tradeId} ,
+            symbol = #{symbol} ,
+            tradeSide = #{tradeSide} ,
             tradeAmount = #{tradeAmount} ,
             feeAmount = #{feeAmount} ,
             rebateRate = #{rebateRate} ,
+            priceUSDT = #{priceUSDT} ,
             rebateAmount = #{rebateAmount} ,
             status = #{status} ,
             settleDate = #{settleDate} ,
@@ -284,6 +335,12 @@
         <if test="tradeId != null">
             AND a.tradeId = #{tradeId}
         </if>
+        <if test="symbol != null and symbol != ''">
+            AND a.symbol = #{symbol}
+        </if>
+        <if test="tradeSide != null and tradeSide != ''">
+            AND a.tradeSide = #{tradeSide}
+        </if>
         <if test="tradeAmount != null">
             AND a.tradeAmount = #{tradeAmount}
         </if>
@@ -292,6 +349,9 @@
         </if>
         <if test="rebateRate != null">
             AND a.rebateRate = #{rebateRate}
+        </if>
+        <if test="priceUSDT != null">
+            AND a.priceUSDT = #{priceUSDT}
         </if>
         <if test="rebateAmount != null">
             AND a.rebateAmount = #{rebateAmount}
@@ -325,6 +385,12 @@
         <if test="tradeId != null">
             AND a.tradeId = #{tradeId}
         </if>
+        <if test="symbol != null and symbol != ''">
+            AND a.symbol LIKE CONCAT('%',#{symbol}, '%')
+        </if>
+        <if test="tradeSide != null and tradeSide != ''">
+            AND a.tradeSide LIKE CONCAT('%',#{tradeSide}, '%')
+        </if>
         <if test="tradeAmount != null">
             AND a.tradeAmount = #{tradeAmount}
         </if>
@@ -333,6 +399,9 @@
         </if>
         <if test="rebateRate != null">
             AND a.rebateRate = #{rebateRate}
+        </if>
+        <if test="priceUSDT != null">
+            AND a.priceUSDT = #{priceUSDT}
         </if>
         <if test="rebateAmount != null">
             AND a.rebateAmount = #{rebateAmount}

@@ -45,43 +45,58 @@ public class UserRebate extends GenericEntity
 	@ApiModelProperty(value = "关联交易ID（如订单ID）", position = 3, required = true)
 	private Long tradeId;
 
+	/**交易对（如 BTCUSDT, ETHUSDT）*/
+	@NotEmpty(message = "交易对（如 BTCUSDT, ETHUSDT）不可为空")
+	@ApiModelProperty(value = "交易对（如 BTCUSDT, ETHUSDT）", position = 4, required = true)
+	private String symbol;
+
+	/**交易方向（buy/sell）*/
+	@NotEmpty(message = "交易方向（buy/sell）不可为空")
+	@ApiModelProperty(value = "交易方向（buy/sell）", position = 5, required = true)
+	private String tradeSide;
+
 	/**交易金额*/
 	@NotNull(message = "交易金额不可为空")
-	@ApiModelProperty(value = "交易金额", position = 4, required = true)
+	@ApiModelProperty(value = "交易金额", position = 6, required = true)
 	private java.math.BigDecimal tradeAmount;
 
 	/**手续费金额（真实产生）*/
 	@NotNull(message = "手续费金额（真实产生）不可为空")
-	@ApiModelProperty(value = "手续费金额（真实产生）", position = 5, required = true)
+	@ApiModelProperty(value = "手续费金额（真实产生）", position = 7, required = true)
 	private java.math.BigDecimal feeAmount;
 
 	/**返佣比例（如 0.2 表示20%）*/
 	@NotNull(message = "返佣比例（如 0.2 表示20%）不可为空")
-	@ApiModelProperty(value = "返佣比例（如 0.2 表示20%）", position = 6, required = true)
+	@ApiModelProperty(value = "返佣比例（如 0.2 表示20%）", position = 8, required = true)
 	private java.math.BigDecimal rebateRate;
+
+	/**换算汇率*/
+	@NotNull(message = "换算汇率不可为空")
+	@ApiModelProperty(value = "换算汇率", position = 9, required = true)
+	private java.math.BigDecimal priceUSDT;
 
 	/**实际返佣金额（fee_amount × rebate_rate）*/
 	@NotNull(message = "实际返佣金额（fee_amount × rebate_rate）不可为空")
-	@ApiModelProperty(value = "实际返佣金额（fee_amount × rebate_rate）", position = 7, required = true)
+	@ApiModelProperty(value = "实际返佣金额（fee_amount × rebate_rate）", position = 10, required = true)
 	private java.math.BigDecimal rebateAmount;
 
 	/**状态（如 pending, settled, canceled）*/
 	@NotEmpty(message = "状态（如 pending, settled, canceled）不可为空")
-	@ApiModelProperty(value = "状态（如 pending, settled, canceled）", position = 8, required = true)
+	@ApiModelProperty(value = "状态（如 pending, settled, canceled）", position = 11, required = true)
 	private String status;
 
 	/**结算日期（可为空，直到结算时写入）*/
 	@NotNull(message = "结算日期（可为空，直到结算时写入）不可为空")
-	@ApiModelProperty(value = "结算日期（可为空，直到结算时写入）", position = 9, required = true)
+	@ApiModelProperty(value = "结算日期（可为空，直到结算时写入）", position = 12, required = true)
 	private java.util.Date settleDate;
 
 	/**创建时间*/
 	@NotNull(message = "创建时间不可为空")
-	@ApiModelProperty(value = "创建时间", position = 10, required = true)
+	@ApiModelProperty(value = "创建时间", position = 13, required = true)
 	private Long createTime;
 
 	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 11)
+	@ApiModelProperty(value = "更新时间", position = 14)
 	private Long updateTime;
 }
 
