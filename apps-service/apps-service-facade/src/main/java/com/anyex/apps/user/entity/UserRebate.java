@@ -80,9 +80,9 @@ public class UserRebate extends GenericEntity
 	@ApiModelProperty(value = "实际返佣金额（fee_amount × rebate_rate）", position = 10, required = true)
 	private java.math.BigDecimal rebateAmount;
 
-	/**状态（如 pending, settled, canceled）*/
-	@NotEmpty(message = "状态（如 pending, settled, canceled）不可为空")
-	@ApiModelProperty(value = "状态（如 pending, settled, canceled）", position = 11, required = true)
+	/**状态（如 pending, settled）*/
+	@NotEmpty(message = "状态（如 pending, settled）不可为空")
+	@ApiModelProperty(value = "状态（如 pending, settled）", position = 11, required = true)
 	private String status;
 
 	/**结算日期（可为空，直到结算时写入）*/

@@ -30,7 +30,7 @@ public class UserLevelTask
      * 用户等级调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */31 * * * ?")
+    @Scheduled(cron = "0 */59 * * * ?")
     public void userLevelTask() throws RuntimeException
     {
         log.info("用户等级调度 开始任务");
@@ -47,7 +47,9 @@ public class UserLevelTask
                         // 根据用户持有USDT数量划分等级，后台可设置等级，不同等级交易手续费享受不同折扣
                         // 具体更新逻辑
                         //
-
+                        userDB.setUserLevel("1");
+                        log.info("更新userDB:{}", userDB);
+                        userService.updateByPrimaryKeySelective(userDB);
                     }
                 }
             } catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.anyex.apps.task.user;
 
+import com.anyex.apps.user.entity.UserRebate;
 import com.anyex.apps.user.service.UserInviteRewardConfigService;
 import com.anyex.apps.user.service.UserRebateService;
 import com.anyex.apps.utils.RedisLock;
@@ -8,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户返佣记录每个周期返现处理调度
@@ -31,7 +36,7 @@ public class UserRebateDealTask
      * 用户返佣记录每个周期返现处理调度
      * @throws RuntimeException
      */
-//    @Scheduled(cron = "0 */11 * * * ?")
+    @Scheduled(cron = "0 */2 * * * ?")
     public void userRebateDealTask() throws RuntimeException
     {
         log.info("用户返佣记录每个周期返现处理调度 开始任务");
@@ -41,7 +46,23 @@ public class UserRebateDealTask
         {
             try
             {
-
+                UserRebate userRebateSearch = new UserRebate();
+                userRebateSearch.setStatus("pending");
+                List<UserRebate> listUserRebate = userRebateService.findList(userRebateSearch);
+                if(null!=listUserRebate && listUserRebate.size()>0)
+                {
+                    for(int i=0; i<listUserRebate.size(); i++)
+                    {
+                        // 根据 一定周期内的累积手续费 根据 等级配置 进行返佣处理
+                        UserRebate userRebateDB = listUserRebate.get(i);
+                        userRebateDB.setRebateRate(BigDecimal.valueOf(0.1));
+                        userRebateDB.setRebateAmount(userRebateDB.getFeeAmount().multiply(userRebateDB.getRebateRate()));
+                        userRebateDB.setStatus("settled");
+                        userRebateDB.setSettleDate(new Date());
+                        log.info("更新userRebateDB:{}", userRebateDB);
+                        userRebateService.updateByPrimaryKeySelective(userRebateDB);
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("用户返佣记录每个周期返现处理调度 异常：error={}",e.getMessage());
