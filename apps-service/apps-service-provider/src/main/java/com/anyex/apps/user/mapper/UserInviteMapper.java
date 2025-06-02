@@ -7,9 +7,13 @@ package com.anyex.apps.user.mapper;
 
 import com.anyex.apps.bean.GenericMapper;
 import com.anyex.apps.user.model.InviteRebateSummaryModel;
+import com.anyex.apps.user.model.UserInviteRebateModel;
 import org.apache.ibatis.annotations.Mapper;
 import com.anyex.apps.user.entity.UserInvite;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户邀请关系 持久层接口
@@ -25,4 +29,6 @@ import org.apache.ibatis.annotations.Param;
 public interface UserInviteMapper extends GenericMapper<UserInvite>
 {
     InviteRebateSummaryModel selectInviteRebateSummary(@Param("inviterId") Long inviterId);
+
+    List<UserInviteRebateModel> listInviteeRebatesByInviterId(@Param("inviterId") Long inviterId);
 }

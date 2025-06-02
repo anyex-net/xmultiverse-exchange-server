@@ -5,8 +5,11 @@
 package com.anyex.apps.user.service;
 
 import com.anyex.apps.bean.GenericService;
+import com.anyex.apps.model.PaginateResult;
+import com.anyex.apps.model.Pagination;
 import com.anyex.apps.user.entity.UserInvite;
 import com.anyex.apps.user.model.InviteRebateSummaryModel;
+import com.anyex.apps.user.model.UserInviteRebateModel;
 
 /**
  * 用户邀请关系 服务接口
@@ -21,4 +24,6 @@ import com.anyex.apps.user.model.InviteRebateSummaryModel;
 public interface UserInviteService extends GenericService<UserInvite>
 {
     InviteRebateSummaryModel selectInviteRebateSummary(Long inviterId);
+
+    PaginateResult<UserInviteRebateModel> listInviteeRebatesByInviterId(Pagination pagin, Long inviterId);
 }

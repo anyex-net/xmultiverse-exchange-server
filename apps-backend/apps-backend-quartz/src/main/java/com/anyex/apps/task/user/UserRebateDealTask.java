@@ -59,6 +59,7 @@ public class UserRebateDealTask
                         userRebateDB.setRebateAmount(userRebateDB.getFeeAmount().multiply(userRebateDB.getRebateRate()));
                         userRebateDB.setStatus("settled");
                         userRebateDB.setSettleDate(new Date());
+                        userRebateDB.setUpdateTime(System.currentTimeMillis());
                         log.info("更新userRebateDB:{}", userRebateDB);
                         userRebateService.updateByPrimaryKeySelective(userRebateDB);
                     }

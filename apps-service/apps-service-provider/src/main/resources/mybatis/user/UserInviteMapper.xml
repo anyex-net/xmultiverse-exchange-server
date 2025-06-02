@@ -277,6 +277,25 @@
         WHERE a.inviterId = #{inviterId}
     </select>
 
+    <select id="listInviteeRebatesByInviterId" resultType="com.anyex.apps.user.model.UserInviteRebateModel">
+        SELECT
+            ui.inviteeId,
+            u.uid AS uid,
+            ui.isValid,
+            COALESCE(SUM(ur.rebateAmount), 0) AS totalRebateAmount,
+            u.createTime
+        FROM
+            UserInvite ui
+                JOIN
+            User u ON ui.inviteeId = u.id
+                LEFT JOIN
+            UserRebate ur ON ui.inviteeId = ur.inviteeId AND ur.inviterId = ui.inviterId AND ur.status = 'settled'
+        WHERE
+            ui.inviterId = #{inviterId}
+        GROUP BY
+            ui.inviteeId, u.username, ui.isValid
+    </select>
+
 
 </mapper>
 

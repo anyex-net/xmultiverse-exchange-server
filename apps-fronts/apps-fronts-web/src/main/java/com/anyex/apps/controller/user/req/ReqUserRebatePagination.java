@@ -31,37 +31,37 @@ public class ReqUserRebatePagination extends Pagination
 //	@ApiModelProperty(value = "邀请人用户ID（若系统为默认邀请人，可设为0或特定值）", position = 1)
 //	private Long inviterId;
 
-	/**被邀请人用户ID（必须唯一，不能重复被邀请）*/
-	@ApiModelProperty(value = "被邀请人用户ID（必须唯一，不能重复被邀请）", position = 2)
-	private Long inviteeId;
-
-	/**关联交易ID（如订单ID）*/
-	@ApiModelProperty(value = "关联交易ID（如订单ID）", position = 3)
-	private Long tradeId;
-
-	/**交易金额*/
-	@ApiModelProperty(value = "交易金额", position = 4)
-	private java.math.BigDecimal tradeAmount;
-
-	/**手续费金额（真实产生）*/
-	@ApiModelProperty(value = "手续费金额（真实产生）", position = 5)
-	private java.math.BigDecimal feeAmount;
-
-	/**返佣比例（如 0.2 表示20%）*/
-	@ApiModelProperty(value = "返佣比例（如 0.2 表示20%）", position = 6)
-	private java.math.BigDecimal rebateRate;
-
-	/**实际返佣金额（fee_amount × rebate_rate）*/
-	@ApiModelProperty(value = "实际返佣金额（fee_amount × rebate_rate）", position = 7)
-	private java.math.BigDecimal rebateAmount;
-
-	/**状态（如 pending, settled, canceled）*/
-	@ApiModelProperty(value = "状态（如 pending, settled, canceled）", position = 8)
-	private String status;
-
-	/**结算日期（可为空，直到结算时写入）*/
-	@ApiModelProperty(value = "结算日期（可为空，直到结算时写入）", position = 9)
-	private java.util.Date settleDate;
+//	/**被邀请人用户ID（必须唯一，不能重复被邀请）*/
+//	@ApiModelProperty(value = "被邀请人用户ID（必须唯一，不能重复被邀请）", position = 2)
+//	private Long inviteeId;
+//
+//	/**关联交易ID（如订单ID）*/
+//	@ApiModelProperty(value = "关联交易ID（如订单ID）", position = 3)
+//	private Long tradeId;
+//
+//	/**交易金额*/
+//	@ApiModelProperty(value = "交易金额", position = 4)
+//	private java.math.BigDecimal tradeAmount;
+//
+//	/**手续费金额（真实产生）*/
+//	@ApiModelProperty(value = "手续费金额（真实产生）", position = 5)
+//	private java.math.BigDecimal feeAmount;
+//
+//	/**返佣比例（如 0.2 表示20%）*/
+//	@ApiModelProperty(value = "返佣比例（如 0.2 表示20%）", position = 6)
+//	private java.math.BigDecimal rebateRate;
+//
+//	/**实际返佣金额（fee_amount × rebate_rate）*/
+//	@ApiModelProperty(value = "实际返佣金额（fee_amount × rebate_rate）", position = 7)
+//	private java.math.BigDecimal rebateAmount;
+//
+//	/**状态（如 pending, settled, canceled）*/
+//	@ApiModelProperty(value = "状态（如 pending, settled, canceled）", position = 8)
+//	private String status;
+//
+//	/**结算日期（可为空，直到结算时写入）*/
+//	@ApiModelProperty(value = "结算日期（可为空，直到结算时写入）", position = 9)
+//	private java.util.Date settleDate;
 
 //	/**创建时间*/
 //	@ApiModelProperty(value = "创建时间", position = 10)

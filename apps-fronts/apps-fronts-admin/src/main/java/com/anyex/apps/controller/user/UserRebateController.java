@@ -53,32 +53,32 @@ public class UserRebateController extends GenericController
         return this.getJsonMessage(CommonEnums.SUCCESS, userRebateService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("user:userRebate:operator")
-    @ApiOperation(value = "保存用户返佣记录", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqUserRebate info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            UserRebate entity = new UserRebate();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-            entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                userRebateService.insert(entity);
-            } else {
-                userRebateService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("user:userRebate:operator")
+//    @ApiOperation(value = "保存用户返佣记录", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqUserRebate info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            UserRebate entity = new UserRebate();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//            entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                userRebateService.insert(entity);
+//            } else {
+//                userRebateService.updateByPrimaryKey(entity);
+//            }
+//        }
+//        return json;
+//    }
 
     @PostMapping(value = "/data")
     @RequiresPermissions("user:userRebate:data")
@@ -90,14 +90,14 @@ public class UserRebateController extends GenericController
         PaginateResult<UserRebate> result = userRebateService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
-
-    @PostMapping(value = "/del")
-    @RequiresPermissions("user:userRebate:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        userRebateService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("user:userRebate:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        userRebateService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }

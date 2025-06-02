@@ -1,23 +1,16 @@
 package com.anyex.apps.controller.user;
 
 import com.anyex.apps.bean.GenericController;
-import com.anyex.apps.consts.GlobalConst;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProduct;
-import com.anyex.apps.controller.rwa.req.ReqRwaInstSpvProductPagination;
-import com.anyex.apps.controller.user.req.ReqUserInvite;
 import com.anyex.apps.controller.user.req.ReqUserInvitePagination;
 import com.anyex.apps.controller.user.req.ReqUserRebatePagination;
-import com.anyex.apps.controller.user.resp.RespUser;
 import com.anyex.apps.enums.CommonEnums;
 import com.anyex.apps.exception.BusinessException;
 import com.anyex.apps.model.JsonMessage;
 import com.anyex.apps.model.PaginateResult;
-import com.anyex.apps.rwa.entity.RwaInstSpvProduct;
 import com.anyex.apps.shiro.model.UserPrincipal;
-import com.anyex.apps.user.entity.User;
-import com.anyex.apps.user.entity.UserInvite;
 import com.anyex.apps.user.entity.UserRebate;
 import com.anyex.apps.user.model.InviteRebateSummaryModel;
+import com.anyex.apps.user.model.UserInviteRebateModel;
 import com.anyex.apps.user.service.UserInviteService;
 import com.anyex.apps.user.service.UserRebateService;
 import com.anyex.apps.utils.OnLineUserUtils;
@@ -26,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,16 +41,13 @@ public class UserInviteRebate extends GenericController {
      * @throws BusinessException
      */
     @PostMapping(value = "/userInviteData")
-    @ApiOperation(value = "查询用户邀请记录列表", httpMethod = "POST")
-    public JsonMessage<PaginateResult<UserInvite>> userInviteData(@Validated @RequestBody ReqUserInvitePagination pagin) throws BusinessException
+    @ApiOperation(value = "查询推荐记录列表", httpMethod = "POST")
+    public JsonMessage<PaginateResult<UserInviteRebateModel>> userInviteData(@Validated @RequestBody ReqUserInvitePagination pagin) throws BusinessException
     {
         UserPrincipal principal = OnLineUserUtils.getPrincipal();
         if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
 
-        UserInvite userInvite = new UserInvite();
-        BeanUtils.copyProperties(pagin, userInvite);
-        userInvite.setInviterId(principal.getId());
-        PaginateResult<UserInvite> uerInvites = userInviteService.search(pagin,userInvite);
+        PaginateResult<UserInviteRebateModel> uerInvites = userInviteService.listInviteeRebatesByInviterId(pagin,principal.getId());
         return getJsonMessage(CommonEnums.SUCCESS, uerInvites);
     }
 

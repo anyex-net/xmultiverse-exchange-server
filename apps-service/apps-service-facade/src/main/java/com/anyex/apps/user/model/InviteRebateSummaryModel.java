@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel("扫码登录")
+@ApiModel("邀请统计")
 public class InviteRebateSummaryModel implements Serializable {
 
     private Integer totalInvites;   // 邀请人数

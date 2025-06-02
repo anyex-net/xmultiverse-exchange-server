@@ -53,32 +53,32 @@ public class UserInviteController extends GenericController
         return this.getJsonMessage(CommonEnums.SUCCESS, userInviteService.selectByPrimaryKey(id));
     }
 
-    @PostMapping(value = "/save")
-    @RequiresPermissions("user:userInvite:operator")
-    @ApiOperation(value = "保存用户邀请关系", httpMethod = "POST")
-    public JsonMessage save(@ModelAttribute ReqUserInvite info) throws BusinessException
-    {
-        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
-        if (beanValidator(json, info))
-        {
-            UserInvite entity = new UserInvite();
-            BeanUtils.copyProperties(info, entity);
-            //
-            if (null == info.getId())
-            {
-            entity.setCreateTime(System.currentTimeMillis());
-            }
-            entity.setUpdateTime(System.currentTimeMillis());
-            //
-            log.info("entity:{}", entity);
-            if(null == entity.getId()){
-                userInviteService.insert(entity);
-            } else {
-                userInviteService.updateByPrimaryKey(entity);
-            }
-        }
-        return json;
-    }
+//    @PostMapping(value = "/save")
+//    @RequiresPermissions("user:userInvite:operator")
+//    @ApiOperation(value = "保存用户邀请关系", httpMethod = "POST")
+//    public JsonMessage save(@ModelAttribute ReqUserInvite info) throws BusinessException
+//    {
+//        JsonMessage json = getJsonMessage(CommonEnums.SUCCESS);
+//        if (beanValidator(json, info))
+//        {
+//            UserInvite entity = new UserInvite();
+//            BeanUtils.copyProperties(info, entity);
+//            //
+//            if (null == info.getId())
+//            {
+//            entity.setCreateTime(System.currentTimeMillis());
+//            }
+//            entity.setUpdateTime(System.currentTimeMillis());
+//            //
+//            log.info("entity:{}", entity);
+//            if(null == entity.getId()){
+//                userInviteService.insert(entity);
+//            } else {
+//                userInviteService.updateByPrimaryKeySelective(entity);
+//            }
+//        }
+//        return json;
+//    }
 
     @PostMapping(value = "/data")
     @RequiresPermissions("user:userInvite:data")
@@ -90,14 +90,14 @@ public class UserInviteController extends GenericController
         PaginateResult<UserInvite> result = userInviteService.search(pagin,entity);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
-
-    @PostMapping(value = "/del")
-    @RequiresPermissions("user:userInvite:operator")
-    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
-    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
-    public JsonMessage del(String ids) throws BusinessException
-    {
-        userInviteService.removeBatch(ids.split(","));
-        return getJsonMessage(CommonEnums.SUCCESS);
-    }
+//
+//    @PostMapping(value = "/del")
+//    @RequiresPermissions("user:userInvite:operator")
+//    @ApiOperation(value = "根据指定ID删除", httpMethod = "POST")
+//    @ApiImplicitParam(name = "ids", value = "以','分割的编号组", paramType = "form")
+//    public JsonMessage del(String ids) throws BusinessException
+//    {
+//        userInviteService.removeBatch(ids.split(","));
+//        return getJsonMessage(CommonEnums.SUCCESS);
+//    }
 }
