@@ -46,18 +46,24 @@ import java.util.Random;
 @Api(tags = "用户API")
 public class UserApiController extends GenericController
 {
+    public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+
     @Autowired(required = false)
     private UserApiService userApiService;
-
-    public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
     @PostMapping(value = "/data")
     @ApiOperation(value = "查询用户API", httpMethod = "POST")
     public JsonMessage<PaginateResult<UserApi>> data(@ModelAttribute ReqUserApiPagination pagin) throws BusinessException
     {
-        UserApi entity = new UserApi();
-        BeanUtils.copyProperties(pagin, entity);
-        PaginateResult<UserApi> result = userApiService.search(pagin, entity);
+        UserPrincipal principal = OnLineUserUtils.getPrincipal();
+        if (null == principal) throw new BusinessException(CommonEnums.USER_NOT_LOGIN);
+        //
+        UserApi userApi = new UserApi();
+        BeanUtils.copyProperties(pagin, userApi);
+        userApi.setUserId(principal.getId());
+        //
+        log.info("查询 userApi:{}", userApi);
+        PaginateResult<UserApi> result = userApiService.search(pagin, userApi);
         return getJsonMessage(CommonEnums.SUCCESS, result);
     }
 

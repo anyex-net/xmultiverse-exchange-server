@@ -4,14 +4,13 @@
  */
 package com.anyex.apps.controller.user.req;
 
-import com.anyex.apps.bean.GenericEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 用户API 实体请求对象
@@ -24,9 +23,8 @@ import javax.validation.constraints.NotNull;
  * @version 1.0
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "用户API请求对象")
-public class ReqUserApi extends GenericEntity
+public class ReqUserApi implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
