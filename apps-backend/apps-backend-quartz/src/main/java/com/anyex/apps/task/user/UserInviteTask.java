@@ -38,7 +38,7 @@ public class UserInviteTask
      * 用户邀请记录调度
      * @throws RuntimeException
      */
-//    @Scheduled(cron = "0 */3 * * * ?")
+    @Scheduled(cron = "0 */9 * * * ?")
     public void userInviteTask() throws RuntimeException
     {
         log.info("用户邀请记录调度 开始任务");

@@ -84,6 +84,7 @@ public class UserRebateTask
                                 reqTradeOrderFinished.setOffset(0);
                                 reqTradeOrderFinished.setLimit(100);
                                 reqTradeOrderFinished.setSide(0);
+                                log.info("tradeOrderFinished reqTradeOrderFinished:{}", reqTradeOrderFinished);
                                 JSONObject jsonObjectTradeOrderFinished = ViabtcTradeApi.tradeOrderFinished(reqTradeOrderFinished);
                                 log.info("tradeOrderFinished respJson:{}", jsonObjectTradeOrderFinished);
                                 if(null != jsonObjectTradeOrderFinished)
@@ -111,16 +112,16 @@ public class UserRebateTask
                                                 {
                                                     User userDB = userService.findByUnid(Long.valueOf(listAllUser.get(i).getReferralCode()));
                                                     if(null != userDB){
-                                                        log.info("不已存在用户返佣记录 需要新插入用户返佣记录");
                                                         UserRebate userRebateNew = new UserRebate();
                                                         userRebateNew.setInviterId(userDB.getId());
                                                         userRebateNew.setInviteeId(listAllUser.get(i).getId());
                                                         userRebateNew.setTradeId(jsonObject.getLong("id"));
                                                         userRebateNew.setSymbol(listInstruments.get(j).getBaseCcy()+listInstruments.get(j).getQuoteCcy());
-                                                        userRebateNew.setTradeSide(jsonObject.getString("side"));
+                                                        userRebateNew.setTradeSide(jsonObject.getString("side")); // 交易方向
+                                                        userRebateNew.setPriceUSDT(jsonObject.getBigDecimal("price")); // 行情价格
                                                         if(userRebateNew.getTradeSide().equals("2")){ // 卖出
-                                                            userRebateNew.setTradeAmount(jsonObject.getBigDecimal("deal_stock"));
-                                                            userRebateNew.setFeeAmount(jsonObject.getBigDecimal("deal_fee"));
+                                                            userRebateNew.setTradeAmount(jsonObject.getBigDecimal("deal_stock").multiply(userRebateNew.getPriceUSDT()));
+                                                            userRebateNew.setFeeAmount(jsonObject.getBigDecimal("deal_fee").multiply(userRebateNew.getPriceUSDT()));
                                                         } else { // 买入
                                                             userRebateNew.setTradeAmount(jsonObject.getBigDecimal("deal_money"));
                                                             userRebateNew.setFeeAmount(jsonObject.getBigDecimal("deal_fee"));
