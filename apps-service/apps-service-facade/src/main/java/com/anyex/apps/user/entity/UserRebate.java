@@ -50,9 +50,9 @@ public class UserRebate extends GenericEntity
 	@ApiModelProperty(value = "交易对（如 BTCUSDT, ETHUSDT）", position = 4, required = true)
 	private String symbol;
 
-	/**交易方向（buy/sell）*/
-	@NotEmpty(message = "交易方向（buy/sell）不可为空")
-	@ApiModelProperty(value = "交易方向（buy/sell）", position = 5, required = true)
+	/**交易方向（1/2）*/
+	@NotEmpty(message = "交易方向（1/2）不可为空")
+	@ApiModelProperty(value = "交易方向（1/2）", position = 5, required = true)
 	private String tradeSide;
 
 	/**交易金额*/

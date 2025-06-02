@@ -77,8 +77,8 @@ public class UserRebateTask
                                 // 查询C交易核心的实时数据
                                 ReqTradeOrderFinished reqTradeOrderFinished = new ReqTradeOrderFinished();
                                 reqTradeOrderFinished.setUserId(listAllUser.get(i).getId());
-                                reqTradeOrderFinished.setMarket("ETHUSDT"); // 先写死后面要增加交易对字段
-                                //reqTradeOrderFinished.setMarket(listInstruments.get(j).getInstId());
+                                // reqTradeOrderFinished.setMarket("ETHUSDT"); // 先写死后面要增加交易对字段
+                                reqTradeOrderFinished.setMarket(listInstruments.get(j).getBaseCcy()+listInstruments.get(j).getQuoteCcy());
                                 reqTradeOrderFinished.setStartTime(0);
                                 reqTradeOrderFinished.setEndTime(0);
                                 reqTradeOrderFinished.setOffset(0);
@@ -99,7 +99,8 @@ public class UserRebateTask
                                             //
                                             //
                                             userRebateSearch.setInviteeId(jsonObject.getLong("user"));
-                                            // userRebateSearch.setTradePair(listInstruments.get(j).getInstId()); // 需要加交易对 与 交易方向
+                                            userRebateSearch.setSymbol(listInstruments.get(j).getBaseCcy()+listInstruments.get(j).getQuoteCcy()); // 需要加交易对 与 交易方向
+                                            userRebateSearch.setTradeSide(jsonObject.getString("side"));
                                             userRebateSearch.setTradeId(jsonObject.getLong("id"));
                                             UserRebate userRebateDB = userRebateService.selectOne(userRebateSearch);
                                             //
@@ -115,8 +116,15 @@ public class UserRebateTask
                                                         userRebateNew.setInviterId(userDB.getId());
                                                         userRebateNew.setInviteeId(listAllUser.get(i).getId());
                                                         userRebateNew.setTradeId(jsonObject.getLong("id"));
-                                                        userRebateNew.setTradeAmount(jsonObject.getBigDecimal("deal_money"));
-                                                        userRebateNew.setFeeAmount(BigDecimal.ZERO);
+                                                        userRebateNew.setSymbol(listInstruments.get(j).getBaseCcy()+listInstruments.get(j).getQuoteCcy());
+                                                        userRebateNew.setTradeSide(jsonObject.getString("side"));
+                                                        if(userRebateNew.getTradeSide().equals("2")){ // 卖出
+                                                            userRebateNew.setTradeAmount(jsonObject.getBigDecimal("deal_stock"));
+                                                            userRebateNew.setFeeAmount(jsonObject.getBigDecimal("deal_fee"));
+                                                        } else { // 买入
+                                                            userRebateNew.setTradeAmount(jsonObject.getBigDecimal("deal_money"));
+                                                            userRebateNew.setFeeAmount(jsonObject.getBigDecimal("deal_fee"));
+                                                        }
                                                         userRebateNew.setRebateRate(BigDecimal.ZERO);
                                                         userRebateNew.setRebateAmount(BigDecimal.ZERO);
                                                         userRebateNew.setStatus("pending");
