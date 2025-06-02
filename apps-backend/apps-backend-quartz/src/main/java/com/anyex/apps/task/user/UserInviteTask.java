@@ -7,6 +7,7 @@ import com.anyex.apps.user.service.UserInviteService;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.RedisLock;
 import com.anyex.apps.utils.StringUtils;
+import com.anyex.apps.utils.ValidateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,7 +38,7 @@ public class UserInviteTask
      * 用户邀请记录调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */10 * * * ?")
+//    @Scheduled(cron = "0 */3 * * * ?")
     public void userInviteTask() throws RuntimeException
     {
         log.info("用户邀请记录调度 开始任务");
@@ -50,7 +51,8 @@ public class UserInviteTask
                     UserInvite userInviteSearch = new UserInvite();
                     for(int i=0; i<listAllUser.size(); i++){
                         //
-                        if(StringUtils.isNotEmpty(listAllUser.get(i).getReferralCode())){
+                        if(StringUtils.isNotEmpty(listAllUser.get(i).getReferralCode()) && ValidateUtils.isNumber(listAllUser.get(i).getReferralCode()) )
+                        {
                             //
                             userInviteSearch.setInviteeId(listAllUser.get(i).getId());
                             UserInvite userInviteDB = userInviteService.selectOne(userInviteSearch);

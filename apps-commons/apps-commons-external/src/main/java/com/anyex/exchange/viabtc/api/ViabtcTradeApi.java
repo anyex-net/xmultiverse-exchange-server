@@ -498,15 +498,19 @@ public class ViabtcTradeApi extends ViabtcApi {
 //        reqTradeOrderPendingDetail.setOrderId(5l);
 //        System.out.println("tradeOrderPendingDetail respJson:" + tradeOrderPendingDetail(reqTradeOrderPendingDetail));
 
-//        ReqTradeOrderFinished reqTradeOrderFinished = new ReqTradeOrderFinished();
-//        reqTradeOrderFinished.setUserId(1l);
-//        reqTradeOrderFinished.setMarket("BIEXBCH");
-//        reqTradeOrderFinished.setStartTime(0);
-//        reqTradeOrderFinished.setEndTime(0);
-//        reqTradeOrderFinished.setOffset(0);
-//        reqTradeOrderFinished.setLimit(100);
-//        reqTradeOrderFinished.setSide(0);
-//        System.out.println("tradeOrderFinished respJson:" + tradeOrderFinished(reqTradeOrderFinished));
+        ReqTradeOrderFinished reqTradeOrderFinished = new ReqTradeOrderFinished();
+        reqTradeOrderFinished.setUserId(1005060137909620736l);
+        reqTradeOrderFinished.setMarket("ETHUSDT");
+        reqTradeOrderFinished.setStartTime(0);
+        reqTradeOrderFinished.setEndTime(0);
+        reqTradeOrderFinished.setOffset(0);
+        reqTradeOrderFinished.setLimit(100);
+        reqTradeOrderFinished.setSide(0);
+        JSONObject jsonObjectTradeOrderFinished = tradeOrderFinished(reqTradeOrderFinished);
+        System.out.println("tradeOrderFinished respJson:" + jsonObjectTradeOrderFinished);
+        // tradeOrderFinished respJson:{"result":{"offset":0,"records":[{"ftime":1748848805.7071459,"side":1,"amount":"0.01","taker_fee":"0.001","deal_stock":"0.01","source":"web","type":1,"market":"ETHUSDT","price":"2500","maker_fee":"0.001","ctime":1748848805.707139,"id":36,"deal_fee":"0.026","user":3523350528,"deal_money":"26"},{"ftime":1748848841.5698349,"side":2,"amount":"0.01","taker_fee":"0.001","deal_stock":"0.01","source":"web","type":1,"market":"ETHUSDT","price":"2500","maker_fee":"0.001","ctime":1748848796.6254361,"id":35,"deal_fee":"0.00001","user":3523350528,"deal_money":"25"},{"ftime":1748848784.6909909,"side":1,"amount":"0.01","taker_fee":"0.001","deal_stock":"0.01","source":"web","type":1,"market":"ETHUSDT","price":"2600","maker_fee":"0.001","ctime":1748848784.690984,"id":34,"deal_fee":"0.026","user":3523350528,"deal_money":"26"},{"ftime":1748848841.5697041,"side":2,"amount":"0.01","taker_fee":"0.001","deal_stock":"0.01","source":"web","type":1,"market":"ETHUSDT","price":"2600","maker_fee":"0.001","ctime":1748848772.9466071,"id":33,"deal_fee":"0.00001","user":3523350528,"deal_money":"26"}],"limit":100},"id":1748852253650}
+        JSONArray jsonArray = jsonObjectTradeOrderFinished.getJSONObject("result").getJSONArray("records");
+        System.out.println("tradeOrderFinished records size:" + jsonArray.size());
 
 //        ReqTradeOrderFinishedDetail reqTradeOrderFinishedDetail = new ReqTradeOrderFinishedDetail();
 //        reqTradeOrderFinishedDetail.setOrderId(5l);

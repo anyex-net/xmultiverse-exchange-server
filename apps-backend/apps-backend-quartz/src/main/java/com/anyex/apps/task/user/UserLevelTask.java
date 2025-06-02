@@ -30,7 +30,7 @@ public class UserLevelTask
      * 用户等级调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */30 * * * ?")
+//    @Scheduled(cron = "0 */30 * * * ?")
     public void userLevelTask() throws RuntimeException
     {
         log.info("用户等级调度 开始任务");

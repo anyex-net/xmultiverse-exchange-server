@@ -12,6 +12,7 @@ import com.anyex.apps.user.service.UserRebateService;
 import com.anyex.apps.user.service.UserService;
 import com.anyex.apps.utils.RedisLock;
 import com.anyex.apps.utils.StringUtils;
+import com.anyex.apps.utils.ValidateUtils;
 import com.anyex.exchange.viabtc.api.ViabtcTradeApi;
 import com.anyex.exchange.viabtc.req.ReqTradeOrderFinished;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class UserRebateTask
      * 用户返佣记录调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */7 * * * ?")
+    @Scheduled(cron = "0 */2 * * * ?")
     public void userRebateTask() throws RuntimeException
     {
         log.info("用户返佣记录调度 开始任务");
@@ -66,7 +67,7 @@ public class UserRebateTask
                     for(int i=0; i<listAllUser.size(); i++)
                     {
                         //
-                        if(StringUtils.isNotEmpty(listAllUser.get(i).getReferralCode()))
+                        if(StringUtils.isNotEmpty(listAllUser.get(i).getReferralCode()) && ValidateUtils.isNumber(listAllUser.get(i).getReferralCode()) )
                         {
                             // 所有交易对产品列表
                             List<Instruments> listInstruments = instrumentsService.selectAll();
@@ -76,8 +77,8 @@ public class UserRebateTask
                                 // 查询C交易核心的实时数据
                                 ReqTradeOrderFinished reqTradeOrderFinished = new ReqTradeOrderFinished();
                                 reqTradeOrderFinished.setUserId(listAllUser.get(i).getId());
-                                // reqTradeOrderFinished.setMarket("ETHUSDT"); // 先写死后面要增加交易对字段
-                                reqTradeOrderFinished.setMarket(listInstruments.get(j).getInstId());
+                                reqTradeOrderFinished.setMarket("ETHUSDT"); // 先写死后面要增加交易对字段
+                                //reqTradeOrderFinished.setMarket(listInstruments.get(j).getInstId());
                                 reqTradeOrderFinished.setStartTime(0);
                                 reqTradeOrderFinished.setEndTime(0);
                                 reqTradeOrderFinished.setOffset(0);
@@ -87,7 +88,7 @@ public class UserRebateTask
                                 log.info("tradeOrderFinished respJson:{}", jsonObjectTradeOrderFinished);
                                 if(null != jsonObjectTradeOrderFinished)
                                 {
-                                    JSONArray jsonArray = jsonObjectTradeOrderFinished.getJSONArray("records");
+                                    JSONArray jsonArray = jsonObjectTradeOrderFinished.getJSONObject("result").getJSONArray("records");
                                     if(null != jsonArray && jsonArray.size() > 0)
                                     {
                                         for(int k=0; k<jsonArray.size(); k++)
