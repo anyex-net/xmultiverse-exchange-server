@@ -50,7 +50,7 @@ public class UserRebateTask
      * 用户返佣记录调度
      * @throws RuntimeException
      */
-    @Scheduled(cron = "0 */2 * * * ?")
+    @Scheduled(cron = "0 */17 * * * ?")
     public void userRebateTask() throws RuntimeException
     {
         log.info("用户返佣记录调度 开始任务");
