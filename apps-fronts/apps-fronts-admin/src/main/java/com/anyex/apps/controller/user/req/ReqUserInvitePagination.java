@@ -47,13 +47,13 @@ public class ReqUserInvitePagination extends Pagination
 	@ApiModelProperty(value = "是否为有效邀请（是否完成实名认证后才算有效）", position = 5)
 	private Integer isValid;
 
-	/**邀请时间（即被邀请人注册时间）*/
-	@ApiModelProperty(value = "邀请时间（即被邀请人注册时间）", position = 6)
-	private Long createTime;
-
-	/**更新时间*/
-	@ApiModelProperty(value = "更新时间", position = 7)
-	private Long updateTime;
+//	/**邀请时间（即被邀请人注册时间）*/
+//	@ApiModelProperty(value = "邀请时间（即被邀请人注册时间）", position = 6)
+//	private Long createTime;
+//
+//	/**更新时间*/
+//	@ApiModelProperty(value = "更新时间", position = 7)
+//	private Long updateTime;
 
 
 }
