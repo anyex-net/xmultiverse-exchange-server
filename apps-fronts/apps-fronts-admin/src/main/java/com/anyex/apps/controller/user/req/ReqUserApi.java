@@ -37,9 +37,9 @@ public class ReqUserApi extends GenericEntity
 	private java.lang.Long userId;
 
 	/**密钥类型(0:只读、1:交易、2:提币)*/
-	@NotNull(message = "密钥类型(0:只读、1:交易、2:提币)不可为空")
+	@NotEmpty(message = "密钥类型(0:只读、1:交易、2:提币)不可为空")
 	@ApiModelProperty(value = "密钥类型(0:只读、1:交易、2:提币)", position = 2, required = true)
-	private java.lang.Integer keyType;
+	private java.lang.String keyType;
 
 	/**apiKey*/
 	@NotEmpty(message = "apiKey不可为空")

@@ -295,7 +295,7 @@
         <if test="userId != null">
             AND a.userId = #{userId}
         </if>
-        <if test="keyType != null">
+        <if test="keyType != null and keyType != ''">
             AND a.keyType = #{keyType}
         </if>
         <if test="apiKey != null and apiKey != ''">
@@ -339,7 +339,7 @@
         <if test="userId != null">
             AND a.userId = #{userId}
         </if>
-        <if test="keyType != null">
+        <if test="keyType != null and keyType != ''">
             AND a.keyType = #{keyType}
         </if>
         <if test="apiKey != null and apiKey != ''">
@@ -380,7 +380,6 @@
         <include refid="userApiColumns"/>
         FROM UserApi a
     </select>
-
 
 </mapper>
 

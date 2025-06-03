@@ -33,7 +33,7 @@ public class ReqUserApiPagination extends Pagination
 
 	/**密钥类型(0:只读、1:交易、2:提币)*/
 	@ApiModelProperty(value = "密钥类型(0:只读、1:交易、2:提币)", position = 2)
-	private java.lang.Integer keyType;
+	private java.lang.String keyType;
 
 	/**apiKey*/
 	@ApiModelProperty(value = "apiKey", position = 3)

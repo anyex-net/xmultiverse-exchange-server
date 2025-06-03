@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -34,9 +33,9 @@ public class ReqUserApi implements Serializable
 //	private Long userId;
 
 	/**密钥类型(0:只读、1:交易、2:提币)*/
-	@NotNull(message = "密钥类型(0:只读、1:交易、2:提币)不可为空")
+	@NotEmpty(message = "密钥类型(0:只读、1:交易、2:提币)不可为空")
 	@ApiModelProperty(value = "密钥类型(0:只读、1:交易、2:提币)", position = 2, required = true)
-	private Integer keyType;
+	private String keyType;
 
 //	/**apiKey*/
 //	@NotEmpty(message = "apiKey不可为空")

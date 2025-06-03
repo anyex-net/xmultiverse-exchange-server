@@ -119,7 +119,7 @@ create table UserApi
 (
     id                bigint(20)               not null comment 'ID' primary key,
     userId            bigint(20)               not null comment '用户ID',
-    keyType           int                      not null comment '密钥类型(0:只读、1:交易、2:提币)',
+    keyType           varchar(32)              not null comment '密钥类型(0:只读、1:交易、2:提币)',
     apiKey            varchar(64)              not null comment 'apiKey',
     pubKey            varchar(128)             not null comment '公钥',
     priKey            varchar(128)             not null comment '私钥',
